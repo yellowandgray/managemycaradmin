@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "school-runner-decf3": {
+      "hosting": {
+        "Steex": [
+          "school-runner-decf3"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "school-runner-decf3"
+  }
+}
