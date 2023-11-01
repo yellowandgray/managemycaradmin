@@ -22,9 +22,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {AngularFireModule} from '@angular/fire/compat'
 import { environment } from 'src/environments/environment.prod';
 
-import { AddressBookComponent } from './address-book/address-book.component';
-import { KgSheetComponent } from './kg-sheet/kg-sheet.component';
-import { VanComponent } from './van/van.component';
+
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -34,9 +32,7 @@ export function createTranslateLoader(http: HttpClient): any {
   declarations: [
     AppComponent,
     AuthlayoutComponent,
-    AddressBookComponent,
-    KgSheetComponent,
-    VanComponent
+ 
   ],
   imports: [
     TranslateModule.forRoot({

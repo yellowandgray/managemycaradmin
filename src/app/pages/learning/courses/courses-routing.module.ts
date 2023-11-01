@@ -7,7 +7,7 @@ import { GridComponent } from './grid/grid.component';
 import { CategoryComponent } from './category/category.component';
 import { OverviewComponent } from './overview/overview.component';
 import { CreateComponent } from './create/create.component';
-import { VanComponent } from 'src/app/van/van.component';
+
 
 const routes: Routes = [
   {
@@ -26,10 +26,7 @@ const routes: Routes = [
     path: "overview",
     component: OverviewComponent
   },
-  {
-    path: "van",
-    component: VanComponent
-  },
+
   {
     path: "create",
     component: CreateComponent

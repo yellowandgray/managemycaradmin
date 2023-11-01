@@ -13,35 +13,99 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 3,
-                label: 'MENUITEMS.DASHBOARD.LIST.ANALYTICS',
+              //  label: 'MENUITEMS.DASHBOARD.LIST.ANALYTICS',
+                label: 'Option 1',
                 link: '/analytics',
                 parentId: 2
             },
             {
                 id: 4,
-                label: 'MENUITEMS.DASHBOARD.LIST.CRM',
+              //  label: 'MENUITEMS.DASHBOARD.LIST.CRM',
+              label: 'Option 2',
                 link: '/crm',
                 parentId: 2
             },
             {
                 id: 5,
-                label: 'MENUITEMS.DASHBOARD.LIST.ECOMMERCE',
+               // label: 'MENUITEMS.DASHBOARD.LIST.ECOMMERCE',
+               label: 'Option 3',
                 link: '/',
                 parentId: 2
             },
             {
                 id: 6,
-                label: 'MENUITEMS.DASHBOARD.LIST.LEARNING',
+              //  label: 'MENUITEMS.DASHBOARD.LIST.LEARNING',
+              label: 'Option 4',
                 link: '/learning',
                 parentId: 2
             },
             {
                 id: 7,
-                label: 'MENUITEMS.DASHBOARD.LIST.REALESTATE',
+              //  label: 'MENUITEMS.DASHBOARD.LIST.REALESTATE',
+              label: 'Option 5',
                 link: '/real-estate',
                 parentId: 2
             }
         ]
+    },
+    {
+        id: 2,
+        label: 'Address Book',
+        icon: 'ph-buildings',
+        subItems: [
+            {
+                id: 3,
+                label: 'Students',
+                link: 'school/address-book',
+                parentId: 2
+            },
+            {
+                id: 4,
+                label: 'Teachers',
+                link: 'school/kg-sheet',
+                parentId: 2
+            },
+            {
+                id: 5,
+                label: 'Driver',
+                link: 'school/van',
+                parentId: 2
+            },
+            {
+                id: 6,
+                label: 'Staff',
+                link: 'school/van',
+                parentId: 2
+            },
+           
+           
+          
+           
+        ]
+    },
+    {
+        id: 8,
+        label: 'Acadamics',
+        isTitle: true
+    },
+    {
+        id: 9,
+        label: 'KG Sheet',
+        icon: 'ph-calendar',
+        link: 'school/van',
+        parentId: 8
+    },
+    {
+        id: 10,
+        label: 'Non-Acadamics',
+        isTitle: true
+    },
+    {
+        id: 11,
+        label: 'Van',
+        icon: 'ph-calendar',
+        link: 'school/van',
+        parentId: 10
     },
     {
         id: 8,

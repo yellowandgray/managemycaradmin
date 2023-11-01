@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Page Route
-import { AppsRoutingModule } from './apps-routing.module';
+import { SchoolRoutingModule } from './school-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 // simplebar
@@ -32,8 +32,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 // Leaflet map
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
-// sorting
-import { NgbdWidgetSortableHeader } from './widgets/widget-sortable.directive';
+
 
 // Ck Editer
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
@@ -47,15 +46,14 @@ import * as echarts from 'echarts';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { AddressBookComponent } from './address-book/address-book.component';
+import { KgSheetComponent } from './kg-sheet/kg-sheet.component';
+import { VanComponent } from './van/van.component';
+
 
 // Component
-import { CalendarComponent } from './calendar/calendar.component';
+// import { NgbdFileSortableHeader } from './file-manager/file-manager-sortable.directive';
 
-import { NgbdFileSortableHeader } from './file-manager/file-manager-sortable.directive';
-import { ChatComponent } from './chat/chat.component';
-import { EmailComponent } from './email/email.component';
-import { FileManagerComponent } from './file-manager/file-manager.component';
-import { WidgetsComponent } from './widgets/widgets.component';
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   // Change this to your upload POST address:
@@ -66,17 +64,16 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
 @NgModule({
   declarations: [
-    CalendarComponent,
-    ChatComponent,
-    EmailComponent,
-    FileManagerComponent,
-    WidgetsComponent,
-    NgbdWidgetSortableHeader,
-    NgbdFileSortableHeader
+    AddressBookComponent,
+    KgSheetComponent,
+    VanComponent,
+  
+    // NgbdWidgetSortableHeader,
+    // NgbdFileSortableHeader
   ],
   imports: [
     CommonModule,
-    AppsRoutingModule,
+    SchoolRoutingModule,
     FullCalendarModule,
     ModalModule.forRoot(),
     FormsModule,
@@ -109,4 +106,4 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   ],
   
 })
-export class AppsModule { }
+export class SchoolModule { }
