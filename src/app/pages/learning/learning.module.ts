@@ -16,7 +16,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CoursesModule,
     SharedModule,
     StudentModule,
-    InstructorsModule
+    InstructorsModule,
+    
   ]
 })
 export class LearningModule { }
