@@ -48,6 +48,7 @@ export const MENU: MenuItem[] = [
             }
         ]
     },
+
     {
         id: 2,
         label: 'Address Book',
@@ -56,57 +57,182 @@ export const MENU: MenuItem[] = [
             {
                 id: 3,
                 label: 'Students',
-                link: 'school/address-book',
+                link: '/addressbooks/student',
                 parentId: 2
             },
             {
                 id: 4,
                 label: 'Teachers',
-                link: 'school/kg-sheet',
+                link: 'addressbooks/teacher',
                 parentId: 2
             },
             {
                 id: 5,
                 label: 'Driver',
-                link: 'school/van',
+                link: 'addressbooks/driver',
                 parentId: 2
             },
             {
                 id: 6,
-                label: 'Staff',
-                link: 'school/van',
+                label: 'Other',
+                link: 'addressbooks/others',
                 parentId: 2
             },
-           
-           
-          
-           
+       
         ]
     },
+
     {
         id: 8,
         label: 'Acadamics',
         isTitle: true
     },
-    {
+    // {
+    //     id: 9,
+    //     label: 'KG Sheet',
+    //     icon: 'ph-calendar',
+    //     link: 'school/van',
+    //     parentId: 8
+    // },
+
+
+{
         id: 9,
         label: 'KG Sheet',
         icon: 'ph-calendar',
-        link: 'school/van',
-        parentId: 8
+        subItems: [
+            {
+                id: 3,
+                label: 'Add Items',
+                link: '/kgsheet/additems',
+                parentId: 9
+            },
+            {
+                id: 4,
+                label: 'Add List',
+                link: '/kgsheet/add-list',
+                parentId: 9
+            },
+            {
+                id: 5,
+                label: 'Map Sheet',
+                link: 'kgsheet/mapsheet',
+                parentId: 9
+            },
+           
+           
+        ]
     },
+
+
     {
         id: 10,
         label: 'Non-Acadamics',
         isTitle: true
     },
+    // {
+    //     id: 11,
+    //     label: 'Van',
+    //     icon: 'ph-calendar',
+    //     link: 'school/van',
+    //     parentId: 10
+    // },
+
+
     {
-        id: 11,
+        id:11,
         label: 'Van',
         icon: 'ph-calendar',
-        link: 'school/van',
-        parentId: 10
+        subItems: [
+            {
+                id: 3,
+                label: 'Add Route',
+                link: 'van/addroute',
+                parentId: 11
+            },
+            {
+                id: 4,
+                label: 'Add Van',
+                link: 'van/addvan',
+                parentId: 11
+            },
+            {
+                id: 5,
+                label: 'Map',
+                link: 'van/map',
+                parentId: 11
+            },
+            {
+                id: 6,
+                label: 'Arrivals',
+                link: 'van/arrivals',
+                parentId: 11
+            },
+           
+           
+        ]
     },
+    // {
+    //     id: 2,
+    //     label: 'Address Book',
+    //     icon: 'ph-buildings',
+    //     subItems: [
+    //         {
+    //             id: 3,
+    //             label: 'Students',
+    //             link: 'school/address-book',
+    //             parentId: 2
+    //         },
+    //         {
+    //             id: 4,
+    //             label: 'Teachers',
+    //             link: 'school/kg-sheet',
+    //             parentId: 2
+    //         },
+    //         {
+    //             id: 5,
+    //             label: 'Driver',
+    //             link: 'school/van',
+    //             parentId: 2
+    //         },
+    //         {
+    //             id: 6,
+    //             label: 'Staff',
+    //             link: 'school/van',
+    //             parentId: 2
+    //         },
+           
+           
+          
+           
+    //     ]
+    // },
+    // {
+    //     id: 8,
+    //     label: 'Acadamics',
+    //     isTitle: true
+    // },
+    // {
+    //     id: 9,
+    //     label: 'KG Sheet',
+    //     icon: 'ph-calendar',
+    //     link: 'school/van',
+    //     parentId: 8
+    // },
+    // {
+    //     id: 10,
+    //     label: 'Non-Acadamics',
+    //     isTitle: true
+    // },
+    // {
+    //     id: 11,
+    //     label: 'Van',
+    //     icon: 'ph-calendar',
+    //     link: 'school/van',
+    //     parentId: 10
+    // },
+
+
     {
         id: 8,
         label: 'MENUITEMS.APPS.TEXT',

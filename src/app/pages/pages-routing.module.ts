@@ -12,6 +12,15 @@ const routes: Routes = [
     path: 'school', loadChildren: () => import('./school/school.module').then(m => m.SchoolModule)
   },
   {
+    path: 'addressbooks', loadChildren: () => import('./address-book/book.module').then(m => m.BookModule)
+  },
+  {
+    path: 'van', loadChildren: () => import('./van/van.module').then(m => m.vanModule)
+  },
+  {
+    path: 'kgsheet', loadChildren: () => import('./kgsheet/kgsheet.module').then(m => m.KgModule)
+  },
+  {
     path: 'ecommerce', loadChildren: () => import('./ecommerce/ecommerce.module').then(m => m.EcommerceModule)
   },
   {
