@@ -30,7 +30,8 @@ export class StudentComponent {
 
 
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
-  
+  @ViewChild('showModals', { static: false }) showModals1?: ModalDirective;
+
   constructor(private apiService: ApiService ) {
    
     this.MessageFormData = new FormGroup({  
@@ -55,11 +56,11 @@ export class StudentComponent {
         section:  this.emp.section,   
         parentname:  this.emp.parentname,  
         standard:  this.emp.standard,  
-        number: this.emp.number,
+        number: this.emp.rec_no,
  
       });
       // this.key = this.data.data.key;
-      this.emp.number= this.emp.number; 
+      this.emp.rec_no= this.emp.rec_no; 
       this.emp.Dob= this.emp.Dob;  
       this.emp.name= this.emp.name;  
       this.emp.address= this.emp.address; 
@@ -92,14 +93,14 @@ this.apiService.deleteStudentData(id)
     //console.log(this.emp);  
      this.apiService.createStudentData(this.emp);
       this.emp = new Student();
-    
+      this.showModals1?.hide()
    }
 
    update(id: string)
    {
-     
      this.apiService.updateStudentData(id.toString(),this.emp);
      this.emp = new Student();
+     this.showModals?.hide(); 
 
    }
    
@@ -108,7 +109,7 @@ this.apiService.deleteStudentData(id)
     this.emp = { ...selectedStudent }; // Copy selected student data to emp object
     
     this.MessageFormData.patchValue({
-      number: this.emp.number,
+      rec_no: this.emp.rec_no,
       name: this.emp.name,
       standard: this.emp.standard,
       section: this.emp.section,
@@ -120,6 +121,7 @@ this.apiService.deleteStudentData(id)
     this.showModals?.show();
    
   }
+  
   onImageSelected(event: any) {
     if (event.target.files && event.target.files[0]) {
       this.selectedImage = event.target.files[0];

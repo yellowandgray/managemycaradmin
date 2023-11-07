@@ -21,7 +21,7 @@
                     </div> -->
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Rec.No</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.number" formControlName="number" placeholder="Rec.No" required />
+                        <input type="text"  class="form-control"[(ngModel)]="emp.rec_no" formControlName="number" placeholder="Rec.No" required />
                     </div>
 
                     <div class="mb-3">
@@ -114,7 +114,7 @@
                     </div> -->
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Rec.No</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.number" formControlName="number" placeholder="Rec.No" required />
+                        <input type="text"  class="form-control"[(ngModel)]="emp.rec_no" formControlName="number" placeholder="Rec.No" required />
                     </div>
 
                     <div class="mb-3">
@@ -222,7 +222,7 @@
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of students;let i = index;" id="a_{{data.id}}">
                                    
-                                    <td class="customer_name">{{data.number}}</td>
+                                    <td class="customer_name">{{data.rec_no}}</td>
                                     <td class="customer_name">{{data.name}}</td>
                                     
                                     <td class="date">{{data.standard}}</td>

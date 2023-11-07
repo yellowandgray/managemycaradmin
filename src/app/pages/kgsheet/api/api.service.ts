@@ -32,26 +32,20 @@ import { Observable } from "rxjs/internal/Observable";
    
     }
 
-    createAddItemData(obj: Additems){
-      return this.firestore.collection('Users').add(
+    createAddItemData(obj: Additems,kgSheetId: string){
+      return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).add(
         {
-          // 'id':'',
-          //  'number':obj.number,
-          // 'name':obj.name,
-          // 'image':obj.image,
-          // 'mobile':obj.mobile, 
-          // 'Dob':obj.Dob,
-          // 'address':obj.address,
-          // 'parentname':obj.parentname,
-          // 'standard':obj.standard,
-          // 'section':obj.section,
-          // 'school':obj.school
-          // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
-          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+          'id':'',
+          'picture':obj.picture,
+          'name':obj.name,
+          'punctuation':obj.punctuation,
+         
        }).then(async docRef => {
-         console.log(docRef.id);
-         await this.firestore.doc('Users/' + docRef.id).update({
+         console.log(docRef.id,'test');
+         await this.firestore.doc(`KG_Sheet/${kgSheetId}/Items/` + docRef.id).update({
            'id':docRef.id})
+           console.log(docRef.id,'test');
+           console.log(obj,'test');
        })
      }
 
@@ -69,8 +63,8 @@ import { Observable } from "rxjs/internal/Observable";
         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
       });
      }
-     deleteAddItemData(dataId: string){    
-      this.firestore.doc('Users/' + dataId).delete();
+     deleteAddItemData(dataId: string,kgSheetId: string){    
+      this.firestore.doc(`KG_Sheet/${kgSheetId}/Items/` + dataId).delete();
     }
     insertImageDetails(imageDetails: any) {
       //this.imageDetailList.push(imageDetails);

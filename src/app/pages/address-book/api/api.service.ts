@@ -90,14 +90,14 @@ import * as firebase from "firebase/compat";
   
     // Get the address-book collection data
     getAddressBookData() {
-      return this.firestore.collection('Users',ref=> ref.orderBy('number')).snapshotChanges();
+      return this.firestore.collection('Users',ref=> ref.orderBy('rec_no')).snapshotChanges();
     }
 
     createStudentData(obj: Student){
       return this.firestore.collection('Users').add(
         {
           'id':'',
-           'number':obj.number,
+          'rec_no':obj.rec_no,
           'name':obj.name,
           'image':obj.image,
           'mobile':obj.mobile, 
@@ -119,7 +119,7 @@ import * as firebase from "firebase/compat";
      updateStudentData(id: string,obj: Student){
       this.firestore.doc('Users/' + id).update({
         'id':id,
-        'number':obj.number,
+        'rec_no':obj.rec_no,
         'name':obj.name,
         'mobile':obj.mobile, 
         'Dob':obj.Dob,

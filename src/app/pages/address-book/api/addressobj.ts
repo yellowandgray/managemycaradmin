@@ -3,7 +3,7 @@
 export class Student {
     // key: string;
     id:string='';
-    number:string='';
+    rec_no:string='';
     name: string=''  ;  
     role: string='' ;  
     mobile: string='' ; 
@@ -14,5 +14,6 @@ export class Student {
     Dob:string='';
     image:string='';
     school:string='stZWDh06GmAGgnoqctcE';
+    
 
   }
