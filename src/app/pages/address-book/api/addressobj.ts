@@ -5,7 +5,7 @@ export class Student {
     id:string='';
     rec_no:string='';
     name: string=''  ;  
-    role: string='' ;  
+    role: string='student' ;  
     mobile: string='' ; 
     standard:string='' ; 
     parentname:string='';

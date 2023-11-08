@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as firebase from "firebase/compat";
 import { Additems } from "./additemobj";
 import { Observable } from "rxjs/internal/Observable";
+import { Addlist } from "./addlistobj";
 // import * as firebase from 'firebase';
   @Injectable({
     providedIn: 'root'
@@ -49,18 +50,13 @@ import { Observable } from "rxjs/internal/Observable";
        })
      }
 
-     updateAddItemData(id: string,obj: Additems){
-      this.firestore.doc('Users/' + id).update({
+     updateAddItemData(id: string,obj: Additems,kgSheetId: string){
+      this.firestore.doc(`KG_Sheet/${kgSheetId}/Items/` + id).update({
         'id':id,
-        // 'number':obj.number,
-        // 'name':obj.name,
-        // 'mobile':obj.mobile, 
-        // 'Dob':obj.Dob,
-        // 'address':obj.address,
-        // 'parentname':obj.parentname,
-        // 'standard':obj.standard,
-        // 'section':obj.section,
-        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+        'picture':obj.picture,
+        'name':obj.name,
+        'punctuation':obj.punctuation, 
+  
       });
      }
      deleteAddItemData(dataId: string,kgSheetId: string){    
@@ -69,6 +65,32 @@ import { Observable } from "rxjs/internal/Observable";
     insertImageDetails(imageDetails: any) {
       //this.imageDetailList.push(imageDetails);
     }
+
+  // Add list
+
+    getAddListData(kgSheetId: string): Observable<any[]> {
+     return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`).snapshotChanges();
+   
+    }
+
+    createAddListData(obj: Addlist,kgSheetId: string){
+      return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`).add(
+        {
+          'id':'',
+          'picture':obj.picture,
+          'name':obj.name,
+          'items':obj.items,
+          // 'punctuation':obj.punctuation,
+         
+       }).then(async docRef => {
+         console.log(docRef.id,'test');
+         await this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + docRef.id).update({
+           'id':docRef.id})
+           console.log(docRef.id,'test');
+           console.log(obj,'test');
+       })
+     }
+
   }
 
   

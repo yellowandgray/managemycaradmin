@@ -110,7 +110,7 @@ export const MENU: MenuItem[] = [
             {
                 id: 4,
                 label: 'Add List',
-                link: '/kgsheet/add-list',
+                link: '/kgsheet/addlist',
                 parentId: 9
             },
             {
@@ -172,65 +172,65 @@ export const MENU: MenuItem[] = [
            
         ]
     },
-    // {
-    //     id: 2,
-    //     label: 'Address Book',
-    //     icon: 'ph-buildings',
-    //     subItems: [
-    //         {
-    //             id: 3,
-    //             label: 'Students',
-    //             link: 'school/address-book',
-    //             parentId: 2
-    //         },
-    //         {
-    //             id: 4,
-    //             label: 'Teachers',
-    //             link: 'school/kg-sheet',
-    //             parentId: 2
-    //         },
-    //         {
-    //             id: 5,
-    //             label: 'Driver',
-    //             link: 'school/van',
-    //             parentId: 2
-    //         },
-    //         {
-    //             id: 6,
-    //             label: 'Staff',
-    //             link: 'school/van',
-    //             parentId: 2
-    //         },
+    {
+        id: 2,
+        label: 'Address Book',
+        icon: 'ph-buildings',
+        subItems: [
+            {
+                id: 3,
+                label: 'Students',
+                link: 'school/address-book',
+                parentId: 2
+            },
+            {
+                id: 4,
+                label: 'Teachers',
+                link: 'school/kg-sheet',
+                parentId: 2
+            },
+            {
+                id: 5,
+                label: 'Driver',
+                link: 'school/van',
+                parentId: 2
+            },
+            {
+                id: 6,
+                label: 'Staff',
+                link: 'school/van',
+                parentId: 2
+            },
            
            
           
            
-    //     ]
-    // },
-    // {
-    //     id: 8,
-    //     label: 'Acadamics',
-    //     isTitle: true
-    // },
-    // {
-    //     id: 9,
-    //     label: 'KG Sheet',
-    //     icon: 'ph-calendar',
-    //     link: 'school/van',
-    //     parentId: 8
-    // },
-    // {
-    //     id: 10,
-    //     label: 'Non-Acadamics',
-    //     isTitle: true
-    // },
-    // {
-    //     id: 11,
-    //     label: 'Van',
-    //     icon: 'ph-calendar',
-    //     link: 'school/van',
-    //     parentId: 10
-    // },
+        ]
+    },
+    {
+        id: 8,
+        label: 'Acadamics',
+        isTitle: true
+    },
+    {
+        id: 9,
+        label: 'KG Sheet',
+        icon: 'ph-calendar',
+        link: 'school/van',
+        parentId: 8
+    },
+    {
+        id: 10,
+        label: 'Non-Acadamics',
+        isTitle: true
+    },
+    {
+        id: 11,
+        label: 'Van',
+        icon: 'ph-calendar',
+        link: 'school/van',
+        parentId: 10
+    },
 
 
     {

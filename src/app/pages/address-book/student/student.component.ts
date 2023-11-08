@@ -4,6 +4,8 @@ import { Student } from '../api/addressobj';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/internal/operators/finalize';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 // import { AngularFireStorage } from '@angular/fire/storage';
@@ -22,17 +24,21 @@ export class StudentComponent {
   MessageFormData: FormGroup;
   emp: Student = new Student();
 
-  selectedImage: File | null = null;
+ 
   emps: { image: string } = { image: '' }; // Assuming emp object has an image property
+ 
+  selectedImage: File | null = null;
+  selectedFile: File | null = null;
+  downloadURL: string | null = null;
   isSubmitted = false;
-
+  files: File[] = [];
  
 
 
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
-  @ViewChild('showModals', { static: false }) showModals1?: ModalDirective;
+  @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 
-  constructor(private apiService: ApiService ) {
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
    
     this.MessageFormData = new FormGroup({  
       'number': new FormControl('', Validators.required),   
@@ -87,14 +93,72 @@ this.apiService.deleteStudentData(id)
    
   }
  
+ 
   
-
+  onFileUploaded(event:any) {
+    console.log("1111111111"+event);
+    console.log(event[0]);
+    this.files.push(event[0]);
+    console.log("222222"+this.files[0]);
+    if (this.files) {
+      console.log("333333333");
+      const reader = new FileReader();
+      const file = this.files[0];
+      this.selectedImage = this.files[0];
+      reader.onload = (e: any) => {
+       // this.imgSrc = e.target.result;
+  
+        const imagePath = e.target.result;
+       // this.imagePath.push(imagePath);
+  
+        if (this.selectedImage != null) {
+          var category = 'images';
+          var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+          const fileRef = this.storage.ref(filePath);
+  
+          this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+            finalize(() => {
+              fileRef.getDownloadURL().subscribe((url) => {
+                this.emp.image = url;
+                console.log('imagePathsdb:', this.emp.image ); // Check if it's populated here
+              });
+            })
+          ).subscribe(
+            () => {
+              console.log('Upload completed successfully');
+            },
+            (error) => {
+              console.error('Upload error:', error);
+            }
+          );
+        }
+      };
+  
+      reader.readAsDataURL(file);
+      this.selectedImage = file;
+    }
+  }
+  
   save() {
-    //console.log(this.emp);  
+   
+    if (this.selectedImage) {
+      this.apiService.createStudentData(this.emp);
+      this.emp = new Student();
+  
+    } else {
+      // If no file is selected, save the item data without an image.
+      console.log("Else Running");
+     
+     console.log(this.emp);  
      this.apiService.createStudentData(this.emp);
       this.emp = new Student();
-      this.showModals1?.hide()
-   }
+       
+    }
+    this.deleteRecordModal?.hide()
+  }
+
+  
+
 
    update(id: string)
    {
@@ -127,26 +191,7 @@ this.apiService.deleteStudentData(id)
       this.selectedImage = event.target.files[0];
     }
   }
-  // onSubmit() {
-  //   this.isSubmitted = true;
-  //   if (this.selectedImage) {
-  //     var category = 'images';
-  //     var fileName = `${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-  //     var filePath = `${category}/${fileName}`;
-  //     const fileRef = this.storage.ref(filePath);
-      
-  //     this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
-  //       finalize(() => {
-  //         fileRef.getDownloadURL().subscribe((url: string) => {
-  //           this.emp.image = url;
-  //           this.apiService.insertImageDetails(url); // Call your API service to save image details
-  //           this.resetForm();
-  //         });
-  //       })
-  //     ).subscribe();
-  //   }
-  // }
-
+  
   resetForm() {
     this.selectedImage = null;
     this.isSubmitted = false;

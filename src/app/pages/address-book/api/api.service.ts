@@ -99,6 +99,7 @@ import * as firebase from "firebase/compat";
           'id':'',
           'rec_no':obj.rec_no,
           'name':obj.name,
+          'role':obj.role,
           'image':obj.image,
           'mobile':obj.mobile, 
           'Dob':obj.Dob,
