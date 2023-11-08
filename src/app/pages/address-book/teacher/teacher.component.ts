@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./teacher.component.scss']
 })
 export class TeacherComponent {
-  breadCrumbItems!: Array<{}>;
+ 
 
 }

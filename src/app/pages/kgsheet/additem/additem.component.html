@@ -1,5 +1,5 @@
 
-<p>additems works!</p>
+
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="Items View" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
@@ -23,7 +23,7 @@
                     <input type="hidden" id="rating-field">
                      
                 <div class="mb-3">
-                    <label for="course-title-input" class="form-label">Nouns Name<span
+                    <label for="course-title-input" class="form-label">Name<span
                             class="text-danger">*</span></label>
                     <!-- <input type="text" id="course-title-input" formControlName="name" class="form-control"
                         placeholder="Enter course title" required> -->
@@ -40,7 +40,7 @@
 
                         <!-- <ul *ngIf="uploadedFiles" class="list-unstyled mb-0" id="dropzone-preview"> -->
                             <!-- <li class="mt-2" *ngFor="let file of uploadedFiles;let i = index" id="dropzone-preview-list"> -->
-                                <div class="border rounded">
+                                <!-- <div class="border rounded">
                                     <div class="d-flex flex-wrap gap-2 p-2">
                                        
                                         <div class="flex-grow-1">
@@ -53,7 +53,7 @@
                                             <button  class="btn btn-sm btn-danger">Delete</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             <!-- </li> -->
                         <!-- </ul> -->
                         <!-- end dropzon-preview -->
@@ -61,20 +61,20 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Nouns<span
+                        <label for="course-category-input" class="form-label">Type<span
                                 class="text-danger">*</span></label>
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
-                            <option value="">Common nouns</option>
-                            <option value="Proper nouns">Proper nouns</option>
-                            <option value="Singular nouns">Singular nouns</option>
-                            <option value="Plural nouns"> Plural nouns</option>
-                            <option value="Concrete nouns">Concrete nouns</option>
-                            <option value="Abstract nouns">Abstract nouns</option>
-                            <option value="Collective nouns">Collective nouns</option>
-                            <option value="Compound nouns">Compound nouns</option>
-                            <option value="Countable nouns">Countable nouns</option>
-                            <option value="Uncountable nouns">Uncountable nouns</option>
+                            <option value="">Common noun</option>
+                            <option value="Proper noun">Proper noun</option>
+                            <option value="Singular noun">Singular noun</option>
+                            <option value="Plural noun"> Plural noun</option>
+                            <option value="Concrete noun">Concrete noun</option>
+                            <option value="Abstract noun">Abstract noun</option>
+                            <option value="Collective noun">Collective noun</option>
+                            <option value="Compound noun">Compound noun</option>
+                            <option value="Countable noun">Countable noun</option>
+                            <option value="Uncountable noun">Uncountable noun</option>
                            
                         </select>
                     </div>
@@ -84,7 +84,7 @@
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-ghost-danger" (click)="addCourse.hide()"><i
                                 class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="save()">Add Course</button>
+                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="save()">Add</button>
                     </div>
                 </div>
             </form>
@@ -97,7 +97,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0">
             <div class="modal-header bg-danger p-3">
-                <h5 class="modal-title text-white" id="addCourseModalLabel">Add Course</h5>
+                <h5 class="modal-title text-white" id="addCourseModalLabel">Update Item</h5>
                 <button type="button" class="btn-close btn-close-white" (click)="deleteRecordModal.hide()"></button>
             </div>
 
@@ -111,7 +111,7 @@
                     <!-- <input type="hidden" id="rating-field"> -->
                      
                 <div class="mb-3">
-                    <label for="course-title-input" class="form-label">Nouns Name<span
+                    <label for="course-title-input" class="form-label">Name<span
                             class="text-danger">*</span></label>
                    
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="id" placeholder="Enter Name" required />
@@ -124,7 +124,7 @@
 
                         <!-- <ul *ngIf="uploadedFiles" class="list-unstyled mb-0" id="dropzone-preview"> -->
                             <!-- <li class="mt-2" *ngFor="let file of uploadedFiles;let i = index" id="dropzone-preview-list"> -->
-                                <div class="border rounded">
+                                <!-- <div class="border rounded">
                                     <div class="d-flex flex-wrap gap-2 p-2">
                                         <img src="{{emp.picture}}"  alt="" class="avatar-lg" style="width: 100%; height: 100%;"> 
                                         <div class="flex-grow-1">
@@ -137,28 +137,27 @@
                                             <button  class="btn btn-sm btn-danger">Delete</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             <!-- </li> -->
                         <!-- </ul> -->
                         <!-- end dropzon-preview -->
 
                     </div>
-
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Nouns<span
+                        <label for="course-category-input" class="form-label">Type<span
                                 class="text-danger">*</span></label>
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
-                            <option value="">Common nouns</option>
-                            <option value="Proper nouns">Proper nouns</option>
-                            <option value="Singular nouns">Singular nouns</option>
-                            <option value="Plural nouns"> Plural nouns</option>
-                            <option value="Concrete nouns">Concrete nouns</option>
-                            <option value="Abstract nouns">Abstract nouns</option>
-                            <option value="Collective nouns">Collective nouns</option>
-                            <option value="Compound nouns">Compound nouns</option>
-                            <option value="Countable nouns">Countable nouns</option>
-                            <option value="Uncountable nouns">Uncountable nouns</option>
+                            <option value="">Common noun</option>
+                            <option value="Proper noun">Proper noun</option>
+                            <option value="Singular noun">Singular noun</option>
+                            <option value="Plural noun"> Plural noun</option>
+                            <option value="Concrete noun">Concrete noun</option>
+                            <option value="Abstract noun">Abstract noun</option>
+                            <option value="Collective noun">Collective noun</option>
+                            <option value="Compound noun">Compound noun</option>
+                            <option value="Countable noun">Countable noun</option>
+                            <option value="Uncountable noun">Uncountable noun</option>
                            
                         </select>
                     </div>
@@ -168,7 +167,7 @@
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i
                                 class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">update Course</button>
+                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">update</button>
                     </div>
                 </div>
             </form>
@@ -186,7 +185,7 @@
                     <div class="col-lg-3 order-last order-md-first me-auto">
                         <div class="search-box">
                             <input type="text" class="form-control search"
-                                placeholder="Search for agent, email, address or something...">
+                                placeholder="Search...">
                             <i class="ri-search-line search-icon"></i>
                         </div>
                     </div><!--end col-->

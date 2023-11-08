@@ -91,6 +91,25 @@ import { Addlist } from "./addlistobj";
        })
      }
 
+// Assign
+createAssignData(obj: Addlist,listid: string){
+  return this.firestore.collection(`School/${listid}/KGSheet_Assign`).add(
+    {
+      'id':'',
+      'standard':obj.standard,
+     
+      // 'punctuation':obj.punctuation,
+     
+   }).then(async docRef => {
+     console.log(docRef.id,'test');
+     await this.firestore.doc(`School/${listid}/KGSheet_Assign/` + docRef.id).update({
+       'id':docRef.id})
+       console.log(docRef.id,'test');
+       console.log(obj,'test');
+   })
+ }
+
+
   }
 
   

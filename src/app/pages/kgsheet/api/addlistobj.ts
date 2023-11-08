@@ -5,6 +5,7 @@ export class Addlist {
     name: string=''  ;  
     picture:string='';
     items:[] = [];
+  standard: any;
    
 
 

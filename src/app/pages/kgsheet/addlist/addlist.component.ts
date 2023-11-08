@@ -7,6 +7,7 @@ import { finalize } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Additems } from '../api/additemobj';
+import { RowItem } from '../api/assignobj';
 @Component({
   selector: 'app-addlist',
   templateUrl: './addlist.component.html',
@@ -26,6 +27,9 @@ export class AddlistComponent {
   MessageFormData: FormGroup;
   items: any[] = [];
   selectedItem: any='';
+  additem: any[] = []; // Your array of items
+  item: RowItem[] = []; // Array to store rows
+  
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
 
@@ -34,10 +38,7 @@ export class AddlistComponent {
     this.MessageFormData = new FormGroup({  
       'id': new FormControl('', Validators.required),   
       'name': new FormControl('', Validators.required),   
-      // 'punctuation': new FormControl('', Validators.required), 
       'picture': new FormControl(''),   
-      // 'active': new FormControl(''),
-     
     });    
        
     if (this.emp != null) {
@@ -52,11 +53,6 @@ export class AddlistComponent {
     }
     
   }
-
-
- 
-
-
 
 
 onFileUploaded(event:any) {
@@ -152,6 +148,16 @@ ngOnInit() {
     });
   });
 
+}
+addRow() {
+  // Create a new RowItem object and push it to the items array
+  const newRow: RowItem = {
+    selectedOption: this.selectedItem,
+    picture: this.selectedItem?.picture
+  };
+  console.log(newRow,'check')
+  this.items.push(newRow);
+  console.log(newRow,'check')
 }
 
 }
