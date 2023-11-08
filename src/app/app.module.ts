@@ -43,6 +43,7 @@ export function createTranslateLoader(http: HttpClient): any {
         deps: [HttpClient]
       }
     }),
+
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,

@@ -3,7 +3,8 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { AuthfakeauthenticationService } from 'src/app/core/services/authfake.service';
-
+import Swal from 'sweetalert2';
+import { ApiService } from 'src/app/api/api.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,7 +27,7 @@ export class LoginComponent {
   year: number = new Date().getFullYear();
 
   constructor(private formBuilder: UntypedFormBuilder, private authenticationService: AuthenticationService, private router: Router,
-    private authFackservice: AuthfakeauthenticationService, private route: ActivatedRoute) {
+    private authFackservice: AuthfakeauthenticationService, private route: ActivatedRoute,private ApiService: ApiService ) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
@@ -41,8 +42,8 @@ export class LoginComponent {
      * Form Validatyion
      */
     this.loginForm = this.formBuilder.group({
-      email: ['admin@themesbrand.com', [Validators.required, Validators.email]],
-      password: ['123456', [Validators.required]],
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -54,8 +55,10 @@ export class LoginComponent {
   /**
    * Form submit
    */
-  onSubmit() {
+  onSubmit1() {
     this.submitted = true;
+
+    
 
     // Login Api
    /* this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data: any) => {
@@ -90,7 +93,64 @@ export class LoginComponent {
     //         });
     //   }
     // }
+
+
   }
+
+  async onSubmit() {
+    this.submitted = true;
+    console.log("111111");
+if (this.loginForm.invalid) {
+  console.log("353465");
+      return;
+    }
+    let dataUser = await this.ApiService.getAdminDataCheck(this.f['email'].value,this.f['password'].value);
+    console.log("asgeg"+dataUser);
+    let users: any = [];
+    dataUser!.forEach(d => {
+      users.push(d);
+    });
+    console.log("sdgdh"+users);
+    if (users.length > 0) {
+      console.log(users[0].data()['rec_no']);
+      if (this.f['email'].value === users[0].data()['rec_no'] &&  this.f['password'].value === users[0].data()['password']) {
+        localStorage.setItem('id',users[0].data()['rec_no']);
+        localStorage.setItem('login', 'true');
+      this.router.navigate(['/']);
+
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          confirmButtonColor: '#4b93ff',
+          showCancelButton: true,
+         
+          
+        });        // this._snackBar.data.open('Invalid login details', '', {
+        //   duration: 2000,
+        //   panelClass: "error-snackbar"
+
+        // });
+      }
+    }
+    else {
+      Swal.fire({
+        icon: 'success',
+        title: 'Failed!',
+        confirmButtonColor: '#4b93ff',
+        showCancelButton: true,
+       
+        
+      });   
+      // this._snackBar.open('Invalid login details', '', {
+      //   duration: 2000,
+      //   panelClass: "error-snackbar"
+
+      // });
+    }
+  }
+
 
   /**
    * Password Hide/Show

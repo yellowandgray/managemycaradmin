@@ -82,6 +82,8 @@ export class AuthenticationService {
         // return getFirebaseBackend()!.logout();
         localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
+        localStorage.removeItem('login'); 
+        
         this.currentUserSubject.next(null!);
     }
 
