@@ -71,6 +71,21 @@
                         <label for="phone-field" class="form-label">Mobile</label>
                         <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="mobile"  [(ngModel)]="emp.mobile" required />
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <div class="d-flex no-block justify-content-center align-items-center">
+                            <div class="m-r-10 no-shrink">
+                                <div class="text-center">
+                                    <img [src]="image_path || emp.image" width="200px" height="200px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                    
                   
                 </div>
@@ -126,15 +141,18 @@
                         <label for="customername-field" class="form-label"> Name</label>
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required />
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label"> Images</label>
-    
-                        <!-- <dropzone type="file" class="dropzone" [message]="'Drop files here or click to upload.'" #fileUploader (success)="onFileUploaded($event)"></dropzone> -->
-                                <div class="border rounded">
+                        <div>
+                            <label for="formFile" class="form-label">Default file input example</label>
+                            <input class="form-control"  type="file" id="formFile">
+                            </div>
+                        <dropzone type="file" class="dropzone" [message]="'Drop files here or click to upload.'" #fileUploader (success)="onFileUploaded($event)"></dropzone> -->
+                                <!-- <div class="border rounded">
                                     <div class="d-flex p-2">
                                         <div class="flex-shrink-0 me-3">
                                             <div class="avatar-sm bg-light rounded p-2">
-                                                <!-- <img class="img-fluid rounded d-block"  alt="Dropzone-Image" /> -->
+                                               <img class="img-fluid rounded d-block"  alt="Dropzone-Image" /> 
                                             </div>
                                         </div>
                                         <div class="flex-grow-1">
@@ -147,11 +165,11 @@
                                             <button  class="btn btn-sm btn-danger">Delete</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             <!-- </li>
-                        </ul> -->
+                        </ul> 
                        
-                    </div>
+                    </div>-->
                    
                     <!-- <div class="mb-3">
                         <label for="phone-field" class="form-label">Standard</label>
@@ -221,6 +239,22 @@
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Mobile</label>
                         <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="mobile"  [(ngModel)]="emp.mobile" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <div class="d-flex no-block justify-content-center align-items-center">
+                            <div class="m-r-10 no-shrink">
+                                <div class="text-center">
+                                    <img [src]="image_path || emp.image" width="200px" height="200px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                    
                   
@@ -359,7 +393,7 @@
                                     <td class="picture">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
-                                                <img src="{{data.image}}" alt="" class="img-fluid d-block ">
+                                                <img src={{data.image}} alt="" class="img-fluid d-block ">
                                             </div>
                                           
                                         </div>

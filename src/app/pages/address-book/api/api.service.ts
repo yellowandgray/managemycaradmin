@@ -107,7 +107,7 @@ import * as firebase from "firebase/compat";
           'parentname':obj.parentname,
           'standard':obj.standard,
           'section':obj.section,
-          'school':obj.school
+          'school':localStorage.getItem('school_id')
           // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
        }).then(async docRef => {
@@ -128,6 +128,7 @@ import * as firebase from "firebase/compat";
         'parentname':obj.parentname,
         'standard':obj.standard,
         'section':obj.section,
+        'image':obj.image,
         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
       });
      }

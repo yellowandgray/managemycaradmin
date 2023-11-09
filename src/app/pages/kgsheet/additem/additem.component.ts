@@ -26,6 +26,7 @@ export class AddItemComponent {
   MessageFormData: FormGroup;
   isSubmitted = false;
   files: File[] = [];
+  imgSrc: string='';
 
 
 
@@ -61,49 +62,85 @@ export class AddItemComponent {
     
   }
 
-  onFileUploaded(event:any) {
-    console.log("1111111111"+event);
-    console.log(event[0]);
-    this.files.push(event[0]);
-    console.log("222222"+this.files[0]);
-    if (this.files) {
-      console.log("333333333");
+  showPreview(event: any) {
+    if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
-      const file = this.files[0];
-      this.selectedImage = this.files[0];
-      reader.onload = (e: any) => {
-       // this.imgSrc = e.target.result;
- 
-        const imagePath = e.target.result;
-       // this.imagePath.push(imagePath);
- 
-        if (this.selectedImage != null) {
-          var category = 'images';
-          var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-          const fileRef = this.storage.ref(filePath);
- 
-          this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
-            finalize(() => {
-              fileRef.getDownloadURL().subscribe((url) => {
-                this.emp.picture = url;
-                console.log('imagePathsdb:', this.emp.picture ); // Check if it's populated here
-              });
-            })
-          ).subscribe(
-            () => {
-              console.log('Upload completed successfully');
-            },
-            (error) => {
-              console.error('Upload error:', error);
-            }
-          );
-        }
-      };
- 
-      reader.readAsDataURL(file);
-      this.selectedImage = file;
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+      this.image_path='';
+      if (this.selectedImage != null) {
+        var category = 'images';
+        var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+        const fileRef = this.storage.ref(filePath);
+
+        this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe((url) => {
+              this.emp.picture = url;
+              console.log('imagePathsdb:', this.emp.picture ); // Check if it's populated here
+            });
+          })
+        ).subscribe(
+          () => {
+            console.log('Upload completed successfully');
+          },
+          (error) => {
+            console.error('Upload error:', error);
+          }
+        );
+      }
+
+    }
+    else {
+      this.imgSrc = '/assets/images/image_placeholder.jpg';
+      this.selectedImage = null;
     }
   }
+
+  // onFileUploaded(event:any) {
+  //   console.log("1111111111"+event);
+  //   console.log(event[0]);
+  //   this.files.push(event[0]);
+  //   console.log("222222"+this.files[0]);
+  //   if (this.files) {
+  //     console.log("333333333");
+  //     const reader = new FileReader();
+  //     const file = this.files[0];
+  //     this.selectedImage = this.files[0];
+  //     reader.onload = (e: any) => {
+  //      // this.imgSrc = e.target.result;
+ 
+  //       const imagePath = e.target.result;
+  //      // this.imagePath.push(imagePath);
+ 
+  //       if (this.selectedImage != null) {
+  //         var category = 'images';
+  //         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+  //         const fileRef = this.storage.ref(filePath);
+ 
+  //         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+  //           finalize(() => {
+  //             fileRef.getDownloadURL().subscribe((url) => {
+  //               this.emp.picture = url;
+  //               console.log('imagePathsdb:', this.emp.picture ); // Check if it's populated here
+  //             });
+  //           })
+  //         ).subscribe(
+  //           () => {
+  //             console.log('Upload completed successfully');
+  //           },
+  //           (error) => {
+  //             console.error('Upload error:', error);
+  //           }
+  //         );
+  //       }
+  //     };
+ 
+  //     reader.readAsDataURL(file);
+  //     this.selectedImage = file;
+  //   }
+  // }
 
 
   save() {

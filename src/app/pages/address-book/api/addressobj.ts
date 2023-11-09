@@ -13,7 +13,8 @@ export class Student {
     section:string='';
     Dob:string='';
     image:string='';
-    school:string='stZWDh06GmAGgnoqctcE';
+    
+    school:string='';
     
 
   }

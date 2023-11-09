@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Additems } from '../api/additemobj';
 import { RowItem } from '../api/assignobj';
+import { Assign } from '../api/assignobj ';
 @Component({
   selector: 'app-addlist',
   templateUrl: './addlist.component.html',
@@ -24,16 +25,24 @@ export class AddlistComponent {
   isSubmitted = false;
   files: File[] = [];
   emp: Addlist =new Addlist();
+  assign: Assign =new Assign();
   MessageFormData: FormGroup;
+  //MessageFormData1: FormGroup;
   items: any[] = [];
   selectedItem: any='';
   additem: any[] = []; // Your array of items
   item: RowItem[] = []; // Array to store rows
-  
+  image_path: string = "";
+  imgSrc: string = "";
+  data: any;
+  selectedItemId: String =''; 
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
+  @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
 
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage){
+
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage)
+  {
 
     this.MessageFormData = new FormGroup({  
       'id': new FormControl('', Validators.required),   
@@ -45,32 +54,42 @@ export class AddlistComponent {
       this.MessageFormData.patchValue({  
         id:this.emp.id,     
         name: this.emp.name,
+       list_id:this.emp.id,
        
       });
-      this.emp.name= this.emp.name;  
-    
+      this.emp.name= this.emp.name;    
       this.emp.id= this.emp.id;   
+      this.emp.list_id= this.emp.list_id;  
+
     }
+
+    // this.MessageFormData1 = new FormGroup({                                                                                                                                                                                                                                                                                                                                                            
+    //   'list_id': new FormControl('', Validators.required),    
+    // });    
+       
+    // if (this.assign != null) {
+    //   this.MessageFormData1.patchValue({  
+    //     list_id:this.emp.id,           
+    //   });   
+    //   this.assign.list_id= this.emp.id;   
+    // }
     
   }
+  
 
+ // Add this property to your component
 
-onFileUploaded(event:any) {
-  console.log("1111111111"+event);
-  console.log(event[0]);
-  this.files.push(event[0]);
-  console.log("222222"+this.files[0]);
-  if (this.files) {
-    console.log("333333333");
-    const reader = new FileReader();
-    const file = this.files[0];
-    this.selectedImage = this.files[0];
-    reader.onload = (e: any) => {
-     // this.imgSrc = e.target.result;
+setSelectedItemId(itemId: String) {
+  this.selectedItemId = itemId;
+}
 
-      const imagePath = e.target.result;
-     // this.imagePath.push(imagePath);
-
+  showPreview(event: any) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc = e.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImage = event.target.files[0];
+      this.image_path='';
       if (this.selectedImage != null) {
         var category = 'images';
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
@@ -92,12 +111,57 @@ onFileUploaded(event:any) {
           }
         );
       }
-    };
 
-    reader.readAsDataURL(file);
-    this.selectedImage = file;
+    }
+    else {
+      this.imgSrc = '/assets/images/image_placeholder.jpg';
+      this.selectedImage = null;
+    }
   }
-}
+
+// onFileUploaded(event:any) {
+//   console.log("1111111111"+event);
+//   console.log(event[0]);
+//   this.files.push(event[0]);
+//   console.log("222222"+this.files[0]);
+//   if (this.files) {
+//     console.log("333333333");
+//     const reader = new FileReader();
+//     const file = this.files[0];
+//     this.selectedImage = this.files[0];
+//     reader.onload = (e: any) => {
+//      // this.imgSrc = e.target.result;
+
+//       const imagePath = e.target.result;
+//      // this.imagePath.push(imagePath);
+
+//       if (this.selectedImage != null) {
+//         var category = 'images';
+//         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+//         const fileRef = this.storage.ref(filePath);
+
+//         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+//           finalize(() => {
+//             fileRef.getDownloadURL().subscribe((url) => {
+//               this.emp.picture = url;
+//               console.log('imagePathsdb:', this.emp.picture ); // Check if it's populated here
+//             });
+//           })
+//         ).subscribe(
+//           () => {
+//             console.log('Upload completed successfully');
+//           },
+//           (error) => {
+//             console.error('Upload error:', error);
+//           }
+//         );
+//       }
+//     };
+
+//     reader.readAsDataURL(file);
+//     this.selectedImage = file;
+//   }
+// }
 
 
 save() {
@@ -116,6 +180,76 @@ save() {
      
   }
   this.showModal?.hide();
+}
+
+
+assignstd()
+{ 
+ 
+  
+}
+
+//selectedStandards: string[] = [];
+
+assignstd1(standard: string): void {
+
+  if (this.assign.standard.includes(standard)) {
+    // If standard is already selected, remove it
+    this.assign.standard = this.assign.standard.filter(item => item !== standard);
+  } else {
+    // If standard is not selected, add it to the list
+    this.assign.standard.push(standard);
+  }
+}
+
+
+// saveSelectedStandards() {
+
+//   if (this.selectedItemId) {
+//     // Your logic here, using this.selectedItemId
+//     console.log("Selected item id:", this.selectedItemId);
+//     this.assign.list_id = this.selectedItemId
+//     const schoolid1 = localStorage.getItem('school_id');
+//   const schoolid = "stZWDh06GmAGgnoqctcE";
+
+//     this.apiService.createAssignData(this.assign,schoolid);
+//      this.assign = new Assign();
+//      this.deleteRecordModal2?.hide();
+//   } else {
+//     console.error("No item selected.");
+//   }
+  
+//   this.showModal?.hide();
+// }
+
+
+saveSelectedStandards() {
+  const schoolid = "stZWDh06GmAGgnoqctcE";
+  if (this.selectedItemId) {
+    // Your logic here, using this.selectedItemId
+    console.log("Selected item id:", this.selectedItemId);
+    this.assign.list_id = this.selectedItemId;
+  
+
+    // Check if a document with the given list_id exists
+    const lid =this.assign.list_id;
+this.apiService.checkListIdExists('schoolid', this.assign.list_id.toString()).subscribe(id => {
+      if (id) {
+        // Document exists, update it
+        this.apiService.updateAssignData(this.assign, schoolid,id);
+      } else {
+        // Document doesn't exist, create a new one
+        this.apiService.createAssignData(this.assign, schoolid);
+      }
+
+      // Reset the form and close the modal
+      this.assign = new Assign();
+      this.deleteRecordModal2?.hide();
+      this.showModal?.hide();
+    });
+  } else {
+    console.error("No item selected.");
+  }
 }
 // save() {
     

@@ -30,7 +30,7 @@
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required />
                 </div>
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                      
 
                         <label class="form-label"> Image<span class="text-danger">*</span></label>
@@ -38,26 +38,23 @@
 
                         <dropzone type="file" class="dropzone" [message]="'Drop files here or click to upload.'" #fileUploader (success)="onFileUploaded($event)"></dropzone>
 
-                        <!-- <ul *ngIf="uploadedFiles" class="list-unstyled mb-0" id="dropzone-preview"> -->
-                            <!-- <li class="mt-2" *ngFor="let file of uploadedFiles;let i = index" id="dropzone-preview-list"> -->
-                                <!-- <div class="border rounded">
-                                    <div class="d-flex flex-wrap gap-2 p-2">
-                                       
-                                        <div class="flex-grow-1">
-                                            <div class="pt-1">
-                                                <h5 class="fs-md mb-1"> kalai </h5>
-                                                <p  class="fs-sm text-muted mb-0"> file.size </p>
-                                            </div>
-                                        </div>
-                                        <div class="flex-shrink-0 ms-3">
-                                            <button  class="btn btn-sm btn-danger">Delete</button>
-                                        </div>
-                                    </div>
-                                </div> -->
-                            <!-- </li> -->
-                        <!-- </ul> -->
-                        <!-- end dropzon-preview -->
 
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label class="form-label">Image</label>
+                        <div class="d-flex no-block justify-content-center align-items-center">
+                            <div class="m-r-10 no-shrink">
+                                <div class="text-center">
+                                    <img [src]="image_path || emp.picture" width="200px" height="200px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -117,32 +114,21 @@
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="id" placeholder="Enter Name" required />
                 </div>
 
-                    <div class="mb-3">
-                     
-
-                        <dropzone class="dropzone"  [message]="'Drop files here or click to upload.'" ></dropzone>
-
-                        <!-- <ul *ngIf="uploadedFiles" class="list-unstyled mb-0" id="dropzone-preview"> -->
-                            <!-- <li class="mt-2" *ngFor="let file of uploadedFiles;let i = index" id="dropzone-preview-list"> -->
-                                <!-- <div class="border rounded">
-                                    <div class="d-flex flex-wrap gap-2 p-2">
-                                        <img src="{{emp.picture}}"  alt="" class="avatar-lg" style="width: 100%; height: 100%;"> 
-                                        <div class="flex-grow-1">
-                                            <div class="pt-1">
-                                                <h5 class="fs-md mb-1"> kalai </h5>
-                                                <p  class="fs-sm text-muted mb-0"> file.size </p>
-                                            </div>
-                                        </div>
-                                        <div class="flex-shrink-0 ms-3">
-                                            <button  class="btn btn-sm btn-danger">Delete</button>
-                                        </div>
-                                    </div>
-                                </div> -->
-                            <!-- </li> -->
-                        <!-- </ul> -->
-                        <!-- end dropzon-preview -->
-
+                <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <div class="d-flex no-block justify-content-center align-items-center">
+                        <div class="m-r-10 no-shrink">
+                            <div class="text-center">
+                                <img [src]="image_path || emp.picture" width="200px" height="200px" (click)="fileUploader.click()">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group justify-content-center">
+                                <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                            </div>
+                        </div>
                     </div>
+                </div>
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Type<span
                                 class="text-danger">*</span></label>

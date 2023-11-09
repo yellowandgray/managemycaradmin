@@ -7,6 +7,8 @@ import * as firebase from "firebase/compat";
 import { Additems } from "./additemobj";
 import { Observable } from "rxjs/internal/Observable";
 import { Addlist } from "./addlistobj";
+import { Assign } from "./assignobj ";
+import { map } from "rxjs";
 // import * as firebase from 'firebase';
   @Injectable({
     providedIn: 'root'
@@ -92,22 +94,60 @@ import { Addlist } from "./addlistobj";
      }
 
 // Assign
-createAssignData(obj: Addlist,listid: string){
-  return this.firestore.collection(`School/${listid}/KGSheet_Assign`).add(
-    {
-      'id':'',
-      'standard':obj.standard,
+// createAssignData(obj: Assign,schoolid: string){
+//   return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`).add(
+//     {
+//       'list_id':obj.list_id,
+//       'standard':obj.standard,
+    
+//       // 'punctuation':obj.punctuation,
      
-      // 'punctuation':obj.punctuation,
-     
-   }).then(async docRef => {
-     console.log(docRef.id,'test');
-     await this.firestore.doc(`School/${listid}/KGSheet_Assign/` + docRef.id).update({
-       'id':docRef.id})
-       console.log(docRef.id,'test');
-       console.log(obj,'test');
-   })
- }
+//    }).then(async docRef => {
+//     console.log(obj.list_id,'list id');
+//     console.log(obj.standard,'standard id');
+//      console.log(docRef.id,'test');
+//      await this.firestore.doc(`School/${schoolid}/KGSheet_Assign/` + docRef.id).update({
+//        'id':docRef.id})
+//        console.log(docRef.id,'test');
+//        console.log(obj,'test');
+//    })
+//  }
+
+
+checkListIdExists(schoolid: string, listId: string): Observable<string | null> {
+  return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`, 
+    ref => ref.where('list_id', '==', listId))
+    .snapshotChanges()
+    .pipe(
+      map(docs => {
+        const doc = docs[0];
+        return doc ? doc.payload.doc.id : null;
+      })
+    );
+}
+
+createAssignData(obj: Assign, schoolid: string) {
+  return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`).add({
+    'list_id': obj.list_id,
+    'standard': obj.standard,
+  }).then(async docRef => {
+    console.log(obj.list_id, 'list id');
+    console.log(obj.standard, 'standard id');
+    console.log(docRef.id, 'test');
+    await this.firestore.doc(`School/${schoolid}/KGSheet_Assign/` + docRef.id).update({
+      'id': docRef.id
+    });
+    console.log(docRef.id, 'test');
+    console.log(obj, 'test');
+  })
+}
+
+updateAssignData(obj: Assign, schoolid: string, docId: string) {
+  return this.firestore.doc(`School/${schoolid}/KGSheet_Assign/${docId}`).update({
+    'list_id': obj.list_id,
+    'standard': obj.standard,
+  });
+}
 
 
   }
