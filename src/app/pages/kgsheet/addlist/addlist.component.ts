@@ -36,6 +36,7 @@ export class AddlistComponent {
   imgSrc: string = "";
   data: any;
   selectedItemId: String =''; 
+  school_id: string = '';
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
@@ -76,12 +77,37 @@ export class AddlistComponent {
     
   }
   
+  ngOnInit() {
+    this.school_id = localStorage.getItem('school_id')??'';
+    if(this.school_id!='')
+    {
+     this.apiService.getAddListData(this.kgSheetId).subscribe(actions => {
+       this.addlists = actions.map(action => {
+         const data = action.payload.doc.data() as Addlist;
+         return {
+           id:data.id,
+           name: data.name,
+           picture: data.picture,
+         } as Addlist;
+       });
+     });
+     this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
+       this.additems = actions.map(action => {
+         const data = action.payload.doc.data() as Additems;
+         return {
+           id:data.id,
+           name: data.name,
+           picture: data.picture,
+         } as Additems;
+       });
+     });
+   }
+   
+   }
 
  // Add this property to your component
 
-setSelectedItemId(itemId: String) {
-  this.selectedItemId = itemId;
-}
+
 
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -223,8 +249,17 @@ assignstd1(standard: string): void {
 // }
 
 
+setSelectedItemId(itemId: String) {
+  this.selectedItemId = itemId;
+  this.apiService.checkListIdExists('schoolid', itemId).subscribe(id => {
+  });
+
+  
+}
+
 saveSelectedStandards() {
   const schoolid = "stZWDh06GmAGgnoqctcE";
+ 
   if (this.selectedItemId) {
     // Your logic here, using this.selectedItemId
     console.log("Selected item id:", this.selectedItemId);
@@ -233,13 +268,13 @@ saveSelectedStandards() {
 
     // Check if a document with the given list_id exists
     const lid =this.assign.list_id;
-this.apiService.checkListIdExists('schoolid', this.assign.list_id.toString()).subscribe(id => {
+     this.apiService.checkListIdExists('schoolid', this.assign.list_id.toString()).subscribe(id => {
       if (id) {
         // Document exists, update it
-        this.apiService.updateAssignData(this.assign, schoolid,id);
+        this.apiService.updateAssignData(this.assign, this.school_id,id);
       } else {
         // Document doesn't exist, create a new one
-        this.apiService.createAssignData(this.assign, schoolid);
+        this.apiService.createAssignData(this.assign,this.school_id);
       }
 
       // Reset the form and close the modal
@@ -260,29 +295,7 @@ this.apiService.checkListIdExists('schoolid', this.assign.list_id.toString()).su
       
 //    }
 
-ngOnInit() {
-  this.apiService.getAddListData(this.kgSheetId).subscribe(actions => {
-    this.addlists = actions.map(action => {
-      const data = action.payload.doc.data() as Addlist;
-      return {
-        id:data.id,
-        name: data.name,
-        picture: data.picture,
-      } as Addlist;
-    });
-  });
-  this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
-    this.additems = actions.map(action => {
-      const data = action.payload.doc.data() as Additems;
-      return {
-        id:data.id,
-        name: data.name,
-        picture: data.picture,
-      } as Additems;
-    });
-  });
 
-}
 addRow() {
   // Create a new RowItem object and push it to the items array
   const newRow: RowItem = {
