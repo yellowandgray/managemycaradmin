@@ -112,12 +112,13 @@ if (this.loginForm.invalid) {
     });
     console.log("sdgdh"+users);
     if (users.length > 0) {
-      console.log(users[0].data()['rec_no']);
-      if (this.f['email'].value === users[0].data()['rec_no'] &&  this.f['password'].value === users[0].data()['password']) {
-        localStorage.setItem('id',users[0].data()['rec_no']);
+      console.log(users[0].data()['email']);
+      if (this.f['email'].value === users[0].data()['email'] &&  this.f['password'].value === users[0].data()['password']) {
+        localStorage.setItem('id',users[0].data()['email']);
         localStorage.setItem('login', 'true');
         localStorage.setItem('school_id', users[0].data()['school']);
         localStorage.setItem('role', users[0].data()['role']);
+        localStorage.setItem('username', users[0].data()['name']);
         console.log(localStorage.getItem('school_id'));
         console.log(localStorage.getItem('role'));
 

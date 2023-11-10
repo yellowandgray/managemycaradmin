@@ -201,6 +201,7 @@ this.apiService.deleteStudentData(id)
     this.deleteRecordModal?.hide()
   }
 
+
   
 
 
@@ -209,6 +210,7 @@ this.apiService.deleteStudentData(id)
      this.apiService.updateStudentData(id.toString(),this.emp);
      this.emp = new Student();
      this.showModals?.hide(); 
+     this.resetForm;
 
    }
    
@@ -227,6 +229,7 @@ this.apiService.deleteStudentData(id)
       mobile: this.emp.mobile
     });
     this.showModals?.show();
+    this.resetForm
    
   }
   

@@ -37,6 +37,8 @@ export class TopbarComponent {
   discountRate: any = 0.15;
   discount: any;
   tax: any;
+  userName: string = '';
+  userRole: string = '';
 
   notificationList: any;
 
@@ -56,6 +58,18 @@ export class TopbarComponent {
     public _cookiesService: CookieService) { }
 
   ngOnInit(): void {
+    if( localStorage.getItem('username') != null)
+    {
+      this.userName = localStorage.getItem('username')??'';
+      this.userRole = localStorage.getItem('role')??'';
+    }
+    {
+      console.log("usename not set");
+    }
+
+   
+    
+ 
     this.element = document.documentElement;
 
     this.cartData = cartList
@@ -90,6 +104,7 @@ export class TopbarComponent {
       }
     });
   }
+  
 
   windowScroll() {
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {

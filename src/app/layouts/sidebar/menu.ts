@@ -57,25 +57,25 @@ export const MENU: MenuItem[] = [
             {
                 id: 3,
                 label: 'Students',
-                link: '/addressbooks/student',
+                link: '/addressbook/student',
                 parentId: 2
             },
             {
                 id: 4,
                 label: 'Teachers',
-                link: 'addressbooks/teacher',
+                link: 'addressbook/teacher',
                 parentId: 2
             },
             {
                 id: 5,
                 label: 'Driver',
-                link: 'addressbooks/driver',
+                link: 'addressbook/driver',
                 parentId: 2
             },
             {
                 id: 6,
                 label: 'Other',
-                link: 'addressbooks/others',
+                link: 'addressbook/others',
                 parentId: 2
             },
        

@@ -114,10 +114,12 @@ import { map } from "rxjs";
 //  }
 
 
-checkListIdExists(schoolid: string, listId: String): Observable<string | null> {
-  return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`, 
-    ref => ref.where('list_id', '==', listId)).get();
- 
+checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
+  return this.firestore
+    .collection(`School/${schoolid}/KGSheet_Assign`, (ref) =>
+      ref.where('list_id', '==', listId)
+    )
+    .valueChanges();
 }
 
 createAssignData(obj: Assign, schoolid: string) {

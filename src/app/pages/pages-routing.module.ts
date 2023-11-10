@@ -12,7 +12,7 @@ const routes: Routes = [
     path: 'school', loadChildren: () => import('./school/school.module').then(m => m.SchoolModule)
   },
   {
-    path: 'addressbooks', loadChildren: () => import('./address-book/book.module').then(m => m.BookModule)
+    path: 'addressbook', loadChildren: () => import('./address-book/book.module').then(m => m.BookModule)
   },
   {
     path: 'van', loadChildren: () => import('./van/van.module').then(m => m.vanModule)

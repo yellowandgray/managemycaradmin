@@ -56,6 +56,7 @@ export class AddlistComponent {
         id:this.emp.id,     
         name: this.emp.name,
        list_id:this.emp.id,
+       items:[] = [],
        
       });
       this.emp.name= this.emp.name;    
@@ -145,51 +146,6 @@ export class AddlistComponent {
     }
   }
 
-// onFileUploaded(event:any) {
-//   console.log("1111111111"+event);
-//   console.log(event[0]);
-//   this.files.push(event[0]);
-//   console.log("222222"+this.files[0]);
-//   if (this.files) {
-//     console.log("333333333");
-//     const reader = new FileReader();
-//     const file = this.files[0];
-//     this.selectedImage = this.files[0];
-//     reader.onload = (e: any) => {
-//      // this.imgSrc = e.target.result;
-
-//       const imagePath = e.target.result;
-//      // this.imagePath.push(imagePath);
-
-//       if (this.selectedImage != null) {
-//         var category = 'images';
-//         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-//         const fileRef = this.storage.ref(filePath);
-
-//         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
-//           finalize(() => {
-//             fileRef.getDownloadURL().subscribe((url) => {
-//               this.emp.picture = url;
-//               console.log('imagePathsdb:', this.emp.picture ); // Check if it's populated here
-//             });
-//           })
-//         ).subscribe(
-//           () => {
-//             console.log('Upload completed successfully');
-//           },
-//           (error) => {
-//             console.error('Upload error:', error);
-//           }
-//         );
-//       }
-//     };
-
-//     reader.readAsDataURL(file);
-//     this.selectedImage = file;
-//   }
-// }
-
-
 save() {
   const kgSheetId = '3u90Jik86R10JulNCU3K';
   if (this.selectedImage) {
@@ -249,9 +205,12 @@ assignstd1(standard: string): void {
 // }
 
 
-setSelectedItemId(itemId: String) {
+setSelectedItemId(itemId: string) {
   this.selectedItemId = itemId;
-  this.apiService.checkListIdExists('schoolid', itemId).subscribe(id => {
+console.log("school id"+this.school_id);
+console.log("Item id"+itemId);
+
+  this.apiService.checkListIdExists( this.school_id,itemId).subscribe(id => {
   });
 
   
@@ -271,7 +230,7 @@ saveSelectedStandards() {
      this.apiService.checkListIdExists('schoolid', this.assign.list_id.toString()).subscribe(id => {
       if (id) {
         // Document exists, update it
-        this.apiService.updateAssignData(this.assign, this.school_id,id);
+      //  this.apiService.updateAssignData(this.assign, this.school_id,id);
       } else {
         // Document doesn't exist, create a new one
         this.apiService.createAssignData(this.assign,this.school_id);

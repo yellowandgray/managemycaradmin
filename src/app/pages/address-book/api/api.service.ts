@@ -90,7 +90,7 @@ import * as firebase from "firebase/compat";
   
     // Get the address-book collection data
     getAddressBookData() {
-      return this.firestore.collection('Users',ref=> ref.orderBy('rec_no')).snapshotChanges();
+      return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
     }
 
     createStudentData(obj: Student){
