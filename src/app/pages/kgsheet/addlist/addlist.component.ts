@@ -35,8 +35,13 @@ export class AddlistComponent {
   image_path: string = "";
   imgSrc: string = "";
   data: any;
-  selectedItemId: String =''; 
+  selectedItemId: string =''; 
   school_id: string = '';
+  standardsList: string[] = ['UKG', 'LKG', 'I', 'II', 'III']; // Add more standards as needed
+  selectedStandards: string[] = [];
+  assignForm: FormGroup;
+  fetchedStandards: string[] = [];
+  allPossibleStandards: string[] = [];
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
@@ -44,12 +49,18 @@ export class AddlistComponent {
 
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage)
   {
+   
 
     this.MessageFormData = new FormGroup({  
       'id': new FormControl('', Validators.required),   
       'name': new FormControl('', Validators.required),   
       'picture': new FormControl(''),   
-    });    
+    });   
+    this.assignForm = new FormGroup({
+      'standard': new FormControl([]),
+    }); 
+
+    
        
     if (this.emp != null) {
       this.MessageFormData.patchValue({  
@@ -62,6 +73,7 @@ export class AddlistComponent {
       this.emp.name= this.emp.name;    
       this.emp.id= this.emp.id;   
       this.emp.list_id= this.emp.list_id;  
+      this.allPossibleStandards = ['LKG', 'UKG', 'I', 'II', 'III'];
 
     }
 
@@ -89,6 +101,7 @@ export class AddlistComponent {
            id:data.id,
            name: data.name,
            picture: data.picture,
+           standard:data.standard
          } as Addlist;
        });
      });
@@ -103,7 +116,8 @@ export class AddlistComponent {
        });
      });
    }
-   
+
+ 
    }
 
  // Add this property to your component
@@ -170,19 +184,98 @@ assignstd()
  
   
 }
+assignSelectedStandards(): void {
+  console.log("Step 0");
+  this.selectedStandards.forEach(standard => {
+    this.assignstd1(standard);
+  });
+}
 
 //selectedStandards: string[] = [];
 
-assignstd1(standard: string): void {
+// assignstd1(standard: string): void {
 
-  if (this.assign.standard.includes(standard)) {
-    // If standard is already selected, remove it
-    this.assign.standard = this.assign.standard.filter(item => item !== standard);
-  } else {
-    // If standard is not selected, add it to the list
-    this.assign.standard.push(standard);
-  }
+//   if (this.assign.standard.includes(standard)) {
+//     // If standard is already selected, remove it
+//     this.assign.standard = this.assign.standard.filter(item => item !== standard);
+//   } else {
+//     // If standard is not selected, add it to the list
+//     this.assign.standard.push(standard);
+//   }
+// }
+isSelected(standard: string): boolean {
+  return this.assign.standard.includes(standard);
 }
+
+setSelectedItemId(itemId: string) {
+  this.selectedItemId = itemId;
+  console.log("school id: " + this.school_id);
+  console.log("Item id: " + itemId);
+
+  // this.apiService.checkListIdExists(this.school_id, itemId).subscribe(
+  //   response => {
+  //     console.log("API Response: ", response[0].id);
+  //     // Do something with the API response, if needed
+  //   },
+  //   error => {
+  //     console.error("API Error: ", error);
+  //     // Handle API error, if needed
+  //   }
+  // );
+}
+
+assignstd1(listId: string): void {
+  console.log("Step 0.1");
+
+  // Assuming listId is set when the "Assign to Standard" button is clicked
+  if (!listId) {
+    console.error('List ID not provided.');
+    return;
+  }
+
+  // Fetch the entire document for the clicked list_id
+  this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
+    assignedData => {
+      console.log("Step 1");
+
+      // Extract the 'standard' field or any other field you need
+      this.selectedStandards = assignedData[0]?.standard || [];
+
+      // Print the entire document if available
+      console.log('Fetched Document Data:', assignedData[0]?.standard);
+
+      // Update fetchedStandards only if assignedData[0] is defined
+      this.fetchedStandards = assignedData[0]?.standard || [];
+
+      // Show the modal
+      this.deleteRecordModal2.show();
+
+      // Set the selectedItemId
+      this.setSelectedItemId(listId);
+    },
+    error => {
+      // Handle the case where the list ID does not exist
+      console.error('Error fetching document data:', error);
+
+      // Reset selectedStandards to an empty array
+      this.selectedStandards = [];
+
+      // Show the modal
+      this.deleteRecordModal2.show();
+
+      // Set the selectedItemId
+      this.setSelectedItemId(listId);
+
+      // Set fetchedStandards to an empty array if no data is fetched
+      this.fetchedStandards = [];
+    }
+  );
+}
+
+
+
+
+
 
 
 // saveSelectedStandards() {
@@ -205,46 +298,51 @@ assignstd1(standard: string): void {
 // }
 
 
-setSelectedItemId(itemId: string) {
-  this.selectedItemId = itemId;
-console.log("school id"+this.school_id);
-console.log("Item id"+itemId);
 
-  this.apiService.checkListIdExists( this.school_id,itemId).subscribe(id => {
-  });
 
-  
-}
+
+
 
 saveSelectedStandards() {
-  const schoolid = "stZWDh06GmAGgnoqctcE";
- 
   if (this.selectedItemId) {
-    // Your logic here, using this.selectedItemId
-    console.log("Selected item id:", this.selectedItemId);
-    this.assign.list_id = this.selectedItemId;
+    const selectedStandards = this.assignForm.get('standard')?.value as string[];
+    // Do something with the selected standards, for example:
+    console.log('Selected Standards:', selectedStandards);
   
+    // Clear the selected standards after saving
+    this.assignForm.get('standard')?.setValue([]);
+    this.selectedStandards = [];
+  
+    this.deleteRecordModal2.hide();
+    console.log("Selected item id:", this.selectedItemId);
+    console.log("School id : " , this.school_id);
+    this.assign.list_id = this.selectedItemId;
 
     // Check if a document with the given list_id exists
-    const lid =this.assign.list_id;
-     this.apiService.checkListIdExists('schoolid', this.assign.list_id.toString()).subscribe(id => {
-      if (id) {
-        // Document exists, update it
-      //  this.apiService.updateAssignData(this.assign, this.school_id,id);
-      } else {
+    // this.apiService.checkListIdExists(this.school_id, this.selectedItemId).subscribe(response => {
+    //   if (response.length > 0) {
+    //     console.log("Update Assign Data");
+    //     console.log("Document id = " + response[0].id);
+        
+    //     // Document exists, update it
+    //     this.apiService.updateAssignData(this.assign, this.school_id, response[0].id);
+    //   } else {
         // Document doesn't exist, create a new one
-        this.apiService.createAssignData(this.assign,this.school_id);
-      }
+        console.log("Create a New Assign Data");
+        this.apiService.createAssignData(this.assign, this.school_id);
 
-      // Reset the form and close the modal
-      this.assign = new Assign();
+    //   }
+
+    //   // Reset the form and close the modal
+       this.assign = new Assign();
       this.deleteRecordModal2?.hide();
-      this.showModal?.hide();
-    });
+       this.showModal?.hide();
+    // });
   } else {
     console.error("No item selected.");
   }
 }
+
 // save() {
     
 //     //console.log(this.emp);  

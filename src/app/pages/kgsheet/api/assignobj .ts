@@ -1,6 +1,6 @@
 
 
 export class Assign { 
-   list_id: String='';
+   list_id: string='';
    standard: string[] = [];
   }

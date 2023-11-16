@@ -113,7 +113,6 @@ import { map } from "rxjs";
 //    })
 //  }
 
-
 checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
   return this.firestore
     .collection(`School/${schoolid}/KGSheet_Assign`, (ref) =>
@@ -133,17 +132,33 @@ createAssignData(obj: Assign, schoolid: string) {
     await this.firestore.doc(`School/${schoolid}/KGSheet_Assign/` + docRef.id).update({
       'id': docRef.id
     });
-    console.log(docRef.id, 'test');
-    console.log(obj, 'test');
+  
   })
 }
 
 updateAssignData(obj: Assign, schoolid: string, docId: string) {
+  console.log(obj.list_id, 'list id');
+  console.log(obj.standard, 'standard');
+  console.log("Document id " + docId);
   return this.firestore.doc(`School/${schoolid}/KGSheet_Assign/${docId}`).update({
     'list_id': obj.list_id,
     'standard': obj.standard,
   });
 }
+
+getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observable<any> {
+  // Adjust the path according to your Firestore structure
+  const path = `school/${kgSheetId}/KGSheet_Assign/${listId}`;
+  return this.firestore
+  .collection(`School/${schoolid}/KGSheet_Assign`, (ref) =>
+    ref.where('list_id', '==', listId)
+  )
+  .valueChanges();
+ // return this.firestore.doc<any>(path).valueChanges();
+}
+
+
+
 
 
   }
