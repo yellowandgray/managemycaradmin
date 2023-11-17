@@ -147,7 +147,7 @@ export class AddlistComponent {
     this.apiService.updateListData(id.toString(),this.emp,kgSheetId);
     this.emp = new Addlist();
     this.editModal?.hide(); 
-   // this.resetForm;
+    this.resetForm;
 
   }
   delet(id: string){
@@ -394,6 +394,11 @@ addRow() {
   console.log(newRow,'check')
   this.items.push(newRow);
   console.log(newRow,'check')
+}
+
+resetForm() {
+  this.selectedImage = null;
+  this.isSubmitted = false;
 }
 
 }
