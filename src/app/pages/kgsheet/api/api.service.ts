@@ -93,6 +93,18 @@ import { map } from "rxjs";
        })
      }
 
+     updateListData(id: string,obj: Addlist,kgSheetId: string){
+      this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + id).update({
+        'id':id,      
+        'name':obj.name,
+        'picture':obj.picture,
+        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+      });
+     }
+     deleteStudentData(dataId: string,kgSheetId: string){    
+      this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + dataId).delete();
+    }
+
 // Assign
 // createAssignData(obj: Assign,schoolid: string){
 //   return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`).add(

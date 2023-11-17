@@ -9,7 +9,7 @@
                 <button type="button" class="btn-close" (click)="showModal.hide()"></button>
             </div>
     
-            <form  class="tablelist-form" [formGroup]="MessageFormData">>
+            <form  class="tablelist-form" [formGroup]="MessageFormData">
                 <div class="modal-body p-4">
                     <!-- <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                     <input type="hidden" id="id-field">
@@ -51,6 +51,58 @@
         <!-- modal-content -->
     </div>
   </div>
+ <!-- Update List -->
+
+ <div class="modal fade" bsModal #editModal="bs-modal">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header px-4 pt-4">
+              <h5 class="modal-title" id="exampleModalLabel">Edit list</h5>
+              <button type="button" class="btn-close" (click)="editModal.hide()"></button>
+          </div>
+  
+          <form  class="tablelist-form" [formGroup]="MessageFormData">
+              <div class="modal-body p-4">
+                  <!-- <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
+                  <input type="hidden" id="id-field">
+   -->
+                     
+                  <div class="mb-3">
+                      <label for="product-title-input" class="form-label"> Name</label>
+                      <!-- <input type="text" id="product-title-input" formControlName="name" class="form-control" placeholder="Enter product title" required> -->
+                      <input type="text"  class="form-control"[(ngModel)]="emp.name"  formControlName="name" placeholder="Enter Name" required />
+                  </div>
+  
+                
+                  <div class="mb-3">
+                      <label class="form-label">Image</label>
+                      <div class="d-flex no-block justify-content-center align-items-center">
+                          <div class="m-r-10 no-shrink">
+                              <div class="text-center">
+                                  <img [src]="image_path || emp.picture" width="200px" height="200px" (click)="fileUploader.click()">
+                              </div>
+                          </div>
+                          <div>
+                              <div class="form-group justify-content-center">
+                                  <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+  
+                
+              </div>
+              <div class="modal-footer">
+                  <div class="hstack gap-2 justify-content-end">
+                      <button type="button" class="btn btn-ghost-danger" (click)="editModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                      <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">Update List</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <!-- modal-content -->
+  </div>
+</div>
   
 
   <div class="modal fade" bsModal #deleteRecordModal="bs-modal">
@@ -84,7 +136,7 @@
                   </div>
                   
 
-                <!-- <div class="modal-body p-4">
+                 <div class="modal-body p-4">
                   
                     <div class=" row">
                     <div class="col-sm-6">
@@ -270,12 +322,13 @@
   
               <div class="form-check mb-2" *ngFor="let standard of allPossibleStandards">
                 <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [id]="standard"
-                  [checked]="fetchedStandards.includes(standard)"
-                  (change)="assignstd1(standard)"
-                />
+                class="form-check-input"
+                type="checkbox"
+                [id]="standard"
+                [checked]="fetchedStandards.includes(standard)"
+                (change)="onStandardChange(standard)"
+              />
+              
                 <label class="form-check-label" [for]="standard">{{ standard }}</label>
               </div>
             </div>
@@ -286,7 +339,7 @@
               <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal2.hide()">
                 <i class="bi bi-x-lg align-baseline me-1"></i> Close
               </button>
-              <button type="submit" class="btn btn-primary" id="add-btn" (click)="saveSelectedStandards()">Add Assign</button>
+              <button type="submit" class="btn btn-primary" id="add-btn" (click)="saveSelectedStandards()">Assign</button>
             </div>
           </div>
         </form>
@@ -361,6 +414,7 @@
                                 <th class="sort cursor-pointer" productsortable="Items" >Items</th>
                                 <th class="sort cursor-pointer" productsortable="Total Items" >Total Items</th>
                                 <th class="sort cursor-pointer" productsortable="Assign To" >Assign To</th>
+                                <th class="sort">Action</th> 
                                 
                             </tr>
                         </thead>
@@ -384,7 +438,16 @@
                                 <td class="Assign To">
                                   <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign to Standard</button>
                                 </td>
-                                
+                                <td>
+                                  <div class="d-flex gap-2">
+                                      <div class="edit">
+                                          <button class="btn btn-sm btn-success edit-item-btn"(click)="editList(i)" >Edit</button>
+                                      </div>
+                                      <div class="remove">
+                                          <button class="btn btn-sm btn-danger remove-item-btn"(click)="delet(data.id)">Remove</button>
+                                      </div>
+                                  </div>
+                              </td>
                                 
                               
                                

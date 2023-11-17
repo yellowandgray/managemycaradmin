@@ -90,7 +90,9 @@ import * as firebase from "firebase/compat";
   
     // Get the address-book collection data
     getAddressBookData() {
-      return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
+     // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
+       return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();   
+      
     }
 
     createStudentData(obj: Student){
