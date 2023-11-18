@@ -177,14 +177,12 @@
                   </datalist>
               </div>
               <div class="col-xxl-3 col-md-6">
-                <label for="exampleDataList" class="form-label">Datalist example</label>
-                <input class="form-control" [matAutocomplete]="auto" [formControl]="searchControl"
-                       id="exampleDataList" placeholder="Search your Items...">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let item of filteredAdditems" [value]="item.name">
-                    {{ item.name }}
-                  </mat-option>
-                </mat-autocomplete>
+                <label for="exampleDataList" class="form-label">Datalist </label>
+                <input class="form-control" list="additems" id="exampleDataList"
+                       [(ngModel)]="searchTerm" (input)="filterAdditems()" placeholder="Search your Items...">
+                <datalist id="additems">
+                  <option *ngFor="let item of filteredAdditems" [value]="item.name"></option>
+                </datalist>
               </div>
               
             <div class="row p-2" *ngFor="let item of items">

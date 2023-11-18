@@ -9,6 +9,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Additems } from '../api/additemobj';
 import { RowItem } from '../api/assignobj';
 import { Assign } from '../api/assignobj ';
+
 @Component({
   selector: 'app-addlist',
   templateUrl: './addlist.component.html',
@@ -45,10 +46,12 @@ export class AddlistComponent {
   fetchedStandards: string[] = [];
   fetchedStandards1: string[] = [];
   allPossibleStandards: string[] = [];
+  searchTerm: string = '';
+  //additems: Additems[] = [];
+  filteredAdditems: Additems[] = [];
+  showAllItems: boolean = false; // Flag to control whether to show all items initially
+  
   searchControl = new FormControl();
-filteredAdditems: Additems[] = [];
-//additems: Additems[] = [];
-
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -127,17 +130,23 @@ filteredAdditems: Additems[] = [];
      });
    }
    
-   this.searchControl.valueChanges.subscribe(value => {
-    this.filteredAdditems = this.filterAdditems(value);
-  });
 
- 
+   this.filteredAdditems = this.additems;
    }
-
-   filterAdditems(value: string): Additems[] {
-    const filterValue = value.toLowerCase();
-    return this.additems.filter(item => item.name.toLowerCase().includes(filterValue));
+   filterAdditems(): void {
+    if (this.showAllItems) {
+      // Show all items when input box is clicked
+      this.filteredAdditems = this.additems;
+      this.showAllItems = false;
+    } else {
+      // Filter based on the entered text
+      this.filteredAdditems = this.additems.filter(item =>
+        item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+      );
+    }
   }
+
+   
 
    editList(index: number) {
     const selectedList = this.addlists[index];

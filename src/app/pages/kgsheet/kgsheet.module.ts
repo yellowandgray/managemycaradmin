@@ -52,7 +52,6 @@ import { MapsheetComponent } from './mapsheet/mapsheet.component';
 import { AddlistComponent } from './addlist/addlist.component';
 import { KgRoutingModule } from './kgsheet-routing.module';
 import { AddItemComponent } from './additem/additem.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -83,7 +82,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     FullCalendarModule,
     ModalModule.forRoot(),
     FormsModule,
-    MatAutocompleteModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot(),
