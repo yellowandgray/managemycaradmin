@@ -57,7 +57,7 @@
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
           <div class="modal-header px-4 pt-4">
-              <h5 class="modal-title" id="exampleModalLabel">Edit list</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Edit List</h5>
               <button type="button" class="btn-close" (click)="editModal.hide()"></button>
           </div>
   
@@ -162,6 +162,40 @@
                     </div>
                    
                 </div>
+                <div class="col-xxl-3 col-md-6">
+                  <label for="exampleDataList" class="form-label">Datalist example</label>
+                  <input class="form-control" list="datalistOptions" id="exampleDataList"
+                      placeholder="Search your country...">
+                  <datalist id="datalistOptions">
+                      <option value="Switzerland">
+                      <option value="New York">
+                      <option value="France">
+                      <option value="Spain">
+                      <option value="Chicago">
+                      <option value="Bulgaria">
+                      <option value="Hong Kong">
+                  </datalist>
+              </div>
+              <div class="col-xxl-3 col-md-6">
+                <label for="exampleDataList" class="form-label">Datalist example</label>
+                <input class="form-control" [matAutocomplete]="auto" [formControl]="searchControl"
+                       id="exampleDataList" placeholder="Search your Items...">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredAdditems" [value]="item.name">
+                    {{ item.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+              
+            <div class="row p-2" *ngFor="let item of items">
+              <div class="col-sm-6">
+                  <label for="product-title-input" class="form-label"> Name</label>
+                <select class="form-control" [(ngModel)]="item.selectedOption" [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let option of additems" [ngValue]="option">{{ option.name }}</option>
+                </select>
+              </div>
+             
+            </div>
                 <div class="modal-body p-2">
                   
                     <div class=" row">
@@ -230,9 +264,9 @@
                         <option *ngFor="let option of additems" [ngValue]="option">{{ option.name }}</option>
                       </select>
                     </div>
-                    <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
+                    <!-- <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
                         <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                    </div>
+                    </div> -->
                   </div>
                 
                   <div class="row p-3">
@@ -256,58 +290,7 @@
     </div>
   </div>
 
-  <!-- <div class="modal fade" bsModal #deleteRecordModal2="bs-modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header px-4 pt-4">
-                <h5 class="modal-title" id="exampleModalLabel">Assign to Standard</h5>
-                <button type="button" class="btn-close" (click)="deleteRecordModal2.hide()"></button>
-            </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body p-4">
-                  <div class="mb-3 col-sm-6">
-                    <label for="course-category-input" class="form-label">Assign<span class="text-danger">*</span></label>
-              
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="UKG" (change)="assignstd1('UKG')">
-                      <label class="form-check-label" for="UKG">UKG</label>
-                    </div>
-              
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="LKG" (change)="assignstd1('LKG')">
-                      <label class="form-check-label" for="lkg">LKG</label>
-                    </div>
-              
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="I" (change)="assignstd1('I')">
-                      <label class="form-check-label" for="I">I</label>
-                    </div>
-              
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="II" (change)="assignstd1('II')">
-                      <label class="form-check-label" for="II">II</label>
-                    </div>
-              
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="checkbox" id="III" (change)="assignstd1('III')">
-                      <label class="form-check-label" for="III">III</label>
-                    </div>
-                  </div>
-                </div>
-              
-                <div class="modal-footer">
-                  <div class="hstack gap-2 justify-content-end">
-                    <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal2.hide()">
-                      <i class="bi bi-x-lg align-baseline me-1"></i> Close
-                    </button>
-                    <button type="submit" class="btn btn-primary" id="add-btn" (click)="saveSelectedStandards()">Add Assign</button>
-                  </div>
-                </div>
-              </form>
-              
-        </div>
-    </div>
-  </div> -->
+ 
   <div class="modal fade" bsModal #deleteRecordModal2="bs-modal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -433,7 +416,7 @@
                                       
                                     </div>
                                 </td>
-                                <td class="Items"><button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show()">Assign Items</button></td>
+                                <td class="Items"><button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show(); ">Assign Items</button></td>
                                 <td class="Total Items">data.stock</td>
                                 <td class="Assign To">
                                   <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign to Standard</button>
@@ -444,7 +427,7 @@
                                           <button class="btn btn-sm btn-success edit-item-btn"(click)="editList(i)" >Edit</button>
                                       </div>
                                       <div class="remove">
-                                          <button class="btn btn-sm btn-danger remove-item-btn"(click)="delet(data.id)">Remove</button>
+                                          <button class="btn btn-sm btn-danger remove-item-btn"(click)="delete(data.id)">Remove</button>
                                       </div>
                                   </div>
                               </td>

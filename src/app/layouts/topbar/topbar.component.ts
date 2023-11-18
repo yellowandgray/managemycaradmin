@@ -39,6 +39,7 @@ export class TopbarComponent {
   tax: any;
   userName: string = '';
   userRole: string = '';
+  userProfilePicture: string ='';
 
   notificationList: any;
 
@@ -62,6 +63,10 @@ export class TopbarComponent {
     {
       this.userName = localStorage.getItem('username')??'';
       this.userRole = localStorage.getItem('role')??'';
+  // Inside your component class
+this.userProfilePicture = localStorage.getItem('userPicture') || 'assets/images/users/32/user-dummy-img.jpg';
+
+
     }
     {
       console.log("usename not set");
@@ -88,7 +93,7 @@ export class TopbarComponent {
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
     if (val.length === 0) {
-      if (this.flagvalue === undefined) { this.valueset = 'assets/images/flags/us.svg'; }
+      if (this.flagvalue === undefined) { this.valueset = 'assets/images/flags/in.svg'; }
       this.countryName = 'English'
     } else {
       this.flagvalue = val.map(element => element.flag);
@@ -177,7 +182,7 @@ export class TopbarComponent {
    * Language Listing
    */
   listLang = [
-    { text: 'English', flag: 'assets/images/flags/us.svg', lang: 'en' },
+    { text: 'English', flag: 'assets/images/flags/in.svg', lang: 'en' },
     { text: 'Española', flag: 'assets/images/flags/spain.svg', lang: 'sp' },
     { text: 'Deutsche', flag: 'assets/images/flags/germany.svg', lang: 'gr' },
     { text: 'Italiana', flag: 'assets/images/flags/italy.svg', lang: 'it' },

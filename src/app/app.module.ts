@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment.prod';
 
 
 
+
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }

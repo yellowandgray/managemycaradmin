@@ -28,11 +28,11 @@ import { map } from "rxjs";
       console.log('Fetching items for KG_Sheet ID:', kgSheetId);
       console.log("test1");
         
-      console.log( this.firestore.collection('KG_Sheet').doc(kgSheetId).collection('Items').valueChanges());
+    //  console.log( this.firestore.collection('KG_Sheet').doc(kgSheetId).collection('Items').valueChanges());
       console.log("test2");
      // return this.firestore.collection('KG_Sheet').doc(kgSheetId).collection('Items').valueChanges();
-     return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).snapshotChanges();
-   
+    // return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).snapshotChanges();
+    return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
     }
 
     createAddItemData(obj: Additems,kgSheetId: string){
@@ -71,8 +71,8 @@ import { map } from "rxjs";
   // Add list
 
     getAddListData(kgSheetId: string): Observable<any[]> {
-     return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`).snapshotChanges();
-   
+     return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
+    
     }
 
     createAddListData(obj: Addlist,kgSheetId: string){
@@ -101,7 +101,7 @@ import { map } from "rxjs";
         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
       });
      }
-     deleteStudentData(dataId: string,kgSheetId: string){    
+     deleteListData(dataId: string,kgSheetId: string){    
       this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + dataId).delete();
     }
 

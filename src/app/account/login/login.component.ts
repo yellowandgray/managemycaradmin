@@ -119,6 +119,7 @@ if (this.loginForm.invalid) {
         localStorage.setItem('school_id', users[0].data()['school']);
         localStorage.setItem('role', users[0].data()['role']);
         localStorage.setItem('username', users[0].data()['name']);
+        localStorage.setItem('userPicture', users[0].data()['picture']);
         console.log(localStorage.getItem('school_id'));
         console.log(localStorage.getItem('role'));
 

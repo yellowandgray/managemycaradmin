@@ -185,7 +185,8 @@ this.apiService.deleteStudentData(id)
   // }
   
   save() {
-   
+    console.log(this.emp); 
+
     if (this.selectedImage) {
       this.apiService.createStudentData(this.emp);
       this.emp = new Student(); 

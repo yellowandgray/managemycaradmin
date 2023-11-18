@@ -103,22 +103,17 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 3,
-                label: 'Add Items',
+                label: 'Items',
                 link: '/kgsheet/additems',
                 parentId: 9
             },
             {
                 id: 4,
-                label: 'Add List',
+                label: 'List',
                 link: '/kgsheet/addlist',
                 parentId: 9
             },
-            {
-                id: 5,
-                label: 'Map Sheet',
-                link: 'kgsheet/mapsheet',
-                parentId: 9
-            },
+         
            
            
         ]

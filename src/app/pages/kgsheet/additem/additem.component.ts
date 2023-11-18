@@ -27,6 +27,8 @@ export class AddItemComponent {
   isSubmitted = false;
   files: File[] = [];
   imgSrc: string='';
+  searchTerm: string = '';
+//additems: Additems[] = [];
 
 
 
@@ -214,6 +216,42 @@ export class AddItemComponent {
 
 
   }
+
+  // Inside your component class
+// Inside your component class
+
+// this is for filter word contains
+
+filteredItems(): Additems[] {
+  if (!this.searchTerm.trim()) {
+    return this.additems; // If search term is empty, return all items
+  }
+
+  return this.additems.filter(item =>
+
+    // this is for filter with word contains
+   // item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+   //this is for filter with word startwith
+   item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+
+  );
+}
+
+// this is for start with filter
+// filteredItems(): Additems[] {
+//   const trimmedSearchTerm = this.searchTerm.trim().toLowerCase();
+
+//   if (!trimmedSearchTerm) {
+//     return this.additems; // If search term is empty, return all items
+//   }
+
+//   return this.additems.filter(item =>
+//     item.name.toLowerCase().startsWith(trimmedSearchTerm)
+//   );
+// }
+
+
+
 
   editStudent(index: number) {
     const selectedStudent = this.additems[index];

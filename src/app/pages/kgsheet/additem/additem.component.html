@@ -62,7 +62,7 @@
                                 class="text-danger">*</span></label>
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
-                            <option value="">Common noun</option>
+                            <option value="Common noun">Common noun</option>
                             <option value="Proper noun">Proper noun</option>
                             <option value="Singular noun">Singular noun</option>
                             <option value="Plural noun"> Plural noun</option>
@@ -134,7 +134,7 @@
                                 class="text-danger">*</span></label>
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
-                            <option value="">Common noun</option>
+                            <option value="Common noun">Common noun</option>
                             <option value="Proper noun">Proper noun</option>
                             <option value="Singular noun">Singular noun</option>
                             <option value="Plural noun"> Plural noun</option>
@@ -169,11 +169,8 @@
             <div class="card-body">
                 <div class="row align-items-center gy-3">
                     <div class="col-lg-3 order-last order-md-first me-auto">
-                        <div class="search-box">
-                            <input type="text" class="form-control search"
-                                placeholder="Search...">
-                            <i class="ri-search-line search-icon"></i>
-                        </div>
+                        <input type="text" class="form-control search" [(ngModel)]="searchTerm" placeholder="Search...">
+                     
                     </div><!--end col-->
                     <div class="col-lg-2">
                         
@@ -192,7 +189,7 @@
 </div><!--end col-->
 
 <div class="row row-cols-xl-5 row-cols-sm-2 row-cols-1">
-    <div *ngFor="let data of additems;let i = index;" class="col"> 
+    <div *ngFor="let data of filteredItems(); let i = index;" class="col">
         <div class="card overflow-hidden">
             <div
                 class="card-body bg-data.color-subtle text-center learning-widgets d-flex align-items-center justify-content-center">
@@ -201,8 +198,11 @@
             </div>
             <div class="card-body">
                 
-                <h6 class="text-truncate fs-md text-capitalize"><a routerLink="/learning/overview"
-                        class="text-reset">{{data.name}}</a></h6>
+                <h6 class="text-truncate fs-md text-capitalize">
+                    <!-- <a routerLink="/learning/overview"
+                        class="text-reset">{{data.name}}</a></h6> -->
+                        
+                        {{data.name}}</h6>
                    <p class="text-muted">{{data.punctuation}}</p>
                   
                 

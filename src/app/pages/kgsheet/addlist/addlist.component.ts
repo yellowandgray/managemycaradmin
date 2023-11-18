@@ -3,7 +3,7 @@ import { ApiService } from '../api/api.service';
 import { Addlist } from '../api/addlistobj';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { finalize } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Additems } from '../api/additemobj';
@@ -45,6 +45,10 @@ export class AddlistComponent {
   fetchedStandards: string[] = [];
   fetchedStandards1: string[] = [];
   allPossibleStandards: string[] = [];
+  searchControl = new FormControl();
+filteredAdditems: Additems[] = [];
+//additems: Additems[] = [];
+
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -122,9 +126,18 @@ export class AddlistComponent {
        });
      });
    }
+   
+   this.searchControl.valueChanges.subscribe(value => {
+    this.filteredAdditems = this.filterAdditems(value);
+  });
 
  
    }
+
+   filterAdditems(value: string): Additems[] {
+    const filterValue = value.toLowerCase();
+    return this.additems.filter(item => item.name.toLowerCase().includes(filterValue));
+  }
 
    editList(index: number) {
     const selectedList = this.addlists[index];
@@ -147,12 +160,12 @@ export class AddlistComponent {
     this.apiService.updateListData(id.toString(),this.emp,kgSheetId);
     this.emp = new Addlist();
     this.editModal?.hide(); 
-    this.resetForm;
+  //  this.resetForm;
 
   }
-  delet(id: string){
+  delete(id: string){
     const kgSheetId = '3u90Jik86R10JulNCU3K';
-    this.apiService.deleteStudentData(id,kgSheetId)
+    this.apiService.deleteListData(id,kgSheetId)
       }
 
  // Add this property to your component
@@ -324,29 +337,6 @@ onStandardChange(standard: string): void {
 
 
 
-// saveSelectedStandards() {
-
-//   if (this.selectedItemId) {
-//     // Your logic here, using this.selectedItemId
-//     console.log("Selected item id:", this.selectedItemId);
-//     this.assign.list_id = this.selectedItemId
-//     const schoolid1 = localStorage.getItem('school_id');
-//   const schoolid = "stZWDh06GmAGgnoqctcE";
-
-//     this.apiService.createAssignData(this.assign,schoolid);
-//      this.assign = new Assign();
-//      this.deleteRecordModal2?.hide();
-//   } else {
-//     console.error("No item selected.");
-//   }
-  
-//   this.showModal?.hide();
-// }
-
-
-
-
-
 
 saveSelectedStandards() {
   this.assign.list_id = this.selectedItemId;
@@ -375,15 +365,6 @@ saveSelectedStandards() {
 }
 
 
-// save() {
-    
-//     //console.log(this.emp);  
-//      this.apiService.createAddListData(this.emp,this.kgSheetId);
-//       this.emp = new Addlist();
-//       // this.addCourse?.hide();
-      
-//    }
-
 
 addRow() {
   // Create a new RowItem object and push it to the items array
@@ -396,9 +377,9 @@ addRow() {
   console.log(newRow,'check')
 }
 
-resetForm() {
-  this.selectedImage = null;
-  this.isSubmitted = false;
-}
+// resetForm() {
+//   this.selectedImage = null;
+//   this.isSubmitted = false;
+// }
 
 }
