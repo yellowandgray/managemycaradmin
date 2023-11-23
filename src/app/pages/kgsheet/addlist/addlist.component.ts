@@ -55,6 +55,7 @@ export class AddlistComponent {
   searchControl = new FormControl();
   //items: any[] = []; // your existing array
   selectedIds: string[] = [];
+  selectedItems: Additems[] = [];
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -138,19 +139,43 @@ export class AddlistComponent {
    }
    filterItems(): void {
     if (this.showAllItems) {
-      // Show all items when input box is clicked
-      this.filteredAdditems = this.additems;
+      console.log("step 2");
+      this.filteredAdditems = this.additems.filter(item =>
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
     } else {
-      // Filter based on the entered text
+      console.log("step 3");
       this.filteredAdditems = this.additems.filter(item =>
         item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-  
-    // Assuming each item in filteredAdditems has an 'id' property,
-    // update selectedIds based on the filtered items
-    this.selectedIds = this.filteredAdditems.map(item => item.id.toString());
+    console.log("step 4");
+    // Extract only the 'id' values from filteredAdditems
+    const idsOnly = this.filteredAdditems.map(item => item.id);
+   
+    // Update selectedIds based on the filtered items' IDs
+    this.selectedItems = this.filteredAdditems;
+    console.log(this.selectedItems);
   }
+
+  onDropdownChange(index: number, selectedItemId: string): void {
+    // Find the selected item by ID
+    
+    const selectedItem = this.additems.find(item => item.id === selectedItemId);
+    console.log(selectedItem);
+    // Update the selected item for the specific dropdown
+    if (selectedItem !== undefined) {
+      this.items[index] = selectedItem;
+    } else {
+      // Handle the case where the item is not found (optional)
+      console.error(`Item with ID ${selectedItemId} not found.`);
+      // You can choose to set a default or handle this case according to your application's logic.
+    }
+  }
+  
+  
+
+  
   
   // removeRow(index: number): void {
   //   this.items.splice(index, 1);
@@ -194,10 +219,32 @@ export class AddlistComponent {
  
   }
   
-  submitSelectedIds() {
-    console.log(this.selectedIds);
+  // onDropdownChange(index: number, selectedItemId: string): void {
+  //   console.log("step 5");
+  //   // Find the selected item by ID
+  //   const selectedItem = this.additems.find(item => item.id === selectedItemId);
+  //   console.log(selectedItem);
+  //   // Update the selected item for the specific dropdown
  
+  // }
+  submitSelectedIds() {
+    // console.log('Selected names:', this.items.map(item => item.id));
+    console.log('Selected names:', this.items.map(item => item.id));
+    // console.log(this.items);
+   
+   // console.log('All names:', this.localArray);
   }
+  updateItem(index: number, event: any) {
+    // Update the name property of the item at the specified index
+    this.items[index].id = event.target.value;
+    // this.items[index].name =event.target.value;
+  }
+
+
+
+
+
+
 
   
   // addRow() {
@@ -298,6 +345,7 @@ save() {
   }
   this.showModal?.hide();
 }
+
 
 
 

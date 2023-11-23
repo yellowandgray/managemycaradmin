@@ -108,17 +108,17 @@
   <div class="modal fade" bsModal #deleteRecordModal="bs-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header px-4 pt-4">
+            <div class="modal-header p-4">
                 <h5 class="modal-title" id="exampleModalLabel">Assign Items</h5>
                 <button type="button" class="btn-close" (click)="deleteRecordModal.hide()"></button>
             </div>
     
-            <form  class="tablelist-form" [formGroup]="MessageFormData">
+            <form  class="tablelist-form px-4" [formGroup]="MessageFormData">
 
-              <div *ngFor="let item of items; let i = index" class="col-md-9">
+              <div *ngFor="let item of items; let i = index" class="col-md-9  ">
                 <div class="input-group">
                   <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}"
-                         [(ngModel)]="item.name" (input)="filterItems()" placeholder="Search Item...">
+                         [(ngModel)]="item.id" (ngModelChange)="onDropdownChange(i, $event)" (input)="filterItems()" (input)="updateItem(i, $event)" placeholder="Search Item...">
                   <button class="btn btn-danger" (click)="removeRow(i)">Remove</button>
                 </div>
                 <datalist id="additems{{ i }}">
