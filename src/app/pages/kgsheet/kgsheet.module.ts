@@ -22,6 +22,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 
+
 // count to
 //  import { CountUpModule } from 'ngx-countup';
 
@@ -99,6 +100,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     PaginationModule.forRoot(),
     NgxEchartsModule.forRoot({ echarts }),
     CKEditorModule,
+    FormsModule,
     DropzoneModule
   ],
 

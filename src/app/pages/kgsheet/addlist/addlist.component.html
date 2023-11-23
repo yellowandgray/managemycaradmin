@@ -115,172 +115,28 @@
     
             <form  class="tablelist-form" [formGroup]="MessageFormData">
 
-                <!-- <div class="modal-body p-4">
-                  
-                    <div class="row my-2" *ngFor="let item of items">
-                      <div class="col-sm-6">
-                        <select class="form-control" [(ngModel)]="item.selectedOption" [ngModelOptions]="{standalone: true}">
-                          <option *ngFor="let option of additems" [ngValue]="option">{{ option.name }}</option>
-                        </select>
-                      </div>
-                      <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                        <img [src]="item.picture" alt="" class="img-fluid d-block">
-                      </div>
-                    </div>
-                  
-                    <div class="row">
-                      <div class="col-sm-12 text-end">
-                        <button class="btn btn-primary" (click)="addRow()">Add</button>
-                      </div>
-                    </div>
-                  </div>
-                  
-
-                 <div class="modal-body p-4">
-                  
-                    <div class=" row">
-                    <div class="col-sm-6">
-                     <select class="form-control" [(ngModel)]="selectedItem" formControlName="selectedOption">
-                      <option *ngFor="let option of additems" [ngValue]="option">{{ option.name }}</option>
-                   </select>
-                    </div>
-                   <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                     <img src="{{ selectedItem?.picture }}" alt="" class="img-fluid d-block">
-                   </div>
-                  </div>
-                </div> -->
-                
-                <div class="modal-body p-2">
-                  
-                    <div class=" row">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                        <div  class=" col-sm-6"><input type="text"  class="form-control" [(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required /></div>
-                       
-                        <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                            <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                        </div>
-                    </div>
-                   
+              <div *ngFor="let item of items; let i = index" class="col-md-9">
+                <div class="input-group">
+                  <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}"
+                         [(ngModel)]="item.name" (input)="filterItems()" placeholder="Search Item...">
+                  <button class="btn btn-danger" (click)="removeRow(i)">Remove</button>
                 </div>
-                <div class="col-xxl-3 col-md-6">
-                  <label for="exampleDataList" class="form-label">Datalist example</label>
-                  <input class="form-control" list="datalistOptions" id="exampleDataList"
-                      placeholder="Search your country...">
-                  <datalist id="datalistOptions">
-                      <option value="Switzerland">
-                      <option value="New York">
-                      <option value="France">
-                      <option value="Spain">
-                      <option value="Chicago">
-                      <option value="Bulgaria">
-                      <option value="Hong Kong">
-                  </datalist>
-              </div>
-              <div class="col-xxl-3 col-md-6">
-                <label for="exampleDataList" class="form-label">Datalist </label>
-                <input class="form-control" list="additems" id="exampleDataList"
-                       [(ngModel)]="searchTerm" (input)="filterAdditems()" placeholder="Search your Items...">
-                <datalist id="additems">
-                  <option *ngFor="let item of filteredAdditems" [value]="item.name"></option>
+                <datalist id="additems{{ i }}">
+                  <option *ngFor="let filteredItem of filteredAdditems" [value]="filteredItem.name"></option>
                 </datalist>
               </div>
-              
-            <div class="row p-2" *ngFor="let item of items">
-              <div class="col-sm-6">
-                  <label for="product-title-input" class="form-label"> Name</label>
-                <select class="form-control" [(ngModel)]="item.selectedOption" [ngModelOptions]="{standalone: true}">
-                  <option *ngFor="let option of additems" [ngValue]="option">{{ option.name }}</option>
-                </select>
+              <div class="col-sm-12">
+                <button class="btn btn-primary" (click)="addRow()">Add</button>
               </div>
-             
-            </div>
-                <div class="modal-body p-2">
-                  
-                    <div class=" row">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                        <div  class=" col-sm-6"><input type="text"  class="form-control" [(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required /></div>
-                       
-                        <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                            <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                        </div>
-                    </div>
-                   
-                </div>
-                <div class="modal-body p-2">
-                  
-                    <div class=" row">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                        <div  class=" col-sm-6"><input type="text"  class="form-control" [(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required /></div>
-                       
-                        <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                            <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                        </div>
-                    </div>
-                   
-                </div>
-                <div class="modal-body p-2">
-                  
-                    <div class=" row">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                        <div  class=" col-sm-6"><input type="text"  class="form-control" [(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required /></div>
-                       
-                        <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                            <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                        </div>
-                    </div>
-                   
-                </div>
-                <div class="modal-body p-2">
-                  
-                    <div class=" row">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                        <div  class=" col-sm-6"><input type="text"  class="form-control" [(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required /></div>
-                       
-                        <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                            <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                        </div>
-                    </div>
-                   
-                </div>
-                <div class="modal-body p-2">
-                  
-                    <div class=" row">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                        <div  class=" col-sm-6"><input type="text"  class="form-control" [(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required /></div>
-                       
-                        <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                            <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                        </div>
-                    </div>
-                   
-                </div>
- 
-                <div class="row p-2" *ngFor="let item of items">
-                    <div class="col-sm-6">
-                        <label for="product-title-input" class="form-label"> Name</label>
-                      <select class="form-control" [(ngModel)]="item.selectedOption" [ngModelOptions]="{standalone: true}">
-                        <option *ngFor="let option of additems" [ngValue]="option">{{ option.name }}</option>
-                      </select>
-                    </div>
-                    <!-- <div class="avatar-xs bg-light rounded p-1 me-2 col-sm-6">
-                        <img src="{{emp.picture}}" alt="" class="img-fluid d-block">
-                    </div> -->
-                  </div>
-                
-                  <div class="row p-3">
-                    <div class="col-sm-12 text-end">
-                      <button class="btn btn-primary" (click)="addRow()">Add</button>
-                    </div>
-                  </div>
-                
-                
+              <!-- <button class="btn btn-primary" (click)="submitSelectedIds()">Submit Selected IDs</button> -->
               
-                  
+             
+                
 
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-ghost-danger" (click)="showModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="assignstd()" >Save </button>
+                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="submitSelectedIds()" >Save </button>
                     </div>
                 </div>
             </form>

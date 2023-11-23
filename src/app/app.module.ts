@@ -2,7 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+//import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 // Page Route
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +24,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {AngularFireModule} from '@angular/fire/compat'
 import { environment } from 'src/environments/environment.prod';
+
 
 
 
@@ -52,6 +56,7 @@ export function createTranslateLoader(http: HttpClient): any {
     LayoutsModule,
     ToastrModule.forRoot(),
     FormsModule,
+   // imports: [FormsModule, ...otherModules],
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() =>

@@ -10,6 +10,7 @@ import { Additems } from '../api/additemobj';
 import { RowItem } from '../api/assignobj';
 import { Assign } from '../api/assignobj ';
 
+
 @Component({
   selector: 'app-addlist',
   templateUrl: './addlist.component.html',
@@ -29,7 +30,7 @@ export class AddlistComponent {
   assign: Assign =new Assign();
   MessageFormData: FormGroup;
   //MessageFormData1: FormGroup;
-  items: any[] = [];
+ // items: any[] = [];
   
   selectedItem: any='';
   additem: any[] = []; // Your array of items
@@ -49,9 +50,11 @@ export class AddlistComponent {
   searchTerm: string = '';
   //additems: Additems[] = [];
   filteredAdditems: Additems[] = [];
-  showAllItems: boolean = false; // Flag to control whether to show all items initially
-  
+  showAllItems: boolean = true; // Flag to control whether to show all items initially
+  items: Additems[] = Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
   searchControl = new FormControl();
+  //items: any[] = []; // your existing array
+  selectedIds: string[] = [];
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -133,19 +136,80 @@ export class AddlistComponent {
 
    this.filteredAdditems = this.additems;
    }
-   filterAdditems(): void {
+   filterItems(): void {
     if (this.showAllItems) {
       // Show all items when input box is clicked
       this.filteredAdditems = this.additems;
-      this.showAllItems = false;
     } else {
       // Filter based on the entered text
       this.filteredAdditems = this.additems.filter(item =>
-        item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+        item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
+  
+    // Assuming each item in filteredAdditems has an 'id' property,
+    // update selectedIds based on the filtered items
+    this.selectedIds = this.filteredAdditems.map(item => item.id.toString());
+  }
+  
+  // removeRow(index: number): void {
+  //   this.items.splice(index, 1);
+  //   this.filterItems();
+  // }
+  addRow(): void {
+    this.items.push({ id: '', name: '', picture: '', punctuation: '' });
+  
+   
   }
 
+  removeRow(index: number) {
+    // Remove the item ID from the selectedIds array
+    const removedItemId = this.items[index].id;
+    const indexToRemove = this.selectedIds.indexOf(removedItemId);
+    if (indexToRemove !== -1) {
+      this.selectedIds.splice(indexToRemove, 1);
+    }
+
+    // Remove the item from the items array
+    this.items.splice(index, 1);
+  }
+
+
+  assignitems(id: string) {
+
+    const kgSheetId = '3u90Jik86R10JulNCU3K';
+    const assignedItems = this.items.map(item => item.id);
+    console.log(assignedItems);
+       // Create a document with the assigned items
+       const documentData = {
+        assignedItems: assignedItems,
+        // Add other data if needed
+      };
+    // Assuming 'yourCollection' is the name of your Firestore collection
+    this.apiService.updateListData(id.toString(),this.emp,kgSheetId);
+    this.emp = new Addlist();
+  
+    // Get the assigned items from this.items
+  
+ 
+  }
+  
+  submitSelectedIds() {
+    console.log(this.selectedIds);
+ 
+  }
+
+  
+  // addRow() {
+  //   // Create a new RowItem object and push it to the items array
+  //   const newRow: RowItem = {
+  //     selectedOption: this.selectedItem,
+  //     picture: this.selectedItem?.picture
+  //   };
+  //   console.log(newRow,'check')
+  //   this.items.push(newRow);
+  //   console.log(newRow,'check')
+  // }
    
 
    editList(index: number) {
@@ -236,11 +300,7 @@ save() {
 }
 
 
-assignstd()
-{ 
- 
-  
-}
+
 assignSelectedStandards(): void {
   console.log("Step 0");
   this.selectedStandards.forEach(standard => {
@@ -375,16 +435,7 @@ saveSelectedStandards() {
 
 
 
-addRow() {
-  // Create a new RowItem object and push it to the items array
-  const newRow: RowItem = {
-    selectedOption: this.selectedItem,
-    picture: this.selectedItem?.picture
-  };
-  console.log(newRow,'check')
-  this.items.push(newRow);
-  console.log(newRow,'check')
-}
+
 
 // resetForm() {
 //   this.selectedImage = null;

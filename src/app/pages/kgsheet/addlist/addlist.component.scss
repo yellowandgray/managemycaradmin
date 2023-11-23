@@ -1,0 +1,25 @@
+.input-group {
+    margin-bottom: 10px;
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center vertically within the flex container */
+    justify-content: space-between; /* Space between input and button */
+  }
+  
+  .form-control {
+    width: 70%; /* Adjust the width as needed */
+  }
+  
+  .btn-danger {
+    margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .btn-ghost-danger {
+    margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
