@@ -1,0 +1,343 @@
+
+
+
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+<!-- End Breadcrumbs -->
+<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Update Teacher</h5>
+                <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+
+                    <!-- <div class="mb-3" id="modal-id" style="display: none;">
+                        <label for="id-field" class="form-label">ID</label>
+                        <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
+                    </div> -->
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Name</label>
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Age</label>
+                        <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter age" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date-field" class="form-label">Dob</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.dob" formControlName="date"  formControlName="dob"    >
+                        <!-- <div class="invalid-feedback">Please select a date.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> DOJ</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Join"  [(ngModel)]="emp.doj"  formControlName="date"  formControlName="doj"  >
+                    </div>
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Address</label>
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Qualification</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Qualification" formControlName="qualification" [(ngModel)]="emp.qualification" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Email</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter email" formControlName="email" [(ngModel)]="emp.email" required />
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Gender</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter gender" formControlName="gender" [(ngModel)]="emp.gender" required />
+                    </div> -->
+                    <div class="mb-3">
+                        <label for="course-category-input" class="form-label">Gender<span class="text-danger">*</span></label>
+
+                        <select class="form-select" id="course-category-input" [(ngModel)]="emp.gender" formControlName="gender" >
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Gender">Gender</option>
+                        </select>
+                    </div>
+                   
+
+                    <div class="mb-3">
+                        <label for="course-category-input" class="form-label">status<span class="text-danger">*</span></label>
+
+                        <select class="form-select" id="course-category-input" [(ngModel)]="emp.status" formControlName="status" >
+                            <option value="Married">Married</option>
+                            <option value="Unmarried">Unmarried</option>
+                        </select>
+                    </div>
+                   
+                    <!-- <div class="mb-3">
+                        <label for="course-category-input" class="form-label">Status<span class="text-danger">*</span></label>
+
+                        <select class="form-select" id="course-category-input"  [(ngModel)]="emp.status" formControlName="Status" >
+                            <option value="A">Married</option>
+                            <option value="B">Unmarried</option>
+                         
+                        </select>
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label">Mobile</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Picture</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path || emp.img" width="200px" height="150px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
+                        <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Add Teacher</h5>
+                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+
+<!--               
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Rec.No</label>
+                        <input type="text"  class="form-control" formControlName="number"  [(ngModel)]="emp.name" placeholder="Rec.No" required />
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Name</label>
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Age</label>
+                        <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter Age" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date-field" class="form-label">Dob</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.dob" formControlName="date"  formControlName="dob"    >
+                        <!-- <div class="invalid-feedback">Please select a date.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> DOJ</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Join"  [(ngModel)]="emp.doj" formControlName="date"  formControlName="doj"  >
+                    </div>
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Address</label>
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Qualification</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Qualification" formControlName="qualification" [(ngModel)]="emp.qualification" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Email</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter email" formControlName="email" [(ngModel)]="emp.email" required />
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Gender</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter gender" formControlName="gender" [(ngModel)]="emp.gender" required />
+                    </div> -->
+                    <div class="mb-3">
+                        <label for="course-category-input" class="form-label">Gender<span class="text-danger">*</span></label>
+
+                        <select class="form-select" id="course-category-input" [(ngModel)]="emp.gender" formControlName="gender" >
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Gender">Gender</option>
+                        </select>
+                    </div>
+                   
+                    <div class="mb-3">
+                        <label for="course-category-input" class="form-label">status<span class="text-danger">*</span></label>
+
+                        <select class="form-select" id="course-category-input" [(ngModel)]="emp.status" formControlName="status" >
+                            <option value="Married">Married</option>
+                            <option value="Unmarried">Unmarried</option>
+                        </select>
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="course-category-input" class="form-label">Status<span class="text-danger">*</span></label>
+
+                        <select class="form-select" id="course-category-input"  [(ngModel)]="emp.status" formControlName="Status" >
+                            <option value="A">Married</option>
+                            <option value="B">Unmarried</option>
+                         
+                        </select>
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label">Mobile</label>
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Picture</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path || emp.img" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
+                        <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Teachers List </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                    
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                        Add</button>
+                                        <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                            Import</button>
+                                    <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table align-middle table-nowrap" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                   
+                                    <th class="sort" listsortable="customer_name" >Name
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >Age
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >Photo
+                                    </th>
+                                    <th class="sort" listsortable="email">DOB</th>
+                                    <th class="sort" listsortable="email">DOJ</th>
+                                    <th class="sort" listsortable="email">Address</th>
+                                    <th class="sort" listsortable="date" > Gender</th>
+                                    <th class="sort" listsortable="email" >Status</th>
+                                    <th class="sort" listsortable="date" > Qualification</th>
+                                    <th class="sort" listsortable="email" > Email</th>
+                                   
+                                    
+                                    <th class="sort" listsortable="phone" >Phone</th>
+                                    <!-- <th class="sort " listsortable="status" (listsort)="onSort($event)">Delivery Status
+                                    </th>-->
+                                    <th class="sort">Action</th> 
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of Teachers;let i = index;" id="a_{{data.id}}">
+                                   
+                                    <td class="customer_name">{{data.name}}</td>
+                                    <td class="customer_name">{{data.age}}</td>
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                                <img src={{data.img}} alt="" class="img-fluid d-block ">
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <td class="date">{{data.dob}}</td>
+                                    <td class="date">{{data.doj}}</td>
+                                    <td class="date">{{data.address}}</td>
+                                    <td class="phone">{{data.gender}}</td>
+                                    <td class="phone">{{data.status}}</td>
+                                    <td class="date">{{data.qualification}}</td>
+                                    <td class="customer_name">{{data.email}}</td>
+                                   
+                                    <td class="phone">{{data.phn}}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <div class="edit">
+                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="editTeacher(i)">Edit</button>
+                                            </div>
+                                            <div class="remove">
+                                                <button class="btn btn-sm btn-danger remove-item-btn" (click)="delet(data.id)">Remove</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+   
+
+
+

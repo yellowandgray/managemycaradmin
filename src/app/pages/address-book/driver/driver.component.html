@@ -1,0 +1,408 @@
+
+
+
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+<!-- End Breadcrumbs -->
+<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Update Driver</h5>
+                <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="driverid" value="" formControlName="ids" />
+
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Name</label>
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                    </div>
+                  
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Age</label>
+                        <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="age" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Photo</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path || emp.pic" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date-field" class="form-label">Dob</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.dob"formControlName="date"  formControlName="dob"    >
+                        <!-- <div class="invalid-feedback">Please select a date.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> DOJ</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Join"  [(ngModel)]="emp.doj"formControlName="date"  formControlName="doj" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Address</label>
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Town</label>
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter town" formControlName="town"  [(ngModel)]="emp.town" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Pincode</label>
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter pincode" formControlName="pincode"  [(ngModel)]="emp.pincode" required />
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label">Mobile</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Licanse</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path1 || emp.license" width="400px" height="250px" (click)="fileUploaders.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploaders (change)="showPreview1($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Pancard</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path2 || emp.pancard" width="400px" height="250px" (click)="fileUploader1.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader1 (change)="showPreview2($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Aadhar card</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path3 || emp.aadhar" width="400px" height="250px" (click)="fileUploader2.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader2 (change)="showPreview3($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.driverid)">Update</button>
+                        <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Add Driver</h5>
+                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="driverid" value="" formControlName="ids" />
+
+              
+
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Name</label>
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                    </div>
+                  
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Age</label>
+                        <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="age" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Photo</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path || emp.pic" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date-field" class="form-label">Dob</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.dob"formControlName="date"  formControlName="dob"    >
+                        <!-- <div class="invalid-feedback">Please select a date.</div> -->
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> DOJ</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Date Of Join"  [(ngModel)]="emp.doj"formControlName="date"  formControlName="doj" >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Address</label>
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Town</label>
+                        <input type="text" id="address-field" class="form-control" placeholder="Enter town" formControlName="town"  [(ngModel)]="emp.town" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for=" address-field" class="form-label"> Pincode</label>
+                        <input type="number" id="address-field" class="form-control" placeholder="Enter pincode" formControlName="pincode"  [(ngModel)]="emp.pincode" required />
+                    </div>
+            
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label">Mobile</label>
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Licanse</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path1 || emp.license" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview1($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Pancard</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path2 || emp.pancard" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview2($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Aadhar card</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path3 || emp.aadhar" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview3($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
+                        <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Drivers List </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <!-- <div class="col-sm-auto">
+                            <div class="search-box ms-2">
+                                <input type="text" class="form-control search" placeholder="Search..." >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                            
+                        </div> -->
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                        Add</button>
+                                        <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                            Import</button>
+                                    <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table align-middle table-nowrap" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <!-- <th scope="col" style="width: 50px;">
+                                    </th> -->
+                                    <!-- <th class="sort" listsortable="customer_name" >Rec.No
+                                    </th> -->
+                                    <th class="sort" listsortable="customer_name" >Name
+                                    </th>
+                                    <th class="sort" listsortable="email">Age</th>
+                                    <th class="sort" listsortable="customer_name" >Photo
+                                    </th>
+                                    <th class="sort" listsortable="email">DOB</th>
+                                    <th class="sort" listsortable="email">DOJ</th>
+                                   
+                                    <th class="sort" listsortable="date" >Address</th>
+                                    <th class="sort" listsortable="email" >Town</th>
+                                    <th class="sort" listsortable="email" >Pincode</th>
+                                    <th class="sort" listsortable="email" >Mobile No</th>
+                                    <th class="sort" listsortable="date" >License</th>
+                               
+                                    <th class="sort" listsortable="phone" >Pancard</th>
+                                    <th class="sort" listsortable="phone" >Aadharcard</th>
+                                   
+                                    <th class="sort">Action</th> 
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of Drivers;let i = index;" id="a_{{data.driverid}}">
+                                   
+                                    <td class="customer_name">{{data.name}}</td>
+                                    <td class="customer_name">{{data.age}}</td>
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px; overflow: hidden;">
+                                                <img src={{data.pic}} alt="" class="img-fluid d-block " style="object-fit: cover; width: 100%; height: 100%;">
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <td class="date">{{data.dob}}</td>
+                                    <td class="date">{{data.doj}}</td>
+                                    <td class="date">{{data.address}}</td>
+                                    <td class="customer_name">{{data.town}}</td>
+                                    <td class="phone">{{data.pincode}}</td>
+                                    <!-- <td class="email">{{data.}}</td> -->
+                                    <td class="customer_name">{{data.phn}}</td>
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px; overflow: hidden;">
+                                                <img src={{data.license}} alt="" class="img-fluid d-block " style="object-fit: cover; width: 100%; height: 100%;">
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px; overflow: hidden;">
+                                                <img src={{data.pancard}} alt="" class="img-fluid d-block "  style="object-fit: cover; width: 100%; height: 100%;">
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px; overflow: hidden;" >
+                                                <img src={{data.aadhar}} alt="" class="img-fluid d-block "  style="object-fit: cover; width: 100%; height: 100%; " >
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <div class="edit">
+                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="editDriver(i)">Edit</button>
+                                            </div>
+                                            <div class="remove">
+                                                <button class="btn btn-sm btn-danger remove-item-btn" (click)="delet(data.driverid)">Remove</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+    <!-- end col -->
+
+
+

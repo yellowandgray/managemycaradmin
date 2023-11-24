@@ -1,1 +1,149 @@
-<p>arrivals works!</p>
+
+<!-- Hoverable Rows -->
+
+    
+    <!-- <table class="table table-hover table-striped align-middle table-nowrap mb-0">
+    <thead>
+    <tr>
+    <th scope="col">Id</th>
+    <th scope="col">Invoice</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Date</th>
+    <th scope="col">Status</th>
+    <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <th scope="row">1</th>
+    <td>Basic Plan</td>
+    <td>$860</td>
+    <td>Nov 22, 2021</td>
+    <td><i class="ri-checkbox-circle-line align-middle text-success"></i> Subscribed</td>
+    <td>
+    <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck1" checked="">
+    <label class="form-check-label" for="SwitchCheck1">Yes/No</label>
+    </div>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row">2</th>
+    <td>Premium Plan</td>
+    <td>$1200</td>
+    <td>Nov 10, 2021</td>
+    <td><i class="ri-close-circle-line align-middle text-danger"></i> Unsubscribed</td>
+    <td>
+    <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck2">
+    <label class="form-check-label" for="SwitchCheck2">Yes/No</label>
+    </div>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row">3</th>
+    <td>Basic Plan</td>
+    <td>$860</td>
+    <td>Nov 19, 2021</td>
+    <td><i class="ri-checkbox-circle-line align-middle text-success"></i> Subscribed</td>
+    <td>
+    <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck3">
+    <label class="form-check-label" for="SwitchCheck3">Yes/No</label>
+    </div>
+    </td>
+    </tr>
+    <tr>
+    <th scope="row">4</th>
+    <td>Corporate Plan</td>
+    <td>$1599</td>
+    <td>Nov 22, 2021</td>
+    <td><i class="ri-checkbox-circle-line align-middle text-success"></i> Subscribed</td>
+    <td>
+    <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" role="switch" id="SwitchCheck4" checked="">
+    <label class="form-check-label" for="SwitchCheck4">Yes/No</label>
+    </div>
+    </td>
+    </tr>
+    </tbody>
+    </table> -->
+
+    <div *ngFor="let arrival of arrivalData$ | async">
+  <p>{{ arrival.payload.doc.data().arrivalDate.toDate() | date:'medium' }}</p>
+  <p>{{arrival.ccgpresent}}</p>
+  <!-- Other fields or formatting as needed -->
+</div>
+
+
+
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+
+<div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Drivers List </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                       
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                              
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                   
+                                    <th class="sort" listsortable="customer_name" >Name
+                                    </th>
+                                    <th class="sort" listsortable="email">ccgpresent</th>
+                                    <th class="sort" listsortable="customer_name" >date
+                                    </th>
+                                    <th class="sort" listsortable="email">remarks</th>
+                                    <th class="sort" listsortable="email">Rno</th>
+                                   
+                                    <th class="sort" listsortable="date" >uniform</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of arrivals;let i = index;" >
+                                   
+                                    <td class="customer_name">{{data.driname}}</td>
+                                    <td class="customer_name">{{data.ccgpresent}}</td>
+                                    
+                                    <td class="date">{{data.driname}}</td>
+                                    <td class="date">{{data.remarks}}</td>
+                                    <td class="date">{{data.rno}}</td>
+                                    <td class="customer_name">{{data.uniform}}</td>
+                                  
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+    <!-- end col -->
+
+
+

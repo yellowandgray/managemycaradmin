@@ -1,7 +1,9 @@
 
+
 import { Injectable } from "@angular/core";
-  
+ 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 
 import * as firebase from "firebase/compat";
 import { Additems } from "./additemobj";
@@ -14,26 +16,28 @@ import { map } from "rxjs";
     providedIn: 'root'
   })
   export class ApiService {
-  
+ 
     constructor(private firestore: AngularFirestore) {}
-  
+ 
     // Get the address-book collection data
     // getAddItemData() {
     //   return this.firestore.collection('KG_Sheet/Items').snapshotChanges();
     // }
+
 
     getAddItemData(kgSheetId: string): Observable<any[]> {
       // Use 'collection' to access the 'KG_Sheet' collection and then 'doc' to specify the document ID
       // Finally, use 'collection' again to access the 'Items' subcollection within the specified document
       console.log('Fetching items for KG_Sheet ID:', kgSheetId);
       console.log("test1");
-        
+       
     //  console.log( this.firestore.collection('KG_Sheet').doc(kgSheetId).collection('Items').valueChanges());
       console.log("test2");
      // return this.firestore.collection('KG_Sheet').doc(kgSheetId).collection('Items').valueChanges();
     // return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).snapshotChanges();
     return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
     }
+
 
     createAddItemData(obj: Additems,kgSheetId: string){
       return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).add(
@@ -52,13 +56,14 @@ import { map } from "rxjs";
        })
      }
 
+
      updateAddItemData(id: string,obj: Additems,kgSheetId: string){
       this.firestore.doc(`KG_Sheet/${kgSheetId}/Items/` + id).update({
         'id':id,
         'picture':obj.picture,
         'name':obj.name,
-        'punctuation':obj.punctuation, 
-  
+        'punctuation':obj.punctuation,
+ 
       });
      }
      deleteAddItemData(dataId: string,kgSheetId: string){    
@@ -68,12 +73,15 @@ import { map } from "rxjs";
       //this.imageDetailList.push(imageDetails);
     }
 
+
   // Add list
+
 
     getAddListData(kgSheetId: string): Observable<any[]> {
      return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
-    
+   
     }
+
 
     createAddListData(obj: Addlist,kgSheetId: string){
       return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`).add(
@@ -93,6 +101,7 @@ import { map } from "rxjs";
        })
      }
 
+
      updateListData(id: string,obj: Addlist,kgSheetId: string){
       this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + id).update({
         'id':id,      
@@ -101,9 +110,16 @@ import { map } from "rxjs";
         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
       });
      }
+     updateListItemsData(id: string,obj: Addlist,kgSheetId: string){
+      this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + id).update({
+        'items':obj.items
+        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+      });
+     }
      deleteListData(dataId: string,kgSheetId: string){    
       this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + dataId).delete();
     }
+
 
 // Assign
 // createAssignData(obj: Assign,schoolid: string){
@@ -111,7 +127,7 @@ import { map } from "rxjs";
 //     {
 //       'list_id':obj.list_id,
 //       'standard':obj.standard,
-    
+   
 //       // 'punctuation':obj.punctuation,
      
 //    }).then(async docRef => {
@@ -125,6 +141,7 @@ import { map } from "rxjs";
 //    })
 //  }
 
+
 checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
   return this.firestore
     .collection(`School/${schoolid}/KGSheet_Assign`, (ref) =>
@@ -132,6 +149,7 @@ checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
     )
     .valueChanges();
 }
+
 
 createAssignData(obj: Assign, schoolid: string) {
   return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`).add({
@@ -144,9 +162,10 @@ createAssignData(obj: Assign, schoolid: string) {
     await this.firestore.doc(`School/${schoolid}/KGSheet_Assign/` + docRef.id).update({
       'id': docRef.id
     });
-  
+ 
   })
 }
+
 
 updateAssignData(obj: Assign, schoolid: string, docId: string) {
   console.log(obj.list_id, 'list id');
@@ -157,6 +176,7 @@ updateAssignData(obj: Assign, schoolid: string, docId: string) {
     'standard': obj.standard,
   });
 }
+
 
 getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observable<any> {
   // Adjust the path according to your Firestore structure
@@ -173,6 +193,17 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 
 
 
+
+
+
+
+
   }
 
-  
+
+ 
+
+
+
+
+

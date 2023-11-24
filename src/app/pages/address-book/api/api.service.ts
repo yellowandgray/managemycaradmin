@@ -80,6 +80,8 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Student } from "./addressobj";
 import * as firebase from "firebase/compat";
+import { Driver } from "./driverobj";
+import { Teacher } from "./teacherobj";
 // import * as firebase from 'firebase';
   @Injectable({
     providedIn: 'root'
@@ -140,7 +142,139 @@ import * as firebase from "firebase/compat";
     insertImageDetails(imageDetails: any) {
       //this.imageDetailList.push(imageDetails);
     }
+
+
+
+    //driver
+
+getDriverData(SchoolId: string) {
+  return this.firestore.collection(`School/${SchoolId}/Drivers`, ref => ref.orderBy('name')).snapshotChanges();
+ 
+ }
+
+ createDriverData(obj:Driver,SchoolId: string ){
+      return this.firestore.collection(`School/${SchoolId}/Drivers`).add(
+        {
+          'driverid':'',
+          'aadhar':obj.aadhar,
+          'name':obj.name,
+          'doj':obj.doj,
+          'pic':obj.pic,
+          'phn':obj.phn, 
+          'dob':obj.dob,
+          'address':obj.address,
+          'pincode':obj.pincode,
+          'age':obj.age,
+          'town':obj.town,
+          'license':obj.license,
+          'pancard':obj.pancard,
+          
+          // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
+          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+       }).then(async docRef => {
+         console.log(docRef.id);
+         await this.firestore.doc(`School/${SchoolId}/Drivers/`+ docRef.id).update({
+           'driverid':docRef.id})
+       })
+     }
+
+     updateDriverData(driverid: string,obj: Driver,SchoolId:string){
+      this.firestore.doc(`School/${SchoolId}/Drivers/` + driverid).update({
+        'driverid':driverid,
+          'aadhar':obj.aadhar,
+          'name':obj.name,
+          'doj':obj.doj,
+          'pic':obj.pic,
+          'phn':obj.phn, 
+          'dob':obj.dob,
+          'address':obj.address,
+          'pincode':obj.pincode,
+          'age':obj.age,
+          'town':obj.town,
+          'license':obj.license,
+          'pancard':obj.pancard,
+        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+      });
+     }
+     deleteDriverData(driverid:string, SchoolId:string){    
+      this.firestore.doc(`School/${SchoolId}/Drivers/`  + driverid).delete();
+    }
+    // insertImageDetails(imageDetails: any) {
+    //   //this.imageDetailList.push(imageDetails);
+    // }
+
+
+    //teacher
+
+    getTeacherData() {
+      // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
+        return this.firestore.collection('Users', ref => ref.where("role", "==","teacher")).snapshotChanges();   
+       
+     }
+  
+     createTeacherData(obj: Teacher){
+       return this.firestore.collection('Users').add(
+         {
+           'id':'',
+           'age':obj.age,
+           'name':obj.name,
+           'role':obj.role,
+           'doj':obj.doj,
+           'phn':obj.phn, 
+           'dob':obj.dob,
+           'address':obj.address,
+           'img':obj.img,
+           'email':obj.email,
+           'status':obj.status,
+           'qualification':obj.qualification,
+           'gender':obj.gender,
+           'school':localStorage.getItem('school_id')
+           // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
+           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+        }).then(async docRef => {
+          console.log(docRef.id);
+          await this.firestore.doc('Users/' + docRef.id).update({
+            'id':docRef.id})
+        })
+      }
+  
+      updateTeacherData(id: string,obj: Teacher){
+       this.firestore.doc('Users/' + id).update({
+         'id':id,
+         
+         'age':obj.age,
+         'name':obj.name,
+         'role':obj.role,
+         'doj':obj.doj,
+         'phn':obj.phn, 
+         'dob':obj.dob,
+         'address':obj.address,
+         'img':obj.img,
+         'email':obj.email,
+         'status':obj.status,
+         'qualification':obj.qualification,
+         'gender':obj.gender,
+         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+       });
+      }
+      deleteTeacherData(dataId: string){    
+       this.firestore.doc('Users/' + dataId).delete();
+     }
+    //  insertImageDetails(imageDetails: any) {
+    //    //this.imageDetailList.push(imageDetails);
+    //  }
+
   }
+//teacher
+
+
+  
+
+
+
+
+
+
 
   
  //Eyal
