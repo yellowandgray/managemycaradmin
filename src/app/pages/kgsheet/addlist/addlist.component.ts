@@ -54,7 +54,7 @@ export class AddlistComponent {
   filteredAdditems: Additems[] = [];
   showAllItems: boolean = true; // Flag to control whether to show all items initially
  
-  items: Additems[] = Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
+ // items: Additems[] = Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
   searchControl = new FormControl();
   //items: any[] = []; // your existing array
   selectedIds: string[] = [];
@@ -169,10 +169,11 @@ export class AddlistComponent {
    
     if (selectedItem) {
       // If found, update the id and name in the items array
-      this.items[index].id = selectedItem.id;
-      console.log("item id",this.items[index].id);
-      this.items[index].name = selectedItem.name;
-      console.log("item name",this.items[index].name);
+      this.itemDetails[index].id = selectedItem.id;
+      console.log("item id",this.itemDetails[index].id);
+      this.itemDetails[index].name = selectedItem.name;
+      this.itemDetails[index].picture = selectedItem.picture;
+      console.log("item name",this.itemDetails[index].name);
       if(selectedItem.id){
         this.selectedIds.push(selectedItem.id);
       }    
@@ -199,7 +200,7 @@ export class AddlistComponent {
    // console.log(selectedItem);
     // Update the selected item for the specific dropdown
     if (selectedItem !== undefined) {
-      this.items[index] = selectedItem;
+      //this.items[index] = selectedItem;
     } else {
       // Handle the case where the item is not found (optional)
       console.error(`Item with ID ${selectedItemId} not found.`);
@@ -220,7 +221,13 @@ export class AddlistComponent {
   submitSelectedIds() {
     console.log('Selected IDs:', this.selectedIds);
     // Assign this.selectedIds directly to this.emp.items
-    this.emp.items = this.selectedIds;
+    for (let index = 0; index < this.itemDetails.length; index++) {
+      if(this.itemDetails[index].id!='')
+      {
+        this.emp.items.push(this.itemDetails[index].id);
+      }
+    }
+   // this.emp.items = this.itemDetails.map(item => item.id);
     // Log for debugging
     console.log('Updated items in this.emp:', this.emp.items);
  
@@ -261,6 +268,11 @@ export class AddlistComponent {
         return item ? { id: item.id, name: item.name || '', picture: item.picture || '', punctuation: '' /* add other fields as needed */ } : null;
       });
 
+      if(this.itemDetails.length==0)
+      {
+        this.itemDetails= Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
+      }
+
 
       console.log('Item Details:', this.itemDetails);
 
@@ -287,46 +299,26 @@ export class AddlistComponent {
  
  
   addRow(): void {
-    this.items.push({ id: '', name: '', picture: '', punctuation: '' });
+   // this.items.push({ id: '', name: '', picture: '', punctuation: '' });
     this.itemDetails.push({ id: '', name: '', picture: '', punctuation: '' });
   }
 
 
   removeRow(index: number) {
     // Remove the item ID from the selectedIds array
-    const removedItemId = this.items[index].id;
-    const indexToRemove = this.selectedIds.indexOf(removedItemId);
-    if (indexToRemove !== -1) {
-      this.selectedIds.splice(indexToRemove, 1);
-    }
+    //const removedItemId = this.items[index].id;
+    // const indexToRemove = this.selectedIds.indexOf(removedItemId);
+    // if (indexToRemove !== -1) {
+    //   this.selectedIds.splice(indexToRemove, 1);
+    // }
 
 
     // Remove the item from the items array
-    this.items.splice(index, 1);
+    //this.items.splice(index, 1);
   }
 
 
 
-
-  assignitems(id: string) {
-
-
-    const kgSheetId = '3u90Jik86R10JulNCU3K';
-    const assignedItems = this.items.map(item => item.id);
-    console.log(assignedItems);
-       // Create a document with the assigned items
-       const documentData = {
-        assignedItems: assignedItems,
-        // Add other data if needed
-      };
-    // Assuming 'yourCollection' is the name of your Firestore collection
-    this.apiService.updateListData(id.toString(),this.emp,kgSheetId);
-    this.emp = new Addlist();
- 
-    // Get the assigned items from this.items
- 
- 
-  }
  
   // onDropdownChange(index: number, selectedItemId: string): void {
   //   console.log("step 5");
