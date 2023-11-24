@@ -172,7 +172,20 @@ export class AddlistComponent {
       // You can choose to set a default or handle this case according to your application's logic.
     }
   }
-  
+
+  submitSelectedIds() {
+    // console.log('Selected names:', this.items.map(item => item.id));
+    console.log('Selected names:', this.items.map(item => item.id));
+    // console.log(this.items);
+   
+   // console.log('All names:', this.localArray);
+  }
+  updateItem(index: number, event: any) {
+    // Update the name property of the item at the specified index
+    this.items[index].id = event.target.value;
+    // this.items[index].name =event.target.value;
+  }
+ 
   
 
   
@@ -227,18 +240,6 @@ export class AddlistComponent {
   //   // Update the selected item for the specific dropdown
  
   // }
-  submitSelectedIds() {
-    // console.log('Selected names:', this.items.map(item => item.id));
-    console.log('Selected names:', this.items.map(item => item.id));
-    // console.log(this.items);
-   
-   // console.log('All names:', this.localArray);
-  }
-  updateItem(index: number, event: any) {
-    // Update the name property of the item at the specified index
-    this.items[index].id = event.target.value;
-    // this.items[index].name =event.target.value;
-  }
 
 
 
