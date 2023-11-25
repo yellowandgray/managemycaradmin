@@ -22,7 +22,7 @@ import * as firebase from "firebase/compat";
     // }
 
     getArrivalData(SchoolId: string,vanId:string) {
-      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`, ref => ref.orderBy('name',)).snapshotChanges();
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`).snapshotChanges();
     
      }
     

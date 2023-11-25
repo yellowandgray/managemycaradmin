@@ -131,19 +131,19 @@
               </datalist>
              
             </div> -->
-            <div *ngFor="let item of itemDetails; let i = index" class="col-md-12">
+            <div *ngFor="let item of itemDetails; let i = index" class="col-md-12 px-4">
               <div class="input-group">
                 <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}"
                       value={{item.name}} [(ngModel)]="item.name"  (ngModelChange)="onDropdownChange(i, $event)" (input)="filterItems(i, $event)"  placeholder="Search Item...">
                       <td class="picture">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center px-2">
                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
                                 <img src="{{item.picture}}" alt="" class="img-fluid d-block ">
                             </div>
                          
                         </div>
                     </td>
-                      <button class="btn btn-danger" (click)="removeDetail(i)">Remove</button>
+                      <button class="btn btn-danger px-2" (click)="removeDetail(i)">Remove</button>
               </div>
               <datalist id="additems{{ i }}">
                 <option *ngFor="let additem of additems" [value]="additem.name">
@@ -152,8 +152,8 @@
               </datalist>
             </div>
            
-            <div class="col-sm-12">
-              <button class="btn btn-primary" (click)="addRow()">Add</button>
+            <div class=" d-flex justify-content-sm-end p-4">
+              <button class="btn btn-primary " (click)="addRow()">Add</button>
             </div>
             <!-- <button class="btn btn-primary" (click)="submitSelectedIds()">Submit Selected IDs</button> -->
            
@@ -161,8 +161,8 @@
              
 
 
-              <div class="modal-footer">
-                  <div class="hstack gap-2 justify-content-end">
+              <div class="modal-footer  d-flex justify-content-sm-end">
+                  <div class="hstack gap-2 ">
                       <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
                       <button type="submit" class="btn btn-primary" id="add-btn" (click)="submitSelectedIds()">Save</button>
                   </div>

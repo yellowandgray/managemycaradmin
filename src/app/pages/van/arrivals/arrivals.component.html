@@ -69,24 +69,18 @@
     </tbody>
     </table> -->
 
-    <div *ngFor="let arrival of arrivalData$ | async">
-  <p>{{ arrival.payload.doc.data().arrivalDate.toDate() | date:'medium' }}</p>
-  <p>{{arrival.ccgpresent}}</p>
-  <!-- Other fields or formatting as needed -->
-</div>
+   
 
 
 
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 
-
 <div>
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Drivers List </h4>
+                <h4 class="card-title mb-0">Arrival List </h4>
             </div><!-- end card header -->
             <div class="card-body">
                 <div id="customerList">
@@ -103,29 +97,32 @@
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
                             <thead class="table-light">
                                 <tr>
-                                   
-                                    <th class="sort" listsortable="customer_name" >Name
+                                    <th class="sort" listsortable="customer_name" >Date
+                                    </th>
+                                    <th class="sort" listsortable="email">Rno</th>
+                                    <th class="sort" listsortable="customer_name" > Driver Name
                                     </th>
                                     <th class="sort" listsortable="email">ccgpresent</th>
-                                    <th class="sort" listsortable="customer_name" >date
-                                    </th>
-                                    <th class="sort" listsortable="email">remarks</th>
-                                    <th class="sort" listsortable="email">Rno</th>
+                                    
+                                    <th class="sort" listsortable="date" >Uniform</th>
+                                    <th class="sort" listsortable="email">Remarks</th>
+                                
                                    
-                                    <th class="sort" listsortable="date" >uniform</th>
+                                    
                                     
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of arrivals;let i = index;" >
-                                   
+                                    <td class="date">{{data.date}}</td>
+                                    <td class="date">{{data.rno}}</td>
                                     <td class="customer_name">{{data.driname}}</td>
                                     <td class="customer_name">{{data.ccgpresent}}</td>
-                                    
-                                    <td class="date">{{data.driname}}</td>
-                                    <td class="date">{{data.remarks}}</td>
-                                    <td class="date">{{data.rno}}</td>
+                                  
                                     <td class="customer_name">{{data.uniform}}</td>
+                                    <td class="date">{{data.remarks}}</td>
+                                    
+                                   
                                   
                             </tbody>
                         </table>

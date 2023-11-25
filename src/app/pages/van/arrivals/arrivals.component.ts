@@ -16,33 +16,15 @@ export class ArrivalsComponent {
   arrivals: Arrival[] = [];
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
-  // constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {}
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {}
 
-  // ngOnInit() {
+  ngOnInit() {
     
-  //   this.apiService.getArrivalData(this.SchoolId,this.vanId).subscribe(actions => {
-  //     this.arrivals = actions.map(action => action.payload.doc.data() as Arrival);
-  //   });
-  // }
-
-  arrivalData$: Observable<any[]> | undefined;
-
-  constructor(
-    private route: ActivatedRoute,
-    private firestore: AngularFirestore
-  ) {}
-
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const schoolId:string='stZWDh06GmAGgnoqctcE';
-      const  vanId:string='FODMJA3V33EWUiSDFM5F';
-
-      this.arrivalData$ = this.getArrivalData(schoolId, vanId);
+    this.apiService.getArrivalData(this.SchoolId,this.vanId).subscribe(actions => {
+      this.arrivals = actions.map(action => action.payload.doc.data() as Arrival);
     });
   }
 
-  getArrivalData(schoolId: string, vanId: string): Observable<any[]> {
-    return this.firestore.collection(`School/${schoolId}/Van/${vanId}/Arrival_Entry`, ref => ref.orderBy('name')).snapshotChanges();
-  }
+
 
 }
