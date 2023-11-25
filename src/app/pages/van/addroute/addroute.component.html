@@ -1,1 +1,199 @@
-<p>addroute works!</p>
+
+
+
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+<div class="modal fade" bsModal #showModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header px-4 pt-4">
+                <h5 class="modal-title" id="exampleModalLabel">Add Route</h5>
+                <button type="button" class="btn-close" (click)="showModal.hide()"></button>
+            </div>
+   
+           <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+
+              
+                     <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Rec.No</label>
+                        <input type="text"  class="form-control" formControlName="rno"  [(ngModel)]="emp.rno" placeholder="Rec.No" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Start</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Start" formControlName="start" [(ngModel)]="emp.start" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Stop 1</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Stop" formControlName="stop1" [(ngModel)]="emp.stop1" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Stop 2</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Stop" formControlName="stop2" [(ngModel)]="emp.stop2" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Stop 3</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Stop" formControlName="stop3" [(ngModel)]="emp.stop3" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Designation</label>
+                        <input type="text"  class="form-control" formControlName="desti"  [(ngModel)]="emp.desti" placeholder="Enter Designation" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Routedetails</label>
+                        <input type="text"  class="form-control" formControlName="routedetails"  [(ngModel)]="emp.routedetails" placeholder="Enter  Routedetails" required />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="showModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- modal-content -->
+    </div>
+  </div>
+  <div class="modal fade" bsModal #editModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header px-4 pt-4">
+                <h5 class="modal-title" id="exampleModalLabel">Update Route</h5>
+                <button type="button" class="btn-close" (click)="editModal.hide()"></button>
+            </div>
+   
+            <form  class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+
+              
+                     <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Rec.No</label>
+                        <input type="text"  class="form-control" formControlName="rno"  [(ngModel)]="emp.rno" placeholder="Rec.No" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Start</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Start" formControlName="start" [(ngModel)]="emp.start" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Stop 1</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Stop" formControlName="stop1" [(ngModel)]="emp.stop1" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Stop 2</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Stop" formControlName="stop2" [(ngModel)]="emp.stop2" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Stop 3</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Stop" formControlName="stop3" [(ngModel)]="emp.stop3" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Designation</label>
+                        <input type="text"  class="form-control" formControlName="desti"  [(ngModel)]="emp.desti" placeholder="Enter Designation" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Routedetails</label>
+                        <input type="text"  class="form-control" formControlName="routedetails"  [(ngModel)]="emp.routedetails" placeholder="Enter Routedetails" required />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-ghost-danger" (click)="editModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.routeid)">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- modal-content -->
+    </div>
+  </div>
+
+<div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0"> Van Route List </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <!-- <div class="col-sm-auto">
+                            <div class="search-box ms-2">
+                                <input type="text" class="form-control search" placeholder="Search..." >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                            
+                        </div> -->
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="showModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                        Add</button>
+                                        <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                            Import</button>
+                                    <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                   
+                                    <th class="sort" listsortable="email">Rno</th>
+                                    <th class="sort" listsortable="date" >Start</th>
+                                    <th class="sort" listsortable="email">Stop1</th>
+                                    <th class="sort" listsortable="email">Stop2</th>
+                                    <th class="sort" listsortable="email">Stop3</th>
+                                    <th class="sort" listsortable="email">Routedetails</th>
+                                    <th class="sort" listsortable="customer_name" >Designation
+                                    </th>
+                                    <th class="sort">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of routes;let i = index;" >
+                                    <td class="date">{{data.rno}}</td>
+                                    <td class="customer_name">{{data.start}}</td>
+                                    <td class="date">{{data.stop1}}</td>
+                                    <td class="date">{{data.stop2}}</td>
+                                    <td class="date">{{data.stop3}}</td>
+                                    <td class="customer_name">{{data.routedetails}}</td>
+                                    <td class="date">{{data.desti}}</td>
+                                    <td>
+                                  <div class="d-flex gap-2">
+                                      <div class="edit">
+                                          <button class="btn btn-sm btn-success edit-item-btn"(click)="editRoute(i)" >Edit</button>
+                                      </div>
+                                      <div class="remove">
+                                          <button class="btn btn-sm btn-danger remove-item-btn"(click)="delet(data.routeid)">Remove</button>
+                                      </div>
+                                  </div>
+                              </td>
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+   

@@ -5,6 +5,8 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import * as firebase from "firebase/compat";
+import { Route } from "./routeobj";
+import { Van } from "./addvanobj";
 
 // import * as firebase from 'firebase';
   @Injectable({
@@ -22,24 +24,117 @@ import * as firebase from "firebase/compat";
     // }
 
     getArrivalData(SchoolId: string,vanId:string) {
-      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`).snapshotChanges();
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`, ref => ref.orderBy('rno')).snapshotChanges();
     
      }
     
 
 
 
-    //driver
+//van
 
-// getDriverData(SchoolId: string) {
-//   return this.firestore.collection(`School/${SchoolId}/Drivers`, ref => ref.orderBy('name')).snapshotChanges();
+     getVanData(SchoolId: string,vanId:string) {
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Vans`).snapshotChanges();
+    
+     }
+      createVanData(obj:Van,SchoolId: string,vanId:string ){
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Vans`).add(
+        {
+          'vanid':'',
+          'chassis':obj.chassis,
+          'disel':obj.disel,
+          'engno':obj.engno,
+          'pic':obj.pic,
+          'regno':obj.regno, 
+          'seats':obj.seats,
+          'year':obj.year,
+          // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
+          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+       }).then(async docRef => {
+         console.log(docRef.id);
+         await this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/`+ docRef.id).update({
+           'vanid':docRef.id})
+       })
+     }
+
+     updateVanData(vanid: string,obj: Van,SchoolId:string,vanId:string ){
+      this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + vanid).update({
+        
+        'vanid':vanid,
+          'chassis':obj.chassis,
+          'disel':obj.disel,
+          'engno':obj.engno,
+          'pic':obj.pic,
+          'regno':obj.regno, 
+          'seats':obj.seats,
+          'year':obj.year,
+        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+      });
+     }
+     deleteVanData(Routeid:string, SchoolId:string,vanId:string ){    
+      this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + Routeid).delete();
+    }
+
+
+
+
+
+//routes
+
+    getRouteData(SchoolId: string,vanId:string) {
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Routes`, ref => ref.orderBy('rno')).snapshotChanges();
+    
+     }
+      createRouteData(obj:Route,SchoolId: string,vanId:string ){
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Routes`).add(
+        {
+          'routeid':'',
+          'rno':obj.rno,
+          'desti':obj.desti,
+          'routedetails':obj.routedetails,
+          'start':obj.start,
+          'stop1':obj.stop1, 
+          'stop2':obj.stop2,
+          'stop3':obj.stop3,
+          
+          
+          // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
+          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+       }).then(async docRef => {
+         console.log(docRef.id);
+         await this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Routes/`+ docRef.id).update({
+           'routeid':docRef.id})
+       })
+     }
+
+     updateRouteData(Routeid: string,obj: Route,SchoolId:string,vanId:string ){
+      this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Routes/` + Routeid).update({
+        
+        'routeid':Routeid,
+        'rno':obj.rno,
+        'desti':obj.desti,
+        'routedetails':obj.routedetails,
+        'start':obj.start,
+        'stop1':obj.stop1, 
+        'stop2':obj.stop2,
+        'stop3':obj.stop3,
+        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+      });
+     }
+     deleteRouteData(Routeid:string, SchoolId:string,vanId:string ){    
+      this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Routes/` + Routeid).delete();
+    }
+    //Route
+
+// getRouteData(SchoolId: string) {
+//   return this.firestore.collection(`School/${SchoolId}/Routes`, ref => ref.orderBy('name')).snapshotChanges();
  
 //  }
 
-//  createDriverData(obj:Driver,SchoolId: string ){
-//       return this.firestore.collection(`School/${SchoolId}/Drivers`).add(
+//  createRouteData(obj:Route,SchoolId: string ){
+//       return this.firestore.collection(`School/${SchoolId}/Routes`).add(
 //         {
-//           'driverid':'',
+//           'Routeid':'',
 //           'aadhar':obj.aadhar,
 //           'name':obj.name,
 //           'doj':obj.doj,
@@ -57,14 +152,14 @@ import * as firebase from "firebase/compat";
 //           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //        }).then(async docRef => {
 //          console.log(docRef.id);
-//          await this.firestore.doc(`School/${SchoolId}/Drivers/`+ docRef.id).update({
-//            'driverid':docRef.id})
+//          await this.firestore.doc(`School/${SchoolId}/Routes/`+ docRef.id).update({
+//            'Routeid':docRef.id})
 //        })
 //      }
 
-//      updateDriverData(driverid: string,obj: Driver,SchoolId:string){
-//       this.firestore.doc(`School/${SchoolId}/Drivers/` + driverid).update({
-//         'driverid':driverid,
+//      updateRouteData(Routeid: string,obj: Route,SchoolId:string){
+//       this.firestore.doc(`School/${SchoolId}/Routes/` + Routeid).update({
+//         'Routeid':Routeid,
 //           'aadhar':obj.aadhar,
 //           'name':obj.name,
 //           'doj':obj.doj,
@@ -80,8 +175,8 @@ import * as firebase from "firebase/compat";
 //         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //       });
 //      }
-//      deleteDriverData(driverid:string, SchoolId:string){    
-//       this.firestore.doc(`School/${SchoolId}/Drivers/`  + driverid).delete();
+//      deleteRouteData(Routeid:string, SchoolId:string){    
+//       this.firestore.doc(`School/${SchoolId}/Routes/`  + Routeid).delete();
 //     }
     // insertImageDetails(imageDetails: any) {
     //   //this.imageDetailList.push(imageDetails);

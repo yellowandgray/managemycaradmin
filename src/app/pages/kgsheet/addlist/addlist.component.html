@@ -132,7 +132,9 @@
              
             </div> -->
             <div *ngFor="let item of itemDetails; let i = index" class="col-md-12 px-4">
+             
               <div class="input-group">
+                <div class="Name me-3">{{i+1}}</div>
                 <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}"
                       value={{item.name}} [(ngModel)]="item.name"  (ngModelChange)="onDropdownChange(i, $event)" (input)="filterItems(i, $event)"  placeholder="Search Item...">
                       <td class="picture">

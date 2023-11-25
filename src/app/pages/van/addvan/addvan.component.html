@@ -1,1 +1,243 @@
-<p>addvan works!</p>
+
+
+
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+<div class="modal fade" bsModal #showModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header px-4 pt-4">
+                <h5 class="modal-title" id="exampleModalLabel">Add Van</h5>
+                <button type="button" class="btn-close" (click)="showModal.hide()"></button>
+            </div>
+   
+           <form class="tablelist-form" [formGroup]="MessageFormData">
+            <div class="modal-body">
+                <input type="hidden" name="id" value="" formControlName="ids" />
+                <div class="mb-3">
+                    <label class="form-label">Picture</label>
+                    <div class="d-flex no-block justify-content-left align-items-left">
+                        <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                            <div class="text-left">
+                                <img [src]="image_path || emp.pic" width="200px" height="150px" (click)="fileUploader.click()">
+                            </div>
+                        </div>
+                        
+                        
+                        <div>
+                            <div class="form-group justify-content-center">
+                                <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          
+                 <div class="mb-3">
+                    <label for="customername-field" class="form-label"> Reg.No</label>
+                    <input type="text"  class="form-control" formControlName="regno"  [(ngModel)]="emp.regno" placeholder="Reg.No" required />
+                </div>
+                <div class="mb-3">
+                    <label for="date-field" class="form-label">Make Year</label>
+                    <input type="Date" id="date-field" class="form-control" placeholder="Enter Year"   [(ngModel)]="emp.year" formControlName="year"    >
+                   
+                </div>
+                <!-- <div class="mb-3">
+                    <label for="phone-field" class="form-label"> Year</label>
+                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Year" formControlName="year" [(ngModel)]="emp.year" required />
+                </div> -->
+                <div class="mb-3">
+                    <label for="phone-field" class="form-label"> Total Seats</label>
+                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Total Seats" formControlName="seats" [(ngModel)]="emp.seats" required />
+                </div>
+                <div class="mb-3">
+                    <label for="phone-field" class="form-label"> Diesel level</label>
+                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Diesel level" formControlName="disel" [(ngModel)]="emp.disel" required />
+                </div>
+                <div class="mb-3">
+                    <label for="phone-field" class="form-label"> Engine no</label>
+                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Engine no" formControlName="engno" [(ngModel)]="emp.engno" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="customername-field" class="form-label"> Chassis no</label>
+                    <input type="text"  class="form-control" formControlName="chassis"  [(ngModel)]="emp.chassis" placeholder="Enter Chassis no" required />
+                </div>
+               
+
+            </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="showModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- modal-content -->
+    </div>
+  </div>
+  <div class="modal fade" bsModal #editModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header px-4 pt-4">
+                <h5 class="modal-title" id="exampleModalLabel">Update Van</h5>
+                <button type="button" class="btn-close" (click)="editModal.hide()"></button>
+            </div>
+   
+            <form  class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+                    <div class="mb-3">
+                        <label class="form-label">Picture</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path || emp.pic" width="200px" height="150px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              
+                     <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Reg.No</label>
+                        <input type="text"  class="form-control" formControlName="regno"  [(ngModel)]="emp.regno" placeholder="regon" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="date-field" class="form-label">Make year</label>
+                        <input type="Date" id="date-field" class="form-control" placeholder="Enter Year"   [(ngModel)]="emp.year" formControlName="year"    >
+                       
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Year</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Year" formControlName="year" [(ngModel)]="emp.year" required />
+                    </div> -->
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Total Seats</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Total Seats" formControlName="seats" [(ngModel)]="emp.seats" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Diesel level</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Deisel level" formControlName="disel" [(ngModel)]="emp.disel" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Engine no</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Engine no" formControlName="engno" [(ngModel)]="emp.engno" required />
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Chassis no</label>
+                        <input type="text"  class="form-control" formControlName="chassis"  [(ngModel)]="emp.chassis" placeholder="Enter Chassis no" required />
+                    </div>
+                   
+
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-ghost-danger" (click)="editModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.vanid)">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- modal-content -->
+    </div>
+  </div>
+
+<div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0"> Van Van List </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <!-- <div class="col-sm-auto">
+                            <div class="search-box ms-2">
+                                <input type="text" class="form-control search" placeholder="Search..." >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                            
+                        </div> -->
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="showModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                        Add</button>
+                                        <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                            Import</button>
+                                    <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="sort" listsortable="date" >Photo</th>
+                                    <th class="sort" listsortable="email">Rno</th>
+                                    
+                                    <th class="sort" listsortable="email">Year</th>
+                                    <th class="sort" listsortable="email">Seats</th>
+                                    <th class="sort" listsortable="email">Diesel level</th>
+                                    <th class="sort" listsortable="email">Engine no</th>
+                                    <th class="sort" listsortable="customer_name" >Chassis no
+                                    </th>
+                                    <th class="sort">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of Vans;let i = index;" >
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                                <img src={{data.pic}} alt="" class="img-fluid d-block ">
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <td class="date">{{data.regno}}</td>
+                                    <td class="customer_name">{{data.year}}</td>
+                                    <td class="date">{{data.seats}}</td>
+                                    <td class="date">{{data.disel}}</td>
+                                    <td class="date">{{data.engno}}</td>
+                                    <td class="customer_name">{{data.chassis}}</td>
+                                   
+                                    <td>
+                                  <div class="d-flex gap-2">
+                                      <div class="edit">
+                                          <button class="btn btn-sm btn-success edit-item-btn"(click)="editVan(i)" >Edit</button>
+                                      </div>
+                                      <div class="remove">
+                                          <button class="btn btn-sm btn-danger remove-item-btn"(click)="delet(data.vanid)">Remove</button>
+                                      </div>
+                                  </div>
+                              </td>
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <!-- end col -->
+    </div>
+</div>
+   

@@ -7,9 +7,17 @@ import { finalize } from 'rxjs/internal/operators/finalize';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import { ExcelService } from './excel.service';
+
+
+
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+
 // import { AngularFireStorage } from '@angular/fire/storage';
+
+
+
 
 
 
@@ -19,11 +27,13 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent {
+  [x: string]: any;
   breadCrumbItems!: Array<{}>;
  
   students: Student[] = [];
   MessageFormData: FormGroup;
   emp: Student = new Student();
+
 
  
   emps: { image: string } = { image: '' }; // Assuming emp object has an image property
@@ -38,31 +48,34 @@ export class StudentComponent {
   imgSrc: string='';
   selectedImage: any = null;
 
+
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
+
+  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
    
     this.MessageFormData = new FormGroup({  
-      'number': new FormControl('', Validators.required),   
+      'number': new FormControl('', Validators.required),  
       'name': new FormControl('', Validators.required),      
       'Dob': new FormControl('', Validators.required),      
       'standard': new FormControl('', Validators.required),      
       'mobile': new FormControl('', Validators.required),      
-      'section': new FormControl('', Validators.required), 
-      'address': new FormControl('', Validators.required),   
-      'parentname': new FormControl('', Validators.required),     
+      'section': new FormControl('', Validators.required),
+      'address': new FormControl('', Validators.required),  
+      'parentname': new FormControl('', Validators.required),    
       // 'active': new FormControl(''),
     });    
        
     if (this.emp != null) {
 
-      this.MessageFormData.patchValue({       
+
+      this.MessageFormData.patchValue({      
         name: this.emp.name,
         Dob: this.emp.Dob,
         address: this.emp.address,
-        mobile: this.emp.mobile, 
-        section:  this.emp.section,   
+        mobile: this.emp.mobile,
+        section:  this.emp.section,  
         parentname:  this.emp.parentname,  
         standard:  this.emp.standard,  
         number: this.emp.rec_no,
@@ -70,10 +83,10 @@ export class StudentComponent {
  
       });
       // this.key = this.data.data.key;
-      this.emp.rec_no= this.emp.rec_no; 
+      this.emp.rec_no= this.emp.rec_no;
       this.emp.Dob= this.emp.Dob;  
       this.emp.name= this.emp.name;  
-      this.emp.address= this.emp.address; 
+      this.emp.address= this.emp.address;
       this.emp.mobile= this.emp.mobile;  
       this.emp.parentname= this.emp.parentname;  
       this.emp.section= this.emp.standard;  
@@ -84,6 +97,8 @@ export class StudentComponent {
     }
     // getAddressBookData()
   }
+
+
 
 
   ngOnInit() {
@@ -111,6 +126,7 @@ this.apiService.deleteStudentData(id)
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
 
+
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
@@ -128,13 +144,14 @@ this.apiService.deleteStudentData(id)
         );
       }
 
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
     }
   }
-  
+ 
   // onFileUploaded(event:any) {
   //   console.log("1111111111"+event);
   //   console.log(event[0]);
@@ -147,16 +164,16 @@ this.apiService.deleteStudentData(id)
   //     this.selectedImage = this.files[0];
   //     reader.onload = (e: any) => {
   //      // this.imgSrc = e.target.result;
-  
+ 
   //       const imagePath = e.target.result;
   //       this.imgSrc = e.target.result;
   //      // this.imagePath.push(imagePath);
-  
+ 
   //       if (this.selectedImage != null) {
   //         var category = 'images';
   //         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
   //         const fileRef = this.storage.ref(filePath);
-  
+ 
   //         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
   //           finalize(() => {
   //             fileRef.getDownloadURL().subscribe((url) => {
@@ -174,7 +191,7 @@ this.apiService.deleteStudentData(id)
   //         );
   //       }
   //     };
-  
+ 
   //     reader.readAsDataURL(file);
   //     this.selectedImage = file;
   //   }
@@ -183,13 +200,14 @@ this.apiService.deleteStudentData(id)
   //     this.selectedImage = null;
   //   }
   // }
-  
+ 
   save() {
-    console.log(this.emp); 
+    console.log(this.emp);
+
 
     if (this.selectedImage) {
       this.apiService.createStudentData(this.emp);
-      this.emp = new Student(); 
+      this.emp = new Student();
     } else {
       // If no file is selected, save the item data without an image.
       console.log("Else Running");
@@ -203,22 +221,99 @@ this.apiService.deleteStudentData(id)
   }
 
 
-  
+  importExcel(): void {
+    // Trigger the file input
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+
+  onFileChange(event: any): void {
+    console.log("Step 1");
+    const input = event.target;
+    const file = input.files[0];
+ 
+    if (file) {
+      this.excelService.readExcel(file).then((data: any[]) => {
+          // Check if data is not null, has more than minimumRows rows, and other conditions if needed
+          if (data && data.length > 0 && data.length >= 5) {
+              console.log("Step 2");
+             // console.log("Student Dob ", data);
+ 
+              data.forEach((student: any) => {
+                  const rec_no = student[1];
+                  const dob1 = student[6];
+                //  console.log("Student Rec no ", student[1]);
+ 
+                  // Check if rec_no is not null or undefined
+                  if (rec_no != null && rec_no !== undefined) {
+                    const rawDate = student[6]; // Assuming student[6] contains the date string
+                    const parsedDate = new Date(rawDate);
+                    const formattedDate = parsedDate.toLocaleDateString('en-CA');
+
+
+                    console.log("Student dob ",formattedDate);
+                      const studentData: Student = {
+                          rec_no: rec_no,
+                          name: student[2],
+                          standard: student[9],
+                          section: student[10],
+                          Dob: formattedDate,
+                          parentname: student[8],
+                          address: student[7],
+                          mobile: student[5],
+                          image: '',
+                          id: '',
+                          role: student[3],
+                          school: ''
+                      };
+                      console.log('rec_no:', studentData.rec_no);
+                      console.log('rec_no:', student[6]);
+ 
+                      this.apiService.createStudentData(studentData).then(
+                          () => {
+                              console.log('File uploaded successfully');
+                          },
+                          (error) => {
+                              console.error('Error uploading file:', error);
+                              console.log('File upload failed');
+                          }
+                      );
+                  }
+                  // else {
+                  //     console.error('rec_no is null or undefined in a row');
+                  // }
+              });
+          } else {
+              console.error('File does not meet the minimum criteria for processing');
+              console.log('File upload failed');
+          }
+      });
+  }
+  }
+ 
+ 
+ 
+
+
 
 
    update(id: string)
    {
      this.apiService.updateStudentData(id.toString(),this.emp);
      this.emp = new Student();
-     this.showModals?.hide(); 
+     this.showModals?.hide();
      this.resetForm;
+
 
    }
    
    editStudent(index: number) {
     const selectedStudent = this.students[index];
     this.emp = { ...selectedStudent }; // Copy selected student data to emp object
-    
+   
     this.MessageFormData.patchValue({
       rec_no: this.emp.rec_no,
       name: this.emp.name,
@@ -233,20 +328,24 @@ this.apiService.deleteStudentData(id)
     this.resetForm
    
   }
-  
+ 
   onImageSelected(event: any) {
     if (event.target.files && event.target.files[0]) {
       this.selectedImage = event.target.files[0];
     }
   }
-  
+ 
   resetForm() {
     this.selectedImage = null;
     this.isSubmitted = false;
   }
-  
+ 
+
+
 
 
  
 }
+
+
 
