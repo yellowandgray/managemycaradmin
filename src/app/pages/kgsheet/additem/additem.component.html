@@ -1,8 +1,12 @@
 
 
+
+
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="Items View" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
+
+
 
 
 <div bsModal #addCourse="bs-modal" class="modal fade" id="addCourse" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -13,23 +17,28 @@
                 <button type="button" class="btn-close btn-close-white" (click)="addCourse.hide()"></button>
             </div>
 
+
             <form  class="tablelist-form" [formGroup]="MessageFormData">
+
 
                 <div class="modal-body">
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                     <input type="hidden" id="id-field">
 
+
                     <input type="hidden" id="rating-field">
                      
                 <div class="mb-3">
                     <label for="course-title-input" class="form-label">Name<span
                             class="text-danger">*</span></label>
-            
+           
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required />
                 </div>
 
-                  
+
+                 
+
 
                     <div class="mb-3">
                         <label class="form-label">Picture</label>
@@ -47,9 +56,11 @@
                         </div>
                     </div>
 
+
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Type<span
                                 class="text-danger">*</span></label>
+
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
                             <option value="Common noun">Common noun</option>
@@ -66,6 +77,7 @@
                         </select>
                     </div>
 
+
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
@@ -79,6 +91,7 @@
     </div>
 </div>
 
+
 <div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal">
     <div class="modal-dialog">
         <div class="modal-content border-0">
@@ -87,12 +100,15 @@
                 <button type="button" class="btn-close btn-close-white" (click)="deleteRecordModal.hide()"></button>
             </div>
 
+
             <form  class="tablelist-form" [formGroup]="MessageFormData">
+
 
                 <div class="modal-body">
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <!-- <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div> -->
                     <!-- <input type="hidden" id="id-field"> -->
+
 
                     <!-- <input type="hidden" id="rating-field"> -->
                      
@@ -102,6 +118,7 @@
                    
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="id" placeholder="Enter Name" required />
                 </div>
+
 
                 <div class="mb-3">
                     <label class="form-label">Picture</label>
@@ -122,6 +139,7 @@
                         <label for="course-category-input" class="form-label">Type<span
                                 class="text-danger">*</span></label>
 
+
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
                             <option value="Common noun">Common noun</option>
                             <option value="Proper noun">Proper noun</option>
@@ -136,6 +154,7 @@
                             <option value="Verb">Verb</option>
                         </select>
                     </div>
+
 
                 </div>
                 <div class="modal-footer">
@@ -152,10 +171,13 @@
 </div><!--end add Property modal-->
 
 
+
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+
 
                 <div class="row g-4 mb-3">
                     <div class="col-sm-auto d-flex">
@@ -165,13 +187,16 @@
                         </div>
 
 
+
+
                         <div class="search-box ms-2">
-                            <select class="form-select " id="course-category-input"  >
-                                <option value="Common noun">Nouns</option>
+                            <select class="form-select" id="course-category-input" [(ngModel)]="selectedCategory" (change)="filteredItems()">
+                                <option value="">All</option>
+                                <option value="Noun">Noun</option>
                                 <option value="Common noun">Common noun</option>
                                 <option value="Proper noun">Proper noun</option>
                                 <option value="Singular noun">Singular noun</option>
-                                <option value="Plural noun"> Plural noun</option>
+                                <option value="Plural noun">Plural noun</option>
                                 <option value="Concrete noun">Concrete noun</option>
                                 <option value="Abstract noun">Abstract noun</option>
                                 <option value="Collective noun">Collective noun</option>
@@ -179,7 +204,6 @@
                                 <option value="Countable noun">Countable noun</option>
                                 <option value="Uncountable noun">Uncountable noun</option>
                                 <option value="Verb">Verb</option>
-                              
                             </select>
                         </div>
                        
@@ -187,7 +211,7 @@
                     <div class="col-sm">
                         <div class="d-flex justify-content-sm-end">
                             <div>
-                                <button class="btn btn-secondary" (click)="addCourse.show()"><i
+                                <button class="btn btn-info" (click)="addCourse.show()"><i
                                     class="bi bi-person-plus align-baseline me-1"></i> Add Item</button>
                             </div>
                         </div>
@@ -197,15 +221,15 @@
                    <div class="col-lg-3 order-last order-md-first me-auto">
                         <input type="text" class="form-control search" [(ngModel)]="searchTerm" placeholder="Search Name">
                      
-                    </div> 
+                    </div>
                       <div class="col-lg-2  ">
                             <input type="text" class="form-control search" [(ngModel)]="searchTerm" placeholder="Search Name">
                          
                         </div>
-                  
+                 
                     <div class="col-lg-auto text-end">
                         <div class="d-flex gap-2">
-                            
+                           
                         </div>
                     </div>
                 </div> -->
@@ -213,6 +237,7 @@
         </div>
     </div><!--end row-->
 </div><!--end col-->
+
 
 <div class="row row-cols-xl-5 row-cols-sm-2 row-cols-1">
     <div *ngFor="let data of filteredItems(); let i = index;" class="col">
@@ -223,15 +248,15 @@
                  <!-- <img src="{{data.img}}" alt="" class="effect"> -->
             </div>
             <div class="card-body">
-                
+               
                 <h6 class="text-truncate fs-md text-capitalize">
                     <!-- <a routerLink="/learning/overview"
                         class="text-reset">{{data.name}}</a></h6> -->
-                        
+                       
                         {{data.name}}</h6>
                    <p class="text-muted">{{data.punctuation}}</p>
-                  
-                
+                 
+               
             </div>
             <div class="card-body border-top hstack align-items-center gap-2">
                 <!--this code to dummy no use this code only gap forming -->
@@ -241,14 +266,27 @@
                 </div>
                <!--end card-->
 
+
                <div class="remove">
                 <button  class="bi bi-pencil-square align-baseline me-1 btn btn-success"(click)="editStudent(i)">Edit</button>
                 <button  class="bi bi-trash3 align-baseline me-1 btn btn-light"(click)="delet(data.id)">Delete</button>
             </div>
-              
+             
             </div>
         </div><!--end card-->
     </div><!--end col-->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

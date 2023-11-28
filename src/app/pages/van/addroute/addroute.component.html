@@ -18,7 +18,7 @@
               
                      <div class="mb-3">
                         <label for="customername-field" class="form-label"> R. No.</label>
-                        <input type="text"  class="form-control" formControlName="rno"  [(ngModel)]="emp.rno" placeholder="R. No." required />
+                        <input type="number"  class="form-control" formControlName="rno"  [(ngModel)]="emp.rno" placeholder="R. No." required />
                     </div>
                     <div class="mb-3">
                         <label for="phone-field" class="form-label"> Start</label>
@@ -134,9 +134,9 @@
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
-                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="showModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="showModal.show()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
-                                        <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button>
                                     <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
                                 </div>

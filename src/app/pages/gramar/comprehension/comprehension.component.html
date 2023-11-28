@@ -39,9 +39,9 @@
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
-                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
-                                        <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button>
                                     <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
                                 </div>
@@ -128,7 +128,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="customername-field" class="form-label">Paragraph</label>
-                        <textarea class="form-control" formControlName="age" placeholder="Enter Paragraph" required style="height: 150px;"></textarea>
+                        <textarea class="form-control" formControlName="age" placeholder="Enter Paragraph" required style="height: 120px;"></textarea>
                     </div>
                     
                     
@@ -137,7 +137,48 @@
                         <input type="address" id="address-field" class="form-control" placeholder="Enter Question" formControlName="address"  [(ngModel)]="emp.title" required />
                     </div>
                     
+
                     <div class="mb-3">
+                        <label for="phone-field" class="form-label">Type</label>
+                        <div>
+                            <label>
+                              <input type="radio" formControlName="qualificationType" value="text" [(ngModel)]="qualificationType" name="qualificationType" (click)="click1()" required /> Input
+                            </label>
+                            <label class="p-4">
+                              <input type="radio" formControlName="qualificationType" value="mcq" [(ngModel)]="qualificationType" name="qualificationType" (click)="click()" [ngClass]="{'selected': qualificationType === 'mcq'}" required /> MCQA
+                            </label>
+                          </div>
+                          
+                          
+                      
+                        <div *ngIf="qualificationType == 'mcq'">
+                          <label class="p-2">
+                            A <input type="text" class="form-control search" formControlName="option1" />
+                          </label>
+                      
+                          <label>
+                            B <input type="text" class="form-control search" formControlName="option2" />
+                          </label>
+                          <label class="p-2">
+                            C <input type="text" class="form-control search" formControlName="option3" />
+                          </label>
+                          <label>
+                            D <input type="text" class="form-control search" formControlName="option4" />
+                          </label>
+                      
+                          <div class="d-flex p-2 align-items-center">
+                            <span class="me-3">Correct Answer:</span>
+                            <select class="form-control search" formControlName="correctAnswer" style="width: 200px;">
+                              <option value="A">A</option>
+                              <option value="B">B</option>
+                              <option value="C">C</option>
+                              <option value="D">D</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    <!-- <div class="mb-3">
                         <label for="phone-field" class="form-label">Type</label>
                         <div>
                             <label>
@@ -169,7 +210,7 @@
                             </label>
                             
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div class="mb-3">
                         <label for=" address-field" class="form-label"> Question 2</label>

@@ -13,6 +13,11 @@ import { ImageModalComponent } from 'src/app/Image-modal.component';
 
 
 
+
+
+
+
+
                                                                                  
 @Component({
   selector: 'app-additem',                                                  
@@ -36,23 +41,12 @@ export class AddItemComponent {
   searchTerm: string = '';
   bsModalRef: BsModalRef | undefined;
 //additems: Additems[] = [];
-
-
-
-
-
-
-
-
    kgSheetId = '3u90Jik86R10JulNCU3K';
-
-
+   selectedCategory: string = '';
 
 
    @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
    @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
-
-
 
 
 
@@ -81,6 +75,8 @@ export class AddItemComponent {
   }
 
 
+
+
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
@@ -92,6 +88,8 @@ export class AddItemComponent {
         var category = 'images';
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
+
 
 
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
@@ -112,6 +110,8 @@ export class AddItemComponent {
       }
 
 
+
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -120,10 +120,14 @@ export class AddItemComponent {
   }
 
 
+
+
   // openImageModal(imageUrl: string) {
   //   const initialState = {
   //     imageUrl: imageUrl,
   //   };
+
+
 
 
   //   this.bsModalRef = this.modalService.show(ImageModalComponent, {
@@ -141,7 +145,7 @@ export class AddItemComponent {
         'position': 'absolute',
         'top': '50%',
         'left': '50%',
-        
+       
         'transform': 'translate(-50%, -50%)',
       },
     };
@@ -154,11 +158,17 @@ export class AddItemComponent {
 
 
 
+
+
+
+
   save() {
     const kgSheetId = '3u90Jik86R10JulNCU3K';
     if (this.selectedImage) {
              this.apiService.createAddItemData(this.emp, kgSheetId);
              this.emp = new Additems();
+
+
 
 
     } else {
@@ -173,8 +183,24 @@ export class AddItemComponent {
     this.MessageFormData.reset();
 
 
+
+
     this.addCourse?.hide();
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -203,6 +229,8 @@ export class AddItemComponent {
       }
 
 
+
+
     // update(id: string)
     //   {
     //     this.apiService.updateAddItemData(id.toString(),this.emp,this.kgSheetId);
@@ -212,13 +240,19 @@ export class AddItemComponent {
     //     console.log(this.emp,'emp check')
 
 
+
+
    
     //   }
+
+
 
 
   ngOnInit() {
     // Subscribe to the address-book collection data
  
+
+
 
 
     this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
@@ -238,9 +272,17 @@ export class AddItemComponent {
 
 
 
+
+
+
+
+
+
   this.addCourse?.onHidden.subscribe(() => {
     this.MessageFormData.reset();
   });
+
+
 
 
   this.deleteRecordModal?.onHidden.subscribe(() => {
@@ -248,33 +290,40 @@ export class AddItemComponent {
   });
 
 
+
+
   }
+
+
 
 
   // Inside your component class
 // Inside your component class
 
 
+
+
 // this is for filter word contains
 
 
 filteredItems(): Additems[] {
-  if (!this.searchTerm.trim()) {
-    return this.additems; // If search term is empty, return all items
+  if (!this.searchTerm.trim() && !this.selectedCategory) {
+    return this.additems; // If search term and category are empty, return all items
   }
 
 
-  return this.additems.filter(item =>
+  return this.additems.filter(item => {
+    const nameMatch = !this.searchTerm || item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase());
+    const categoryMatch = !this.selectedCategory || item.punctuation === this.selectedCategory;
 
 
-    // this is for filter with word contains
-   // item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-   //this is for filter with word startwith
-   item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
-
-
-  );
+    return nameMatch && categoryMatch;
+  });
 }
+
+
+
+
 
 
 // this is for start with filter
@@ -282,15 +331,27 @@ filteredItems(): Additems[] {
 //   const trimmedSearchTerm = this.searchTerm.trim().toLowerCase();
 
 
+
+
 //   if (!trimmedSearchTerm) {
 //     return this.additems; // If search term is empty, return all items
 //   }
+
+
 
 
 //   return this.additems.filter(item =>
 //     item.name.toLowerCase().startsWith(trimmedSearchTerm)
 //   );
 // }
+
+
+
+
+
+
+
+
 
 
 
@@ -315,6 +376,8 @@ filteredItems(): Additems[] {
   // }
 
 
+
+
   editStudent(filteredIndex: number) {
     const originalIndex = this.additems.indexOf(this.filteredItems()[filteredIndex]);
     const selectedStudent = this.additems[originalIndex];
@@ -329,6 +392,8 @@ filteredItems(): Additems[] {
     });
    
     this.deleteRecordModal?.show();
+
+
 
 
     this.deleteRecordModal?.onHidden.subscribe(() => {
@@ -347,12 +412,26 @@ filteredItems(): Additems[] {
     this.deleteRecordModal?.hide();
 
 
+
+
   }
 
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
 
 
 

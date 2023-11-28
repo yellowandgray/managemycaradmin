@@ -15,13 +15,19 @@ export class ComprehensionComponent {
   comprehensions: Comprehension[] = [];
   emp: Comprehension = new Comprehension();
   SchoolId:string='XOO5IdohbzztfCg4GU6y';
-  qualificationType:string='';
+  qualificationType:string='mcq';
   qualificationType2:string='';
   qualificationType3:string='';
   qualificationType4:string='';
   qualificationType5:string='';
   MessageFormData: FormGroup;
   
+  ngOnInit() {
+    
+    this.apiService.getComprehensionData(this.SchoolId).subscribe(actions => {
+      this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension);
+    });
+  }
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {  this.MessageFormData = new FormGroup({  
     'age': new FormControl('', Validators.required),   
     'name': new FormControl('', Validators.required),      
@@ -31,12 +37,7 @@ export class ComprehensionComponent {
     
   });  }
 
-  ngOnInit() {
-    
-    this.apiService.getComprehensionData(this.SchoolId).subscribe(actions => {
-      this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension);
-    });
-  }
+ 
   click(){
     this.qualificationType='mcq';
   }
