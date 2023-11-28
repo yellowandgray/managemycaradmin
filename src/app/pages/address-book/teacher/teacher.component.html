@@ -25,10 +25,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Age</label>
-                        <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter age" required />
+                        <input type="number"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter Age" required />
                     </div>
                     <div class="mb-3">
-                        <label for="date-field" class="form-label">Dob</label>
+                        <label for="date-field" class="form-label">DOB</label>
                         <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.dob" formControlName="date"  formControlName="dob"    >
                         <!-- <div class="invalid-feedback">Please select a date.</div> -->
                     </div>
@@ -38,7 +38,7 @@
                     </div>
                     <div class="mb-3">
                         <label for=" address-field" class="form-label"> Address</label>
-                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter Address" formControlName="address"  [(ngModel)]="emp.address" required />
                     </div>
                     
                     <div class="mb-3">
@@ -48,14 +48,14 @@
                     
                     <div class="mb-3">
                         <label for="phone-field" class="form-label"> Email</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter email" formControlName="email" [(ngModel)]="emp.email" required />
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Email" formControlName="email" [(ngModel)]="emp.email" required />
                     </div>
                     <!-- <div class="mb-3">
                         <label for="phone-field" class="form-label"> Gender</label>
                         <input type="text" id="phone-field" class="form-control" placeholder="Enter gender" formControlName="gender" [(ngModel)]="emp.gender" required />
                     </div> -->
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Gender<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Gender</label>
 
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.gender" formControlName="gender" >
                             <option value="Male">Male</option>
@@ -66,7 +66,7 @@
                    
 
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">status<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Mar. Status</label>
 
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.status" formControlName="status" >
                             <option value="Married">Married</option>
@@ -86,11 +86,11 @@
 
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Mobile</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile No." formControlName="phn"  [(ngModel)]="emp.phn" required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Picture</label>
+                        <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
                                 <div class="text-left">
@@ -111,7 +111,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button>
+                        <button type="button" class="btn btn-ghost-danger" (click)="showModals.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                        <!-- <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button> -->
                         <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
                         <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                     </div>
@@ -143,10 +144,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Age</label>
-                        <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter Age" required />
+                        <input type="number"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter Age" required />
                     </div>
                     <div class="mb-3">
-                        <label for="date-field" class="form-label">Dob</label>
+                        <label for="date-field" class="form-label">DOB</label>
                         <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.dob" formControlName="date"  formControlName="dob"    >
                         <!-- <div class="invalid-feedback">Please select a date.</div> -->
                     </div>
@@ -156,7 +157,7 @@
                     </div>
                     <div class="mb-3">
                         <label for=" address-field" class="form-label"> Address</label>
-                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter Address" formControlName="address"  [(ngModel)]="emp.address" required />
                     </div>
                     
                     <div class="mb-3">
@@ -166,14 +167,14 @@
                     
                     <div class="mb-3">
                         <label for="phone-field" class="form-label"> Email</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter email" formControlName="email" [(ngModel)]="emp.email" required />
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Email" formControlName="email" [(ngModel)]="emp.email" required />
                     </div>
                     <!-- <div class="mb-3">
                         <label for="phone-field" class="form-label"> Gender</label>
                         <input type="text" id="phone-field" class="form-control" placeholder="Enter gender" formControlName="gender" [(ngModel)]="emp.gender" required />
                     </div> -->
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Gender<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Gender</label>
 
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.gender" formControlName="gender" >
                             <option value="Male">Male</option>
@@ -183,7 +184,7 @@
                     </div>
                    
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">status<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Mar. Status</label>
 
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.status" formControlName="status" >
                             <option value="Married">Married</option>
@@ -202,11 +203,11 @@
 
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Mobile</label>
-                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No." formControlName="phn"  [(ngModel)]="emp.phn" required />
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Picture</label>
+                        <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
                                 <div class="text-left">
@@ -248,7 +249,12 @@
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                    
+                        <div class="col-sm-auto">
+                            <div class="search-box ms-2">
+                                <input type="text" class="form-control search" placeholder="search Name" >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                            </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
@@ -277,7 +283,7 @@
                                     <th class="sort" listsortable="email">DOJ</th>
                                     <th class="sort" listsortable="email">Address</th>
                                     <th class="sort" listsortable="date" > Gender</th>
-                                    <th class="sort" listsortable="email" >Status</th>
+                                    <th class="sort" listsortable="email" >Mar. Status</th>
                                     <th class="sort" listsortable="date" > Qualification</th>
                                     <th class="sort" listsortable="email" > Email</th>
                                    

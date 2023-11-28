@@ -149,7 +149,7 @@
             
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Phone</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Phone no." formControlName="phone" [ngClass]="{ 'is-invalid': submitted && form['phone'].errors }" required />
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Phone no." formControlName="phone" [ngClass]="{ 'is-invalid': submitted && form['phone'].errors }" required />
                     </div>
 
                     <div class="mb-3">

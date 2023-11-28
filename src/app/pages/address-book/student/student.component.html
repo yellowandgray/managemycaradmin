@@ -25,8 +25,8 @@
                         <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
                     </div> -->
                     <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Rec.No</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.rec_no" formControlName="number" placeholder="Rec.No" required />
+                        <label for="customername-field" class="form-label"> Rec. No.</label>
+                        <input type="text"  class="form-control"[(ngModel)]="emp.rec_no" formControlName="number" placeholder="Rec. No." required />
                     </div>
 
 
@@ -36,7 +36,9 @@
                     </div>
      
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Standard<span class="text-danger">*</span></label>
+                        <!-- <label for="course-category-input" class="form-label">Standard<span class="text-danger">*</span></label> -->
+                       <label for="course-category-input" class="form-label">Standard</label> 
+
 
 
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.standard" placeholder="Enter Standard" formControlName="standard" >
@@ -57,7 +59,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Section<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Section</label>
 
 
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.section" formControlName="section" >
@@ -70,7 +72,7 @@
 
 
                     <div class="mb-3">
-                        <label for="date-field" class="form-label">Dob</label>
+                        <label for="date-field" class="form-label">DOB</label>
                         <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth" formControlName="date" [(ngModel)]="emp.Dob" formControlName="Dob"    >
                         <!-- <div class="invalid-feedback">Please select a date.</div> -->
                     </div>
@@ -81,15 +83,15 @@
                     </div>
                     <div class="mb-3">
                         <label for=" address-field" class="form-label"> Adderss</label>
-                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter Address" formControlName="address"  [(ngModel)]="emp.address" required />
                     </div>
            
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Mobile</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="mobile"  [(ngModel)]="emp.mobile" required />
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No." pattern="[1-9]{1}[0-9]{9}" formControlName="mobile"  [(ngModel)]="emp.mobile" required />
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Picture</label>
+                        <label class="form-label">Photo</label>
                          <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
                                 <div class="text-left">
@@ -110,7 +112,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button>
+                        <button type="button" class="btn btn-ghost-danger" (click)="showModals.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                        <!-- <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button> -->
                         <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
                         <!-- <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
                     </div>
@@ -133,8 +136,8 @@
 
              
                     <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Rec.No</label>
-                        <input type="text"  class="form-control" formControlName="number"  [(ngModel)]="emp.rec_no" placeholder="Rec.No" required />
+                        <label for="customername-field" class="form-label"> Rec. No.</label>
+                        <input type="text"  class="form-control" formControlName="number"  [(ngModel)]="emp.rec_no" placeholder="Rec. No." required />
                     </div>
 
 
@@ -143,7 +146,7 @@
                         <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
                     </div>
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Standard<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Standard</label>
 
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.standard"  placeholder="Enter Standard" formControlName="standard" >
@@ -164,7 +167,7 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="course-category-input" class="form-label">Section<span class="text-danger">*</span></label>
+                        <label for="course-category-input" class="form-label">Section</label>
 
 
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.section" formControlName="section" >
@@ -177,7 +180,7 @@
 
 
                     <div class="mb-3">
-                        <label for="date-field" class="form-label">Dob</label>
+                        <label for="date-field" class="form-label">DOB</label>
                         <input type="Date" id="date-field" class="form-control" placeholder="Date Of Birth"  [(ngModel)]="emp.Dob"formControlName="date"  formControlName="Dob"    >
                         <!-- <div class="invalid-feedback">Please select a date.</div> -->
                     </div>
@@ -187,17 +190,17 @@
                     </div>
                     <div class="mb-3">
                         <label for=" address-field" class="form-label"> Address</label>
-                        <input type="address" id="address-field" class="form-control" placeholder="Enter address" formControlName="address"  [(ngModel)]="emp.address" required />
+                        <input type="address" id="address-field" class="form-control" placeholder="Enter Address" formControlName="address"  [(ngModel)]="emp.address" required />
                     </div>
            
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Mobile</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Mobile no." formControlName="mobile"  [(ngModel)]="emp.mobile" required />
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No."   pattern="[1-9]{1}[0-9]{9}" formControlName="mobile"  [(ngModel)]="emp.mobile" required />
                     </div>
 
 
                     <div class="mb-3">
-                        <label class="form-label">Picture</label>
+                        <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
                                 <div class="text-left">
@@ -239,19 +242,56 @@
                 <h4 class="card-title mb-0">Students List </h4>
             </div><!-- end card header -->
             <div class="card-body">
+                <!-- <div class="search-box d-inline-block mb-2">
+                    <input type="text" class="form-control search" placeholder="Search...">
+                    <i class="ri-search-line search-icon"></i>
+                </div> -->
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                        <!-- <div class="col-sm-auto">
+                        <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="Search..." >
+                                <input type="text" class="form-control search" placeholder="search Rec. No." >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
+
+
+                            <div class="search-box ms-2">
+                                <!-- <span class="ri-search-line search-icon me-3"></span> -->
+                                <select class="form-select " id="course-category-input"  >
+                                    <option value="Common noun">Standard</option>
+                                    <option value="Common noun">LKG</option>
+                                    <option value="Proper noun">UKG</option>
+                                    <option value="Singular noun">I</option>
+                                    <option value="Plural noun"> II</option>
+                                    <option value="Concrete noun">III</option>
+                                  
+                                </select>
+                            </div>
+
+                            <div class="search-box ms-2">
+                                <!-- <span class="ri-search-line search-icon me-3"></span> -->
+                                <select class="form-select " id="course-category-input"  >
+                                    <option value="Common noun">section</option>
+                                    <option value="Common noun">A</option>
+                                    <option value="Proper noun">B</option>
+                                    <option value="Singular noun">C</option>
+                                    <option value="Plural noun"> D</option>
+                                    <option value="Concrete noun">E</option>
+                                  
+                                </select>
+                            </div>
+                            <!-- <div class="modal-header  ps-4">
+                                <button type="button" class="btn btn-secondary  add-btn me-2" id="create-btn" ><i class="ri-search-line align-bottom me-1"></i>
+                                    Search</button> -->
+                                <!-- <h5 class="modal-title text-white" id="addCourseModalLabel">Search</h5> -->
+                                <!-- <button type="button" class="btn-close btn-close-white" ></button>
+                            </div> -->
                            
-                        </div> -->
+                        </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
-                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                    <button type="button" class="btn btn-success add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
                                         <!-- <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button> -->
@@ -278,7 +318,7 @@
                                 <tr>
                                     <!-- <th scope="col" style="width: 50px;">
                                     </th> -->
-                                    <th class="sort" listsortable="customer_name" >Rec.No
+                                    <th class="sort" listsortable="customer_name" >Rec. No.
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Name
                                     </th>

@@ -15,8 +15,18 @@
             </div><!-- end card header -->
             <div class="card-body">
                 <div id="customerList">
-                    <div class="row g-4 mb-3">
-                       
+                    <div class="row g-4 mb-3 ">
+                        <div class="col-sm-auto d-flex">
+                            <div class="search-box ms-2">
+                                <input type="Date"   id="date-field" class="form-control " placeholder="search R. No." >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                            <div class="search-box ms-2">
+                                <input type="text" class="form-control search" placeholder="search Route No." >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                          
+                            </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                               
@@ -30,12 +40,15 @@
                                 <tr>
                                     <th class="sort" listsortable="customer_name" >Date
                                     </th>
-                                    <th class="sort" listsortable="email">Rno</th>
+                                    <th class="sort" listsortable="email">Route No.</th>
+                                    <th class="sort" listsortable="customer_name" >Arrival Time
+                                    </th>
+                                    
                                     <th class="sort" listsortable="customer_name" > Driver Name
                                     </th>
-                                    <th class="sort" listsortable="email">ccgpresent</th>
+                                    <th class="sort" listsortable="email">CCG Present</th>
                                     
-                                    <th class="sort" listsortable="date" >Uniform</th>
+                                    <th class="sort" listsortable="date" >Uniform (Driver)</th>
                                     <th class="sort" listsortable="email">Remarks</th>
                                 </tr>
                             </thead>
@@ -43,9 +56,9 @@
                                 <tr *ngFor="let data of arrivals;let i = index;" >
                                     <td class="date">{{data.date}}</td>
                                     <td class="date">{{data.rno}}</td>
+                                    <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
                                     <td class="customer_name">{{data.driname}}</td>
                                     <td class="customer_name">{{data.ccgpresent}}</td>
-                                  
                                     <td class="customer_name">{{data.uniform}}</td>
                                     <td class="date">{{data.remarks}}</td>
                                     

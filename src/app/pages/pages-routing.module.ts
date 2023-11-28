@@ -15,6 +15,9 @@ const routes: Routes = [
     path: 'addressbook', loadChildren: () => import('./address-book/book.module').then(m => m.BookModule)
   },
   {
+    path: 'Gramar', loadChildren: () => import('./gramar/gramar.module').then(m => m.GramarModule)
+  },
+  {
     path: 'van', loadChildren: () => import('./van/van.module').then(m => m.vanModule)
   },
   {

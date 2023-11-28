@@ -15,7 +15,7 @@
             <div class="modal-body">
                 <input type="hidden" name="id" value="" formControlName="ids" />
                 <div class="mb-3">
-                    <label class="form-label">Picture</label>
+                    <label class="form-label">Photo</label>
                     <div class="d-flex no-block justify-content-left align-items-left">
                         <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
                             <div class="text-left">
@@ -33,8 +33,8 @@
                 </div>
           
                  <div class="mb-3">
-                    <label for="customername-field" class="form-label"> Reg.No</label>
-                    <input type="text"  class="form-control" formControlName="regno"  [(ngModel)]="emp.regno" placeholder="Reg.No" required />
+                    <label for="customername-field" class="form-label"> Reg. No.</label>
+                    <input type="text"  class="form-control" formControlName="regno"  [(ngModel)]="emp.regno" placeholder="Reg. No." required />
                 </div>
                 <div class="mb-3">
                     <label for="date-field" class="form-label">Make Year</label>
@@ -50,17 +50,17 @@
                     <input type="text" id="phone-field" class="form-control" placeholder="Enter Total Seats" formControlName="seats" [(ngModel)]="emp.seats" required />
                 </div>
                 <div class="mb-3">
-                    <label for="phone-field" class="form-label"> Diesel level</label>
-                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Diesel level" formControlName="disel" [(ngModel)]="emp.disel" required />
+                    <label for="phone-field" class="form-label"> Diesel Level(ltrs)</label>
+                    <input type="number" id="phone-field" class="form-control" placeholder="Enter Diesel Level(ltrs)" formControlName="disel" [(ngModel)]="emp.disel" required />
                 </div>
                 <div class="mb-3">
-                    <label for="phone-field" class="form-label"> Engine no</label>
-                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Engine no" formControlName="engno" [(ngModel)]="emp.engno" required />
+                    <label for="phone-field" class="form-label"> Engine No.</label>
+                    <input type="text" id="phone-field" class="form-control" placeholder="Enter Engine No." formControlName="engno" [(ngModel)]="emp.engno" required />
                 </div>
 
                 <div class="mb-3">
-                    <label for="customername-field" class="form-label"> Chassis no</label>
-                    <input type="text"  class="form-control" formControlName="chassis"  [(ngModel)]="emp.chassis" placeholder="Enter Chassis no" required />
+                    <label for="customername-field" class="form-label"> Chassis No.</label>
+                    <input type="text"  class="form-control" formControlName="chassis"  [(ngModel)]="emp.chassis" placeholder="Enter Chassis No." required />
                 </div>
                
 
@@ -88,7 +88,7 @@
                 <div class="modal-body">
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <div class="mb-3">
-                        <label class="form-label">Picture</label>
+                        <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
                                 <div class="text-left">
@@ -106,8 +106,8 @@
                     </div>
               
                      <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Reg.No</label>
-                        <input type="text"  class="form-control" formControlName="regno"  [(ngModel)]="emp.regno" placeholder="regon" required />
+                        <label for="customername-field" class="form-label"> Reg. No.</label>
+                        <input type="text"  class="form-control" formControlName="regno"  [(ngModel)]="emp.regno" placeholder="Reg. No." required />
                     </div>
                     <div class="mb-3">
                         <label for="date-field" class="form-label">Make year</label>
@@ -123,17 +123,17 @@
                         <input type="text" id="phone-field" class="form-control" placeholder="Enter Total Seats" formControlName="seats" [(ngModel)]="emp.seats" required />
                     </div>
                     <div class="mb-3">
-                        <label for="phone-field" class="form-label"> Diesel level</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Deisel level" formControlName="disel" [(ngModel)]="emp.disel" required />
+                        <label for="phone-field" class="form-label"> Diesel Level(ltrs)</label>
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Diesel Level(ltrs)" formControlName="disel" [(ngModel)]="emp.disel" required />
                     </div>
                     <div class="mb-3">
-                        <label for="phone-field" class="form-label"> Engine no</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Engine no" formControlName="engno" [(ngModel)]="emp.engno" required />
+                        <label for="phone-field" class="form-label"> Engine No.</label>
+                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Engine No." formControlName="engno" [(ngModel)]="emp.engno" required />
                     </div>
     
                     <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Chassis no</label>
-                        <input type="text"  class="form-control" formControlName="chassis"  [(ngModel)]="emp.chassis" placeholder="Enter Chassis no" required />
+                        <label for="customername-field" class="form-label"> Chassis No.</label>
+                        <input type="text"  class="form-control" formControlName="chassis"  [(ngModel)]="emp.chassis" placeholder="Enter Chassis No." required />
                     </div>
                    
 
@@ -155,18 +155,18 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0"> Van Van List </h4>
+                <h4 class="card-title mb-0"> Van List </h4>
             </div><!-- end card header -->
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                        <!-- <div class="col-sm-auto">
+                        <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="Search..." >
+                                <input type="text" class="form-control search" placeholder="Search Reg. No." >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             
-                        </div> -->
+                        </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
@@ -185,13 +185,13 @@
                             <thead class="table-light">
                                 <tr>
                                     <th class="sort" listsortable="date" >Photo</th>
-                                    <th class="sort" listsortable="email">Rno</th>
+                                    <th class="sort" listsortable="email">Reg. No.</th>
                                     
                                     <th class="sort" listsortable="email">Year</th>
                                     <th class="sort" listsortable="email">Seats</th>
-                                    <th class="sort" listsortable="email">Diesel level</th>
-                                    <th class="sort" listsortable="email">Engine no</th>
-                                    <th class="sort" listsortable="customer_name" >Chassis no
+                                    <th class="sort" listsortable="email">Diesel Level(ltrs)</th>
+                                    <th class="sort" listsortable="email">Engine No.</th>
+                                    <th class="sort" listsortable="customer_name" >Chassis No.
                                     </th>
                                     <th class="sort">Action</th>
 
@@ -199,6 +199,8 @@
                             </thead>
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of Vans;let i = index;" >
+
+                                    
                                     <td class="picture">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">

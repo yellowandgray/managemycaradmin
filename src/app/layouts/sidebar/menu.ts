@@ -117,6 +117,30 @@ export const MENU: MenuItem[] = [
            
            
         ]
+        
+    },
+    {
+        id: 12,
+        label: 'Grammar',
+        icon: 'ph-storefront',
+        subItems: [
+            {
+                id: 7,
+                label: 'Comprehension',
+                link: '/Gramar/comprehension',
+                parentId: 12
+            },
+            {
+                id: 8,
+                label: 'Vocabulary',
+                link: '/Gramar/vocabulary',
+                parentId: 12
+            },
+         
+           
+           
+        ]
+        
     },
 
 

@@ -10,7 +10,6 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 import { ExcelService } from './excel.service';
 
 
-
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
@@ -151,7 +150,15 @@ this.apiService.deleteStudentData(id)
       this.selectedImage = null;
     }
   }
- 
+
+  add(){
+    this.MessageFormData;
+    this.deleteRecordModal?.show()
+    this.emp = new Student();
+  
+   
+  }
+
   // onFileUploaded(event:any) {
   //   console.log("1111111111"+event);
   //   console.log(event[0]);
@@ -243,30 +250,38 @@ this.apiService.deleteStudentData(id)
              // console.log("Student Dob ", data);
  
               data.forEach((student: any) => {
-                  const rec_no = student[1];
-                  const dob1 = student[6];
+                  const rec_no = student[0];
+                  const dob1 = student[3];
                 //  console.log("Student Rec no ", student[1]);
  
                   // Check if rec_no is not null or undefined
                   if (rec_no != null && rec_no !== undefined) {
-                    const rawDate = student[6]; // Assuming student[6] contains the date string
-                    const parsedDate = new Date(rawDate);
-                    const formattedDate = parsedDate.toLocaleDateString('en-CA');
+                 
+                    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+        const jsDate = new Date((dob1 - 1) * millisecondsPerDay + Date.UTC(1900, 0, 1));
+
+
+        console.log("Student dob test ", jsDate);
+
+
+        // Format the date as desired
+        const formattedDate = jsDate.toLocaleDateString('en-CA');
+       
 
 
                     console.log("Student dob ",formattedDate);
                       const studentData: Student = {
                           rec_no: rec_no,
-                          name: student[2],
-                          standard: student[9],
-                          section: student[10],
+                          name: student[1],
+                          standard: student[6],
+                          section: student[7],
                           Dob: formattedDate,
-                          parentname: student[8],
-                          address: student[7],
-                          mobile: student[5],
+                          parentname: student[5],
+                          address: student[4],
+                          mobile: student[2],
                           image: '',
                           id: '',
-                          role: student[3],
+                          role: 'student',
                           school: ''
                       };
                       console.log('rec_no:', studentData.rec_no);
@@ -341,11 +356,12 @@ this.apiService.deleteStudentData(id)
   }
  
 
-
-
+ 
 
  
 }
+
+
 
 
 

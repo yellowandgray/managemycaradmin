@@ -296,16 +296,17 @@
                                 <td class="Name">{{i+1}}</td>
                                
                                 <td class="category">{{data.name}}</td>
+
                                 <td class="picture">
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
-                                            <img src="{{data.picture}}" alt="" class="img-fluid d-block ">
+                                        <div class="avatar-xs bg-light rounded p-1 " style=" object-fit: cover;height: 50px; width: 50px;">
+                                            <img src="{{data.picture}}" alt="" class="img-fluid d-block  ">
                                         </div>
                                      
                                     </div>
                                 </td>
                                 <td class="Items"><button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show(); editListItemId(data.id)">Assign Items</button></td>
-                                <td class="Total Items">data.stock</td>
+                                <td class="Total Items">{{data.items.length}}</td>
                                 <td class="Assign To">
                                   <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign to Standard</button>
                                 </td>
