@@ -7,14 +7,25 @@ import { finalize } from 'rxjs/internal/operators/finalize';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
+
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
+
+
 
 
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
+
+
 // import { AngularFireStorage } from '@angular/fire/storage';
+
+
+
+
+
+
 
 
 
@@ -35,6 +46,8 @@ export class StudentComponent {
   emp: Student = new Student();
 
 
+
+
  
   emps: { image: string } = { image: '' }; // Assuming emp object has an image property
  
@@ -49,8 +62,19 @@ export class StudentComponent {
   selectedImage: any = null;
 
 
+  selectedStandard: string = '';
+  selectedSection: string = '';
+  searchTerm: string = '';
+  filteredStudents: Student[] = [];
+  studentNames: string[] = [];
+
+
+
+
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+
+
 
 
   constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
@@ -68,6 +92,8 @@ export class StudentComponent {
     });    
        
     if (this.emp != null) {
+
+
 
 
       this.MessageFormData.patchValue({      
@@ -98,18 +124,90 @@ export class StudentComponent {
     // getAddressBookData()
   }
 
+
   ngOnInit() {
     // Subscribe to the address-book collection data
     this.dataSubscription = this.apiService.getAddressBookData().subscribe(
       (actions) => {
         this.students = actions.map((action) => action.payload.doc.data() as Student);
+        this.students.sort((a, b) => a.name.localeCompare(b.name));
+        this.filteredStudents = [...this.students];
+        this.populateStudentNames();
       },
       (error) => {
         console.error('Error fetching address book data:', error);
         // Handle the error appropriately, e.g., display a message to the user
       }
     );
+ 
+
+
   }
+  displayFn(student: Student): string {
+    return student && student.name ? student.name : '';
+  }
+
+
+  // filterStudents() {
+  //   console.log('Filtering...', this.selectedStandard, this.selectedSection, this.searchTerm);
+ 
+ 
+  // }
+ 
+  // filterStudentsByName(value: string): void {
+  //   // Filter students based on the selected standard, section, and entered name
+  //   this.filteredStudents = this.students.filter(student => {
+  //     const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
+  //     const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
+  //   //  const nameMatch = !value || student.name.toLowerCase().includes(value.toLowerCase());
+  //     const searchTermMatch = !value || student.name.toLowerCase().includes(value.toLowerCase());
+  //     return standardMatch && sectionMatch && searchTermMatch;
+  //   });
+  // }
+ 
+  filterStudentsByName(event: any): void {
+    const value = event.target.value;
+    console.log('Filtering by name...', value);
+    this.searchTerm = value;
+    this.filterStudents();
+  }
+ 
+ 
+  filterStudents() {
+    console.log('Filtering...', this.selectedStandard, this.selectedSection, this.searchTerm);
+
+
+    this.filteredStudents = this.students.filter(student => {
+      const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
+      const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
+      const nameMatch = !this.searchTerm || student.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+      return standardMatch && sectionMatch && nameMatch;
+    });
+
+
+    // If there are no matches, set filteredStudents to an empty array
+    if (!this.filteredStudents.length) {
+      console.log('Nooo Students...');
+      this.filteredStudents = [];
+      console.log(this.filteredStudents);
+    }
+  }
+ 
+ 
+ 
+ 
+ 
+ 
+  populateStudentNames() {
+    // Populate studentNames with unique student names
+    this.studentNames = [...new Set(this.students.map(student => student.name))];
+    console.log("student names ",this.studentNames);
+  }
+ 
+
+
 
 
   // ngOnInit() {
@@ -138,6 +236,8 @@ this.apiService.deleteStudentData(id)
         const fileRef = this.storage.ref(filePath);
 
 
+
+
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
@@ -156,6 +256,8 @@ this.apiService.deleteStudentData(id)
       }
 
 
+
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -163,65 +265,36 @@ this.apiService.deleteStudentData(id)
     }
   }
 
+
   add(){
     this.MessageFormData;
     this.deleteRecordModal?.show()
     this.emp = new Student();
-  
+ 
    
   }
 
-  // onFileUploaded(event:any) {
-  //   console.log("1111111111"+event);
-  //   console.log(event[0]);
-  //   this.files.push(event[0]);
-  //   console.log("222222"+this.files[0]);
-  //   if (this.files) {
-  //     console.log("333333333");
-  //     const reader = new FileReader();
-  //     const file = this.files[0];
-  //     this.selectedImage = this.files[0];
-  //     reader.onload = (e: any) => {
-  //      // this.imgSrc = e.target.result;
+
  
-  //       const imagePath = e.target.result;
-  //       this.imgSrc = e.target.result;
-  //      // this.imagePath.push(imagePath);
+// In your component class
+// In your component class
+
+
+// Initialize filteredStudents to show all students initially
+
+
+
+
+
+
+
+
  
-  //       if (this.selectedImage != null) {
-  //         var category = 'images';
-  //         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-  //         const fileRef = this.storage.ref(filePath);
- 
-  //         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
-  //           finalize(() => {
-  //             fileRef.getDownloadURL().subscribe((url) => {
-  //               this.emp.image = url;
-  //               console.log('imagePathsdb:', this.emp.image ); // Check if it's populated here
-  //             });
-  //           })
-  //         ).subscribe(
-  //           () => {
-  //             console.log('Upload completed successfully');
-  //           },
-  //           (error) => {
-  //             console.error('Upload error:', error);
-  //           }
-  //         );
-  //       }
-  //     };
- 
-  //     reader.readAsDataURL(file);
-  //     this.selectedImage = file;
-  //   }
-  //   else {
-  //     this.imgSrc = '/assets/images/image_placeholder.jpg';
-  //     this.selectedImage = null;
-  //   }
-  // }
  
   save() {
     console.log(this.emp);
+
+
 
 
     if (this.selectedImage) {
@@ -240,6 +313,8 @@ this.apiService.deleteStudentData(id)
   }
 
 
+
+
   importExcel(): void {
     // Trigger the file input
     const fileInput = document.getElementById('fileInput');
@@ -247,6 +322,8 @@ this.apiService.deleteStudentData(id)
       fileInput.click();
     }
   }
+
+
 
 
   onFileChange(event: any): void {
@@ -273,12 +350,18 @@ this.apiService.deleteStudentData(id)
         const jsDate = new Date((dob1 - 1) * millisecondsPerDay + Date.UTC(1900, 0, 1));
 
 
+
+
         console.log("Student dob test ", jsDate);
+
+
 
 
         // Format the date as desired
         const formattedDate = jsDate.toLocaleDateString('en-CA');
        
+
+
 
 
                     console.log("Student dob ",formattedDate);
@@ -327,12 +410,18 @@ this.apiService.deleteStudentData(id)
 
 
 
+
+
+
+
    update(id: string)
    {
      this.apiService.updateStudentData(id.toString(),this.emp);
      this.emp = new Student();
      this.showModals?.hide();
      this.resetForm;
+
+
 
 
    }
@@ -368,10 +457,22 @@ this.apiService.deleteStudentData(id)
   }
  
 
+
  
+
 
  
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

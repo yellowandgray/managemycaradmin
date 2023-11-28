@@ -27,13 +27,8 @@ export class ComprehensionComponent {
     'name': new FormControl('', Validators.required),      
     'dob': new FormControl('', Validators.required),      
     'doj': new FormControl('', Validators.required),      
-    'phn': new FormControl('', Validators.required),      
-    'email': new FormControl('', Validators.required), 
-    'address': new FormControl('', Validators.required), 
-    'status': new FormControl('', Validators.required), 
-    'qualification': new FormControl('', Validators.required),   
-    'gender': new FormControl('', Validators.required),     
-    // 'active': new FormControl(''),
+  
+    
   });  }
 
   ngOnInit() {
@@ -72,6 +67,8 @@ export class ComprehensionComponent {
   click19(){
     this.qualificationType5='';
   }
+
+
 
 
 }

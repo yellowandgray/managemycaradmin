@@ -5,15 +5,18 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-image-modal',
   template: `
-    <div class="modal-header">
-      <h4 class="modal-title">Image Preview</h4>
-      <button type="button" class="close" aria-label="Close" (click)="bsModalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body text-center">
-      <img [src]="imageUrl" class="img-fluid" alt="Image" style="max-width: 70%; max-height: 80%; display: inline-block;">
-    </div>
+
+  
+  <div class="modal-header ">
+  <h1 class="modal-title">Image Preview</h1>
+  <button type="button" class=" btn-close " aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body d-flex align-items-center justify-content-center text-center px-5">
+  <img [src]="imageUrl" class="img-fluid" alt="Image" style="max-width: 100%; max-height: 100%; display: inline-block;">
+</div>
+
   `,
 })
 export class ImageModalComponent {

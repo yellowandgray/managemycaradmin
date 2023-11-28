@@ -11,16 +11,30 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0">Comprehensions List </h4>
+                <h4 class="card-title mb-0">Comprehension List </h4>
             </div><!-- end card header -->
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
+                        <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="search Title" >
+                                <input type="text" class="form-control search" placeholder="Search Title" >
                                 <i class="ri-search-line search-icon"></i>
+
                             </div>
+                            
+                        <div class="search-box ms-2">
+                            <select class="form-select " id="course-category-input"  >
+                                <option value="">Class</option>
+                                <option value="VII">VII</option>
+                                <option value="VIII">VIII</option>
+                                <option value="	IX">IX</option>
+                                <option value="	X"> X</option>
+                                <option value="	XI"> XI</option>
+                                <option value="	XII"> XII</option>
+                              
+                            </select>
+                        </div>
                             </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
@@ -44,7 +58,8 @@
                                     <th class="sort" listsortable="email">Title</th>
                                     <th class="sort" listsortable="customer_name" >Paragraph
                                     </th>
-                                    
+                                    <th class="sort" listsortable="customer_name" >Assign to STD
+                                    </th>
                                  
                                     <th class="sort" listsortable="email">Action</th>
                                 </tr>
@@ -56,6 +71,11 @@
                                     <td class="customer_name" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                         {{data.paragraph}}
                                       </td>
+                                      <td>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-primary" id="add-btn" >Assign</button>
+                                        </div>
+                                    </td>
                                       
                                     <td>
                                         <div class="d-flex gap-2">
@@ -89,7 +109,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Add Comprehensions</h5>
+                <h5 class="modal-title" id="exampleModalLabel"> Add Comprehension</h5>
                 <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
             </div>
             <form class="tablelist-form" [formGroup]="MessageFormData">
@@ -108,7 +128,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="customername-field" class="form-label">Paragraph</label>
-                        <textarea class="form-control" formControlName="age" placeholder="Enter Paragraph" required style="height: 200px;"></textarea>
+                        <textarea class="form-control" formControlName="age" placeholder="Enter Paragraph" required style="height: 150px;"></textarea>
                     </div>
                     
                     
@@ -121,12 +141,12 @@
                         <label for="phone-field" class="form-label">Type</label>
                         <div>
                             <label>
-                                <input type="radio" formControlName="qualificationType" value="text" [(ngModel)]="emp.qualificationType" name="qualificationType"  (click)="click1()"required /> Input
+                              <input type="radio" formControlName="qualificationType" value="text" [(ngModel)]="emp.qualificationType" name="qualificationType" (click)="click1()" required /> Input
                             </label>
                             <label class="p-4">
-                                <input type="radio" formControlName="qualificationType" value="mcq" [(ngModel)]="qualificationType" name="qualificationType" (click)="click()" required /> MCQA
+                              <input type="radio" formControlName="qualificationType" value="mcq" [(ngModel)]="emp.qualificationType" name="qualificationType" (click)="click()" required /> MCQA
                             </label>
-                        </div>
+                          </div>
 
                         <div *ngIf="qualificationType == 'mcq'">
                         
@@ -147,7 +167,7 @@
                                 <span class="me-3 "> Correct Answer:</span><input type="text" class="form-control search " formControlName="option5" style="width: 200px;"
                                 />
                             </label>
-                            <!-- Add more options as needed -->
+                            
                         </div>
                     </div>
                     

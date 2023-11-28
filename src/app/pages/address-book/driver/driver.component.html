@@ -154,13 +154,21 @@
 
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Name</label>
-                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required  />
                     </div>
-                  
                     <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Age</label>
-                        <input type="number"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter Age" required />
-                    </div>
+                        <label for="customername-field" class="form-label">Age</label>
+                        <input type="number" class="form-control" formControlName="age" [(ngModel)]="emp.age" placeholder="Enter Age" required pattern="[0-9]*" />
+                      </div>
+                      
+                    <!-- <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Agea</label>
+                        <input type="text" required pattern="[0-9]*"  class="form-control" formControlName="age" [(ngModel)]="emp.age" placeholder="Enter Age"   pattern="[0-9]*">
+
+                      <input type="text"  class="form-control" formControlName="age"  [(ngModel)]="emp.age" placeholder="Enter Age" required   /> -->
+                    <!-- </div> --> 
+
+                    
                     <div class="mb-3">
                         <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
@@ -198,14 +206,25 @@
                         <input type="text" id="address-field" class="form-control" placeholder="Enter Town" formControlName="town"  [(ngModel)]="emp.town" required />
                     </div>
                     <div class="mb-3">
-                        <label for=" address-field" class="form-label"> Pincode</label>
-                        <input type="number" id="address-field" class="form-control" placeholder="Enter Pincode" formControlName="pincode"  [(ngModel)]="emp.pincode" required />
-                    </div>
+                        <label for="address-field" class="form-label">Pincode</label>
+                        <input
+                          type="number" 
+                          id="address-field"
+                          class="form-control"
+                          placeholder="Enter Pincode"
+                          formControlName="pincode"
+                          [(ngModel)]="emp.pincode"
+                          required
+                        />
+                      </div>
+                      
             
                     <div class="mb-3">
                         <label for="phone-field" class="form-label">Mobile No.</label>
-                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No." formControlName="phn"  [(ngModel)]="emp.phn" required />
+                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No."   formControlName="phn"  [(ngModel)]="emp.phn"  />
                     </div>
+                   
+                      
 
                     <div class="mb-3">
                         <label class="form-label">License</label>
