@@ -6,8 +6,9 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+
 import { ExcelService } from './excel.service';
+import { Subscription } from 'rxjs';
 
 
 // import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -42,7 +43,7 @@ export class StudentComponent {
   downloadURL: string | null = null;
   isSubmitted = false;
   files: File[] = [];
- 
+  dataSubscription: Subscription | null = null;
   image_path: string = '';
   imgSrc: string='';
   selectedImage: any = null;
@@ -97,15 +98,26 @@ export class StudentComponent {
     // getAddressBookData()
   }
 
-
-
-
   ngOnInit() {
     // Subscribe to the address-book collection data
-    this.apiService.getAddressBookData().subscribe(actions => {
-      this.students = actions.map(action => action.payload.doc.data() as Student);
-    });
+    this.dataSubscription = this.apiService.getAddressBookData().subscribe(
+      (actions) => {
+        this.students = actions.map((action) => action.payload.doc.data() as Student);
+      },
+      (error) => {
+        console.error('Error fetching address book data:', error);
+        // Handle the error appropriately, e.g., display a message to the user
+      }
+    );
   }
+
+
+  // ngOnInit() {
+  //   // Subscribe to the address-book collection data
+  //   this.apiService.getAddressBookData().subscribe(actions => {
+  //     this.students = actions.map(action => action.payload.doc.data() as Student);
+  //   });
+  // }
   delet(id: string){
 this.apiService.deleteStudentData(id)
   }
