@@ -44,7 +44,7 @@
                           <input type="radio" formControlName="qtype" value="MCQA" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click()" required /> MCQA
                         </label>
                       </div>
-                      <div *ngIf="emp.qstn == 'mcq'">
+                      <div *ngIf="emp.qstn == 'MCQA'">
                         <label class="p-2">
                           A <input type="text" class="form-control search" [(ngModel)]="emp.a" formControlName="a" />
                         </label>
