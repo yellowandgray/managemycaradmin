@@ -51,7 +51,7 @@ export class AddItemComponent {
 
 
 
-   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private modalService: BsModalService) {
+   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage, private modalService: BsModalService) {
     this.MessageFormData = new FormGroup({  
       'id': new FormControl('', Validators.required),  
       'name': new FormControl('', Validators.required),  
@@ -139,8 +139,8 @@ export class AddItemComponent {
     const initialState = {
       imageUrl: imageUrl,
       imageStyle: {
-        'max-width': '100%',
-        'max-height': '100%',
+        'max-width': '150%',
+        'max-height': '150%',
         'display': 'inline-block',
         'position': 'absolute',
         'top': '50%',

@@ -5,6 +5,7 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import * as firebase from "firebase/compat";
+import { Comprehension } from "./comprehensionobj";
 
 
 // import * as firebase from 'firebase';
@@ -36,25 +37,54 @@ import * as firebase from "firebase/compat";
       return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`).snapshotChanges();
     
      }
-    //   createVanData(obj:Van,SchoolId: string,vanId:string ){
-    //   return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Vans`).add(
-    //     {
-    //       'vanid':'',
-    //       'chassis':obj.chassis,
-    //       'disel':obj.disel,
-    //       'engno':obj.engno,
-    //       'pic':obj.pic,
-    //       'regno':obj.regno, 
-    //       'seats':obj.seats,
-    //       'year':obj.year,
-    //       // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
-    //       // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-    //    }).then(async docRef => {
-    //      console.log(docRef.id);
-    //      await this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/`+ docRef.id).update({
-    //        'vanid':docRef.id})
-    //    })
-    //  }
+      
+
+    
+
+     async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
+      const comprehensionDocRef = await this.firestore.collection(`Grammar/${GrammarId}/Comprehension`).add({
+        'id': '',
+        'no': obj.no,
+        'title': obj.title,
+        'paragraph': obj.paragraph,
+      });
+    
+      const compID = comprehensionDocRef.id;
+      const questionsDocRef = await comprehensionDocRef.collection('Questions').add({
+        'id': '',
+        'qno': obj.qno,
+        'a': obj.a,
+        'b': obj.b,
+        'c': obj.c,
+        'd': obj.d,
+        'qstn': obj.qstn,
+        'answer': obj.title,
+        'qtype': obj.qtype,
+      });
+    
+     
+      await comprehensionDocRef.update({ 'id': compID });
+      await questionsDocRef.update({ 'id': questionsDocRef.id });
+    }
+    
+
+     
+     updateComprehensionData(id: string,obj:Comprehension,GrammarId: string  ){
+
+        this.firestore.doc(`Grammar/${GrammarId}/Comprehension/` + id).update({
+          
+          'id':'id',
+          'no':obj.no,
+          'title':obj.title,
+          'paragraph':obj.paragraph,
+          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+        });
+       }
+
+
+     deleteComprehensionData(id:string, GrammarId: string  ){    
+        this.firestore.doc(`Grammar/${GrammarId}/Comprehension/`+ id).delete();
+      }
 
     //  updateVanData(vanid: string,obj: Van,SchoolId:string,vanId:string ){
     //   this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + vanid).update({

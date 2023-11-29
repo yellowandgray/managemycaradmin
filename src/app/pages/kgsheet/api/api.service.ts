@@ -35,7 +35,7 @@ import { map } from "rxjs";
       console.log("test2");
      // return this.firestore.collection('KG_Sheet').doc(kgSheetId).collection('Items').valueChanges();
     // return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).snapshotChanges();
-    return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
+    return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`, ref => ref.orderBy('name', 'asc').limit(30)).snapshotChanges();
     }
 
 

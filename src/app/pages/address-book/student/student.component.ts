@@ -1,8 +1,32 @@
+import {  Input } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';  // Make sure to import BsModalService and BsModalRef
+
+@Component({
+  selector: 'app-image-modal',
+  template: `
+    <div class="modal-header">
+      <h1 class="modal-title">Image Preview</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body d-flex align-items-center justify-content-center text-center px-5">
+      <img [src]="imageUrl" class="img-fluid" alt="Image" style="max-width: 100%; max-height: 100%; display: block; margin: auto;">
+    </div>
+  `,
+})
+export class ImageModalComponent {
+  @Input() imageUrl: string = '';
+
+  constructor(public bsModalRef: BsModalRef) {}
+}
+
+
 import { Component, Inject, ViewChild } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Student } from '../api/addressobj';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -10,6 +34,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
+
+
 
 
 
@@ -67,7 +93,7 @@ export class StudentComponent {
   searchTerm: string = '';
   filteredStudents: Student[] = [];
   studentNames: string[] = [];
-
+  bsModalRef: BsModalRef | undefined; 
 
 
 
@@ -77,7 +103,7 @@ export class StudentComponent {
 
 
 
-  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
+  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,  private modalService: BsModalService ) {
    
     this.MessageFormData = new FormGroup({  
       'number': new FormControl('', Validators.required),  
@@ -194,9 +220,23 @@ export class StudentComponent {
       console.log(this.filteredStudents);
     }
   }
+
+  openImageModal(imageUrl: string) {
+    const initialState = {
+      imageUrl: imageUrl,
+      imageStyle: {
+        'max-width': '100%',
+        'max-height': '100%',
+        'display': 'block',
+        'margin': 'auto',
+      },
+    };
+    this.bsModalRef = this.modalService.show(ImageModalComponent, { initialState });  // Correct variable name
+    // this.bsModalRef = this.modalService.show(ImageModalComponent, { initialState });
+  }
  
- 
- 
+  
+
  
  
  

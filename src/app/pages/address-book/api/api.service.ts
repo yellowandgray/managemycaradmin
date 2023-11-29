@@ -90,12 +90,17 @@ import { Teacher } from "./teacherobj";
   
     constructor(private firestore: AngularFirestore) {}
   
-    // Get the address-book collection data
+    //Get the address-book collection data
     getAddressBookData() {
      // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
        return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();   
       
     }
+  //     getAddressBookData(): Observable<any[]> {
+  //   return this.firestore
+  //     .collection('Users', (ref) => ref.where('role', '==', 'student').orderBy('name'))
+  //     .snapshotChanges();
+  // }
 
     createStudentData(obj: Student){
       return this.firestore.collection('Users').add(
