@@ -189,6 +189,21 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
  // return this.firestore.doc<any>(path).valueChanges();
 }
 
+getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observable<string[]> {
+  const path = `School/${schoolid}/KGSheet_Assign`;
+  return this.firestore
+    .collection(path, (ref) => ref.where('standard', 'array-contains', selectedOption))
+    .valueChanges()
+    .pipe(
+      map((documents: any[]) => {
+        // Extract list_id values from the obtained documents
+        return documents.map(doc => doc.list_id);
+      }),
+   
+    );
+}
+
+
 
 
 

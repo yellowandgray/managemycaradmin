@@ -34,11 +34,17 @@ import { Comprehension } from "./comprehensionobj";
 //van
 
      getComprehensionData(SchoolId: string) {
-      return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`).snapshotChanges();
+      return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`,ref => ref.orderBy('no')).snapshotChanges();
     
      }
       
-
+    //  getComprehensionData(SchoolId: string) {
+    //   return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`)
+    //     .doc('ComprehensionDocumentId')  // Assuming you have a document ID for the Comprehension document
+    //     .collection('Questions')          // Reference the Questions subcollection
+    //     .snapshotChanges();
+    // }
+    
     
 
      async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
@@ -58,11 +64,9 @@ import { Comprehension } from "./comprehensionobj";
         'c': obj.c,
         'd': obj.d,
         'qstn': obj.qstn,
-        'answer': obj.title,
+        'answer': obj.answer,
         'qtype': obj.qtype,
       });
-    
-     
       await comprehensionDocRef.update({ 'id': compID });
       await questionsDocRef.update({ 'id': questionsDocRef.id });
     }
@@ -85,6 +89,58 @@ import { Comprehension } from "./comprehensionobj";
      deleteComprehensionData(id:string, GrammarId: string  ){    
         this.firestore.doc(`Grammar/${GrammarId}/Comprehension/`+ id).delete();
       }
+
+      // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
+      //   const comprehensionDocRef = this.firestore.doc(`Grammar/${GrammarId}/Comprehension/` + id).ref;
+      
+      //   try {
+      //     // Update main Comprehension document
+      //     await comprehensionDocRef.update({
+      //       'no': obj.no,
+      //       'title': obj.title,
+      //       'paragraph': obj.paragraph,
+      //     });
+      
+      //     // Check if Questions subcollection exists
+      //     const questionsCollectionRef = comprehensionDocRef.collection('Questions');
+      
+      //     // Update or add a document in the Questions subcollection
+      //     const questionsQuerySnapshot = await questionsCollectionRef.get();
+      
+      //     if (!questionsQuerySnapshot.empty) {
+      //       // Assuming there's only one document in the Questions subcollection
+      //       const questionDocRef = questionsQuerySnapshot.docs[0].ref;
+      //       await questionDocRef.update({
+      //         'qno': obj.qno,
+      //         'a': obj.a,
+      //         'b': obj.b,
+      //         'c': obj.c,
+      //         'd': obj.d,
+      //         'qstn': obj.qstn,
+      //         'answer': obj.title, // Note: I assume 'answer' should be updated to 'obj.title'
+      //         'qtype': obj.qtype,
+      //       });
+      //     } else {
+      //       // If there are no documents, add a new one
+      //       const newQuestionDocRef = await questionsCollectionRef.add({
+      //         'qno': obj.qno,
+      //         'a': obj.a,
+      //         'b': obj.b,
+      //         'c': obj.c,
+      //         'd': obj.d,
+      //         'qstn': obj.qstn,
+      //         'answer': obj.title,
+      //         'qtype': obj.qtype,
+      //       });
+      
+      //       await newQuestionDocRef.update({ 'id': newQuestionDocRef.id });
+      //     }
+      
+      //   } catch (error) {
+      //     console.error('Error updating data:', error);
+      //   }
+      // }
+      
 
     //  updateVanData(vanid: string,obj: Van,SchoolId:string,vanId:string ){
     //   this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + vanid).update({

@@ -11,6 +11,14 @@ import { RowItem } from '../api/assignobj';
 import { Assign } from '../api/assignobj ';
 
 
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ImageModalComponent } from 'src/app/Image-modal.component';
+
+
+
+
+
+
 
 
 @Component({
@@ -62,6 +70,12 @@ export class AddlistComponent {
   currListID:string='';
   itemNames: string[] = [];
   itemDetails: any[] = [];
+  allItems: Addlist[] = [];  // Replace YourItemType with the actual type of your items
+filteredItems: Addlist[] = [];
+selectedOption: string = '';
+bsModalRef: BsModalRef | undefined;
+
+
 
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
@@ -71,7 +85,7 @@ export class AddlistComponent {
   @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
   @ViewChild('deleteRecordModal') deleteRecordModal: any;
  
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage)
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private modalService: BsModalService)
   {
    
     this.MessageFormData = new FormGroup({  
@@ -82,6 +96,8 @@ export class AddlistComponent {
     this.assignForm = new FormGroup({
       'standard': new FormControl([]),
     });
+
+
 
 
    
@@ -100,7 +116,11 @@ export class AddlistComponent {
       this.allPossibleStandards = ['LKG', 'UKG', 'I', 'II', 'III'];
 
 
+
+
     }
+
+
 
 
     // this.MessageFormData1 = new FormGroup({                                                                                                                                                                                                                                                                                                                                                            
@@ -131,7 +151,14 @@ export class AddlistComponent {
            items:data.items
          } as Addlist;
        });
+       this.allItems = this.addlists;
      });
+
+
+     
+//this.allItems = this.addlists;
+
+
      this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
        this.additems = actions.map(action => {
          const data = action.payload.doc.data() as Additems;
@@ -146,8 +173,69 @@ export class AddlistComponent {
    
 
 
+
+
    this.filteredAdditems = this.additems;
    }
+
+
+
+
+  //  filterItemsByOption() {
+  //   if (this.selectedOption === 'ALL') {
+  //     this.addlists = [...this.allItems];  // If 'ALL' is selected, show all items
+  //   } else {
+  //     // Filter items based on the selected standard
+  //     console.log("selected option",this.selectedOption);
+  //     const selectedOptionLower = this.selectedOption.toLowerCase();
+  //     this.addlists = this.allItems.filter(item =>
+  //       item.standard && item.standard.map(s => s.toLowerCase()).includes(selectedOptionLower)
+  //     );
+  //     console.log("selected List",this.addlists);
+  //   }
+  // }
+
+
+  filterItemsByOption() {
+    if (this.selectedOption === 'ALL' || this.selectedOption === '') {
+      this.addlists = [...this.allItems];
+     // If 'ALL' is selected, show all items
+    } else {
+      // Fetch the list of list_ids based on the selected standard
+      this.apiService.getListID(this.school_id, this.kgSheetId, this.selectedOption).subscribe(listIds => {
+        // Filter documents based on the listIds
+        this.addlists = this.addlists.filter(item => listIds.includes(item.id));
+ 
+        // Optionally, call the updateListItemsData API for each list_id
+        // listIds.forEach(list_id => {
+        //   this.callUpdateListItemsAPI(list_id);
+        // });
+      });
+    }
+  }
+ 
+  openImageModal(imageUrl: string) {
+    const initialState = {
+      imageUrl: imageUrl,
+      imageStyle: {
+        'max-width': '100%',
+        'max-height': '100%',
+        'display': 'inline-block',
+        'position': 'absolute',
+        'top': '50%',
+        'left': '50%',
+       
+        'transform': 'translate(-50%, -50%)',
+      },
+    };
+ 
+    this.bsModalRef = this.modalService.show(ImageModalComponent, { initialState });
+  }
+ 
+ 
+ 
+
+
    filterItems(index: number, event: any): void {
     if (this.showAllItems) {
       console.log("step 2");
@@ -193,6 +281,8 @@ export class AddlistComponent {
  
 
 
+
+
   onDropdownChange(index: number, selectedItemId: string): void {
     // Find the selected item by ID
    
@@ -207,6 +297,8 @@ export class AddlistComponent {
       // You can choose to set a default or handle this case according to your application's logic.
     }
   }
+
+
 
 
   // submitSelectedIds() {
@@ -243,18 +335,26 @@ export class AddlistComponent {
   }
 
 
+
+
   editListItemId(id: string) {
     this.currListID = id;
     console.log("Current List Id", this.currListID);
    
 
 
+
+
     const existingData = this.addlists.find(item => item.id === id);
+
+
 
 
     if (existingData) {
       // Data already exists, perform actions accordingly
       console.log('Data already exists:', existingData);
+
+
 
 
       // Fetch the details of items based on the item IDs
@@ -268,13 +368,18 @@ export class AddlistComponent {
         return item ? { id: item.id, name: item.name || '', picture: item.picture || '', punctuation: '' /* add other fields as needed */ } : null;
       });
 
+
       if(this.itemDetails.length==0)
       {
         this.itemDetails= Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
       }
 
 
+
+
       console.log('Item Details:', this.itemDetails);
+
+
 
 
       // You can show a different modal or handle the behavior as needed
@@ -286,6 +391,8 @@ export class AddlistComponent {
       // Show your existing modal or handle the behavior as needed
     }
   }
+
+
 
 
   addDetail(): void {
@@ -304,6 +411,8 @@ export class AddlistComponent {
   }
 
 
+
+
   removeRow(index: number) {
     // Remove the item ID from the selectedIds array
     //const removedItemId = this.items[index].id;
@@ -313,9 +422,14 @@ export class AddlistComponent {
     // }
 
 
+
+
     // Remove the item from the items array
     //this.items.splice(index, 1);
   }
+
+
+
 
 
 
@@ -328,6 +442,20 @@ export class AddlistComponent {
   //   // Update the selected item for the specific dropdown
  
   // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -356,6 +484,8 @@ export class AddlistComponent {
    
 
 
+
+
    editList(index: number) {
     const selectedList = this.addlists[index];
     this.emp = { ...selectedList }; // Copy selected student data to emp object
@@ -372,6 +502,8 @@ export class AddlistComponent {
   }
 
 
+
+
   update(id: string)
   {
     const kgSheetId = '3u90Jik86R10JulNCU3K';
@@ -381,6 +513,8 @@ export class AddlistComponent {
   //  this.resetForm;
 
 
+
+
   }
   delete(id: string){
     const kgSheetId = '3u90Jik86R10JulNCU3K';
@@ -388,7 +522,15 @@ export class AddlistComponent {
       }
 
 
+
+
  // Add this property to your component
+
+
+
+
+
+
 
 
 
@@ -406,6 +548,8 @@ export class AddlistComponent {
         var category = 'images';
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
+
 
 
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
@@ -426,6 +570,8 @@ export class AddlistComponent {
       }
 
 
+
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -434,11 +580,15 @@ export class AddlistComponent {
   }
 
 
+
+
 save() {
   const kgSheetId = '3u90Jik86R10JulNCU3K';
   if (this.selectedImage) {
            this.apiService.createAddListData(this.emp, kgSheetId);
            this.emp = new Addlist();
+
+
 
 
   } else {
@@ -460,6 +610,14 @@ save() {
 
 
 
+
+
+
+
+
+
+
+
 assignSelectedStandards(): void {
   console.log("Step 0");
   this.selectedStandards.forEach(standard => {
@@ -468,10 +626,16 @@ assignSelectedStandards(): void {
 }
 
 
+
+
 //selectedStandards: string[] = [];
 
 
+
+
 // assignstd1(standard: string): void {
+
+
 
 
 //   if (this.assign.standard.includes(standard)) {
@@ -487,11 +651,15 @@ isSelected(standard: string): boolean {
 }
 
 
+
+
 setSelectedItemId(itemId: string) {
   this.selectedItemId = itemId;
   this.assign.list_id = this.selectedItemId;
   console.log("school id: " + this.school_id);
   console.log("Item id: " + itemId);
+
+
 
 
   // this.apiService.checkListIdExists(this.school_id, itemId).subscribe(
@@ -507,8 +675,12 @@ setSelectedItemId(itemId: string) {
 }
 
 
+
+
 assignstd1(listId: string): void {
   console.log("Step 0.1");
+
+
 
 
   // Assuming listId is set when the "Assign to Standard" button is clicked
@@ -518,10 +690,14 @@ assignstd1(listId: string): void {
   }
 
 
+
+
   // Fetch the entire document for the clicked list_id
   this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
     assignedData => {
       console.log("Step 1");
+
+
 
 
       // Extract the 'standard' field or any other field you need
@@ -535,8 +711,14 @@ assignstd1(listId: string): void {
 
 
 
+
+
+
+
       // Show the modal
     //  this.deleteRecordModal2.show();
+
+
 
 
       // Set the selectedItemId
@@ -547,16 +729,24 @@ assignstd1(listId: string): void {
       console.error('Error fetching document data:', error);
 
 
+
+
       // Reset selectedStandards to an empty array
       this.selectedStandards = [];
+
+
 
 
       // Show the modal
      // this.deleteRecordModal2.show();
 
 
+
+
       // Set the selectedItemId
       this.setSelectedItemId(listId);
+
+
 
 
       // Set fetchedStandards to an empty array if no data is fetched
@@ -574,6 +764,22 @@ onStandardChange(standard: string): void {
   }
   console.log('Selected Standards:', this.selectedStandards);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -610,6 +816,8 @@ saveSelectedStandards() {
     }
 
 
+
+
     // Reset the form and close the modal
     // this.assign = new Assign();
     // this.deleteRecordModal2?.hide();
@@ -626,13 +834,35 @@ saveSelectedStandards() {
 
 
 
+
+
+
+
+
+
+
+
+
+
 // resetForm() {
 //   this.selectedImage = null;
 //   this.isSubmitted = false;
 // }
 
 
+
+
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

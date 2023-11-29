@@ -1,6 +1,10 @@
 
 
+
+
 <app-breadcrumbs title="List Details" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+
 
 
 <div class="modal fade" bsModal #showModal="bs-modal">
@@ -54,6 +58,8 @@
     </div>
   </div>
  <!-- Update List -->
+
+
 
 
  <div class="modal fade" bsModal #editModal="bs-modal">
@@ -118,6 +124,8 @@
           <!-- <form  class="tablelist-form px-4" [formGroup]="MessageFormData"> -->
 
 
+
+
             <!-- <div *ngFor="let item of items; let i = index" class="col-md-9  ">
               <div class="input-group">
                 <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}"
@@ -163,6 +171,8 @@
              
 
 
+
+
               <div class="modal-footer  d-flex justify-content-sm-end">
                   <div class="hstack gap-2 ">
                       <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
@@ -173,6 +183,10 @@
       </div>
   </div>
 </div>
+
+
+
+
 
 
 
@@ -216,88 +230,40 @@
       </div>
     </div>
   </div>
-<!--  
-  <div class="modal fade" bsModal #deleteRecordModal2="bs-modal">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header px-4 pt-4">
-          <h5 class="modal-title" id="exampleModalLabel">Assign to Standard</h5>
-          <button type="button" class="btn-close" (click)="deleteRecordModal2.hide()"></button>
-        </div>
-        <form class="tablelist-form" [formGroup]="assignForm">
-          <div class="modal-body p-4">
-            <div class="mb-3 col-sm-6">
-              <label for="course-category-input" class="form-label">Assign<span class="text-danger">*</span></label>
- 
-              <div class="form-check mb-2" *ngFor="let standard of fetchedStandards">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [id]="standard"
-                  [checked]="isSelected(standard)"
-                  (change)="assignstd1(standard)"
-                />
-                <label class="form-check-label" [for]="standard">{{ standard }}</label>
-              </div>
-            </div>
-          </div>
- 
-          <div class="modal-footer">
-            <div class="hstack gap-2 justify-content-end">
-              <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal2.hide()">
-                <i class="bi bi-x-lg align-baseline me-1"></i> Close
-              </button>
-              <button type="button" class="btn btn-primary" id="add-btn" (click)="saveSelectedStandards()">Add Assign</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div> -->
- 
- 
+
+
 
 
  
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <!-- <div class="card-header d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <h5 class="card-title mb-0"><span class="badge bg-dark-subtle text-dark ms-1"></span></h5>
-                </div>
-                <div class="flex-shrink-0">
-                    <div class="d-flex flex-wrap align-items-start gap-2">
-                      
-                        <button type="button" class="btn btn-primary add-btn" (click)="showModal.show()"><i class="bi bi-plus-circle align-baseline me-1"></i> Add
-                            List</button>
-                    </div>
-                </div>
-            </div> -->
-          
-          
+       
+         
+         
             <div class="card-body">
               <div class="row g-2 mb-3">
                 <div class="col-sm-2 ">
 
+
                   <div class="search-box ms-2">
-                    <!-- <span class="ri-search-line search-icon me-3"></span> -->
-                    <select class="form-select" id="course-category-input" >
-                        <option value="">Standard</option>
-                        <option value="">ALL</option>
-                        <option value="LKG">LKG</option>
-                        <option value="UKG">UKG</option>
-                        <option value="I">I</option>
-                        <option value="II"> II</option>
-                        <option value="III">III</option>
-                     
+                    <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption" (change)="filterItemsByOption()">
+                      <option value="">Standard</option>
+                      <option value="ALL">ALL</option>
+                      <option value="LKG">LKG</option>
+                      <option value="UKG">UKG</option>
+                      <option value="I">I</option>
+                      <option value="II"> II</option>
+                      <option value="III">III</option>
                     </select>
-                </div>
+                  </div>
+                 
                     <!-- <div class="search-box ms-2 ">
                         <input type="text" class="form-control search order-last order-md-first"  placeholder="Search Name">
                         <i class="ri-search-line search-icon"></i>
                     </div> -->
                 </div>
+
 
                 <div class="col-sm">
                     <div class="d-flex justify-content-sm-end">
@@ -330,10 +296,11 @@
                                
                                 <td class="category">{{data.name}}</td>
 
+
                                 <td class="picture">
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-xs bg-light rounded p-1 " style=" object-fit: cover;height: 50px; width: 50px;">
-                                            <img src="{{data.picture}}" alt="" class="img-fluid d-block  ">
+                                            <img src="{{data.picture}}" alt="" (click)="openImageModal(data.picture)" class="img-fluid d-block  ">
                                         </div>
                                      
                                     </div>
@@ -364,11 +331,23 @@
                 </div><!--end table-responsive-->
 
 
+
+
              
                
             </div>
         </div><!--end card-->
     </div><!--end col-->
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -404,6 +383,12 @@
     </div>
 </div>
 </div> -->
+
+
+
+
+
+
 
 
 

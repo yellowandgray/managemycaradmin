@@ -31,7 +31,8 @@ export class TeacherComponent {
   image_path: string = '';
   imgSrc: string='';
   selectedImage: any = null;
-
+  selectedPreviewImage: string | null = null;
+  @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 
@@ -154,7 +155,11 @@ this.apiService.deleteTeacherData(id)
   }
 
 
-  
+  showImagePreview(imageUrl: string) {
+    this.selectedPreviewImage = imageUrl;
+    this.showModals1?.show(); // Show the modal
+  }
+
 
 
    update(id: string)

@@ -1,25 +1,3 @@
-import {  Input } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';  // Make sure to import BsModalService and BsModalRef
-
-@Component({
-  selector: 'app-image-modal',
-  template: `
-    <div class="modal-header">
-      <h1 class="modal-title">Image Preview</h1>
-      <button type="button" class="btn-close" aria-label="Close" (click)="bsModalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body d-flex align-items-center justify-content-center text-center px-5">
-      <img [src]="imageUrl" class="img-fluid" alt="Image" style="max-width: 100%; max-height: 100%; display: block; margin: auto;">
-    </div>
-  `,
-})
-export class ImageModalComponent {
-  @Input() imageUrl: string = '';
-
-  constructor(public bsModalRef: BsModalRef) {}
-}
 
 
 import { Component, Inject, ViewChild } from '@angular/core';
@@ -34,28 +12,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
-
-
-
-
-
-
-// import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-
-
-
-// import { AngularFireStorage } from '@angular/fire/storage';
-
-
-
-
-
-
-
-
-
-
 
 
 @Component({
@@ -75,7 +31,7 @@ export class StudentComponent {
 
 
  
-  emps: { image: string } = { image: '' }; // Assuming emp object has an image property
+  emps: { image: string } = { image: '' }; 
  
   //selectedImage: File | null = null;
   selectedFile: File | null = null;
@@ -93,17 +49,18 @@ export class StudentComponent {
   searchTerm: string = '';
   filteredStudents: Student[] = [];
   studentNames: string[] = [];
-  bsModalRef: BsModalRef | undefined; 
 
-
-
+  selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
+
+
+  @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 
 
 
 
-  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,  private modalService: BsModalService ) {
+  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
    
     this.MessageFormData = new FormGroup({  
       'number': new FormControl('', Validators.required),  
@@ -221,22 +178,12 @@ export class StudentComponent {
     }
   }
 
-  openImageModal(imageUrl: string) {
-    const initialState = {
-      imageUrl: imageUrl,
-      imageStyle: {
-        'max-width': '100%',
-        'max-height': '100%',
-        'display': 'block',
-        'margin': 'auto',
-      },
-    };
-    this.bsModalRef = this.modalService.show(ImageModalComponent, { initialState });  // Correct variable name
-    // this.bsModalRef = this.modalService.show(ImageModalComponent, { initialState });
-  }
  
   
-
+  showImagePreview(imageUrl: string) {
+    this.selectedPreviewImage = imageUrl;
+    this.showModals1?.show(); // Show the modal
+  }
  
  
  

@@ -1,85 +1,90 @@
-<!-- <div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" data-bs-backdrop="static" data-bs-keyboard="false">
+<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Add Comprehension</h5>
+                <h5 class="modal-title" id="exampleModalLabel"> Update Comprehension</h5>
                 <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
             </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
+            <form  class="tablelist-form" [formGroup]="MessageFormData">
+
+
                 <div class="modal-body">
                     <input type="hidden" name="id" value="" formControlName="ids" />
+                    <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
+                    <input type="hidden" id="id-field">
 
 
-
+                    <input type="hidden" id="rating-field">
+                     
                     <div class="mb-3">
-                        <label for="customername-field" class="form-label">Title</label>
-                        <input type="text"  class="form-control" formControlName="title"  [(ngModel)]="emp.title" placeholder="Enter Title" required />
+                        <label for="customername-field" class="form-label">No.</label>
+                        <input type="number"  class="form-control" formControlName="no"  [(ngModel)]="emp.no" placeholder="Enter No." required />
                     </div>
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">Paragraph</label>
-                        <textarea class="form-control" formControlName="Paragraph" placeholder="Enter Paragraph" required style="height: 120px;"></textarea>
-                    </div>
-                    
-                    
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label"> Question 1</label>
-                        <input type="address" id="address-field" class="form-control" placeholder="Enter Question" formControlName="address"  [(ngModel)]="emp.title" required />
-                    </div>
-                    
+                <div class="mb-3">
+                    <label for="customername-field" class="form-label">Title</label>
+                    <input type="text"  class="form-control" formControlName="title"  [(ngModel)]="emp.title" placeholder="Enter Title" required />
+                </div>
+                <div class="mb-3">
+                    <label for="customername-field" class="form-label">Paragraph</label>
+                    <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph"required style="height: 120px;"></textarea>
+                </div>
 
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Type</label>
-                        <div>
-                            <label>
-                              <input type="radio" formControlName="qualificationType" value="text" [(ngModel)]="qualificationType" name="qualificationType" (click)="click1()" required /> Input
-                            </label>
-                            <label class="p-4">
-                              <input type="radio" formControlName="qualificationType" value="mcq" [(ngModel)]="qualificationType" name="qualificationType" (click)="click()" [ngClass]="{'selected': qualificationType === 'mcq'}" required /> MCQA
-                            </label>
-                          </div>
-                          
-                          
-                      
-                        <div *ngIf="qualificationType == 'mcq'">
-                          <label class="p-2">
-                            A <input type="text" class="form-control search" formControlName="option1" />
-                          </label>
-                      
-                          <label>
-                            B <input type="text" class="form-control search" formControlName="option2" />
-                          </label>
-                          <label class="p-2">
-                            C <input type="text" class="form-control search" formControlName="option3" />
-                          </label>
-                          <label>
-                            D <input type="text" class="form-control search" formControlName="option4" />
-                          </label>
-                      
-                          <div class="d-flex p-2 align-items-center">
+                <div class="mb-3">
+                    <label for=" address-field" class="form-label" > Question 1</label>
+                    <input type="address" id="address-field" class="form-control" placeholder="Enter Question" formControlName="qstn" formControlName="qno"  [(ngModel)]="emp.qstn" required />
+                </div>
+
+                 <div class="mb-3">
+                    <label for="phone-field" class="form-label">Type</label>
+                    <div>
+                        <label>
+                          <input type="radio" formControlName="qtype" value="Input" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click1()" required /> Input
+                        </label>
+                        <label class="p-4">
+                          <input type="radio" formControlName="qtype" value="MCQA" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click()" required /> MCQA
+                        </label>
+                      </div>
+                      <div *ngIf="emp.qstn == 'mcq'">
+                        <label class="p-2">
+                          A <input type="text" class="form-control search" [(ngModel)]="emp.a" formControlName="a" />
+                        </label>
+                    
+                        <label>
+                          B <input type="text" class="form-control search"  [(ngModel)]="emp.b"formControlName="b" />
+                        </label>
+                        <label class="p-2">
+                          C <input type="text" class="form-control search"  [(ngModel)]="emp.c" formControlName="c" />
+                        </label>
+                        <label>
+                          D <input type="text" class="form-control search" [(ngModel)]="emp.d" formControlName="d" />
+                        </label>
+                        <div class="d-flex p-2 align-items-center ">
                             <span class="me-3">Correct Answer:</span>
-                            <select class="form-control search" formControlName="correctAnswer" style="width: 200px;">
-                              <option value="A">A</option>
-                              <option value="B">B</option>
-                              <option value="C">C</option>
-                              <option value="D">D</option>
+                            <select class="form-control " style="width: 200px;" id="course-category-input"    [(ngModel)]="emp.answer" formControlName="answer">
+                              <option value="a">A</option>
+                              <option value="b">B</option>
+                              <option value="c">C</option>
+                              <option value="d">D</option>
                             </select>
                           </div>
-                        </div>
                       </div>
-                      
-                  
+                 </div>
+                 
+                 
+                 
+             
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="deleteRecordModal.hide()">Add </button>
-                         <button type="button" class="btn btn-success" id="edit-btn">Update</button> 
+                        <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i
+                                class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">Update</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-</div> -->
+</div>
 
 <div bsModal #addCourse="bs-modal" class="modal fade" id="addCourse" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -102,8 +107,8 @@
                     <input type="hidden" id="rating-field">
                      
                     <div class="mb-3">
-                        <label for="customername-field" class="form-label">NO.</label>
-                        <input type="text"  class="form-control" formControlName="no"  [(ngModel)]="emp.no" placeholder="Enter NO." required />
+                        <label for="customername-field" class="form-label">No.</label>
+                        <input type="number"  class="form-control" formControlName="no"  [(ngModel)]="emp.no" placeholder="Enter No." required />
                     </div>
                 <div class="mb-3">
                     <label for="customername-field" class="form-label">Title</label>
@@ -113,23 +118,59 @@
                     <label for="customername-field" class="form-label">Paragraph</label>
                     <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph"required style="height: 120px;"></textarea>
                 </div>
+<!-- Inside your component template -->
+<!-- <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
+    <div class="mb-3">
+        <label for="address-field" class="form-label">Question {{ i + 1 }}</label>
+        <input type="text" id="address-field" class="form-control" placeholder="Enter Question" formControlName="qstn" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="phone-field" class="form-label">Type</label>
+        <div>
+            <label>
+                <input type="radio" formControlName="qtype" value="text" /> Input
+            </label>
+            <label class="p-4">
+                <input type="radio" formControlName="qtype" value="mcq" /> MCQA
+            </label>
+        </div>
+        <div *ngIf="question.get('qtype').value === 'mcq'">
+           
+            <label class="p-2">A <input type="text" class="form-control search" formControlName="a" /></label>
+            <label>B <input type="text" class="form-control search" formControlName="b" /></label>
+            <label class="p-2">C <input type="text" class="form-control search" formControlName="c" /></label>
+            <label>D <input type="text" class="form-control search" formControlName="d" /></label>
+            <div class="d-flex p-2 align-items-center">
+                <span class="me-3">Correct Answer:</span>
+                <select class="form-control search" style="width: 200px;" formControlName="answer">
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div> -->
+
 
                 <div class="mb-3">
                     <label for=" address-field" class="form-label" > Question 1</label>
-                    <input type="address" id="address-field" class="form-control" placeholder="Enter Question" formControlName="qstn"  [(ngModel)]="emp.qstn" required />
+                    <input type="address" id="address-field" class="form-control" placeholder="Enter Question" formControlName="qstn" formControlName="qno"  [(ngModel)]="emp.qstn" required />
                 </div>
 
                  <div class="mb-3">
                     <label for="phone-field" class="form-label">Type</label>
                     <div>
                         <label>
-                          <input type="radio" formControlName="qtype" value="text" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click1()" required /> Input
+                          <input type="radio" formControlName="qtype" value="Input" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click1()" required /> Input
                         </label>
                         <label class="p-4">
-                          <input type="radio" formControlName="qtype" value="mcq" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click()" required /> MCQA
+                          <input type="radio" formControlName="qtype" value="MCQA" [(ngModel)]="emp.qtype" name="qualificationType" (click)="click()" required /> MCQA
                         </label>
                       </div>
-                      <div *ngIf="qualificationType == 'mcq'">
+                      <div *ngIf="qualificationType == 'MCQA'">
                         <label class="p-2">
                           A <input type="text" class="form-control search" [(ngModel)]="emp.a" formControlName="a" />
                         </label>
@@ -145,16 +186,16 @@
                         </label>
                         <div class="d-flex p-2 align-items-center ">
                             <span class="me-3">Correct Answer:</span>
-                            <select class="form-control search" style="width: 200px;">
-                              <option value="A">A</option>
-                              <option value="B">B</option>
-                              <option value="C">C</option>
-                              <option value="D">D</option>
+                            <select class="form-control " style="width: 200px;" id="course-category-input"    [(ngModel)]="emp.answer" formControlName="answer">
+                              <option value="a">A</option>
+                              <option value="b">B</option>
+                              <option value="c">C</option>
+                              <option value="d">D</option>
                             </select>
                           </div>
                       </div>
                  </div>
-                 
+                
              
                 </div>
                 <div class="modal-footer">
@@ -228,7 +269,7 @@
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" >Edit</button>
+                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="editStudent(i)">Edit</button>
                                             </div>
                                             <div class="remove">
                                                 <button class="btn btn-sm btn-danger remove-item-btn" (click)="delet(data.id)">Remove</button>

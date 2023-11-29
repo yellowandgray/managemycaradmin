@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
 
+
 @Component({
   selector: 'app-driver',
   templateUrl: './driver.component.html',
@@ -18,6 +19,7 @@ export class DriverComponent {
   Drivers: Driver[] = [];
   MessageFormData: FormGroup;
   emp: Driver = new Driver();
+
 
  
   emps: { image: string } = { image: '' }; // Assuming emp object has an image property
@@ -37,33 +39,37 @@ export class DriverComponent {
   selectedImage1: any = null;
   selectedImage2: any = null;
   selectedImage3: any = null;
+  selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
+  @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+
 
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
    
     this.MessageFormData = new FormGroup({  
-      'driverid': new FormControl('', Validators.required),   
-      'phn': new FormControl('', Validators.required),   
+      'driverid': new FormControl('', Validators.required),  
+      'phn': new FormControl('', Validators.required),  
       'name': new FormControl('', Validators.required),      
       'dob': new FormControl('', Validators.required),      
       'doj': new FormControl('', Validators.required),      
       'town': new FormControl('', Validators.required),      
-      'pincode': new FormControl('', Validators.required), 
-      'address': new FormControl('', Validators.required),   
-      'age': new FormControl('', Validators.required),     
+      'pincode': new FormControl('', Validators.required),
+      'address': new FormControl('', Validators.required),  
+      'age': new FormControl('', Validators.required),    
       // 'active': new FormControl(''),
     });    
        
     if (this.emp != null) {
 
+
       this.MessageFormData.patchValue({  
-        driverid:this.emp.driverid,   
+        driverid:this.emp.driverid,  
         name: this.emp.name,
         aadhar: this.emp.aadhar,
         address: this.emp.address,
-        phn: this.emp.phn, 
-        age:  this.emp.age,   
+        phn: this.emp.phn,
+        age:  this.emp.age,  
         dob:  this.emp.dob,  
         boj:  this.emp.doj,  
         pincode: this.emp.pincode,
@@ -73,10 +79,10 @@ export class DriverComponent {
  
       });
       // this.key = this.data.data.key;
-      // this.emp.rec_no= this.emp.rec_no; 
-      
+      // this.emp.rec_no= this.emp.rec_no;
+     
       this.emp.name= this.emp.name;  
-      this.emp.address= this.emp.address; 
+      this.emp.address= this.emp.address;
       this.emp.phn= this.emp.phn;  
       this.emp.age= this.emp.age;  
       this.emp.dob= this.emp.dob;  
@@ -93,6 +99,8 @@ export class DriverComponent {
   }
 
 
+
+
   ngOnInit() {
     // Subscribe to the address-book collection data
     this.apiService.getDriverData(this.SchoolId).subscribe(actions => {
@@ -102,6 +110,13 @@ export class DriverComponent {
   delet(driverid: string){
 this.apiService.deleteDriverData(driverid,this.SchoolId)
   }
+
+
+  showImagePreview(imageUrl: string) {
+    this.selectedPreviewImage = imageUrl;
+    this.showModals1?.show(); // Show the modal
+  }
+
 
   onsubmit(){
    
@@ -118,6 +133,7 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         var category = 'images';
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
 
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
@@ -137,12 +153,14 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         );
       }
 
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
     }
   }
+
 
   showPreview1(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -155,6 +173,7 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         var category = 'images';
         var filePath = `${category}/${this.selectedImage1.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
 
         this.storage.upload(filePath, this.selectedImage1).snapshotChanges().pipe(
           finalize(() => {
@@ -174,12 +193,14 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         );
       }
 
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage1 = null;
     }
   }
+
 
   showPreview3(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -192,6 +213,7 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         var category = 'images';
         var filePath = `${category}/${this.selectedImage3.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
 
         this.storage.upload(filePath, this.selectedImage3).snapshotChanges().pipe(
           finalize(() => {
@@ -211,6 +233,7 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         );
       }
 
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -228,6 +251,7 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         var category = 'images';
         var filePath = `${category}/${this.selectedImage2.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
 
         this.storage.upload(filePath, this.selectedImage2).snapshotChanges().pipe(
           finalize(() => {
@@ -247,22 +271,25 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
         );
       }
 
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage1 = null;
     }
   }
-  
-  
+ 
+ 
 
-  
+
+ 
   save() {
-    console.log(this.emp); 
+    console.log(this.emp);
+
 
     if (this.selectedImage) {
       this.apiService.createDriverData(this.emp,this.SchoolId);
-      this.emp = new Driver(); 
+      this.emp = new Driver();
     } else {
       // If no file is selected, save the item data without an image.
       console.log("Else Running");
@@ -276,29 +303,34 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
   }
 
 
-  
+
+
+ 
+
+
 
 
    update(driverid: string)
    {
      this.apiService.updateDriverData(driverid.toString(),this.emp,this.SchoolId);
      this.emp = new Driver();
-     this.showModals?.hide(); 
+     this.showModals?.hide();
      this.resetForm;
+
 
    }
    
    editDriver(index: number) {
     const selectedDriver = this.Drivers[index];
     this.emp = { ...selectedDriver }; // Copy selected Driver data to emp object
-    
+   
     this.MessageFormData.patchValue({
       deriverid:this.emp.driverid,
       name: this.emp.name,
       aadhar: this.emp.aadhar,
       address: this.emp.address,
-      phn: this.emp.phn, 
-      age:  this.emp.age,   
+      phn: this.emp.phn,
+      age:  this.emp.age,  
       dob:  this.emp.dob,  
       boj:  this.emp.doj,  
       pincode: this.emp.pincode,
@@ -310,16 +342,20 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
     this.resetForm
    
   }
-  
+ 
   onImageSelected(event: any) {
     if (event.target.files && event.target.files[0]) {
       this.selectedImage = event.target.files[0];
     }
   }
-  
+ 
   resetForm() {
     this.selectedImage = null;
     this.isSubmitted = false;
   }
 
+
 }
+
+
+

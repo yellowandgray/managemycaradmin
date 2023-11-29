@@ -25,7 +25,8 @@ export class AddvanComponent {
   image_path: string = '';
   imgSrc: string='';
   selectedImage: any = null;
-
+  selectedPreviewImage: string | null = null;
+  @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
  
@@ -100,6 +101,10 @@ save() {
 }
 
 
+showImagePreview(imageUrl: string) {
+  this.selectedPreviewImage = imageUrl;
+  this.showModals1?.show(); // Show the modal
+}
 
 
 
