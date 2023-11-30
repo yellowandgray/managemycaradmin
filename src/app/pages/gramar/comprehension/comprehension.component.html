@@ -98,7 +98,7 @@
             <form  class="tablelist-form" [formGroup]="MessageFormData">
 
 
-                <div class="modal-body">
+                <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                     <input type="hidden" id="id-field">
@@ -118,42 +118,6 @@
                     <label for="customername-field" class="form-label">Paragraph</label>
                     <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph"required style="height: 120px;"></textarea>
                 </div>
-<!-- Inside your component template -->
-<!-- <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i">
-    <div class="mb-3">
-        <label for="address-field" class="form-label">Question {{ i + 1 }}</label>
-        <input type="text" id="address-field" class="form-control" placeholder="Enter Question" formControlName="qstn" required />
-    </div>
-
-    <div class="mb-3">
-        <label for="phone-field" class="form-label">Type</label>
-        <div>
-            <label>
-                <input type="radio" formControlName="qtype" value="text" /> Input
-            </label>
-            <label class="p-4">
-                <input type="radio" formControlName="qtype" value="mcq" /> MCQA
-            </label>
-        </div>
-        <div *ngIf="question.get('qtype').value === 'mcq'">
-           
-            <label class="p-2">A <input type="text" class="form-control search" formControlName="a" /></label>
-            <label>B <input type="text" class="form-control search" formControlName="b" /></label>
-            <label class="p-2">C <input type="text" class="form-control search" formControlName="c" /></label>
-            <label>D <input type="text" class="form-control search" formControlName="d" /></label>
-            <div class="d-flex p-2 align-items-center">
-                <span class="me-3">Correct Answer:</span>
-                <select class="form-control search" style="width: 200px;" formControlName="answer">
-                    <option value="a">A</option>
-                    <option value="b">B</option>
-                    <option value="c">C</option>
-                    <option value="d">D</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 
                 <div class="mb-3">
                     <label for=" address-field" class="form-label" > Question 1</label>
@@ -195,7 +159,8 @@
                           </div>
                       </div>
                  </div>
-                
+
+                  
              
                 </div>
                 <div class="modal-footer">
@@ -265,7 +230,7 @@
                                     <td class="customer_name" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                         {{data.paragraph}}
                                       </td>
-                                      <td class="Items ps-4"><button type="submit" class="btn btn-primary" id="add-btn" >Assign Items</button></td>
+                                      <td class="Items ps-4"><button type="submit" class="btn btn-primary" id="add-btn" >Assign</button></td>
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="edit">

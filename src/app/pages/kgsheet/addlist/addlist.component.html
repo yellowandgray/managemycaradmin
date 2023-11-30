@@ -305,9 +305,10 @@
                                      
                                     </div>
                                 </td>
-                                <td class="Items"><button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show(); editListItemId(data.id)">Assign Items</button></td>
+                                <td class="Items"> <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show(); editListItemId(data.id)">Assign Items</button></td>
                                 <td class="Total Items">{{data.items.length}}</td>
-                                <td class="Assign To">
+                                <td class="Assign To" >
+                                  <!-- <span>{{standard}} sda</span> -->
                                   <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
                                 </td>
                                 <td>

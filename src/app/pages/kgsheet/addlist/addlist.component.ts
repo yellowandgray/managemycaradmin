@@ -153,6 +153,12 @@ bsModalRef: BsModalRef | undefined;
        });
        this.allItems = this.addlists;
      });
+     console.log("Step 1", this.addlists);
+     console.log("Step All items ", this.allItems);
+// Fetch and update the standard field for each list_id
+// Fetch and update the standard field for each list_id
+
+
 
 
      
@@ -170,13 +176,53 @@ bsModalRef: BsModalRef | undefined;
        });
      });
    }
-   
-
-
-
-
+   console.log("Step 1.3");
+  //  this.addlists.forEach(item => {
+  //   console.log("Step 0: Checking item", item);
+  //   const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
+  //   console.log("Step 1.0", listId);
+  //   if (listId) {
+  //     console.log("Step 1.1: Entering loop for item with id", listId);
+  //     this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
+  //       standards => {
+  //         console.log('Fetched standards:', standards);
+  //         item.standard = standards;
+  //         console.log("Step 1.2: Updated item with standards", item);
+  //       },
+  //       error => {
+  //         console.error('Error fetching standards:', error);
+  //       }
+  //     );
+  //   }
+  // });
+ 
+  console.log("Step 1.2");
+ // this.processAddLists();
+  console.log(" After Step 1.2");
    this.filteredAdditems = this.additems;
    }
+
+
+  //  processAddLists() {
+  //   this.addlists.forEach(item => {
+  //     console.log("Step 0: Checking item", item);
+  //     const listId = item?.id;
+  //     console.log("Step 1.0", listId);
+  //     if (listId) {
+  //       console.log("Step 1.1: Entering loop for item with id", listId);
+  //       this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
+  //         standards => {
+  //           console.log('Fetched standards:', standards);
+  //           item.standard = standards;
+  //           console.log("Step 1.2: Updated item with standards", item);
+  //         },
+  //         error => {
+  //           console.error('Error fetching standards:', error);
+  //         }
+  //       );
+  //     }
+  //   });
+  // }
 
 
 
@@ -853,8 +899,6 @@ saveSelectedStandards() {
 
 
 }
-
-
 
 
 
