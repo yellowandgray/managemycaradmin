@@ -269,7 +269,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text"  class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="search Name" (input)="filteredTeacher($event)" >
+                                <input type="text"  class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="Search by Name" (input)="filteredTeacher($event)" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             </div>
@@ -285,8 +285,14 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="table-responsive table-card mt-3 mb-1">
+                    <div *ngIf="loading" class="text-center">
+                        
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Loading...</p>
+                      </div>
+                    <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
                         <table class="table align-middle table-nowrap" id="customerTable">
                             <thead class="table-light">
                                 <tr>

@@ -14,17 +14,32 @@ import { ActivatedRoute } from '@angular/router';
 export class ArrivalsComponent {
   breadCrumbItems!: Array<{}>;
   arrivals: Arrival[] = [];
+  loading: boolean = true;
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {}
 
-  ngOnInit() {
+  // ngOnInit() {
     
-    this.apiService.getArrivalData(this.SchoolId,this.vanId).subscribe(actions => {
-      this.arrivals = actions.map(action => action.payload.doc.data() as Arrival);
-    });
+  //   this.apiService.getArrivalData(this.SchoolId,this.vanId).subscribe(actions => {
+  //     this.arrivals = actions.map(action => action.payload.doc.data() as Arrival);
+  //   });
+  // }
+  ngOnInit() {
+    this.loading = true;
+  
+    this.apiService.getArrivalData(this.SchoolId, this.vanId).subscribe(
+      (actions) => {
+        this.arrivals = actions.map((action) => action.payload.doc.data() as Arrival);
+        this.loading = false; 
+      },
+      (error) => {
+        console.error('Error fetching arrivals', error);
+        this.loading = false; 
+      }
+    );
   }
-
+  
 
 
 }

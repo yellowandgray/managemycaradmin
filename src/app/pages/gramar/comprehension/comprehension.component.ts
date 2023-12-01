@@ -76,25 +76,25 @@ export class ComprehensionComponent {
   //   });
   // }
 
-  // addQuestion() {
-  //   this.emp.questions.push({ qstn: '', qtype: 'MCQA', a: '', b: '', c: '', d: '',qno: this.emp.questions.length + 1, answer: '' });
-  //   console.log(this.emp.questions)
-  // }
   addQuestion() {
-    const questionGroup = this.fb.group({
-      qstn: ['', Validators.required],
-      qtype: ['MCQA', Validators.required],
-      a: ['', Validators.required],
-      b: ['', Validators.required],
-      c: ['', Validators.required], 
-      d: ['', Validators.required],
-      answer: ['', Validators.required],
-      qno: this.emp.questions.length + 1,
-     
-    });
-
-    (this.MessageFormData.get('questions') as FormArray).push(questionGroup);
+    this.emp.questions.push({ qstn: '', qtype: 'MCQA', a: '', b: '', c: '', d: '',qno: this.emp.questions.length + 1, answer: '' });
+    console.log(this.emp.questions)
   }
+  // addQuestion() {
+  //   const questionGroup = this.fb.group({
+  //     qstn: ['', Validators.required],
+  //     qtype: ['MCQA', Validators.required],
+  //     a: ['', Validators.required],
+  //     b: ['', Validators.required],
+  //     c: ['', Validators.required], 
+  //     d: ['', Validators.required],
+  //     answer: ['', Validators.required],
+  //     qno: this.emp.questions.length + 1,
+     
+  //   });
+
+  //   (this.MessageFormData.get('questions') as FormArray).push(questionGroup);
+  // }
  
   
   
@@ -224,7 +224,13 @@ delet(id: string){
 
    }
    
+   add(){
+    this.MessageFormData;
+    this.addCourse?.show()
+    this.emp = new Comprehension();
    
+  }
+  
 
 
 

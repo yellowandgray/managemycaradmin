@@ -294,12 +294,20 @@
                                 <select class="form-select" id="course-category-input" [(ngModel)]="selectedStandard" (change)="filterStudents()">
                                     <option value="">Standard</option>
                                     <option value="">ALL</option>
-                                    <option value="LKG">LKG</option>
                                     <option value="UKG">UKG</option>
+                                    <option value="LKG">LKG</option>
                                     <option value="I">I</option>
-                                    <option value="II"> II</option>
+                                    <option value="II">II</option>
                                     <option value="III">III</option>
-                                 
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                    <option value="VI">VI</option>.
+                                    <option value="VII">VII</option>
+                                    <option value="VIII">VIII</option>
+                                    <option value="IX">IX</option>
+                                    <option value="X">X</option>                          
+                                    <option value="XI">XI</option>
+                                    <option value="XII">XII</option>
                                 </select>
                             </div>
 
@@ -386,10 +394,16 @@
                       </div>
                      
                     <div>
+                        <div *ngIf="loading" class="text-center">
+                        
+                            <div class="spinner-border" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p>Loading...</p>
+                          </div>
+    
 
-
-
-                    <div class="table-responsive table-card mt-3 mb-1">
+                    <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
                         <table class="table align-middle table-nowrap" id="customerTable">
                             <thead class="table-light">
                                 <tr>

@@ -22,7 +22,7 @@
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="search Route No." >
+                                <input type="text" class="form-control search" placeholder="Search Route No." >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                           
@@ -33,8 +33,15 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="loading" class="text-center">
+                        
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Loading...</p>
+                      </div>
 
-                    <div class="table-responsive table-card mt-3 mb-1">
+                    <div  *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
                             <thead class="table-light">
                                 <tr>

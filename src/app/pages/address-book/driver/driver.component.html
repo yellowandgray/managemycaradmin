@@ -342,7 +342,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="search Name" >
+                                <input type="text" class="form-control search" placeholder="Search by Name" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                            
@@ -350,7 +350,7 @@
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
-                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
                                         <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button>
@@ -359,9 +359,15 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="loading" class="text-center">
+                        
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p>Loading...</p>
+                      </div>
 
-
-                    <div class="table-responsive table-card mt-3 mb-1">
+                    <div *ngIf="!loading"  class="table-responsive table-card mt-3 mb-1">
                         <table class="table align-middle table-nowrap" id="customerTable">
                             <thead class="table-light">
                                 <tr>
@@ -402,8 +408,8 @@
                                          
                                         </div>
                                     </td>
-                                    <td class="date">{{data.dob}}</td>
-                                    <td class="date">{{data.doj}}</td>
+                                    <td class="date">{{data.dob | date: 'dd/MM/yyyy'}}</td>
+                                    <td class="date">{{data.doj | date: 'dd/MM/yyyy'}}</td>
                                     <td class="date">{{data.address}}</td>
                                     <td class="customer_name">{{data.town}}</td>
                                     <td class="phone">{{data.pincode}}</td>

@@ -21,7 +21,7 @@ export class AddvanComponent {
   vanId:string='FODMJA3V33EWUiSDFM5F';
   isSubmitted = false;
   files: File[] = [];
- 
+  loading: boolean = true;
   image_path: string = '';
   imgSrc: string='';
   selectedImage: any = null;
@@ -82,13 +82,23 @@ export class AddvanComponent {
     }
   }
   ngOnInit() {
-    
+    this.loading = true;
     this.apiService.getVanData(this.SchoolId,this.vanId).subscribe(actions => {
       this.Vans = actions.map(action => action.payload.doc.data() as Van);
+      this.loading = false; 
+    },(error) => {
+      console.error('Error fetching arrivals', error);
+      this.loading = false; 
     });
   }
 
  
+add(){
+  this.MessageFormData;
+  this.showModal?.show()
+  this.emp = new Van();
+ 
+}
 
 
 

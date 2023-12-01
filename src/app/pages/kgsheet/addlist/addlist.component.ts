@@ -87,7 +87,7 @@ filteredItems: Addlist[] = [];
 selectedOption: string = '';
 bsModalRef: BsModalRef | undefined;
 
-
+loading: boolean = true;
 
 
 
@@ -165,6 +165,7 @@ bsModalRef: BsModalRef | undefined;
   }
  
   ngOnInit() {
+    this.loading= true;
     this.school_id = localStorage.getItem('school_id')??'';
     if(this.school_id!='')
     {
@@ -186,6 +187,7 @@ bsModalRef: BsModalRef | undefined;
     console.log("Step 0: Checking item", item);
     const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
     console.log("Step 1.0", listId);
+    this.loading = false; 
     if (listId) {
       console.log("Step 1.1: Entering loop for item with id", listId);
       this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
@@ -194,9 +196,11 @@ bsModalRef: BsModalRef | undefined;
           console.log('Fetched standards:', this.selectedStandards);
           item.standard =this.selectedStandards;
           console.log("Step 1.2: Updated item with standards", item);
+          this.loading = false; 
         },
         error => {
           console.error('Error fetching standards:', error);
+          this.loading = false; 
         }
       );
     }
@@ -1130,7 +1134,12 @@ onStandardChange(standard: string): void {
 
 
 
-
+add(){
+  this.MessageFormData;
+  this.showModal?.show()
+  this.emp = new Addlist();
+ 
+}
 
 
 
@@ -1167,7 +1176,8 @@ saveSelectedStandards() {
 
 
 
-
+   
+  
 
 
 

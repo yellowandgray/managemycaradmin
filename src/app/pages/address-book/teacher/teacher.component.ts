@@ -27,7 +27,7 @@ export class TeacherComponent {
   downloadURL: string | null = null;
   isSubmitted = false;
   files: File[] = [];
-
+  loading: boolean = true;
   dataSubscription: Subscription | null = null;
   searchTerm: string = '';
   image_path: string = '';
@@ -98,16 +98,18 @@ export class TeacherComponent {
 
 
   ngOnInit() {
-    // Subscribe to the address-book collection data
+    this.loading= true;
     this.dataSubscription = this.apiService.getTeacherData().subscribe(
       (actions) => {
         this.Teachers = actions.map((action) => action.payload.doc.data() as Teacher);
         this.Teachers.sort((a, b) => a.name.localeCompare(b.name));
         this.filteredTeachers = [...this.Teachers];
         // this.populateStudentNames();
+        this.loading = false; 
       },
       (error) => {
         console.error('Error fetching address book data:', error);
+        this.loading = false; 
         // Handle the error appropriately, e.g., display a message to the user
       }
     );
@@ -266,8 +268,6 @@ this.apiService.deleteTeacherData(id)
     this.MessageFormData;
     this.deleteRecordModal?.show()
      this.emp = new Teacher();
-
- 
    
   }
 

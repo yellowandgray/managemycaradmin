@@ -43,7 +43,7 @@ export class DriverComponent {
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
-
+  loading: boolean = true;
 
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
    
@@ -102,9 +102,11 @@ export class DriverComponent {
 
 
   ngOnInit() {
+    this.loading= true;
     // Subscribe to the address-book collection data
     this.apiService.getDriverData(this.SchoolId).subscribe(actions => {
       this.Drivers = actions.map(action => action.payload.doc.data() as Driver);
+      this.loading = false; 
     });
   }
   delet(driverid: string){
@@ -347,6 +349,13 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
     if (event.target.files && event.target.files[0]) {
       this.selectedImage = event.target.files[0];
     }
+  }
+
+  add(){
+    this.MessageFormData;
+    this.deleteRecordModal?.show()
+    this.emp = new Driver();
+   
   }
  
   resetForm() {

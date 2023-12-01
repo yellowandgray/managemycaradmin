@@ -269,12 +269,12 @@
          
             <div class="card-body">
               <div class="row g-2 mb-3">
-                <div class="col-sm-2 ">
+                <div class="col-sm-4 d-flex">
 
 
 
 
-                  <div class="search-box ms-2">
+                  <div class="search-box ms-2 col-sm-auto">
                     <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption" (change)="filterItemsByOption()">
                       <option value="">Standard</option>
                       <option value="ALL">ALL</option>
@@ -286,10 +286,10 @@
                     </select>
                   </div>
                  
-                    <!-- <div class="search-box ms-2 ">
+                    <div class="search-box ms-2  col-sm-auto w-100">
                         <input type="text" class="form-control search order-last order-md-first"  placeholder="Search Name">
                         <i class="ri-search-line search-icon"></i>
-                    </div> -->
+                    </div>
                 </div>
 
 
@@ -298,13 +298,20 @@
                 <div class="col-sm">
                     <div class="d-flex justify-content-sm-end">
                         <div>
-                          <button type="button" class="btn btn-info add-btn" (click)="showModal.show()"><i class="bi bi-plus-circle align-baseline me-1"></i> Add
+                          <button type="button" class="btn btn-info add-btn"  (click)="add()"><i class="bi bi-plus-circle align-baseline me-1"></i> Add
                             List</button>
                         </div>
                     </div>
                 </div>
             </div>
-                <div class="table-responsive">
+            <div *ngIf="loading" class="text-center">
+                        
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p>Loading...</p>
+            </div>
+                <div *ngIf="!loading" class="table-responsive">
                     <table class="table table-centered align-middle table-nowrap mb-0">
                         <thead class="table-active">
                             <tr>

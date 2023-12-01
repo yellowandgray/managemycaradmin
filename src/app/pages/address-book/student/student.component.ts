@@ -42,7 +42,7 @@ export class StudentComponent {
   image_path: string = '';
   imgSrc: string='';
   selectedImage: any = null;
-
+  loading: boolean = true;
 
   selectedStandard: string = '';
   selectedSection: string = '';
@@ -109,6 +109,7 @@ export class StudentComponent {
 
 
   ngOnInit() {
+    this.loading= true;
     // Subscribe to the address-book collection data
     this.dataSubscription = this.apiService.getAddressBookData().subscribe(
       (actions) => {
@@ -116,9 +117,11 @@ export class StudentComponent {
         this.students.sort((a, b) => a.name.localeCompare(b.name));
         this.filteredStudents = [...this.students];
         this.populateStudentNames();
+        this.loading= false;
       },
       (error) => {
         console.error('Error fetching address book data:', error);
+        this.loading= false;
         // Handle the error appropriately, e.g., display a message to the user
       }
     );
@@ -284,6 +287,7 @@ this.apiService.deleteStudentData(id)
 
     if (this.selectedImage) {
       this.apiService.createStudentData(this.emp);
+      this.resetFilters();
       this.emp = new Student();
     } else {
       // If no file is selected, save the item data without an image.
@@ -291,6 +295,7 @@ this.apiService.deleteStudentData(id)
      
      console.log(this.emp);  
      this.apiService.createStudentData(this.emp);
+     this.resetFilters();
       this.emp = new Student();
        
     }
@@ -405,7 +410,7 @@ this.apiService.deleteStudentData(id)
      this.emp = new Student();
      this.showModals?.hide();
      this.resetForm;
-
+this.resetFilters();
 
 
 
@@ -441,6 +446,13 @@ this.apiService.deleteStudentData(id)
     this.isSubmitted = false;
   }
  
+  resetFilters() {
+    // Reset filter fields
+    this.selectedStandard = '';
+    this.selectedSection = '';
+    this.searchTerm = '';
+   // this.filteredStudents = [...this.students];
+  }
 
 
  

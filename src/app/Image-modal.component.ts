@@ -9,7 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
   <div class="modal-header ">
   <h1 class="modal-title">Image Preview</h1>
   <button type="button" class=" btn-close " aria-label="Close" (click)="bsModalRef.hide()">
-    <span aria-hidden="true">&times;</span>
+   
   </button>
 </div>
 <div class="modal-body d-flex align-items-center justify-content-center text-center px-5">
