@@ -1,8 +1,10 @@
 
 
-
-
 <app-breadcrumbs title="List Details" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+
+
+
 
 
 
@@ -58,6 +60,10 @@
     </div>
   </div>
  <!-- Update List -->
+
+
+
+
 
 
 
@@ -126,6 +132,10 @@
 
 
 
+
+
+
+
             <!-- <div *ngFor="let item of items; let i = index" class="col-md-9  ">
               <div class="input-group">
                 <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}"
@@ -173,6 +183,10 @@
 
 
 
+
+
+
+
               <div class="modal-footer  d-flex justify-content-sm-end">
                   <div class="hstack gap-2 ">
                       <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
@@ -183,6 +197,14 @@
       </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -234,6 +256,10 @@
 
 
 
+
+
+
+
  
 <div class="row">
     <div class="col-lg-12">
@@ -244,6 +270,8 @@
             <div class="card-body">
               <div class="row g-2 mb-3">
                 <div class="col-sm-2 ">
+
+
 
 
                   <div class="search-box ms-2">
@@ -263,6 +291,8 @@
                         <i class="ri-search-line search-icon"></i>
                     </div> -->
                 </div>
+
+
 
 
                 <div class="col-sm">
@@ -297,6 +327,8 @@
                                 <td class="category">{{data.name}}</td>
 
 
+
+
                                 <td class="picture">
                                     <div class="d-flex align-items-center">
                                         <div class="avatar-xs bg-light rounded p-1 " style=" object-fit: cover;height: 50px; width: 50px;">
@@ -307,10 +339,14 @@
                                 </td>
                                 <td class="Items"> <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show(); editListItemId(data.id)">Assign Items</button></td>
                                 <td class="Total Items">{{data.items.length}}</td>
-                                <td class="Assign To" >
-                                  <!-- <span>{{standard}} sda</span> -->
-                                  <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
+                                <td class="AssignToContainer">
+                                  <div class="d-flex align-items-center">
+                                    <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
+                                  </div>
+                                  <div style="margin-left: 10px;">{{data.standard}}</div>
                                 </td>
+                               
+                               
                                 <td>
                                   <div class="d-flex gap-2">
                                       <div class="edit">
@@ -334,11 +370,35 @@
 
 
 
+
+
+
+
              
                
             </div>
         </div><!--end card-->
     </div><!--end col-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -384,6 +444,21 @@
     </div>
 </div>
 </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

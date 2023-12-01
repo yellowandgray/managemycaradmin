@@ -243,9 +243,9 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title">Image</h2>
+          <h2 class="modal-title">Image Preview</h2>
             <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
-            <span aria-hidden="true">&times;</span>
+            
           </button>
         </div>
         <div class="modal-body align-items-center justify-content-center text-center">
@@ -269,14 +269,14 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="search Name" >
+                                <input type="text"  class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="search Name" (input)="filteredTeacher($event)" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
-                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="deleteRecordModal.show()"><i class="ri-add-line align-bottom me-1"></i>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
                                         <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button>
@@ -313,7 +313,7 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of Teachers;let i = index;" id="a_{{data.id}}">
+                                <tr *ngFor="let data of filteredTeachers;let i = index;" id="a_{{data.id}}">
                                    
                                     <td class="customer_name">{{data.name}}</td>
                                     <td class="customer_name">{{data.age}}</td>
@@ -325,8 +325,8 @@
                                           
                                         </div>
                                     </td>
-                                    <td class="date">{{data.dob}}</td>
-                                    <td class="date">{{data.doj}}</td>
+                                    <td class="date">{{data.dob | date: 'dd/MM/yyyy'}}</td>
+                                    <td class="date">{{data.doj | date: 'dd/MM/yyyy'}}</td>
                                     <td class="date">{{data.address}}</td>
                                     <td class="phone">{{data.gender}}</td>
                                     <td class="phone">{{data.status}}</td>

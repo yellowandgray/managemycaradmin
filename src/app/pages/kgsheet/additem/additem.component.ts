@@ -18,6 +18,16 @@ import { ImageModalComponent } from 'src/app/Image-modal.component';
 
 
 
+
+
+
+
+
+
+
+
+
+
                                                                                  
 @Component({
   selector: 'app-additem',                                                  
@@ -43,10 +53,19 @@ export class AddItemComponent {
 //additems: Additems[] = [];
    kgSheetId = '3u90Jik86R10JulNCU3K';
    selectedCategory: string = '';
+   //items: any[] = []; // Replace 'any' with the actual type of your data
+   itemsPerPage = 30;
+   currentPage = 1;
+
+
 
 
    @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
    @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+
+
+
+
 
 
 
@@ -77,6 +96,10 @@ export class AddItemComponent {
 
 
 
+
+
+
+
   showPreview(event: any) {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
@@ -88,6 +111,10 @@ export class AddItemComponent {
         var category = 'images';
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
+
+
+
+
 
 
 
@@ -112,6 +139,10 @@ export class AddItemComponent {
 
 
 
+
+
+
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -122,10 +153,18 @@ export class AddItemComponent {
 
 
 
+
+
+
+
   // openImageModal(imageUrl: string) {
   //   const initialState = {
   //     imageUrl: imageUrl,
   //   };
+
+
+
+
 
 
 
@@ -162,11 +201,23 @@ export class AddItemComponent {
 
 
 
+
+
+
+
+
+
+
+
   save() {
     const kgSheetId = '3u90Jik86R10JulNCU3K';
     if (this.selectedImage) {
              this.apiService.createAddItemData(this.emp, kgSheetId);
              this.emp = new Additems();
+
+
+
+
 
 
 
@@ -185,8 +236,40 @@ export class AddItemComponent {
 
 
 
+
+
+
+
     this.addCourse?.hide();
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -231,6 +314,10 @@ export class AddItemComponent {
 
 
 
+
+
+
+
     // update(id: string)
     //   {
     //     this.apiService.updateAddItemData(id.toString(),this.emp,this.kgSheetId);
@@ -242,8 +329,16 @@ export class AddItemComponent {
 
 
 
+
+
+
+
    
     //   }
+
+
+
+
 
 
 
@@ -251,6 +346,10 @@ export class AddItemComponent {
   ngOnInit() {
     // Subscribe to the address-book collection data
  
+
+
+
+
 
 
 
@@ -278,9 +377,25 @@ export class AddItemComponent {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
   this.addCourse?.onHidden.subscribe(() => {
     this.MessageFormData.reset();
   });
+
+
+
+
 
 
 
@@ -292,7 +407,15 @@ export class AddItemComponent {
 
 
 
+
+
+
+
   }
+
+
+
+
 
 
 
@@ -303,18 +426,51 @@ export class AddItemComponent {
 
 
 
+
+
+
+
 // this is for filter word contains
 
 
+
+
+// filteredItems(): Additems[] {
+//   if (!this.searchTerm.trim() && !this.selectedCategory) {
+//     return this.additems; // If search term and category are empty, return all items
+//   }
+
+
+
+
+//   return this.additems.filter(item => {
+//     const nameMatch = !this.searchTerm || item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase());
+//     const categoryMatch = !this.selectedCategory || item.punctuation === this.selectedCategory;
+
+
+
+
+//     return nameMatch && categoryMatch;
+//   });
+// }
+
+
+// Assuming your component has properties like searchTerm, selectedCategory, additems, itemsPerPage, and currentPage.
+
+
 filteredItems(): Additems[] {
-  if (!this.searchTerm.trim() && !this.selectedCategory) {
+  const searchTermLowerCase = this.searchTerm.trim().toLowerCase();
+  const selectedCategoryLowerCase = this.selectedCategory ? this.selectedCategory.toLowerCase() : '';
+
+
+  if (!searchTermLowerCase && !selectedCategoryLowerCase) {
     return this.additems; // If search term and category are empty, return all items
   }
 
 
   return this.additems.filter(item => {
-    const nameMatch = !this.searchTerm || item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase());
-    const categoryMatch = !this.selectedCategory || item.punctuation === this.selectedCategory;
+    const nameMatch = !searchTermLowerCase || item.name.toLowerCase().startsWith(searchTermLowerCase);
+    const categoryMatch = !selectedCategoryLowerCase || item.punctuation.toLowerCase() === selectedCategoryLowerCase;
 
 
     return nameMatch && categoryMatch;
@@ -322,58 +478,23 @@ filteredItems(): Additems[] {
 }
 
 
+getVisibleItems(): Additems[] {
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  const endIndex = startIndex + this.itemsPerPage;
+  return this.filteredItems().slice(startIndex, endIndex);
+}
 
 
+getTotalPages(): number {
+  return Math.ceil(this.filteredItems().length / this.itemsPerPage);
+}
 
 
-// this is for start with filter
-// filteredItems(): Additems[] {
-//   const trimmedSearchTerm = this.searchTerm.trim().toLowerCase();
+getPages(): number[] {
+  return Array(this.getTotalPages()).fill(0).map((_, i) => i + 1);
+}
 
 
-
-
-//   if (!trimmedSearchTerm) {
-//     return this.additems; // If search term is empty, return all items
-//   }
-
-
-
-
-//   return this.additems.filter(item =>
-//     item.name.toLowerCase().startsWith(trimmedSearchTerm)
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // editStudent(index: number) {
-  //   const selectedStudent = this.additems[index];
-  //   this.emp = { ...selectedStudent }; // Copy selected student data to emp object
-   
-  //   this.MessageFormData.patchValue({
-  //     id:this.emp.id,
-  //     name: this.emp.name,
-  //     punctuation:this.emp.punctuation,
-  //     picture: this.emp.picture,
-  //   });
-   
-  //   this.deleteRecordModal?.show();
-   
-  // }
 
 
 
@@ -396,6 +517,10 @@ filteredItems(): Additems[] {
 
 
 
+
+
+
+
     this.deleteRecordModal?.onHidden.subscribe(() => {
       this.MessageFormData.reset();
       this.emp.picture = ''; // Reset the form when the modal is hidden
@@ -412,9 +537,22 @@ filteredItems(): Additems[] {
     this.deleteRecordModal?.hide();
 
 
-
-
   }
+
+
+  // getVisibleItems(): any[] {
+  //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  //   const endIndex = startIndex + this.itemsPerPage;
+  //   return this.items.slice(startIndex, endIndex);
+  // }
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+
+ 
+
+
 
 
 
@@ -424,6 +562,22 @@ filteredItems(): Additems[] {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

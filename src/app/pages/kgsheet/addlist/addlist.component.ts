@@ -1,3 +1,4 @@
+
 import { Component, ViewChild } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Addlist } from '../api/addlistobj';
@@ -11,8 +12,18 @@ import { RowItem } from '../api/assignobj';
 import { Assign } from '../api/assignobj ';
 
 
+
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ImageModalComponent } from 'src/app/Image-modal.component';
+
+
+
+
+
+
+
+
 
 
 
@@ -30,6 +41,7 @@ export class AddlistComponent {
   breadCrumbItems!: Array<{}>;
   kgSheetId = '3u90Jik86R10JulNCU3K';
   addlists: Addlist[] = [];
+   addlists1: Addlist[] = [];
   additems:Additems[]=[];
   selectedImage: File | null = null;
   selectedFile: File | null = null;
@@ -78,6 +90,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
  
@@ -100,6 +116,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
    
        
     if (this.emp != null) {
@@ -118,7 +138,15 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
     }
+
+
+
+
 
 
 
@@ -152,17 +180,45 @@ bsModalRef: BsModalRef | undefined;
          } as Addlist;
        });
        this.allItems = this.addlists;
+        this.addlists1 = this.addlists;
+        console.log("Step 1", this.addlists);
+          this.addlists.forEach(item => {
+    console.log("Step 0: Checking item", item);
+    const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
+    console.log("Step 1.0", listId);
+    if (listId) {
+      console.log("Step 1.1: Entering loop for item with id", listId);
+      this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
+        standards => {
+          this.selectedStandards = standards[0]?.standard || [];
+          console.log('Fetched standards:', this.selectedStandards);
+          item.standard =this.selectedStandards;
+          console.log("Step 1.2: Updated item with standards", item);
+        },
+        error => {
+          console.error('Error fetching standards:', error);
+        }
+      );
+    }
+  })
+
+
      });
-     console.log("Step 1", this.addlists);
-     console.log("Step All items ", this.allItems);
+   
 // Fetch and update the standard field for each list_id
 // Fetch and update the standard field for each list_id
+
+
+
+
 
 
 
 
      
 //this.allItems = this.addlists;
+
+
 
 
      this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
@@ -203,6 +259,8 @@ bsModalRef: BsModalRef | undefined;
    }
 
 
+
+
   //  processAddLists() {
   //   this.addlists.forEach(item => {
   //     console.log("Step 0: Checking item", item);
@@ -227,6 +285,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
   //  filterItemsByOption() {
   //   if (this.selectedOption === 'ALL') {
   //     this.addlists = [...this.allItems];  // If 'ALL' is selected, show all items
@@ -242,15 +304,19 @@ bsModalRef: BsModalRef | undefined;
   // }
 
 
+
+
   filterItemsByOption() {
     if (this.selectedOption === 'ALL' || this.selectedOption === '') {
       this.addlists = [...this.allItems];
+     
      // If 'ALL' is selected, show all items
     } else {
+       // this.addlists = [...this.allItems];
       // Fetch the list of list_ids based on the selected standard
       this.apiService.getListID(this.school_id, this.kgSheetId, this.selectedOption).subscribe(listIds => {
         // Filter documents based on the listIds
-        this.addlists = this.addlists.filter(item => listIds.includes(item.id));
+        this.addlists = this.addlists1.filter(item => listIds.includes(item.id));
  
         // Optionally, call the updateListItemsData API for each list_id
         // listIds.forEach(list_id => {
@@ -280,6 +346,8 @@ bsModalRef: BsModalRef | undefined;
  
  
  
+
+
 
 
    filterItems(index: number, event: any): void {
@@ -329,6 +397,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
   onDropdownChange(index: number, selectedItemId: string): void {
     // Find the selected item by ID
    
@@ -343,6 +415,10 @@ bsModalRef: BsModalRef | undefined;
       // You can choose to set a default or handle this case according to your application's logic.
     }
   }
+
+
+
+
 
 
 
@@ -383,10 +459,18 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
   editListItemId(id: string) {
     this.currListID = id;
     console.log("Current List Id", this.currListID);
    
+
+
+
+
 
 
 
@@ -396,9 +480,17 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
     if (existingData) {
       // Data already exists, perform actions accordingly
       console.log('Data already exists:', existingData);
+
+
+
+
 
 
 
@@ -415,6 +507,8 @@ bsModalRef: BsModalRef | undefined;
       });
 
 
+
+
       if(this.itemDetails.length==0)
       {
         this.itemDetails= Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
@@ -423,7 +517,15 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
       console.log('Item Details:', this.itemDetails);
+
+
+
+
 
 
 
@@ -437,6 +539,10 @@ bsModalRef: BsModalRef | undefined;
       // Show your existing modal or handle the behavior as needed
     }
   }
+
+
+
+
 
 
 
@@ -459,6 +565,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
   removeRow(index: number) {
     // Remove the item ID from the selectedIds array
     //const removedItemId = this.items[index].id;
@@ -470,9 +580,19 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
     // Remove the item from the items array
     //this.items.splice(index, 1);
   }
+
+
+
+
+
+
 
 
 
@@ -488,6 +608,34 @@ bsModalRef: BsModalRef | undefined;
   //   // Update the selected item for the specific dropdown
  
   // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -532,6 +680,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
    editList(index: number) {
     const selectedList = this.addlists[index];
     this.emp = { ...selectedList }; // Copy selected student data to emp object
@@ -550,6 +702,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
   update(id: string)
   {
     const kgSheetId = '3u90Jik86R10JulNCU3K';
@@ -557,6 +713,10 @@ bsModalRef: BsModalRef | undefined;
     this.emp = new Addlist();
     this.editModal?.hide();
   //  this.resetForm;
+
+
+
+
 
 
 
@@ -570,7 +730,23 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
  // Add this property to your component
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -598,6 +774,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
@@ -618,6 +798,10 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -628,11 +812,19 @@ bsModalRef: BsModalRef | undefined;
 
 
 
+
+
+
+
 save() {
   const kgSheetId = '3u90Jik86R10JulNCU3K';
   if (this.selectedImage) {
            this.apiService.createAddListData(this.emp, kgSheetId);
            this.emp = new Addlist();
+
+
+
+
 
 
 
@@ -664,6 +856,22 @@ save() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 assignSelectedStandards(): void {
   console.log("Step 0");
   this.selectedStandards.forEach(standard => {
@@ -674,12 +882,24 @@ assignSelectedStandards(): void {
 
 
 
+
+
+
+
 //selectedStandards: string[] = [];
 
 
 
 
+
+
+
+
 // assignstd1(standard: string): void {
+
+
+
+
 
 
 
@@ -699,11 +919,19 @@ isSelected(standard: string): boolean {
 
 
 
+
+
+
+
 setSelectedItemId(itemId: string) {
   this.selectedItemId = itemId;
   this.assign.list_id = this.selectedItemId;
   console.log("school id: " + this.school_id);
   console.log("Item id: " + itemId);
+
+
+
+
 
 
 
@@ -723,8 +951,16 @@ setSelectedItemId(itemId: string) {
 
 
 
+
+
+
+
 assignstd1(listId: string): void {
   console.log("Step 0.1");
+
+
+
+
 
 
 
@@ -738,10 +974,18 @@ assignstd1(listId: string): void {
 
 
 
+
+
+
+
   // Fetch the entire document for the clicked list_id
   this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
     assignedData => {
       console.log("Step 1");
+
+
+
+
 
 
 
@@ -761,8 +1005,20 @@ assignstd1(listId: string): void {
 
 
 
+
+
+
+
+
+
+
+
       // Show the modal
     //  this.deleteRecordModal2.show();
+
+
+
+
 
 
 
@@ -777,8 +1033,16 @@ assignstd1(listId: string): void {
 
 
 
+
+
+
+
       // Reset selectedStandards to an empty array
       this.selectedStandards = [];
+
+
+
+
 
 
 
@@ -789,8 +1053,16 @@ assignstd1(listId: string): void {
 
 
 
+
+
+
+
       // Set the selectedItemId
       this.setSelectedItemId(listId);
+
+
+
+
 
 
 
@@ -810,6 +1082,38 @@ onStandardChange(standard: string): void {
   }
   console.log('Selected Standards:', this.selectedStandards);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -864,12 +1168,36 @@ saveSelectedStandards() {
 
 
 
+
+
+
+
     // Reset the form and close the modal
     // this.assign = new Assign();
     // this.deleteRecordModal2?.hide();
     // this.showModal?.hide();
  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -898,7 +1226,27 @@ saveSelectedStandards() {
 
 
 
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

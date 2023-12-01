@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Teacher } from '../api/teacherobj';
-import { finalize } from 'rxjs';
+import { Subscription, finalize } from 'rxjs';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ApiService } from '../api/api.service';
@@ -18,7 +18,7 @@ export class TeacherComponent {
   Teachers: Teacher[] = [];
   MessageFormData: FormGroup;
   emp: Teacher = new Teacher();
-
+  filteredTeachers:  Teacher[] = [];
  
   emps: { image: string } = { image: '' }; // Assuming emp object has an image property
  
@@ -27,9 +27,12 @@ export class TeacherComponent {
   downloadURL: string | null = null;
   isSubmitted = false;
   files: File[] = [];
- 
+
+  dataSubscription: Subscription | null = null;
+  searchTerm: string = '';
   image_path: string = '';
   imgSrc: string='';
+  selectedCategory: string = '';
   selectedImage: any = null;
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -86,12 +89,30 @@ export class TeacherComponent {
   }
 
 
+  // ngOnInit() {
+  //   // Subscribe to the address-book collection data
+  //   this.apiService.getTeacherData().subscribe(actions => {
+  //     this.filteredTeachers = actions.map(action => action.payload.doc.data() as Teacher);
+  //   });
+  // }
+
+
   ngOnInit() {
     // Subscribe to the address-book collection data
-    this.apiService.getTeacherData().subscribe(actions => {
-      this.Teachers = actions.map(action => action.payload.doc.data() as Teacher);
-    });
+    this.dataSubscription = this.apiService.getTeacherData().subscribe(
+      (actions) => {
+        this.Teachers = actions.map((action) => action.payload.doc.data() as Teacher);
+        this.Teachers.sort((a, b) => a.name.localeCompare(b.name));
+        this.filteredTeachers = [...this.Teachers];
+        // this.populateStudentNames();
+      },
+      (error) => {
+        console.error('Error fetching address book data:', error);
+        // Handle the error appropriately, e.g., display a message to the user
+      }
+    );
   }
+
   delet(id: string){
 this.apiService.deleteTeacherData(id)
   }
@@ -201,5 +222,55 @@ this.apiService.deleteTeacherData(id)
     this.selectedImage = null;
     this.isSubmitted = false;
   }
+
+  // filteredTeacher(): Teacher[] {
+  //   if (!this.searchTerm.trim()) {
+  //     return this.Teachers; // If search term is empty, return all items
+  //   }
+  
+  //   return this.Teachers.filter(item => {
+  //     return item.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+  //   });
+  // }
+  
+  filteredTeacher(event: any): void {
+    const value = event.target.value;
+    console.log('Filtering by name...', value);
+    this.searchTerm = value;
+    this.filterTeacher();
+  }
+ 
+ 
+  filterTeacher() {
+    console.log('Filtering...', this.searchTerm);
+
+
+    this.filteredTeachers = this.Teachers.filter(teacher => {
+     
+      const nameMatch = !this.searchTerm || teacher.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+      return nameMatch;
+    });
+
+
+    if (!this.filteredTeachers.length) {
+      console.log('Nooo Students...');
+      this.filteredTeachers = [];
+      console.log(this.filteredTeachers);
+    }
+  }
+
+
+  add(){
+    this.MessageFormData;
+    this.deleteRecordModal?.show()
+     this.emp = new Teacher();
+
+ 
+   
+  }
+
+
 
 }

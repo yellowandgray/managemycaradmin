@@ -47,48 +47,118 @@ import { Comprehension } from "./comprehensionobj";
     
     
 
-     async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
+    //  async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
+    //   const comprehensionDocRef = await this.firestore.collection(`Grammar/${GrammarId}/Comprehension`).add({
+    //     'id': '',
+    //     'no': obj.no,
+    //     'title': obj.title,
+    //     'paragraph': obj.paragraph,
+    //   });
+    
+    //   const compID = comprehensionDocRef.id;
+    //   const questionsDocRef = await comprehensionDocRef.collection('Questions').add({
+    //     'id': '',
+    //     // 'qno': obj.qno,
+    //     // 'a': obj.a,
+    //     // 'b': obj.b,
+    //     // 'c': obj.c,
+    //     // 'd': obj.d,
+    //     // 'qstn': obj.qstn,
+    //     // 'answer': obj.answer,
+    //     // 'qtype': obj.qtype,
+    //   });
+    //   await comprehensionDocRef.update({ 'id': compID });
+    //   await questionsDocRef.update({ 'id': questionsDocRef.id });
+    // }
+
+    async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
       const comprehensionDocRef = await this.firestore.collection(`Grammar/${GrammarId}/Comprehension`).add({
         'id': '',
         'no': obj.no,
         'title': obj.title,
         'paragraph': obj.paragraph,
       });
-    
+  
       const compID = comprehensionDocRef.id;
-      const questionsDocRef = await comprehensionDocRef.collection('Questions').add({
-        'id': '',
-        'qno': obj.qno,
-        'a': obj.a,
-        'b': obj.b,
-        'c': obj.c,
-        'd': obj.d,
-        'qstn': obj.qstn,
-        'answer': obj.answer,
-        'qtype': obj.qtype,
-      });
+      console.log(obj);
+  
+     
+      for (const question of obj.questions) {
+        const questionDocRef = await comprehensionDocRef.collection('Questions').add({
+          'id': '',
+          'qno': question.qno,
+          'a': question.a,
+          'b': question.b,
+          'c': question.c,
+          'd': question.d,
+          'qstn': question.qstn,
+          'answer': question.answer,
+          'qtype': question.qtype,
+        });
+  
+       
+        await questionDocRef.update({ 'id': questionDocRef.id });
+      }
+  
+      
       await comprehensionDocRef.update({ 'id': compID });
-      await questionsDocRef.update({ 'id': questionsDocRef.id });
     }
     
 
      
-     updateComprehensionData(id: string,obj:Comprehension,GrammarId: string  ){
-
-        this.firestore.doc(`Grammar/${GrammarId}/Comprehension/` + id).update({
-          
-          'id':'id',
-          'no':obj.no,
-          'title':obj.title,
-          'paragraph':obj.paragraph,
-          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+    async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
+      // Step 1: Update the main document
+      await this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).update({
+        'no': obj.no,
+        'title': obj.title,
+        'paragraph': obj.paragraph,
+        // Add other fields as needed
+        // 'updatedAt': firebase.firestore.FieldValue.serverTimestamp(),
+      });
+    
+      // Step 2: Update or add questions in the subcollection 'Questions'
+      const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
+    
+      for (const question of obj.questions) {
+        const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
+        const questionDocRef = questionsCollectionRef.doc(questionId);
+        await questionDocRef.set({
+          'qno': question.qno,
+          'a': question.a,
+          'b': question.b,
+          'c': question.c,
+          'd': question.d,
+          'qstn': question.qstn,
+          'answer': question.answer,
+          'qtype': question.qtype,
         });
-       }
-
-
-     deleteComprehensionData(id:string, GrammarId: string  ){    
-        this.firestore.doc(`Grammar/${GrammarId}/Comprehension/`+ id).delete();
       }
+    }
+    
+    
+
+
+       async quarydeleteComprehensionData(GrammarId: string, id: string) {
+  
+        const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
+        const questionsDocs = await questionsCollectionRef.get().toPromise();
+      
+        if (questionsDocs) {
+          questionsDocs.forEach(async (questionDoc) => {
+            await questionDoc.ref.delete();
+          });
+        }
+      
+        // Step 2: Delete the main document
+        await this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).delete();
+      }
+      
+      
+
+    //  deleteComprehensionData( GrammarId: string ,id:string ){  
+    //   console.log(GrammarId ,id )  
+    //     this.firestore.doc(`Grammar/${GrammarId}/Comprehension/`+ id).delete();
+    //   }
 
       // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
       //   const comprehensionDocRef = this.firestore.doc(`Grammar/${GrammarId}/Comprehension/` + id).ref;

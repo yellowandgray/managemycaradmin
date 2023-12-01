@@ -326,6 +326,7 @@
                             <div class="search-box ms-2">
                                 <input type="text" class="form-control search" [(ngModel)]="searchTerm" (change)="filterStudentsByName($event)"
                                   placeholder="Search by Name" list="studentNames">
+                                  <i class="ri-search-line search-icon"></i>
                                 <datalist id="studentNames">
                                   <option *ngFor="let name of studentNames" [value]="name"></option>
                                 </datalist>
@@ -372,9 +373,9 @@
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h2 class="modal-title">Image</h2>
+                              <h2 class="modal-title">Image Preview</h2>
                                 <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
-                                <span aria-hidden="true">&times;</span>
+                               
                               </button>
                             </div>
                             <div class="modal-body align-items-center justify-content-center text-center">
@@ -444,7 +445,7 @@
                                                 <button class="btn btn-sm btn-success edit-item-btn" (click)="editStudent(i)">Edit</button>
                                             </div>
                                             <div class="remove">
-                                                <button class="btn btn-sm btn-danger remove-item-btn" (click)="delet(data.id)">Remove</button>
+                                                <button class="btn btn-sm btn-danger remove-item-btn"  (click)="delet(data.id)">Remove</button>
                                             </div>
                                         </div>
                                     </td>
@@ -473,7 +474,28 @@
 
 
 
-
+    <!-- <div bsModal #deleteModal="bs-modal" class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" (click)="deleteModal.hide()" id="btn-close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mt-2 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
+                        <div class="mt-4 pt-2 fs-base mx-4 mx-sm-5">
+                            <h4>Are you Sure ?</h4>
+                            <p class="text-muted mx-4 mb-0">Are you Sure You want to Remove this Record ?</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light" (click)="deleteModal.hide()">Close</button>
+                        <button type="button" class="btn w-sm btn-danger " (click)="deleteData(deleteId)" id="delete-record">Yes, Delete It!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
 
 
 

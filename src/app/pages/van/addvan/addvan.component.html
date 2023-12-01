@@ -153,9 +153,9 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="modal-title">Image</h2>
+          <h2 class="modal-title">Image Preview</h2>
             <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
-            <span aria-hidden="true">&times;</span>
+       
           </button>
         </div>
         <div class="modal-body align-items-center justify-content-center text-center">
@@ -220,13 +220,13 @@
                                     <td class="picture">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
-                                                <img src={{data.pic}} alt="" (click)="showImagePreview(data.pic)"class="img-fluid d-block " style="object-fit: cover; width: 100%; height: 100%;">>
+                                                <img src={{data.pic}} alt="" (click)="showImagePreview(data.pic)"class="img-fluid d-block " style="object-fit: cover; width: 100%; height: 100%;">
                                             </div>
                                           
                                         </div>
                                     </td>
                                     <td class="date">{{data.regno}}</td>
-                                    <td class="customer_name">{{data.year}}</td>
+                                    <td class="customer_name">{{data.year| date: 'dd/MM/yyyy'}}</td>
                                     <td class="date">{{data.seats}}</td>
                                     <td class="date">{{data.disel}}</td>
                                     <td class="date">{{data.engno}}</td>

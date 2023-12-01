@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Comprehension } from '../api/comprehensionobj';
+import { Comprehension, Question } from '../api/comprehensionobj';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -19,61 +19,45 @@ export class ComprehensionComponent {
   form: FormGroup | undefined;
   
   MessageFormData: FormGroup;
+  questions: Question[] = [];
 
+ 
 
 @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
 @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 
-questions: any;
-qualificationType:string='';
 
-
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) { 
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private formBuilder: FormBuilder,private fb: FormBuilder) { 
    this.MessageFormData = new FormGroup({  
     'no': new FormControl('', Validators.required),   
     'title': new FormControl('', Validators.required),      
     'paragraph': new FormControl('', Validators.required), 
-    
-    'a': new FormControl('', Validators.required), 
-    'b': new FormControl('', Validators.required), 
-    'c': new FormControl('', Validators.required), 
-    'd': new FormControl('', Validators.required), 
-    'answer': new FormControl('', Validators.required), 
-    'qno': new FormControl('', Validators.required), 
-    'qtype': new FormControl('', Validators.required), 
-    'qstn': new FormControl('', Validators.required), 
-    
-  });
+    'questions': new FormControl([])
+    // this.MessageFormData = this.formBuilder.group({
+    //   no: ['', Validators.required],
+    //   title: ['', Validators.required],
+    //   paragraph: ['', Validators.required],
+    //   questions: this.formBuilder.array([]) // FormArray for questions
+    });
   
   
+
+ 
   if (this.emp != null) {
     this.MessageFormData.patchValue({  
       id:this.emp.id,    
       no: this.emp.no,
       title: this.emp.title,
       paragraph: this.emp.paragraph,
-      a: this.emp.a,
-      b: this.emp.b,
-      c: this.emp.c,
-      d: this.emp.d,
-      answer: this.emp.answer,
-      qno: this.emp.qno,
-      qtype: this.emp.qtype,
-      qstn: this.emp.qstn,
+     questions:this.emp.questions
 
     });
     this.emp.no= this.emp.no;  
     this.emp.title= this.emp.title;
     this.emp.id= this.emp.id; 
-   this.emp. paragraph =this.emp.paragraph;
-   this.emp.a= this.emp.a,
-   this.emp.b= this.emp.b,
-   this.emp.c= this.emp.c,
-   this.emp.d= this.emp.d,
-   this.emp.answer= this.emp.answer,
-   this.emp.qno= this.emp.qno,
-   this.emp.qtype= this.emp.qtype,
-   this.emp.qstn= this.emp.qstn
+    this.emp. paragraph =this.emp.paragraph;
+    this.emp. questions =this.emp.questions;
+   
   } }
   
   
@@ -81,86 +65,168 @@ qualificationType:string='';
     
     this.apiService.getComprehensionData(this.GrammarId).subscribe(actions => {
       this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension);
+      console.log( this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension))
     });
 
-    // this.form = this.fb.group({
-    //   questions: this.fb.array([this.createQuestion()])
-    // });
 
   }
-  
+  // ngOnInit() {
+  //   this.apiService.getComprehensionData(this.GrammarId).subscribe(actions => {
+  //     this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension);
+  //   });
+  // }
 
+  // addQuestion() {
+  //   this.emp.questions.push({ qstn: '', qtype: 'MCQA', a: '', b: '', c: '', d: '',qno: this.emp.questions.length + 1, answer: '' });
+  //   console.log(this.emp.questions)
+  // }
+  addQuestion() {
+    const questionGroup = this.fb.group({
+      qstn: ['', Validators.required],
+      qtype: ['MCQA', Validators.required],
+      a: ['', Validators.required],
+      b: ['', Validators.required],
+      c: ['', Validators.required], 
+      d: ['', Validators.required],
+      answer: ['', Validators.required],
+      qno: this.emp.questions.length + 1,
+     
+    });
+
+    (this.MessageFormData.get('questions') as FormArray).push(questionGroup);
+  }
  
-
-
   
-  click(){
-    this.qualificationType='MCQA';
+  
+  get questionsForm() {
+    return this.MessageFormData.get('questions') as FormArray;
   }
-  click1(){
-    this.qualificationType='';
+ 
+  
+  get questionsFormArray() {
+    return this.MessageFormData.get('questions') as FormArray;
   }
   
-
-
-
-
 
 
 save(id:string){
   this.apiService.createComprehensionQuestions(this.emp,this.GrammarId);
   this.addCourse?.hide();
   this.emp = new Comprehension();
+ 
 }
 
-editStudent(index: number) {
-  const selectedStudent = this.comprehensions [index];
- 
- 
-  this.emp = { ...selectedStudent };
- 
-  this.MessageFormData.patchValue({
-    id:this.emp.id,    
-    no: this.emp.no,
-    title: this.emp.title,
-    paragraph: this.emp.paragraph,
-    a: this.emp.a,
-    b: this.emp.b,
-    c: this.emp.c,
-    d: this.emp.d,
-    answer: this.emp.answer,
-    qno: this.emp.qno,
-    qtype: this.emp.qtype,
-    qstn: this.emp.qstn,
-  });
- 
-  this.deleteRecordModal?.show();
+
+printFormData() {
+  console.log('Printed Form Data:', this.MessageFormData.value);
+
+}
 
 
+// editComprehension(index: number) {
+//   const selectedStudent = this.comprehensions [index];
+ 
+ 
+//   this.emp = { ...selectedStudent };
+ 
+//   this.MessageFormData.patchValue({
+//     id:this.emp.id,    
+//     no: this.emp.no,
+//     title: this.emp.title,
+//     paragraph: this.emp.paragraph,
+ 
+//   });
+ 
+//   this.deleteRecordModal?.show();
 
-
-  this.deleteRecordModal?.onHidden.subscribe(() => {
-    this.MessageFormData.reset();
+//   this.deleteRecordModal?.onHidden.subscribe(() => {
+//     this.MessageFormData.reset();
   
-  });
-}
+//   });
+// }
 
-delet(id: string){
-  this.apiService.deleteComprehensionData(id,this.GrammarId)
+
+// editComprehension(index: number) {
+//   const selectedComprehension = this.comprehensions[index];
+
+//   this.emp = { ...selectedComprehension };
+
+//   this.MessageFormData.patchValue({
+//     id: this.emp.id,
+//     no: this.emp.no,
+//     title: this.emp.title,
+//     paragraph: this.emp.paragraph,
+//     questions:this.emp.questions
+//   });
+
+  
+//   this.deleteRecordModal?.show();
+
+//   // Subscribe to modal hidden event to reset the form
+//   this.deleteRecordModal?.onHidden.subscribe(() => {
+//     this.MessageFormData.reset();
+//   });
+// }
+
+
+
+editComprehension(index: number) {
+  const selectedComprehension = this.comprehensions[index];
+
+  if (selectedComprehension) {
+    this.emp = { ...selectedComprehension };
+
+    if (this.emp.questions) {
+      const questionFormArray = this.emp.questions.map(question => {
+        return this.fb.group({
+          qstn: [question.qstn],
+          a: [question.a],
+          b: [question.b],
+          c: [question.c],
+          d: [question.d],
+          answer: [question.answer]
+        });
+      });
+
+      this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
     }
 
-    update(id: string)
+    this.MessageFormData.patchValue({
+      id: this.emp.id,
+      no: this.emp.no,
+      title: this.emp.title,
+      paragraph: this.emp.paragraph,
+    });
+
+    this.deleteRecordModal?.show();
+
+    this.deleteRecordModal?.onHidden.subscribe(() => {
+      this.MessageFormData.reset();
+    });
+  }
+}
+
+
+delet(id: string){
+  console.log(id,'check')
+  this.apiService.quarydeleteComprehensionData(this.GrammarId,id)
+  console.log(this.apiService.quarydeleteComprehensionData(id,this.GrammarId),'check')
+
+    }
+
+
+  update(id: string)
    {
      this.apiService.updateComprehensionData(id.toString(),this.emp,this.GrammarId);
      this.emp = new Comprehension();
      this.deleteRecordModal?.hide();
-      //this.resetForm;
-
-
-
+      // this.resetForm;
 
    }
    
+   
 
 
+
+  
 }

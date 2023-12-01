@@ -122,10 +122,8 @@ export class StudentComponent {
         // Handle the error appropriately, e.g., display a message to the user
       }
     );
- 
-
-
   }
+
   displayFn(student: Student): string {
     return student && student.name ? student.name : '';
   }
