@@ -56,7 +56,7 @@ export class AddItemComponent {
    //items: any[] = []; // Replace 'any' with the actual type of your data
    itemsPerPage = 30;
    currentPage = 1;
-
+   loading: boolean = true;
 
 
 
@@ -345,25 +345,20 @@ export class AddItemComponent {
 
   ngOnInit() {
     // Subscribe to the address-book collection data
- 
-
-
-
-
-
-
-
-
+    this.loading= true;
     this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
       this.additems = actions.map(action => {
         const data = action.payload.doc.data() as Additems;
+        this.loading = false; 
         return {
           id:data.id,
           name: data.name,
           picture: data.picture,
           punctuation: data.punctuation
         } as Additems;
-      });
+        
+      }
+      );
     });
 
 

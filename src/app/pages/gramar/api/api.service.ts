@@ -1,11 +1,15 @@
 
+
 //   }
 import { Injectable } from "@angular/core";
-  
+ 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+
 
 import * as firebase from "firebase/compat";
 import { Comprehension } from "./comprehensionobj";
+
+
 
 
 // import * as firebase from 'firebase';
@@ -13,39 +17,53 @@ import { Comprehension } from "./comprehensionobj";
     providedIn: 'root'
   })
   export class ApiService {
-  
+ 
     constructor(private firestore: AngularFirestore) {}
-  
+ 
     // Get the address-book collection data
     // getArrivalData() {
     //  // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
-    //    return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();   
-      
+    //    return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();  
+     
     // }
+
 
     // getArrivalData(SchoolId: string,vanId:string) {
     //   return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`, ref => ref.orderBy('rno')).snapshotChanges();
-    
+   
     //  }
-    
+   
+
+
+
 
 
 
 //van
 
+
      getComprehensionData(SchoolId: string) {
       return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`,ref => ref.orderBy('no')).snapshotChanges();
-    
+   
      }
-      
+     getComprehensionQuestionsData(garamerID: string, compid: string) {
+      const path = `Grammar/${garamerID}/Comprehension/${compid}/Questions`;
+      console.log('Query Path:', path);
+      return this.firestore.collection(path).snapshotChanges();
+    }
+   
+   
+   
+     
     //  getComprehensionData(SchoolId: string) {
     //   return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`)
     //     .doc('ComprehensionDocumentId')  // Assuming you have a document ID for the Comprehension document
     //     .collection('Questions')          // Reference the Questions subcollection
     //     .snapshotChanges();
     // }
-    
-    
+   
+   
+
 
     //  async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
     //   const comprehensionDocRef = await this.firestore.collection(`Grammar/${GrammarId}/Comprehension`).add({
@@ -54,7 +72,7 @@ import { Comprehension } from "./comprehensionobj";
     //     'title': obj.title,
     //     'paragraph': obj.paragraph,
     //   });
-    
+   
     //   const compID = comprehensionDocRef.id;
     //   const questionsDocRef = await comprehensionDocRef.collection('Questions').add({
     //     'id': '',
@@ -71,6 +89,7 @@ import { Comprehension } from "./comprehensionobj";
     //   await questionsDocRef.update({ 'id': questionsDocRef.id });
     // }
 
+
     async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
       const comprehensionDocRef = await this.firestore.collection(`Grammar/${GrammarId}/Comprehension`).add({
         'id': '',
@@ -78,10 +97,10 @@ import { Comprehension } from "./comprehensionobj";
         'title': obj.title,
         'paragraph': obj.paragraph,
       });
-  
+ 
       const compID = comprehensionDocRef.id;
       console.log(obj);
-  
+ 
      
       for (const question of obj.questions) {
         const questionDocRef = await comprehensionDocRef.collection('Questions').add({
@@ -95,15 +114,16 @@ import { Comprehension } from "./comprehensionobj";
           'answer': question.answer,
           'qtype': question.qtype,
         });
-  
+ 
        
         await questionDocRef.update({ 'id': questionDocRef.id });
       }
-  
-      
+ 
+     
       await comprehensionDocRef.update({ 'id': compID });
     }
-    
+   
+
 
      
     async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
@@ -115,10 +135,10 @@ import { Comprehension } from "./comprehensionobj";
         // Add other fields as needed
         // 'updatedAt': firebase.firestore.FieldValue.serverTimestamp(),
       });
-    
+   
       // Step 2: Update or add questions in the subcollection 'Questions'
       const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
-    
+   
       for (const question of obj.questions) {
         const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
         const questionDocRef = questionsCollectionRef.doc(questionId);
@@ -134,35 +154,39 @@ import { Comprehension } from "./comprehensionobj";
         });
       }
     }
-    
-    
+   
+   
+
+
 
 
        async quarydeleteComprehensionData(GrammarId: string, id: string) {
-  
+ 
         const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
         const questionsDocs = await questionsCollectionRef.get().toPromise();
-      
+     
         if (questionsDocs) {
           questionsDocs.forEach(async (questionDoc) => {
             await questionDoc.ref.delete();
           });
         }
-      
+     
         // Step 2: Delete the main document
         await this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).delete();
       }
-      
-      
+     
+     
+
 
     //  deleteComprehensionData( GrammarId: string ,id:string ){  
     //   console.log(GrammarId ,id )  
     //     this.firestore.doc(`Grammar/${GrammarId}/Comprehension/`+ id).delete();
     //   }
 
+
       // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
       //   const comprehensionDocRef = this.firestore.doc(`Grammar/${GrammarId}/Comprehension/` + id).ref;
-      
+     
       //   try {
       //     // Update main Comprehension document
       //     await comprehensionDocRef.update({
@@ -170,13 +194,13 @@ import { Comprehension } from "./comprehensionobj";
       //       'title': obj.title,
       //       'paragraph': obj.paragraph,
       //     });
-      
+     
       //     // Check if Questions subcollection exists
       //     const questionsCollectionRef = comprehensionDocRef.collection('Questions');
-      
+     
       //     // Update or add a document in the Questions subcollection
       //     const questionsQuerySnapshot = await questionsCollectionRef.get();
-      
+     
       //     if (!questionsQuerySnapshot.empty) {
       //       // Assuming there's only one document in the Questions subcollection
       //       const questionDocRef = questionsQuerySnapshot.docs[0].ref;
@@ -202,25 +226,26 @@ import { Comprehension } from "./comprehensionobj";
       //         'answer': obj.title,
       //         'qtype': obj.qtype,
       //       });
-      
+     
       //       await newQuestionDocRef.update({ 'id': newQuestionDocRef.id });
       //     }
-      
+     
       //   } catch (error) {
       //     console.error('Error updating data:', error);
       //   }
       // }
-      
+     
+
 
     //  updateVanData(vanid: string,obj: Van,SchoolId:string,vanId:string ){
     //   this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + vanid).update({
-        
+       
     //     'vanid':vanid,
     //       'chassis':obj.chassis,
     //       'disel':obj.disel,
     //       'engno':obj.engno,
     //       'pic':obj.pic,
-    //       'regno':obj.regno, 
+    //       'regno':obj.regno,
     //       'seats':obj.seats,
     //       'year':obj.year,
     //     // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -237,10 +262,19 @@ import { Comprehension } from "./comprehensionobj";
 
 
 
+
+
+
+
+
+
+
+
 // getRouteData(SchoolId: string) {
 //   return this.firestore.collection(`School/${SchoolId}/Routes`, ref => ref.orderBy('name')).snapshotChanges();
  
 //  }
+
 
 //  createRouteData(obj:Route,SchoolId: string ){
 //       return this.firestore.collection(`School/${SchoolId}/Routes`).add(
@@ -250,7 +284,7 @@ import { Comprehension } from "./comprehensionobj";
 //           'name':obj.name,
 //           'doj':obj.doj,
 //           'pic':obj.pic,
-//           'phn':obj.phn, 
+//           'phn':obj.phn,
 //           'dob':obj.dob,
 //           'address':obj.address,
 //           'pincode':obj.pincode,
@@ -258,7 +292,7 @@ import { Comprehension } from "./comprehensionobj";
 //           'town':obj.town,
 //           'license':obj.license,
 //           'pancard':obj.pancard,
-          
+         
 //           // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //        }).then(async docRef => {
@@ -268,6 +302,7 @@ import { Comprehension } from "./comprehensionobj";
 //        })
 //      }
 
+
 //      updateRouteData(Routeid: string,obj: Route,SchoolId:string){
 //       this.firestore.doc(`School/${SchoolId}/Routes/` + Routeid).update({
 //         'Routeid':Routeid,
@@ -275,7 +310,7 @@ import { Comprehension } from "./comprehensionobj";
 //           'name':obj.name,
 //           'doj':obj.doj,
 //           'pic':obj.pic,
-//           'phn':obj.phn, 
+//           'phn':obj.phn,
 //           'dob':obj.dob,
 //           'address':obj.address,
 //           'pincode':obj.pincode,
@@ -294,14 +329,17 @@ import { Comprehension } from "./comprehensionobj";
     // }
 
 
+
+
     //teacher
+
 
   //   getTeacherData() {
   //     // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
-  //       return this.firestore.collection('Users', ref => ref.where("role", "==","teacher")).snapshotChanges();   
+  //       return this.firestore.collection('Users', ref => ref.where("role", "==","teacher")).snapshotChanges();  
        
   //    }
-  
+ 
   //    createTeacherData(obj: Teacher){
   //      return this.firestore.collection('Users').add(
   //        {
@@ -310,7 +348,7 @@ import { Comprehension } from "./comprehensionobj";
   //          'name':obj.name,
   //          'role':obj.role,
   //          'doj':obj.doj,
-  //          'phn':obj.phn, 
+  //          'phn':obj.phn,
   //          'dob':obj.dob,
   //          'address':obj.address,
   //          'img':obj.img,
@@ -327,7 +365,7 @@ import { Comprehension } from "./comprehensionobj";
   //           'id':docRef.id})
   //       })
   //     }
-  
+ 
   //     updateTeacherData(id: string,obj: Teacher){
   //      this.firestore.doc('Users/' + id).update({
   //        'id':id,
@@ -336,7 +374,7 @@ import { Comprehension } from "./comprehensionobj";
   //        'name':obj.name,
   //        'role':obj.role,
   //        'doj':obj.doj,
-  //        'phn':obj.phn, 
+  //        'phn':obj.phn,
   //        'dob':obj.dob,
   //        'address':obj.address,
   //        'img':obj.img,
@@ -354,11 +392,15 @@ import { Comprehension } from "./comprehensionobj";
   //   //    //this.imageDetailList.push(imageDetails);
   //   //  }
 
+
  }
 
 
 
-  
+
+
+
+ 
 
 
 
@@ -366,14 +408,21 @@ import { Comprehension } from "./comprehensionobj";
 
 
 
-  
+
+
+
+
+
+
+
+ 
  //Eyal
 // getEyalDataActive() {
 //   return this.firestore.collection('eyal',ref=> ref.orderBy('name').where("active",'==','1')).snapshotChanges();
-// } 
+// }
 // getEyalData() {
 //   return this.firestore.collection('eyal',ref=> ref.orderBy('number')).snapshotChanges();
-// } 
+// }
 // createEyalData(obj: Eyal){
 //  return this.firestore.collection('eyal').add(
 //    {
@@ -382,7 +431,7 @@ import { Comprehension } from "./comprehensionobj";
 //      'paal_id':obj.paal_id,
 //      'number':Number(obj.number),
 //      'name':obj.name,
-//      'nameta':obj.nameta, 
+//      'nameta':obj.nameta,
 //      'active':obj.active,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -398,8 +447,8 @@ import { Comprehension } from "./comprehensionobj";
 //     'paal':obj.paal,
 //      'paal_id':obj.paal_id,
 //     'number':Number(obj.number),
-//     'name':obj.name, 
-//     'nameta':obj.nameta, 
+//     'name':obj.name,
+//     'nameta':obj.nameta,
 //     'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -408,13 +457,14 @@ import { Comprehension } from "./comprehensionobj";
 //     this.firestore.doc('eyal/' + dataId).delete();
 //   }
 
+
 //  //Athikaram
 //  getAthikaramDataActive() {
 //   return this.firestore.collection('athikaram',ref=> ref.orderBy('name').where("active",'==','1')).snapshotChanges();
-// } 
+// }
 // getAthikaramData() {
 //   return this.firestore.collection('athikaram',ref=> ref.orderBy('number')).snapshotChanges();
-// } 
+// }
 // createAthikaramData(obj: Athikaram){
 //  return this.firestore.collection('athikaram').add(
 //    {
@@ -425,7 +475,7 @@ import { Comprehension } from "./comprehensionobj";
 //      'eyal_id':obj.eyal_id,
 //      'number':Number(obj.number),
 //      'name':obj.name,
-//      'nameta':obj.nameta, 
+//      'nameta':obj.nameta,
 //      'active':obj.active,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -443,8 +493,8 @@ import { Comprehension } from "./comprehensionobj";
 //      'eyal':obj.eyal,
 //      'eyal_id':obj.eyal_id,
 //     'number':Number(obj.number),
-//     'name':obj.name, 
-//     'nameta':obj.nameta, 
+//     'name':obj.name,
+//     'nameta':obj.nameta,
 //     'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -452,11 +502,11 @@ import { Comprehension } from "./comprehensionobj";
 //   deleteAthikaramData(dataId: string){    
 //     this.firestore.doc('athikaram/' + dataId).delete();
 //   }
-  
+ 
 //  //Kural
 //  getKuralDataActive() {
 //   return this.firestore.collection('kural',ref=> ref.orderBy('name').where("active",'==','1')).snapshotChanges();
-// } 
+// }
 // getKuralDataFilter(paal_id_fil: String,
 //   eyal_id_fil: String,
 //   athikaram_id_fil: String) {
@@ -464,23 +514,27 @@ import { Comprehension } from "./comprehensionobj";
 //     {
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number').where("eyal_id",'==',eyal_id_fil).where("athikaram_id",'==',athikaram_id_fil)).snapshotChanges();
 
+
 //     }else  if(athikaram_id_fil!=null)
 //     {
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number').where("athikaram_id",'==',athikaram_id_fil)).snapshotChanges();
+
 
 //     }else if(eyal_id_fil!=null)
 //     {
 //       console.log("yyyyyyyyy"+eyal_id_fil)
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number').where("eyal_id",'==',eyal_id_fil)).snapshotChanges();
 
+
 //     }else{
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number')).snapshotChanges();
 
+
 //     }
-// } 
+// }
 // getKuralData() {
 //   return this.firestore.collection('kural',ref=> ref.orderBy('number')).snapshotChanges();
-// } 
+// }
 // createKuralData(obj: Kural){
 //  return this.firestore.collection('kural').add(
 //    {
@@ -493,12 +547,12 @@ import { Comprehension } from "./comprehensionobj";
 //      'athikaram_id':obj.athikaram_id,
 //      'number':Number(obj.number),
 //      'name':obj.name,
-//      'nameta':obj.nameta, 
-//      'explanation':obj.explanation, 
-//     'explanationta':obj.explanationta, 
-//     'youtube_id':obj.youtube_id, 
-//     'audio_url':obj.audio_url, 
-//     'video_url':obj.video_url, 
+//      'nameta':obj.nameta,
+//      'explanation':obj.explanation,
+//     'explanationta':obj.explanationta,
+//     'youtube_id':obj.youtube_id,
+//     'audio_url':obj.audio_url,
+//     'video_url':obj.video_url,
 //      'active':obj.active,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -518,13 +572,13 @@ import { Comprehension } from "./comprehensionobj";
 //      'athikaram':obj.athikaram,
 //      'athikaram_id':obj.athikaram_id,
 //     'number':Number(obj.number),
-//     'name':obj.name, 
-//     'nameta':obj.nameta, 
-//     'explanation':obj.explanation, 
-//     'explanationta':obj.explanationta, 
-//     'youtube_id':obj.youtube_id, 
-//     'audio_url':obj.audio_url, 
-//     'video_url':obj.video_url, 
+//     'name':obj.name,
+//     'nameta':obj.nameta,
+//     'explanation':obj.explanation,
+//     'explanationta':obj.explanationta,
+//     'youtube_id':obj.youtube_id,
+//     'audio_url':obj.audio_url,
+//     'video_url':obj.video_url,
 //     'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -533,6 +587,12 @@ import { Comprehension } from "./comprehensionobj";
 //     this.firestore.doc('kural/' + dataId).delete();
 //   }
 
+
 //}
+
+
+
+
+
 
 

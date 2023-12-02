@@ -287,7 +287,7 @@
                   </div>
                  
                     <div class="search-box ms-2  col-sm-auto w-100">
-                        <input type="text" class="form-control search order-last order-md-first"  placeholder="Search Name">
+                        <input type="text" class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="Search Name" (input)="filteredItemsName($event)" >
                         <i class="ri-search-line search-icon"></i>
                     </div>
                 </div>
@@ -326,7 +326,7 @@
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            <tr *ngFor="let data of addlists;let i = index;" >
+                            <tr *ngFor="let data of filteredItems;let i = index;" >
                                 <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#TB01</a></td>
                                
                                 <td class="Name">{{i+1}}</td>

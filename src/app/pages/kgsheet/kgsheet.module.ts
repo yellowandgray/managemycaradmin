@@ -53,6 +53,8 @@ import { MapsheetComponent } from './mapsheet/mapsheet.component';
 import { AddlistComponent } from './addlist/addlist.component';
 import { KgRoutingModule } from './kgsheet-routing.module';
 import { AddItemComponent } from './additem/additem.component';
+import { TestpageComponent } from './testpage/testpage.component';
+import { AddtestpagesComponent } from './addtestpages/addtestpages.component';
 
 
 
@@ -72,6 +74,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     AddItemComponent,
   AddlistComponent,
   MapsheetComponent,
+  TestpageComponent,
+  AddtestpagesComponent,
    
   
     // NgbdWidgetSortableHeader,

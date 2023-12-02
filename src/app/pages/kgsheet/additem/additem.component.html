@@ -285,7 +285,14 @@
 
 <!-- Your component HTML -->
 <!-- <div class="container"> -->
-    <div class="row row-cols-xl-5 row-cols-sm-2 row-cols-1">
+    <div *ngIf="loading" class="text-center">
+                        
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading...</p>
+      </div>
+    <div *ngIf="!loading" class="row row-cols-xl-5 row-cols-sm-2 row-cols-1">
       <div *ngFor="let data of getVisibleItems(); let i = index;" class="col">
         <div class="card overflow-hidden">
           <div class="card-body bg-data.color-subtle text-center learning-widgets d-flex align-items-center justify-content-center">

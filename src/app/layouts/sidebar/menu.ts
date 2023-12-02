@@ -113,6 +113,12 @@ export const MENU: MenuItem[] = [
                 link: '/kgsheet/addlist',
                 parentId: 9
             },
+            {
+                id: 5,
+                label: 'Test',
+                link: '/kgsheet/testpage',
+                parentId: 9
+            },
          
            
            

@@ -461,6 +461,17 @@
                                             <div class="remove">
                                                 <button class="btn btn-sm btn-danger remove-item-btn"  (click)="delet(data.id)">Remove</button>
                                             </div>
+                                            <div dropdown [dropup]="false" container="card-body" placement="bottom right" class="dropdown flex-shrink-0">
+                                                <button dropdownToggle class="btn btn-secondary btn-icon btn-sm">
+                                                    <i class="bi bi-three-dots"></i>
+                                                </button>
+                                                <ul *bsDropdownMenu class="dropdown-menu table-dropdown">
+                                                    <li><a class="dropdown-item" routerLink="/learning/overview"><i class="ph-calendar align-baseline me-1"></i> KG Sheet</a></li>
+                                                    <li><a class="dropdown-item" href="javascript:void(0);" ><i class="ph-storefront align-baseline me-1"></i>Comprehension</a></li>
+                                                    <li><a class="dropdown-item" href="javascript:void(0);" ><i class="ph-calendar align-baseline me-1"></i> Van</a></li>
+                                                </ul>
+                                            </div>
+                                            
                                         </div>
                                     </td>
                                

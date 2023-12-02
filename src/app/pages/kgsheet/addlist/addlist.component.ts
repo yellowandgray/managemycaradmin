@@ -41,6 +41,7 @@ export class AddlistComponent {
   breadCrumbItems!: Array<{}>;
   kgSheetId = '3u90Jik86R10JulNCU3K';
   addlists: Addlist[] = [];
+  filteredItems: Addlist[] = [];
    addlists1: Addlist[] = [];
   additems:Additems[]=[];
   selectedImage: File | null = null;
@@ -53,7 +54,7 @@ export class AddlistComponent {
   MessageFormData: FormGroup;
   //MessageFormData1: FormGroup;
  // items: any[] = [];
- 
+
   selectedItem: any='';
   additem: any[] = []; // Your array of items
   item: RowItem[] = []; // Array to store rows
@@ -72,7 +73,7 @@ export class AddlistComponent {
   searchTerm: string = '';
   //additems: Additems[] = [];
   filteredAdditems: Additems[] = [];
-  showAllItems: boolean = true; // Flag to control whether to show all items initially
+  showAllItems: boolean = true; 
  
  // items: Additems[] = Array.from({ length: 10 }, () => ({ id: '', name: '', picture: '', punctuation: '' }));
   searchControl = new FormControl();
@@ -82,8 +83,8 @@ export class AddlistComponent {
   currListID:string='';
   itemNames: string[] = [];
   itemDetails: any[] = [];
-  allItems: Addlist[] = [];  // Replace YourItemType with the actual type of your items
-filteredItems: Addlist[] = [];
+  allItems: Addlist[] = [];  
+// filteredItems: Addlist[] = [];
 selectedOption: string = '';
 bsModalRef: BsModalRef | undefined;
 
@@ -182,6 +183,7 @@ loading: boolean = true;
        });
        this.allItems = this.addlists;
         this.addlists1 = this.addlists;
+        this.filteredItems=this.addlists;
         console.log("Step 1", this.addlists);
           this.addlists.forEach(item => {
     console.log("Step 0: Checking item", item);
@@ -211,12 +213,6 @@ loading: boolean = true;
    
 // Fetch and update the standard field for each list_id
 // Fetch and update the standard field for each list_id
-
-
-
-
-
-
 
 
      
@@ -310,25 +306,7 @@ loading: boolean = true;
 
 
 
-  filterItemsByOption() {
-    if (this.selectedOption === 'ALL' || this.selectedOption === '') {
-      this.addlists = [...this.allItems];
-     
-     // If 'ALL' is selected, show all items
-    } else {
-       // this.addlists = [...this.allItems];
-      // Fetch the list of list_ids based on the selected standard
-      this.apiService.getListID(this.school_id, this.kgSheetId, this.selectedOption).subscribe(listIds => {
-        // Filter documents based on the listIds
-        this.addlists = this.addlists1.filter(item => listIds.includes(item.id));
- 
-        // Optionally, call the updateListItemsData API for each list_id
-        // listIds.forEach(list_id => {
-        //   this.callUpdateListItemsAPI(list_id);
-        // });
-      });
-    }
-  }
+
  
   openImageModal(imageUrl: string) {
     const initialState = {
@@ -396,9 +374,89 @@ loading: boolean = true;
     this.selectedItems = this.filteredAdditems;
     // console.log(this.selectedItems);
   }
+
+
+  filterItemsByOption() {
+    if (this.selectedOption === 'ALL' || this.selectedOption === '') {
+      this.addlists = [...this.allItems];
+      this.applyNameFilter(); // Apply name filtering
+    } else {
+      this.apiService.getListID(this.school_id, this.kgSheetId, this.selectedOption).subscribe(listIds => {
+        this.addlists = this.addlists1.filter(item => listIds.includes(item.id));
+        this.applyNameFilter(); // Apply name filtering
+      });
+    }
+  }
+  
+  applyNameFilter() {
+    // Apply name filtering
+    this.filteredItems = this.addlists.filter(List => {
+      const nameMatch = !this.searchTerm || List.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+      return nameMatch;
+    });
+  
+    if (!this.filteredItems.length) {
+      console.log('No Students...');
+    }
+  }
+  
+  filteredItemsName(event: any): void {
+    const value = event.target.value;
+    console.log('Filtering by name...', value);
+    this.searchTerm = value;
+    this.filterItemsByOption(); // Call the combined function
+  }
+  
+  
+  
+  
+
+
  
+  // filterItemsByOption() {
+  //   if (this.selectedOption === 'ALL' || this.selectedOption === '') {
+  //     this.addlists = [...this.allItems];
+     
+  
+  //   } else {
+      
+  //     this.apiService.getListID(this.school_id, this.kgSheetId, this.selectedOption).subscribe(listIds => {
+       
+  //       this.addlists = this.addlists1.filter(item => listIds.includes(item.id));
+ 
+        
+  //     });
+  //   }
+  // }
 
 
+  // filteredItemsName(event: any): void {
+  //   const value = event.target.value;
+  //   console.log('Filtering by name...', value);
+  //   this.searchTerm = value;
+  //   this.filteredItem();
+  // }
+ 
+ 
+  // filteredItem() {
+  //   console.log('Filtering...', this.searchTerm);
+
+
+  //   this.filteredItemss = this. addlists.filter(List => {
+     
+  //     const nameMatch = !this.searchTerm || List.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+  //     return nameMatch;
+  //   });
+
+
+  //   if (!this.filteredItems.length) {
+  //     console.log('Nooo Students...');
+  //     this.filteredItemss = [];
+  //     console.log(this.filteredItems);
+  //   }
+  // }
 
 
 
@@ -716,51 +774,14 @@ loading: boolean = true;
     this.apiService.updateListData(id.toString(),this.emp,kgSheetId);
     this.emp = new Addlist();
     this.editModal?.hide();
+    this.resetFilters();
   //  this.resetForm;
-
-
-
-
-
-
-
 
   }
   delete(id: string){
     const kgSheetId = '3u90Jik86R10JulNCU3K';
     this.apiService.deleteListData(id,kgSheetId)
       }
-
-
-
-
-
-
-
-
- // Add this property to your component
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   showPreview(event: any) {
@@ -801,11 +822,6 @@ loading: boolean = true;
 
 
 
-
-
-
-
-
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -813,24 +829,12 @@ loading: boolean = true;
     }
   }
 
-
-
-
-
-
-
-
 save() {
   const kgSheetId = '3u90Jik86R10JulNCU3K';
   if (this.selectedImage) {
            this.apiService.createAddListData(this.emp, kgSheetId);
            this.emp = new Addlist();
-
-
-
-
-
-
+           this.resetFilters();
 
 
   } else {
@@ -840,38 +844,10 @@ save() {
    console.log(this.emp);  
     this.apiService.createAddListData(this.emp,kgSheetId);
      this.emp = new Addlist();
-     
+     this.resetFilters();
   }
   this.showModal?.hide();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -882,28 +858,6 @@ assignSelectedStandards(): void {
     this.assignstd1(standard);
   });
 }
-
-
-
-
-
-
-
-
-//selectedStandards: string[] = [];
-
-
-
-
-
-
-
-
-// assignstd1(standard: string): void {
-
-
-
-
 
 
 
@@ -1191,6 +1145,13 @@ saveSelectedStandards() {
 
 
 
+resetFilters() {
+  // Reset filter fields
+  this.selectedOption = '';
+ 
+  this.searchTerm = '';
+ // this.filteredStudents = [...this.students];
+}
 
 
 
