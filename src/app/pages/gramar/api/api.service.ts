@@ -8,6 +8,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import * as firebase from "firebase/compat";
 import { Comprehension } from "./comprehensionobj";
+import { Observable, map } from "rxjs";
+import { Assign } from "./assignobj ";
 
 
 
@@ -132,17 +134,17 @@ import { Comprehension } from "./comprehensionobj";
         'no': obj.no,
         'title': obj.title,
         'paragraph': obj.paragraph,
-        // Add other fields as needed
-        // 'updatedAt': firebase.firestore.FieldValue.serverTimestamp(),
+       
       });
    
-      // Step 2: Update or add questions in the subcollection 'Questions'
+
       const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
    
       for (const question of obj.questions) {
         const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
         const questionDocRef = questionsCollectionRef.doc(questionId);
         await questionDocRef.set({
+          'id':question.id,
           'qno': question.qno,
           'a': question.a,
           'b': question.b,
@@ -155,8 +157,78 @@ import { Comprehension } from "./comprehensionobj";
       }
     }
    
-   
+    // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
+    //   const batch = this.firestore.firestore.batch();
+    
+    //   // Step 1: Update the main document
+    //   const mainDocumentRef = this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).ref;
+    //   batch.update(mainDocumentRef, {
+    //     'no': obj.no,
+    //     'title': obj.title,
+    //     'paragraph': obj.paragraph,
+    //   });
+    
+    //   // Step 2: Update or add questions in the subcollection
+    //   const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
+  
+    //   for (const question of obj.questions) {
+    //     const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
+    //     const questionDocRef = questionsCollectionRef.doc(questionId).ref; // Access the 'ref' property
+    //     batch.set(questionDocRef, {
+    //       'qno': question.qno,
+    //       'a': question.a,
+    //       'b': question.b,
+    //       'c': question.c,
+    //       'd': question.d,
+    //       'qstn': question.qstn,
+    //       'answer': question.answer,
+    //       'qtype': question.qtype,
+    //     });
+    //   }
+    
+    //   // Commit the batch
+    //   await batch.commit();
+    // }
+    
 
+    
+createAssignData(obj: Assign, schoolid: string) {
+  return this.firestore.collection(`School/${schoolid}/Comp_Assign`).add({
+    'id':'',
+    'list_id': obj.list_id,
+    'standard': obj.standard,
+  }).then(async docRef => {
+    console.log(obj.list_id, 'list id');
+    console.log(obj.standard, 'standard id');
+    console.log(docRef.id, 'test');
+    await this.firestore.doc(`School/${schoolid}/Comp_Assign/` + docRef.id).update({
+      'id': docRef.id
+    });
+ 
+  })
+}
+
+updateAssignData(obj: Assign, schoolid: string, docId: string) {
+  console.log(obj.list_id, 'list id');
+  console.log(obj.standard, 'standard');
+  console.log("Document id " + docId);
+  return this.firestore.doc(`School/${schoolid}/Comp_Assign/${docId}`).update({
+    'list_id': obj.list_id,
+    'standard': obj.standard,
+  });
+}
+
+    getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observable<any> {
+      // Adjust the path according to your Firestore structure
+      const path = `school/${kgSheetId}/Comp_Assign/${listId}`;
+      return this.firestore
+      .collection(`School/${schoolid}/Comp_Assign`, (ref) =>
+        ref.where('list_id', '==', listId)
+      )
+      .valueChanges();
+    
+     // return this.firestore.doc<any>(path).valueChanges();
+    }
 
 
 
@@ -175,6 +247,20 @@ import { Comprehension } from "./comprehensionobj";
         await this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).delete();
       }
      
+     
+      getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observable<string[]> {
+        const path = `School/${schoolid}/Comp_Assign`;
+        return this.firestore
+          .collection(path, (ref) => ref.where('standard', 'array-contains', selectedOption))
+          .valueChanges()
+          .pipe(
+            map((documents: any[]) => {
+              // Extract list_id values from the obtained documents
+              return documents.map(doc => doc.list_id);
+            }),
+         
+          );
+      }
      
 
 

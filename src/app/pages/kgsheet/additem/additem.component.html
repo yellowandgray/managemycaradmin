@@ -6,9 +6,25 @@
 
 
 
+
+
+
+
+
+
+
+
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="Items View" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
+
+
+
+
+
+
+
+
 
 
 
@@ -28,7 +44,15 @@
 
 
 
+
+
+
+
             <form  class="tablelist-form" [formGroup]="MessageFormData">
+
+
+
+
 
 
 
@@ -37,6 +61,10 @@
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                     <input type="hidden" id="id-field">
+
+
+
+
 
 
 
@@ -53,7 +81,15 @@
 
 
 
+
+
+
+
                  
+
+
+
+
 
 
 
@@ -77,9 +113,17 @@
 
 
 
+
+
+
+
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Type<span
                                 class="text-danger">*</span></label>
+
+
+
+
 
 
 
@@ -102,6 +146,10 @@
 
 
 
+
+
+
+
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
@@ -118,6 +166,10 @@
 
 
 
+
+
+
+
 <div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal">
     <div class="modal-dialog">
         <div class="modal-content border-0">
@@ -129,7 +181,15 @@
 
 
 
+
+
+
+
             <form  class="tablelist-form" [formGroup]="MessageFormData">
+
+
+
+
 
 
 
@@ -142,6 +202,10 @@
 
 
 
+
+
+
+
                     <!-- <input type="hidden" id="rating-field"> -->
                      
                 <div class="mb-3">
@@ -150,6 +214,10 @@
                    
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="id" placeholder="Enter Name" required />
                 </div>
+
+
+
+
 
 
 
@@ -176,6 +244,10 @@
 
 
 
+
+
+
+
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.punctuation" formControlName="punctuation">
                             <option value="Common noun">Common noun</option>
                             <option value="Proper noun">Proper noun</option>
@@ -190,6 +262,10 @@
                             <option value="Verb">Verb</option>
                         </select>
                     </div>
+
+
+
+
 
 
 
@@ -215,6 +291,14 @@
 
 
 
+
+
+
+
+
+
+
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -223,12 +307,18 @@
 
 
 
+
+
+
+
                 <div class="row g-4 mb-3">
                     <div class="col-sm-auto d-flex">
                         <div class="search-box ms-2  col-sm-auto ">
-                            <input type="text" class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="Search by Item Name">
+                            <input type="text" class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" (input)="filterItemsByName($event)" placeholder="Search by Item Name">
                             <i class="ri-search-line search-icon"></i>
                         </div>
+
+
 
 
                         <div class="search-box ms-2">
@@ -283,10 +373,14 @@
 
 
 
+
+
+
+
 <!-- Your component HTML -->
 <!-- <div class="container"> -->
     <div *ngIf="loading" class="text-center">
-                        
+                       
         <div class="spinner-border" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>
@@ -361,6 +455,50 @@
  
  
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

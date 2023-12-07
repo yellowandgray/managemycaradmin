@@ -346,13 +346,14 @@
                                 </td>
                                 <td class="Items"> <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal.show(); editListItemId(data.id)">Assign Items</button></td>
                                 <td class="Total Items">{{data.items.length}}</td>
-                                <td class="AssignToContainer">
-                                  <div class="d-flex align-items-center">
-                                    <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
-                                  </div>
-                                  <div style="margin-left: 10px;">{{data.standard}}</div>
-                                </td>
-                               
+                                  
+                                  <td class="AssignToContainer">
+                                    <div class="d-flex align-items-center">
+                                      <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
+                                    </div>
+                                    <div style="margin-left: 10px;">{{data.standard}}</div>
+                                  </td>
+                                
                                
                                 <td>
                                   <div class="d-flex gap-2">

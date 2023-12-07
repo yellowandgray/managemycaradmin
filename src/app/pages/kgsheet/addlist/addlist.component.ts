@@ -114,15 +114,7 @@ loading: boolean = true;
       'standard': new FormControl([]),
     });
 
-
-
-
-
-
-
-
    
-       
     if (this.emp != null) {
       this.MessageFormData.patchValue({  
         id:this.emp.id,    
@@ -135,11 +127,6 @@ loading: boolean = true;
       this.emp.id= this.emp.id;  
       this.emp.list_id= this.emp.list_id;  
       this.allPossibleStandards = ['LKG', 'UKG', 'I', 'II', 'III'];
-
-
-
-
-
 
 
 
@@ -185,6 +172,7 @@ loading: boolean = true;
         this.addlists1 = this.addlists;
         this.filteredItems=this.addlists;
         console.log("Step 1", this.addlists);
+
           this.addlists.forEach(item => {
     console.log("Step 0: Checking item", item);
     const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
@@ -206,7 +194,8 @@ loading: boolean = true;
         }
       );
     }
-  })
+  }
+  )
 
 
      });
@@ -374,7 +363,7 @@ loading: boolean = true;
     this.selectedItems = this.filteredAdditems;
     // console.log(this.selectedItems);
   }
-
+;
 
   filterItemsByOption() {
     if (this.selectedOption === 'ALL' || this.selectedOption === '') {
@@ -580,15 +569,7 @@ loading: boolean = true;
 
 
 
-
-
-
       console.log('Item Details:', this.itemDetails);
-
-
-
-
-
 
 
 
@@ -601,11 +582,6 @@ loading: boolean = true;
       // Show your existing modal or handle the behavior as needed
     }
   }
-
-
-
-
-
 
 
 
@@ -626,11 +602,6 @@ loading: boolean = true;
 
 
 
-
-
-
-
-
   removeRow(index: number) {
     // Remove the item ID from the selectedIds array
     //const removedItemId = this.items[index].id;
@@ -640,25 +611,9 @@ loading: boolean = true;
     // }
 
 
-
-
-
-
-
-
     // Remove the item from the items array
     //this.items.splice(index, 1);
   }
-
-
-
-
-
-
-
-
-
-
 
 
  
@@ -670,59 +625,6 @@ loading: boolean = true;
   //   // Update the selected item for the specific dropdown
  
   // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -875,23 +777,11 @@ isSelected(standard: string): boolean {
 }
 
 
-
-
-
-
-
-
 setSelectedItemId(itemId: string) {
   this.selectedItemId = itemId;
   this.assign.list_id = this.selectedItemId;
   console.log("school id: " + this.school_id);
   console.log("Item id: " + itemId);
-
-
-
-
-
-
 
 
   // this.apiService.checkListIdExists(this.school_id, itemId).subscribe(
@@ -907,20 +797,11 @@ setSelectedItemId(itemId: string) {
 }
 
 
-
-
-
-
+//-
 
 
 assignstd1(listId: string): void {
   console.log("Step 0.1");
-
-
-
-
-
-
 
 
   // Assuming listId is set when the "Assign to Standard" button is clicked
@@ -930,23 +811,10 @@ assignstd1(listId: string): void {
   }
 
 
-
-
-
-
-
-
   // Fetch the entire document for the clicked list_id
   this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
     assignedData => {
       console.log("Step 1");
-
-
-
-
-
-
-
 
       // Extract the 'standard' field or any other field you need
       this.selectedStandards = assignedData[0]?.standard || [];
@@ -959,29 +827,11 @@ assignstd1(listId: string): void {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
       // Show the modal
     //  this.deleteRecordModal2.show();
 
 
-
-
-
-
-
-
-      // Set the selectedItemId
+    // Set the selectedItemId
       this.setSelectedItemId(listId);
     },
     error => {
@@ -989,38 +839,15 @@ assignstd1(listId: string): void {
       console.error('Error fetching document data:', error);
 
 
-
-
-
-
-
-
       // Reset selectedStandards to an empty array
       this.selectedStandards = [];
 
 
-
-
-
-
-
-
-      // Show the modal
+     // Show the modal
      // this.deleteRecordModal2.show();
-
-
-
-
-
-
-
 
       // Set the selectedItemId
       this.setSelectedItemId(listId);
-
-
-
-
 
 
 
@@ -1044,69 +871,12 @@ onStandardChange(standard: string): void {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 add(){
   this.MessageFormData;
   this.showModal?.show()
   this.emp = new Addlist();
  
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 saveSelectedStandards() {
@@ -1130,12 +900,6 @@ saveSelectedStandards() {
 
 
 
-   
-  
-
-
-
-
     // Reset the form and close the modal
     // this.assign = new Assign();
     // this.deleteRecordModal2?.hide();
@@ -1152,40 +916,6 @@ resetFilters() {
   this.searchTerm = '';
  // this.filteredStudents = [...this.students];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

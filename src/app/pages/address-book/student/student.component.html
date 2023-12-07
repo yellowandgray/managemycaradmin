@@ -10,7 +10,23 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+
+
+
 
 
 
@@ -30,6 +46,10 @@
 
 
 
+
+
+
+
                     <!-- <div class="mb-3" id="modal-id" style="display: none;">
                         <label for="id-field" class="form-label">ID</label>
                         <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
@@ -42,6 +62,10 @@
 
 
 
+
+
+
+
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Name</label>
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required />
@@ -50,6 +74,12 @@
                     <div class="mb-3">
                         <!-- <label for="course-category-input" class="form-label">Standard<span class="text-danger">*</span></label> -->
                        <label for="course-category-input" class="form-label">Standard</label>
+
+
+
+
+
+
 
 
 
@@ -79,6 +109,10 @@
 
 
 
+
+
+
+
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.section" formControlName="section" >
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -86,6 +120,10 @@
                             <option value="D">D</option>
                         </select>
                     </div>
+
+
+
+
 
 
 
@@ -155,11 +193,19 @@
 
 
 
+
+
+
+
              
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Rec. No.</label>
                         <input type="text"  class="form-control" formControlName="number"  [(ngModel)]="emp.rec_no" placeholder="Rec. No." required />
                     </div>
+
+
+
+
 
 
 
@@ -170,6 +216,10 @@
                     </div>
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Standard</label>
+
+
+
+
 
 
 
@@ -197,6 +247,10 @@
 
 
 
+
+
+
+
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.section" formControlName="section" >
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -204,6 +258,10 @@
                             <option value="D">D</option>
                         </select>
                     </div>
+
+
+
+
 
 
 
@@ -226,6 +284,10 @@
                         <label for="phone-field" class="form-label">Mobile</label>
                         <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No."   pattern="[1-9]{1}[0-9]{9}" formControlName="mobile"  [(ngModel)]="emp.mobile" required />
                     </div>
+
+
+
+
 
 
 
@@ -265,7 +327,15 @@
 
 
 
+
+
+
+
 <div>
+
+
+
+
 
 
 
@@ -285,6 +355,10 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto d-flex">
                            
+
+
+
+
 
 
 
@@ -312,6 +386,8 @@
                             </div>
 
 
+
+
                             <div class="search-box ms-2">
                                 <!-- <span class="ri-search-line search-icon me-3"></span> -->
                                 <select class="form-select" id="course-category-input" [(ngModel)]="selectedSection" (ngModelChange)="filterStudents()">
@@ -331,8 +407,10 @@
                             </div> -->
 
 
+
+
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" [(ngModel)]="searchTerm" (change)="filterStudentsByName($event)"
+                                <input [(ngModel)]="searchTerm" class="form-control" placeholder="Search by name" (input)="filterStudentsByName($event)"
                                   placeholder="Search by Name" list="studentNames">
                                   <i class="ri-search-line search-icon"></i>
                                 <datalist id="studentNames">
@@ -360,6 +438,10 @@
                                         Add</button>
                                         <!-- <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button> -->
+
+
+
+
 
 
 
@@ -395,13 +477,14 @@
                      
                     <div>
                         <div *ngIf="loading" class="text-center">
-                        
+                       
                             <div class="spinner-border" role="status">
                               <span class="visually-hidden">Loading...</span>
                             </div>
                             <p>Loading...</p>
                           </div>
-    
+   
+
 
                     <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
                         <table class="table align-middle table-nowrap" id="customerTable">
@@ -431,13 +514,15 @@
                             </thead>
                             <tbody class="list form-check-all">
                                 <!-- <tr *ngFor="let data of students;let i = index;" id="a_{{data.id}}"> -->
-                                    <tr *ngFor="let data of filteredStudents; let i = index;" id="a_{{data.id}}">
+                                    <!-- <tr *ngFor="let data of filteredStudents; let i = index;" id="a_{{data.id}}"> -->
+                                        <tr *ngFor="let data of getVisibleItems(); let i = index;" id="a_{{ data.id }}">
                                     <td class="customer_name">{{data.rec_no}}</td>
                                     <td class="customer_name">{{data.name}}</td>
                                     <td class="picture">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
                                                 <img [src]="data.image"(click)="showImagePreview(data.image)" class="img-fluid" alt="Image" style="object-fit: cover; width: 100%; height: 100%;">
+
 
                                                 <!-- <img src={{data.image}} alt="" class="img-fluid d-block" (click)="openImageModal(data.image)" style="object-fit: cover; width: 100%; height: 100%;"  > -->
                                             </div>
@@ -471,7 +556,7 @@
                                                     <li><a class="dropdown-item" href="javascript:void(0);" ><i class="ph-calendar align-baseline me-1"></i> Van</a></li>
                                                 </ul>
                                             </div>
-                                            
+                                           
                                         </div>
                                     </td>
                                
@@ -483,11 +568,39 @@
 
 
 
-                    <div class="d-flex justify-content-end">
+
+
+
+
+                    <div class="d-flex justify-content-end mt-3">
                         <div class="pagination-wrap hstack gap-2">
-                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                          <button
+                            class="btn btn-outline-primary"
+                            (click)="onPageChange(currentPage - 1)"
+                            [disabled]="currentPage === 1"
+                          >
+                            Previous
+                          </button>
+                     
+                          <ng-container *ngFor="let page of getPages()">
+                            <button
+                              class="btn btn-outline-primary"
+                              (click)="onPageChange(page)"
+                              [class.btn-primary]="currentPage === page"
+                            >
+                              {{ page }}
+                            </button>
+                          </ng-container>
+                     
+                          <button
+                            *ngIf="currentPage < getTotalPages()"
+                            class="btn btn-outline-primary"
+                            (click)="onPageChange(currentPage + 1)"
+                          >
+                            Next
+                          </button>
                         </div>
-                    </div>
+                      </div>
                 </div>
             </div><!-- end card -->
         </div>
@@ -495,6 +608,10 @@
     </div>
 </div>
     <!-- end col -->
+
+
+
+
 
 
 
@@ -521,6 +638,13 @@
             </div>
         </div>
     </div> -->
+
+
+
+
+
+
+
 
 
 
@@ -559,6 +683,14 @@
 
 
 
+
+
+
+
+
+
+
+
 <!-- <div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -573,6 +705,10 @@
 
 
 
+
+
+
+
                     <div class="mb-3" id="modal-id" style="display: none;">
                         <label for="id-field" class="form-label">ID</label>
                         <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
@@ -581,10 +717,18 @@
 
 
 
+
+
+
+
                     <div class="mb-3">
                         <label for="customername-field" class="form-label">Customer Name</label>
                         <input type="text" id="customername-field" class="form-control" [(ngModel)]="formdata.name" placeholder="Enter Name" required />
                       </div>
+
+
+
+
 
 
 
@@ -602,6 +746,10 @@
                         <label for="phone-field" class="form-label">standard</label>
                         <input type="text" id="phone-field" class="form-control" [(ngModel)]="formdata.standard" placeholder="Enter Phone no." required />
                       </div>
+
+
+
+
 
 
 
@@ -633,6 +781,20 @@
         </div>
     </div>
 </div>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

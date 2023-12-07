@@ -63,4 +63,6 @@ export class Comprehension {
   title: string = '';
   paragraph: string = '';
   questions: Question[] = [];
+  list_id:string='';
+  standard: string[] = [];
 }

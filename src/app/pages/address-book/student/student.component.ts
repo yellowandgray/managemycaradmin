@@ -1,5 +1,7 @@
 
 
+
+
 import { Component, Inject, ViewChild } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Student } from '../api/addressobj';
@@ -10,8 +12,12 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
+
+
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
+
+
 
 
 @Component({
@@ -30,8 +36,12 @@ export class StudentComponent {
 
 
 
+
+
+
+
  
-  emps: { image: string } = { image: '' }; 
+  emps: { image: string } = { image: '' };
  
   //selectedImage: File | null = null;
   selectedFile: File | null = null;
@@ -44,18 +54,31 @@ export class StudentComponent {
   selectedImage: any = null;
   loading: boolean = true;
 
+
   selectedStandard: string = '';
   selectedSection: string = '';
   searchTerm: string = '';
   filteredStudents: Student[] = [];
   studentNames: string[] = [];
+  itemsPerPage = 10;
+  currentPage = 1;
+  selectedStudentIndex: number | null = null;
+
+
+
 
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
 
 
+
+
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+
+
+
+
 
 
 
@@ -75,6 +98,10 @@ export class StudentComponent {
     });    
        
     if (this.emp != null) {
+
+
+
+
 
 
 
@@ -108,6 +135,8 @@ export class StudentComponent {
   }
 
 
+
+
   ngOnInit() {
     this.loading= true;
     // Subscribe to the address-book collection data
@@ -115,40 +144,26 @@ export class StudentComponent {
       (actions) => {
         this.students = actions.map((action) => action.payload.doc.data() as Student);
         this.students.sort((a, b) => a.name.localeCompare(b.name));
-        this.filteredStudents = [...this.students];
+        this.filterStudents();  // Add this line to apply initial filtering
         this.populateStudentNames();
-        this.loading= false;
+        this.loading = false;
       },
       (error) => {
         console.error('Error fetching address book data:', error);
-        this.loading= false;
+        this.loading = false;
         // Handle the error appropriately, e.g., display a message to the user
       }
     );
   }
+
 
   displayFn(student: Student): string {
     return student && student.name ? student.name : '';
   }
 
 
-  // filterStudents() {
-  //   console.log('Filtering...', this.selectedStandard, this.selectedSection, this.searchTerm);
- 
- 
-  // }
- 
-  // filterStudentsByName(value: string): void {
-  //   // Filter students based on the selected standard, section, and entered name
-  //   this.filteredStudents = this.students.filter(student => {
-  //     const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
-  //     const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
-  //   //  const nameMatch = !value || student.name.toLowerCase().includes(value.toLowerCase());
-  //     const searchTermMatch = !value || student.name.toLowerCase().includes(value.toLowerCase());
-  //     return standardMatch && sectionMatch && searchTermMatch;
-  //   });
-  // }
- 
+
+
   filterStudentsByName(event: any): void {
     const value = event.target.value;
     console.log('Filtering by name...', value);
@@ -161,14 +176,32 @@ export class StudentComponent {
     console.log('Filtering...', this.selectedStandard, this.selectedSection, this.searchTerm);
 
 
-    this.filteredStudents = this.students.filter(student => {
-      const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
-      const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
-      const nameMatch = !this.searchTerm || student.name.toLowerCase().includes(this.searchTerm.toLowerCase());
 
 
-      return standardMatch && sectionMatch && nameMatch;
-    });
+    // this.filteredStudents = this.students.filter(student => {
+    //   const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
+    //   const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
+    //   const nameMatch = !this.searchTerm || student.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+
+
+    //   return standardMatch && sectionMatch && nameMatch;
+    // });
+   
+  this.filteredStudents = this.students.filter(student => {
+    const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
+    const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
+   
+    // Check if the student's name contains the search term
+    const nameMatch = this.searchTerm
+      ? student.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+      : true;
+
+
+    return standardMatch && sectionMatch && nameMatch;
+  });
+    this.currentPage = 1;
 
 
     // If there are no matches, set filteredStudents to an empty array
@@ -179,8 +212,9 @@ export class StudentComponent {
     }
   }
 
+
  
-  
+ 
   showImagePreview(imageUrl: string) {
     this.selectedPreviewImage = imageUrl;
     this.showModals1?.show(); // Show the modal
@@ -194,6 +228,10 @@ export class StudentComponent {
     console.log("student names ",this.studentNames);
   }
  
+
+
+
+
 
 
 
@@ -226,6 +264,10 @@ this.apiService.deleteStudentData(id)
 
 
 
+
+
+
+
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
@@ -246,12 +288,18 @@ this.apiService.deleteStudentData(id)
 
 
 
+
+
+
+
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
     }
   }
+
+
 
 
   add(){
@@ -263,12 +311,24 @@ this.apiService.deleteStudentData(id)
   }
 
 
+
+
  
 // In your component class
 // In your component class
 
 
+
+
 // Initialize filteredStudents to show all students initially
+
+
+
+
+
+
+
+
 
 
 
@@ -281,6 +341,10 @@ this.apiService.deleteStudentData(id)
  
   save() {
     console.log(this.emp);
+
+
+
+
 
 
 
@@ -305,6 +369,10 @@ this.apiService.deleteStudentData(id)
 
 
 
+
+
+
+
   importExcel(): void {
     // Trigger the file input
     const fileInput = document.getElementById('fileInput');
@@ -312,6 +380,10 @@ this.apiService.deleteStudentData(id)
       fileInput.click();
     }
   }
+
+
+
+
 
 
 
@@ -342,7 +414,15 @@ this.apiService.deleteStudentData(id)
 
 
 
+
+
+
+
         console.log("Student dob test ", jsDate);
+
+
+
+
 
 
 
@@ -350,6 +430,10 @@ this.apiService.deleteStudentData(id)
         // Format the date as desired
         const formattedDate = jsDate.toLocaleDateString('en-CA');
        
+
+
+
+
 
 
 
@@ -404,21 +488,39 @@ this.apiService.deleteStudentData(id)
 
 
 
+
+
+
+
+
+
+
+
    update(id: string)
    {
-     this.apiService.updateStudentData(id.toString(),this.emp);
-     this.emp = new Student();
-     this.showModals?.hide();
-     this.resetForm;
-this.resetFilters();
+    if (this.selectedStudentIndex !== null) {
+      this.apiService.updateStudentData(id.toString(), this.emp);
+      this.emp = new Student();
+      this.showModals?.hide();
+      this.resetForm();
+      this.resetFilters();
+    }
+
+
+
 
 
 
    }
    
    editStudent(index: number) {
-    const selectedStudent = this.students[index];
-    this.emp = { ...selectedStudent }; // Copy selected student data to emp object
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const originalIndex = startIndex + index;
+    console.log("orginal index",originalIndex)
+    const selectedStudent = this.students.indexOf(this.filteredStudents[originalIndex]);
+  this.selectedStudentIndex = selectedStudent;
+  this.emp = { ...this.students[selectedStudent] };
+  //  this.emp = { ...selectedStudent }; // Copy selected student data to emp object
    
     this.MessageFormData.patchValue({
       rec_no: this.emp.rec_no,
@@ -453,13 +555,50 @@ this.resetFilters();
     this.searchTerm = '';
    // this.filteredStudents = [...this.students];
   }
+  getVisibleItems(): Student[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredStudents.slice(startIndex, endIndex);
+  }
+ 
 
 
  
+  getTotalPages(): number {
+    return Math.ceil(this.filteredStudents.length / this.itemsPerPage);
+  }
+ 
+  getPages(): number[] {
+    return Array(this.getTotalPages()).fill(0).map((_, i) => i + 1);
+  }
+ 
+  onPageChange(pageNumber: number) {
+    this.currentPage = pageNumber;
+  }
+
+
 
 
  
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

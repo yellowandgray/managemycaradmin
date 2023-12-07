@@ -14,7 +14,23 @@
            <form class="tablelist-form" [formGroup]="MessageFormData">
             <div class="modal-body">
                 <input type="hidden" name="id" value="" formControlName="ids" />
-                <div class="mb-3">
+
+                <div  class="col-md-12 px-4">
+                    <label for="course-category-input" class="form-label">Route. No.</label>
+                    <div class="input-group">
+                      <select class="form-select"  >
+                        <option value="" disabled selected>Select Route. No.</option>
+                        <option *ngFor="let additem of routes" [value]="additem.rno">
+                          {{ additem.rno }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  
+
+
+                <!-- <div class="mb-3">
                     <label for="course-category-input" class="form-label">Route. No.</label>
 
 
@@ -24,19 +40,42 @@
                         <option value="C">103</option>
                         <option value="D">104</option>
                     </select>
-                </div>
-                <div class="mb-3">
+                </div> -->
+             
+                    
+                <div class="col-md-12 px-4">
                     <label for="course-category-input" class="form-label">Van No.</label>
+                    <div class="input-group">
+                      <select class="form-select" [(ngModel)]="selectedRegNo" (change)="updateSelectedPic()">
+                        <option value="" disabled selected>Select Van No.</option>
+                        <option *ngFor="let additem of Vans" [value]="additem.regno">
+                          {{ additem.regno}}
+                        </option>
+                      </select>
+                  
+                      <div class="avatar-xs bg-light rounded p-1" style="height: 50px; width: 50px;">
+                        <img [src]="selectedPic" alt="" class="img-fluid d-block">
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+                  
 
-
-                    <select class="form-select" id="course-category-input" formControlName="section" >
-                        <option value="A">THHB5667765</option>
-                        <option value="B">THYB5667000</option>
-                        <option value="C">TPHB5007765</option>
-                        <option value="D">TUHB5669562</option>
-                    </select>
-                </div>
-                <div class="mb-3">
+                    <div  class="col-md-12 px-4">
+                        <label for="course-category-input" class="form-label">Driver Name</label>
+                        <div class="input-group">
+                          <select class="form-select"  >
+                            <option value="" disabled selected>Select Driver Name</option>
+                            <option *ngFor="let additem of Drivers" [value]="additem.name">
+                              {{ additem.name }}
+                            </option>
+                          </select>
+                          
+                        </div>
+                    </div>
+                
+                <!-- <div class="mb-3">
                     <label for="course-category-input" class="form-label">Driver Name</label>
 
 
@@ -46,7 +85,7 @@
                         <option value="C">muthu</option>
                         <option value="D">mani</option>
                     </select>
-                </div>
+                </div> -->
             
               
 

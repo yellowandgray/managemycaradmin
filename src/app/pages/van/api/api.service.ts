@@ -124,6 +124,14 @@ import { Van } from "./addvanobj";
      deleteRouteData(Routeid:string, SchoolId:string,vanId:string ){    
       this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Routes/` + Routeid).delete();
     }
+
+//map
+getDriverData(SchoolId: string) {
+  return this.firestore.collection(`School/${SchoolId}/Drivers`, ref => ref.orderBy('name')).snapshotChanges();
+ 
+ }
+
+
     //Route
 
 // getRouteData(SchoolId: string) {

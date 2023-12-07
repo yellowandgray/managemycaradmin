@@ -1,69 +1,43 @@
-<!-- <div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Update Comprehension</h5>
-                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
-            </div>
-           
-              <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
-                <input type="hidden" name="id" value="" formControlName="ids" />
-                <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
-                <input type="hidden" id="id-field">
-            <form [formGroup]="MessageFormData">
 
+<div class="modal fade" bsModal #deleteRecordModal2="bs-modal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header px-4 pt-4">
+        <h5 class="modal-title" id="exampleModalLabel">Assign to Standard</h5>
+        <button type="button" class="btn-close" (click)="deleteRecordModal2.hide()"></button>
+      </div>
+      <form class="tablelist-form" [formGroup]="MessageFormData">
+        <div class="modal-body p-4" *ngIf="allPossibleStandards.length > 0">
+          <div class="mb-3 col-sm-6">
+            <label for="course-category-input" class="form-label">Assign<span class="text-danger">*</span></label>
 
-              <div class="mb-3">
-                <label for="no" class="form-label">No.</label>
-                <input type="number" id="no" class="form-control" formControlName="no" [(ngModel)]="emp.no" required />
-              </div>
+            <div class="form-check mb-2" *ngFor="let standard of allPossibleStandards">
+              <input
+              class="form-check-input"
+              type="checkbox"
+              [id]="standard"
+              [checked]="fetchedStandards.includes(standard)"
+              (change)="onStandardChange(standard)"
+            />
            
-              <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" formControlName="title" [(ngModel)]="emp.title" placeholder="Enter Title" required />
-              </div>
-           
-              <div class="mb-3">
-                <label for="paragraph" class="form-label">Paragraph</label>
-                <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph" required style="height: 120px;"></textarea>
-              </div>
-             
-            </form>
- 
- 
-         
-            <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
-              <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
-              <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
-         
-              <label class="p-2">A <input type="text" class="form-control search" [(ngModel)]="question.a" /></label>
-              <label class="px-3">B <input type="text" class="form-control search" [(ngModel)]="question.b" /></label>
-              <label class="p-2">C <input type="text" class="form-control search" [(ngModel)]="question.c" /></label>
-              <label class="px-3">D <input type="text" class="form-control search" [(ngModel)]="question.d" /></label>
-         
-              <div class="d-flex p-2 align-items-center">
-                <span class="me-3">Correct Answer:</span>
-                <select class="form-control" style="width: 80px;" [(ngModel)]="question.answer">
-                  <option value="a">A</option>
-                  <option value="b">B</option>
-                  <option value="c">C</option>
-                  <option value="d">D</option>
-                </select>
-              </div>
+              <label class="form-check-label" [for]="standard">{{ standard }}</label>
             </div>
-                 
-             
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i
-                                class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">Update</button>
-                    </div>
-                </div>
-              </div>
+          </div>
         </div>
-    </div> -->
+
+        <div class="modal-footer">
+          <div class="hstack gap-2 justify-content-end">
+            <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal2.hide()">
+              <i class="bi bi-x-lg align-baseline me-1"></i> Close
+            </button>
+            <button type="submit" class="btn btn-primary" id="add-btn" (click)="saveSelectedStandards()">Assign</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
  
 
 
@@ -117,37 +91,11 @@
                 </div>
               </div>
 
-
-
-
-   
-         
-              <!-- <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
-                <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
-                <input type="text" id="qstn{{ i }}" class="form-control" formControlName="questions.{{ i }}.qstn" />
-             
-                <label class="p-2">A <input type="text" class="form-control search" formControlName="questions.{{ i }}.a" /></label>
-                <label class="px-3">B <input type="text" class="form-control search" formControlName="questions.{{ i }}.b" /></label>
-                <label class="p-2">C <input type="text" class="form-control search" formControlName="questions.{{ i }}.c" /></label>
-                <label class="px-3">D <input type="text" class="form-control search" formControlName="questions.{{ i }}.d" /></label>
-             
-                <div class="d-flex p-2 align-items-center">
-                  <span class="me-3">Correct Answer:</span>
-                  <select class="form-control" style="width: 80px;" formControlName="questions.{{ i }}.answer">
-                    <option value="a">A</option>
-                    <option value="b">B</option>
-                    <option value="c">C</option>
-                    <option value="d">D</option>
-                  </select>
-                </div>
-              </div> -->
-         
-         
                 <div class="modal-footer">
                   <div class="hstack gap-2 justify-content-end">
                     <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal.hide()"><i
                       class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                    <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">Add</button>
+                    <button type="submit" class="btn btn-primary" id="add-btn" (click)="update(emp.id)">updata</button>
                   </div>
                 </div>
            
@@ -295,27 +243,6 @@
            
           </form>
 
-
-
-
-          <!-- <div  class="mb-3">
-            <input type="text"  class="form-control" [(ngModel)]="emp.questions[0].qstn" />
-       
-            <label class="p-2">A <input type="text" class="form-control search" [(ngModel)]="emp.questions[0].a" /></label>
-            <label class="px-3">B <input type="text" class="form-control search" [(ngModel)]="emp.questions[0].b" /></label>
-            <label class="p-2">C <input type="text" class="form-control search" [(ngModel)]="emp.questions[0].c" /></label>
-            <label class="px-3">D <input type="text" class="form-control search" [(ngModel)]="emp.questions[0].d" /></label>
-       
-            <div class="d-flex p-2 align-items-center">
-              <span class="me-3">Correct Answer:</span>
-              <select class="form-control" style="width: 80px;" [(ngModel)]="emp.questions[0].answer">
-                <option value="a">A</option>
-                <option value="b">B</option>
-                <option value="c">C</option>
-                <option value="d">D</option>
-              </select>
-            </div>
-          </div> -->
           <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
             <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
             <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
@@ -369,23 +296,44 @@
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
-                            <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="search Title" >
-                                <i class="ri-search-line search-icon"></i>
-                            </div>
-                            </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <div>
-                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()" ><i class="ri-add-line align-bottom me-1"></i>
-                                        Add</button>
-                                        <!-- <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
-                                            Import</button> -->
-                                   
-                                </div>
+                      <div class="col-sm-4 d-flex">
+
+
+
+
+                        <div class="search-box ms-2 col-sm-auto">
+                          <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItemsByOption()">
+                            <option value="">Standard</option>
+                            <option value="ALL">ALL</option>
+                            <option value="V">V</option>
+                            <option value="VI">VI</option>.
+                            <option value="VII">VII</option>
+                            <option value="VIII">VIII</option>
+                            <option value="IX">IX</option>
+                            <option value="X">X</option>                          
+                            <option value="XI">XI</option>
+                            <option value="XII">XII</option>
+                          </select>
+                        </div>
+                       
+                          <div class="search-box ms-2  col-sm-auto w-100">
+                              <input type="text" class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="Search Title"(input)="filteredItemsName($event)" >
+                              <i class="ri-search-line search-icon"></i>
+                          </div>
+                      </div>
+                      <div class="col-sm">
+                        <div class="d-flex justify-content-sm-end">
+                            <div>
+                                <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()" ><i class="ri-add-line align-bottom me-1"></i>
+                                    Add</button>
+                                    <!-- <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                        Import</button> -->
+                               
                             </div>
                         </div>
+                    </div>
+                            </div>
+                        
                     </div>
 
 
@@ -405,13 +353,24 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of comprehensions;let i = index;" >
+                                <tr *ngFor="let data of filteredItems;let i = index;" >
                                     <td class="date">{{data.no}}</td>
                                     <td class="date">{{data.title}}</td>
                                     <td class="customer_name" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                         {{data.paragraph}}
                                       </td>
-                                      <td class="Items ps-4"><button type="submit" class="btn btn-primary" id="add-btn" >Assign</button></td>
+                                     
+  
+                                      <td class="AssignToContainer">
+                                        <div class="d-flex align-items-center">
+                                          <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
+                                        </div>
+                                        <div style="margin-left: 10px;">{{data.standard}}</div>
+                                      </td>
+                                     
+
+
+        
                                     <td>
                                         <div class="d-flex gap-2">
                                             <div class="edit">

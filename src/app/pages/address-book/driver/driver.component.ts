@@ -103,7 +103,7 @@ export class DriverComponent {
 
   ngOnInit() {
     this.loading= true;
-    // Subscribe to the address-book collection data
+   
     this.apiService.getDriverData(this.SchoolId).subscribe(actions => {
       this.Drivers = actions.map(action => action.payload.doc.data() as Driver);
       this.loading = false; 
