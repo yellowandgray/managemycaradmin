@@ -1,41 +1,129 @@
 <div class="row">
     <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title mb-0"> Add Test List </h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title mb-0"> Add Test List </h4>
+        </div>
+        <div class="card-body">
+          <div id="customerList">
+            <div class="row g-4 mb-3">
+              <div class="col-sm-auto">
+                <label class="form-label">List Name : {{addlists[0].name}}</label>
+              </div>
             </div>
-            <div class="card-body">
-                <div id="customerList">
-                    <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
-                            <!-- <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="Search R. No." >
-                                <i class="ri-search-line search-icon"></i>
-                            </div> -->
-                             <label  class="form-label">List No. : 4</label> 
-                            <label  class="form-label px-5">List Name : Fruits</label>
+            <div class="mb-3">
+              <div *ngFor="let question of qstn.questions; let i = index" class="mb-3">
+                <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
+                <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
+ 
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label class="p-2">A
+                      <div class="col-md-12 px-4">
+                        <div class="input-group">
+                            <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
+                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
+                          <datalist id="additems{{ i }}">
+                            <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
+                              {{ selectedItem.name }}
+                            </option>
+                          </datalist>
+ 
+                          <td class="picture">
+                            <div class="d-flex align-items-center px-2">
+                              <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                <img *ngIf="selectedItem?.picture" [src]="selectedItem?.picture" alt="" class="img-fluid d-block ">
+                              </div>
+                            </div>
+                          </td>
                         </div>
-                    </div>
-                    <div class="mb-3">
-     <div  class="p-4 col-lg-7">                   
-    <label  class="form-label">Question </label>
-    <input type="text" class="form-control" />
-
-    <label class="p-2">A <input type="text" class="form-control search" /></label>
-    <label class="px-3">B <input type="text" class="form-control search" /></label>
-    <label class="p-2">C <input type="text" class="form-control search"  /></label>
-    <label class="px-3">D <input type="text" class="form-control search"  /></label>
-
-    <div class="d-flex p-2 align-items-center">
-      <span class="me-3">Correct Answer:</span>
-      <select class="form-control" style="width: 80px;">
-        <option value="a">A</option>
-        <option value="b">B</option>
-        <option value="c">C</option>
-        <option value="d">D</option>
-      </select>
+                      </div>
+                    </label>
+                    <label class="p-2">B
+                        <div class="col-md-12 px-4">
+                          <div class="input-group">
+                            <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
+                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
+                            <datalist id="additems{{ i }}">
+                              <option *ngFor="let selectedItem of selectedItems1" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
+                                {{ selectedItem.name }}
+                              </option>
+                            </datalist>
+   
+                            <td class="picture">
+                              <div class="d-flex align-items-center px-2">
+                                <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                  <img *ngIf="selectedItem?.picture" [src]="selectedItem?.picture" alt="" class="img-fluid d-block ">
+                                </div>
+                              </div>
+                            </td>
+                          </div>
+                        </div>
+                      </label>
+                      <label class="p-2">A
+                        <div class="col-md-12 px-4">
+                          <div class="input-group">
+                            <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
+                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
+                            <datalist id="additems{{ i }}">
+                              <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
+                                {{ selectedItem.name }}
+                              </option>
+                            </datalist>
+   
+                            <td class="picture">
+                              <div class="d-flex align-items-center px-2">
+                                <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                  <img *ngIf="selectedItem?.picture" [src]="selectedItem?.picture" alt="" class="img-fluid d-block ">
+                                </div>
+                              </div>
+                            </td>
+                          </div>
+                        </div>
+                      </label>
+                      <label class="p-2">A
+                        <div class="col-md-12 px-4">
+                          <div class="input-group">
+                            <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
+                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
+                            <datalist id="additems{{ i }}">
+                              <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
+                                {{ selectedItem.name }}
+                              </option>
+                            </datalist>
+   
+                            <td class="picture">
+                              <div class="d-flex align-items-center px-2">
+                                <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                  <img *ngIf="selectedItem?.picture" [src]="selectedItem?.picture" alt="" class="img-fluid d-block ">
+                                </div>
+                              </div>
+                            </td>
+                          </div>
+                        </div>
+                      </label>
+                    <!-- ... Other code for options B, C, D ... -->
+                  </div>
+                </div>
+ 
+                <div class="d-flex p-2 align-items-center">
+                  <span class="me-3">Correct Answer:</span>
+                  <select class="form-control" style="width: 80px;" [(ngModel)]="question.crtans">
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
+                  </select>
+                </div>
+ 
+                <button type="button" class="btn btn-danger" (click)="removeQuestion(i)">Remove Question</button>
+              </div>
+ 
+              <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
- </div>
-</div>
-</div>
+  </div>
+ 

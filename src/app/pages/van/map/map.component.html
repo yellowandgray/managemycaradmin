@@ -11,97 +11,105 @@
                 <button type="button" class="btn-close" (click)="showModal.hide()"></button>
             </div>
    
-           <form class="tablelist-form" [formGroup]="MessageFormData">
+          
             <div class="modal-body">
                 <input type="hidden" name="id" value="" formControlName="ids" />
 
                 <div  class="col-md-12 px-4">
                     <label for="course-category-input" class="form-label">Route. No.</label>
                     <div class="input-group">
-                      <select class="form-select"  >
+                      <select id="van-select" class="form-select" [(ngModel)]="selectedRouteNo" (change)="Selectedrouteid()" >
                         <option value="" disabled selected>Select Route. No.</option>
-                        <option *ngFor="let additem of routes" [value]="additem.rno">
+                        <option *ngFor="let additem of map" [value]="additem.rno">
                           {{ additem.rno }}
                         </option>
                       </select>
                     </div>
                   </div>
                   
-                  
-
-
-                <!-- <div class="mb-3">
-                    <label for="course-category-input" class="form-label">Route. No.</label>
-
-
-                    <select class="form-select" id="course-category-input" formControlName="section" >
-                        <option value="A">101</option>
-                        <option value="B">102</option>
-                        <option value="C">103</option>
-                        <option value="D">104</option>
-                    </select>
-                </div> -->
-             
-                    
                 <div class="col-md-12 px-4">
-                    <label for="course-category-input" class="form-label">Van No.</label>
+                    <label for="van-select" class="form-label">Select Van No.</label>
                     <div class="input-group">
-                      <select class="form-select" [(ngModel)]="selectedRegNo" (change)="updateSelectedPic()">
-                        <option value="" disabled selected>Select Van No.</option>
-                        <option *ngFor="let additem of Vans" [value]="additem.regno">
-                          {{ additem.regno}}
+                      <select id="van-select" class="form-select" [(ngModel)]="selectedRegNo" (change)="updateSelectedPic()">
+                        <option value="" disabled>Select Van No.</option>
+                        <option *ngFor="let van of Vans" [value]="van.regno">
+                          {{ van.regno }}
                         </option>
                       </select>
-                  
-                      <div class="avatar-xs bg-light rounded p-1" style="height: 50px; width: 50px;">
-                        <img [src]="selectedPic" alt="" class="img-fluid d-block">
-                      </div>
                     </div>
+
+                    <div class="container"  *ngIf="selectedRegNo">
+                        <div class="row">
+                        
+                          <div class="col-md-6">
+                            <div class="p-2">
+                                <div class="avatar-xs bg-light rounded p-1" style="height: 100px; width: 100px;">
+                                  <img *ngIf="selectedPic" [src]="selectedPic" alt="" class="img-fluid d-block" style="object-fit: cover; width: 100%; height: 100%;">
+                                </div>
+                              </div>
+                         
+                          </div>
+                      
+                          <div class="col-md-6">
+                            <div class="p-2">
+                                <div>Make Year:          {{ selectedYear | date: 'dd-MM-yyyy' }}</div>
+                                <div>Total Seats:        {{ Seat }}</div>
+                                <div>Diesel Level(ltrs): {{ Diesel }}</div>
+                              </div>
+                            
+                          </div>
+                        </div>
+                      </div>
                   </div>
                   
-                  
-                  
-
-                    <div  class="col-md-12 px-4">
-                        <label for="course-category-input" class="form-label">Driver Name</label>
-                        <div class="input-group">
-                          <select class="form-select"  >
-                            <option value="" disabled selected>Select Driver Name</option>
-                            <option *ngFor="let additem of Drivers" [value]="additem.name">
-                              {{ additem.name }}
-                            </option>
-                          </select>
-                          
-                        </div>
+                  <div class="col-md-12 px-4">
+                    <label for="van-select" class="form-label">Driver Name</label>
+                    <div class="input-group">
+                      <select id="van-select" class="form-select" [(ngModel)]="selectedDriver" (change)="updateSelectedDriverPic()">
+                        <option value="" disabled>Select Driver Name</option>
+                        <option *ngFor="let additem of Drivers" [value]="additem.name">
+                          {{ additem.name}}
+                        </option>
+                      </select>
                     </div>
-                
-                <!-- <div class="mb-3">
-                    <label for="course-category-input" class="form-label">Driver Name</label>
 
+                    <div class="container" *ngIf="selectedDriver" >
+                        <div class="row">
+                        
+                          <div class="col-md-6">
+                            <div class="p-2">
+                                <div class="avatar-xs bg-light rounded p-1" style="height: 100px; width: 100px;">
+                                  <img *ngIf="selectedDriverPic" [src]="selectedDriverPic" alt="" class="img-fluid d-block" style="object-fit: cover; width: 100%; height: 100%;">
+                                </div>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="p-2">
+                                <div> Age:  {{year}}</div>
+                                <div>Town:  {{ town }}</div>
+                                <div>Phone: {{ phone }}</div>
+                              </div>
+                            
+                          </div>
+                        </div>
+                      </div>
+                  </div>
 
-                    <select class="form-select" id="course-category-input" formControlName="section" >
-                        <option value="A">kumar</option>
-                        <option value="B">Varun</option>
-                        <option value="C">muthu</option>
-                        <option value="D">mani</option>
-                    </select>
-                </div> -->
-            
-              
 
             </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" (click)="showModal.hide()">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="showModal.hide()">Map</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)=" update()">Map</button>
                     </div>
                 </div>
-            </form>
+           
         </div>
-        <!-- modal-content -->
+      
     </div>
   </div>
-  <div class="modal fade" bsModal #editModal="bs-modal">
+
+  <!-- <div class="modal fade" bsModal #editModal="bs-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header px-4 pt-4">
@@ -133,8 +141,6 @@
                         <input type="number" id="phone-field" class="form-control" placeholder="Enter Diesel Level(ltrs)" formControlName="disel"  required />
                     </div>
                   
-                   
-
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
@@ -144,17 +150,19 @@
                 </div>
             </form>
         </div>
-        <!-- modal-content -->
+       
     </div>
-  </div>
+</div> -->
+
+
 
 <div>
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title mb-0"> Map List </h4>
-            </div><!-- end card header -->
+                <h4 class="card-title mb-0"> Map Route </h4>
+            </div>
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
@@ -180,34 +188,28 @@
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
                             <thead class="table-light">
                                 <tr>
-                                    
                                     <th class="sort" listsortable="email">Route No.</th>
-                                    
                                     <th class="sort" listsortable="email">Van Reg. No.</th>
                                     <th class="sort" listsortable="email">Driver Name</th>
-                                 
-                                   
-                                    <th class="sort">Action</th>
+                                    <!-- <th class="sort">Action</th> -->
 
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr>
-
-                                    <td class="date">101</td>
-                                    <td class="customer_name">THHB5667765</td>
-                                    <td class="date">kumar</td>
-                                   
-                                    <td>
+                                <tr *ngFor="let data of map;let i = index;" >
+                                    <td class="date">{{data.rno}}</td>
+                                    <td class="customer_name">{{getvanName( data.vanid)}}</td>
+                                    <td class="date">{{getDriverName(data.driverid)}}</td>
+                                    <!-- <td>
                                   <div class="d-flex gap-2">
                                       <div class="edit">
-                                          <button class="btn btn-sm btn-success edit-item-btn" >Edit</button>
+                                          <button class="btn btn-sm btn-success edit-item-btn" (click)="showModal.show()" >Edit</button>
                                       </div>
                                       <div class="remove">
                                           <button class="btn btn-sm btn-danger remove-item-btn">Remove</button>
                                       </div>
                                   </div>
-                              </td>
+                              </td> -->
                             </tbody>
                         </table>
                        
@@ -219,9 +221,9 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end card -->
+            </div>
         </div>
-        <!-- end col -->
+
     </div>
 </div>
    

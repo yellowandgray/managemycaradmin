@@ -1,5 +1,3 @@
-
-
 import { Injectable } from "@angular/core";
  
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -81,8 +79,10 @@ import { map } from "rxjs";
      return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
    
     }
-
-
+    getAddListDataDetails(kgSheetId: string, listid: string): Observable<Addlist | undefined> {
+      return this.firestore.collection<Addlist>(`KG_Sheet/${kgSheetId}/List`).doc(listid).valueChanges();
+    }
+    
     createAddListData(obj: Addlist,kgSheetId: string){
       return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`).add(
         {
@@ -202,23 +202,4 @@ getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observab
    
     );
 }
-
-
-
-
-
-
-
-
-
-
-
   }
-
-
- 
-
-
-
-
-

@@ -121,6 +121,8 @@ import { Van } from "./addvanobj";
         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
       });
      }
+
+
      deleteRouteData(Routeid:string, SchoolId:string,vanId:string ){    
       this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Routes/` + Routeid).delete();
     }
@@ -131,7 +133,16 @@ getDriverData(SchoolId: string) {
  
  }
 
-
+  updateRoutemapData(Routeid: string,SchoolId:string,vanId:string,driverid:string,vanid:string ){
+      this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Routes/` + Routeid).update({
+        
+        'routeid':Routeid,
+        'driverid':driverid,
+        'vanid':vanid,
+        
+        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+      });
+     }
     //Route
 
 // getRouteData(SchoolId: string) {

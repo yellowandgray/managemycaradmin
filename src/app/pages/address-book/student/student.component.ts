@@ -16,6 +16,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
+import { Router, Routes } from '@angular/router';
+import { StudentDetailsComponent } from '../student-details/student-details.component';
 
 
 
@@ -78,12 +80,13 @@ export class StudentComponent {
 
 
 
+ 
 
 
 
 
 
-  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
+  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private router: Router, ) {
    
     this.MessageFormData = new FormGroup({  
       'number': new FormControl('', Validators.required),  
@@ -134,8 +137,7 @@ export class StudentComponent {
     // getAddressBookData()
   }
 
-
-
+ 
 
   ngOnInit() {
     this.loading= true;
@@ -212,7 +214,10 @@ export class StudentComponent {
     }
   }
 
-
+  navigateToDetails(name: string) {
+ 
+    this.router.navigate(['/studentdetails', name]);
+  }
  
  
   showImagePreview(imageUrl: string) {

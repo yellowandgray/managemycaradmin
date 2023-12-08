@@ -29,7 +29,8 @@ import { StudentsComponent } from './students/students.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { NgbdListSortableHeader } from './students/student-short';
 import { StudentComponent } from './student/student.component';
-
+import { StudentDetailsComponent } from './student-details/student-details.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 
 @NgModule({
@@ -39,10 +40,10 @@ import { StudentComponent } from './student/student.component';
     OthersComponent,
     StudentComponent,
     DriverComponent,
+    StudentDetailsComponent,
 
 
-
-    NgbdListSortableHeader
+    NgbdListSortableHeader,
   ],
   imports: [
     CommonModule,
@@ -55,8 +56,8 @@ import { StudentComponent } from './student/student.component';
     FormsModule,
     ReactiveFormsModule,
     SimplebarAngularModule,
-    BsDropdownModule.forRoot()
-
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

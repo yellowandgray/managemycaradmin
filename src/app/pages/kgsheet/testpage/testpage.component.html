@@ -1,62 +1,206 @@
-<div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title mb-0"> Test List </h4>
-                </div><!-- end card header -->
-                <div class="card-body">
-                    <div id="customerList">
-                        <div class="row g-4 mb-3">
-                            <div class="col-sm-auto">
-                                <div class="search-box ms-2">
-                                    <input type="text" class="form-control search" placeholder="Search List Name" >
-                                    <i class="ri-search-line search-icon"></i>
-                                </div>
-                                </div>
-                            <div class="col-sm">
-                                <!-- <div class="d-flex justify-content-sm-end">
-                                    <div>
-                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
-                                            Map</button>
-                                            
-                                       
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
-    
-                        <div class="table-responsive table-card mt-3 mb-1">
-                            <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
-                                <thead class="table-light">
-                                    <tr>
-                                        
-                                        <th class="sort" listsortable="email">No.</th>
-                                        
-                                        <th class="sort" listsortable="email">List Name</th>
-                                        <th class="sort" listsortable="email">Add</th>
-                                     
-                                    </tr>
-                                </thead>
-                                <tbody class="list form-check-all">
-                                    <tr>
-                                        <td class="date">4</td>
-                                        <td class="customer_name">list</td>
-                                        <td class="Items"><button type="submit" class="btn btn-primary"(click)=" navigateToAddTestPage()" id="add-btn">Add Test</button></td>
-                                       
-                                </tbody>
-                            </table>
-                           
-                        </div>
-    
-                        <div class="d-flex justify-content-end">
-                            <div class="pagination-wrap hstack gap-2">
-                                <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
-                            </div>
-                        </div>
+
+
+
+
+<app-breadcrumbs title="Test List Details" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+       
+         
+         
+            <div class="card-body">
+              <div class="row g-2 mb-3">
+                <div class="col-sm-4 d-flex">
+
+
+
+
+
+
+
+
+                  <!-- <div class="search-box ms-2 col-sm-auto">
+                    <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption" (change)="filterItemsByOption()">
+                      <option value="">Standard</option>
+                      <option value="ALL">ALL</option>
+                      <option value="LKG">LKG</option>
+                      <option value="UKG">UKG</option>
+                      <option value="I">I</option>
+                      <option value="II"> II</option>
+                      <option value="III">III</option>
+                    </select>
+                  </div> -->
+                 
+                    <div class="search-box ms-2  col-sm-auto w-100">
+                        <input type="text" class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="Search Name" (input)="filteredItemsName($event)" >
+                        <i class="ri-search-line search-icon"></i>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+                <!-- <div class="col-sm">
+                    <div class="d-flex justify-content-sm-end">
+                        <div>
+                          <button type="button" class="btn btn-info add-btn"  (click)="add()"><i class="bi bi-plus-circle align-baseline me-1"></i> Add
+                            List</button>
+                        </div>
+                    </div>
+                </div> -->
             </div>
-        </div>
-    </div>
-       
+            <div *ngIf="loading" class="text-center">
+                       
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p>Loading...</p>
+            </div>
+                <div *ngIf="!loading" class="table-responsive">
+                    <table class="table table-centered align-middle table-nowrap mb-0">
+                        <thead class="table-active">
+                            <tr>
+                                <th class="sort cursor-pointer" productsortable="No" >No</th>
+                                <th class="sort cursor-pointer" productsortable="Name" >List Name</th>
+                                <th class="sort cursor-pointer" productsortable="picture" >Picture</th>
+                                <th class="sort cursor-pointer" productsortable="Items" >Test</th>
+                                <!-- <th class="sort cursor-pointer" productsortable="Total Items" >Total Items</th>
+                                <th class="sort cursor-pointer" productsortable="Assign To" >Assign To STD</th>
+                                <th class="sort">Action</th> -->
+                               
+                            </tr>
+                        </thead>
+                        <tbody class="list form-check-all">
+                            <tr *ngFor="let data of filteredItems;let i = index;" >
+                                <td class="id" style="display:none;"><a href="javascript:void(0);" class="fw-medium link-primary">#TB01</a></td>
+                               
+                                <td class="Name">{{i+1}}</td>
+                               
+                                <td class="category">{{data.name}}</td>
+
+
+
+
+
+
+
+
+                                <td class="picture">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar-xs bg-light rounded p-1 " style=" object-fit: cover;height: 50px; width: 50px;">
+                                            <img src="{{data.picture}}" alt="" (click)="openImageModal(data.picture)" class="img-fluid d-block  ">
+                                        </div>
+                                     
+                                    </div>
+                                </td>
+                                <td class="Items"> <button type="submit" class="btn btn-primary" id="add-btn" (click)="navigateToAddTestPage(data.id)"> Assign Test</button></td>
+                                <!-- <td class="Total Items">{{data.items.length}}</td>
+                                 
+                                  <td class="AssignToContainer">
+                                    <div class="d-flex align-items-center">
+                                      <button type="submit" class="btn btn-primary" id="add-btn" (click)="deleteRecordModal2.show(); setSelectedItemId(data.id); assignstd1(data.id)">Assign</button>
+                                    </div>
+                                    <div style="margin-left: 10px;">{{data.standard}}</div>
+                                  </td> -->
+                               
+                               
+                                <td>
+                                  <!-- <div class="d-flex gap-2">
+                                      <div class="edit">
+                                          <button class="btn btn-sm btn-success edit-item-btn"(click)="editList(i)" >Edit</button>
+                                      </div>
+                                      <div class="remove">
+                                          <button class="btn btn-sm btn-danger remove-item-btn"(click)="delete(data.id)">Remove</button>
+                                      </div>
+                                  </div> -->
+                              </td>
+                               
+                             
+                               
+                               
+                            </tr>
+                        </tbody>
+                       
+                    </table>
+                </div><!--end table-responsive-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             
+               
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
