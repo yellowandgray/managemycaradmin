@@ -79,7 +79,10 @@ export class StudentComponent {
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 
 
+//  routes: Routes = [
 
+//     { path: 'addressbook/studentdetails/:name', component: StudentDetailsComponent },
+//   ];
  
 
 

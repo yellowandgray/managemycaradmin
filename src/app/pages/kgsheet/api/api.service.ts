@@ -3,12 +3,15 @@ import { Injectable } from "@angular/core";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
+
+
 import * as firebase from "firebase/compat";
 import { Additems } from "./additemobj";
 import { Observable } from "rxjs/internal/Observable";
 import { Addlist } from "./addlistobj";
 import { Assign } from "./assignobj ";
 import { map } from "rxjs";
+import { ListQuestion } from "./listquestionsobj";
 // import * as firebase from 'firebase';
   @Injectable({
     providedIn: 'root'
@@ -23,6 +26,8 @@ import { map } from "rxjs";
     // }
 
 
+
+
     getAddItemData(kgSheetId: string): Observable<any[]> {
       // Use 'collection' to access the 'KG_Sheet' collection and then 'doc' to specify the document ID
       // Finally, use 'collection' again to access the 'Items' subcollection within the specified document
@@ -35,6 +40,8 @@ import { map } from "rxjs";
     // return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).snapshotChanges();
     return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
     }
+
+
 
 
     createAddItemData(obj: Additems,kgSheetId: string){
@@ -55,6 +62,8 @@ import { map } from "rxjs";
      }
 
 
+
+
      updateAddItemData(id: string,obj: Additems,kgSheetId: string){
       this.firestore.doc(`KG_Sheet/${kgSheetId}/Items/` + id).update({
         'id':id,
@@ -72,7 +81,11 @@ import { map } from "rxjs";
     }
 
 
+
+
   // Add list
+
+
 
 
     getAddListData(kgSheetId: string): Observable<any[]> {
@@ -82,7 +95,7 @@ import { map } from "rxjs";
     getAddListDataDetails(kgSheetId: string, listid: string): Observable<Addlist | undefined> {
       return this.firestore.collection<Addlist>(`KG_Sheet/${kgSheetId}/List`).doc(listid).valueChanges();
     }
-    
+   
     createAddListData(obj: Addlist,kgSheetId: string){
       return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`).add(
         {
@@ -100,6 +113,8 @@ import { map } from "rxjs";
            console.log(obj,'test');
        })
      }
+
+
 
 
      updateListData(id: string,obj: Addlist,kgSheetId: string){
@@ -121,25 +136,10 @@ import { map } from "rxjs";
     }
 
 
-// Assign
-// createAssignData(obj: Assign,schoolid: string){
-//   return this.firestore.collection(`School/${schoolid}/KGSheet_Assign`).add(
-//     {
-//       'list_id':obj.list_id,
-//       'standard':obj.standard,
-   
-//       // 'punctuation':obj.punctuation,
-     
-//    }).then(async docRef => {
-//     console.log(obj.list_id,'list id');
-//     console.log(obj.standard,'standard id');
-//      console.log(docRef.id,'test');
-//      await this.firestore.doc(`School/${schoolid}/KGSheet_Assign/` + docRef.id).update({
-//        'id':docRef.id})
-//        console.log(docRef.id,'test');
-//        console.log(obj,'test');
-//    })
-//  }
+
+
+
+
 
 
 checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
@@ -149,6 +149,8 @@ checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
     )
     .valueChanges();
 }
+
+
 
 
 createAssignData(obj: Assign, schoolid: string) {
@@ -167,6 +169,8 @@ createAssignData(obj: Assign, schoolid: string) {
 }
 
 
+
+
 updateAssignData(obj: Assign, schoolid: string, docId: string) {
   console.log(obj.list_id, 'list id');
   console.log(obj.standard, 'standard');
@@ -176,6 +180,8 @@ updateAssignData(obj: Assign, schoolid: string, docId: string) {
     'standard': obj.standard,
   });
 }
+
+
 
 
 getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observable<any> {
@@ -188,6 +194,7 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
   .valueChanges();
  // return this.firestore.doc<any>(path).valueChanges();
 }
+
 
 getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observable<string[]> {
   const path = `School/${schoolid}/KGSheet_Assign`;
@@ -202,4 +209,106 @@ getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observab
    
     );
 }
+
+
+
+
+async createListQuestions(obj: Addlist, KgsheetId: string, Listid: string) {
+  const ListDocRef = this.firestore.collection(`KG_Sheet/${KgsheetId}/List`).doc(Listid);
+console.log("Questions",obj.questions)
+  try {
+    // Add questions to the sub-collection
+    for (const question of obj.questions) {
+      console.log("Questions For Loop",question)
+      const questionDocRef = await ListDocRef.collection('Questions').add({
+       
+        'qno': question.qno,
+        'a': question.a,
+        'b': question.b,
+        'c': question.c,
+        'd': question.d,
+        'qstn': question.qstn,
+        'crtans': question.crtans,
+      });
+
+
+      // Optionally update the question document ID
+      await questionDocRef.update({ 'id': questionDocRef.id });
+    }
+
+
+    console.log('Questions added successfully.');
+  } catch (error) {
+    console.error('Error adding questions:', error);
   }
+}
+
+
+   
+async updateListQuestions(obj: Addlist, KgsheetId: string, Listid: string) {
+  const ListDocRef = this.firestore.collection(`KG_Sheet/${KgsheetId}/List`).doc(Listid);
+  console.log("step 1 update");
+  try {
+    // Step 1: Update the main document
+    await ListDocRef.update({ 'id': Listid });
+   
+    // Step 2: Update or add questions
+    for (const question of obj.questions) {
+      console.log("step 2 update");
+      const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
+      const questionDocRef = ListDocRef.collection('Questions').doc(questionId);
+
+
+      await questionDocRef.set({
+        'id': questionId,
+        'qno': question.qno,
+        'a': question.a,
+        'b': question.b,
+        'c': question.c,
+        'd': question.d,
+        'qstn': question.qstn,
+        'crtans': question.crtans,
+      });
+    }
+
+
+    console.log('Questions updated successfully.');
+  } catch (error) {
+    console.error('Error updating questions:', error);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fetchQuestionsByListId(listId: string, kgSheetId: string): Observable<ListQuestion[]> {
+  const path = `KG_Sheet/${kgSheetId}/List/${listId}/Questions`;
+  console.log('Query Path:', path);
+  return this.firestore.collection(path).snapshotChanges()
+    .pipe(
+      map(actions => actions.map(action => action.payload.doc.data() as ListQuestion))
+    );
+}
+
+
+
+
+getComprehensionQuestionsData(garamerID: string, compid: string) {
+  const path = `Grammar/${garamerID}/Comprehension/${compid}/Questions`;
+  console.log('Query Path:', path);
+  return this.firestore.collection(path).snapshotChanges();
+}
+
+
+  }
+

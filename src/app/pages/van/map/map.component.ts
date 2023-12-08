@@ -37,6 +37,7 @@ export class MapComponent {
   town: string='';
   phone: string='';
   // MessageFormData: FormGroup;
+  searchMap: string = '';
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
 
@@ -153,6 +154,8 @@ update(){
   // this.Routeid='';
 // this.updateSelectedPic.reset()
 }
+
+
 
 
 

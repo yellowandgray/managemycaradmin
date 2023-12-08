@@ -513,11 +513,13 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <!-- <tr *ngFor="let data of students;let i = index;" id="a_{{data.id}}"> -->
-                                    <!-- <tr *ngFor="let data of filteredStudents; let i = index;" id="a_{{data.id}}"> -->
+                              
                                         <tr *ngFor="let data of getVisibleItems(); let i = index;" id="a_{{ data.id }}" >
-                                    <td class="customer_name">{{data.rec_no}}</td>
-                                    <td class="customer_name" > <a [routerLink]="['/addressbook/studentdetails']">{{ data.name }}</a></td>
+                                    <td class="customer_name">{{data.id}}</td>
+                                    <td class="customer_name">
+                                        <a [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id}]">{{ data.name }}</a>
+                                    </td>
+                                    
                                     <td class="picture">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">

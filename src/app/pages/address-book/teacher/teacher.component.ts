@@ -28,7 +28,7 @@ export class TeacherComponent {
   isSubmitted = false;
   files: File[] = [];
   loading: boolean = true;
-  dataSubscription: Subscription | null = null;
+          dataSubscription: Subscription | null = null;
   searchTerm: string = '';
   image_path: string = '';
   imgSrc: string='';

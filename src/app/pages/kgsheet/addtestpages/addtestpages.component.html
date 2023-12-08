@@ -4,6 +4,12 @@
         <div class="card-header">
           <h4 class="card-title mb-0"> Add Test List </h4>
         </div>
+        <div *ngIf="loading" class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p>Loading...</p>
+        </div>
         <div class="card-body">
           <div id="customerList">
             <div class="row g-4 mb-3">
@@ -21,13 +27,13 @@
                     <label class="p-2">A
                       <div class="col-md-12 px-4">
                         <div class="input-group">
-                            <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
-                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
-                          <datalist id="additems{{ i }}">
-                            <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
-                              {{ selectedItem.name }}
-                            </option>
-                          </datalist>
+                          <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
+        (click)="showDropdown = !showDropdown" [(ngModel)]="question.a"  (input)="filterItems(i, $event)">
+      <datalist id="additems{{ i }}">
+        <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, 'a', selectedItem.id)">
+          {{ selectedItem.name }}
+        </option>
+      </datalist>
  
                           <td class="picture">
                             <div class="d-flex align-items-center px-2">
@@ -43,12 +49,12 @@
                         <div class="col-md-12 px-4">
                           <div class="input-group">
                             <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
-                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
-                            <datalist id="additems{{ i }}">
-                              <option *ngFor="let selectedItem of selectedItems1" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
-                                {{ selectedItem.name }}
-                              </option>
-                            </datalist>
+                            (click)="showDropdown = !showDropdown" [(ngModel)]="question.b" (input)="filterItems(i, $event)">
+                          <datalist id="additems{{ i }}">
+                            <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, 'a', selectedItem.id)">
+                              {{ selectedItem.name }}
+                            </option>
+                          </datalist>
    
                             <td class="picture">
                               <div class="d-flex align-items-center px-2">
@@ -60,16 +66,16 @@
                           </div>
                         </div>
                       </label>
-                      <label class="p-2">A
+                      <label class="p-2">C
                         <div class="col-md-12 px-4">
                           <div class="input-group">
                             <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
-                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
-                            <datalist id="additems{{ i }}">
-                              <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
-                                {{ selectedItem.name }}
-                              </option>
-                            </datalist>
+        (click)="showDropdown = !showDropdown"  [(ngModel)]="question.c" (input)="filterItems(i, $event)">
+      <datalist id="additems{{ i }}">
+        <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, 'a', selectedItem.id)">
+          {{ selectedItem.name }}
+        </option>
+      </datalist>
    
                             <td class="picture">
                               <div class="d-flex align-items-center px-2">
@@ -81,16 +87,16 @@
                           </div>
                         </div>
                       </label>
-                      <label class="p-2">A
+                      <label class="p-2">D
                         <div class="col-md-12 px-4">
                           <div class="input-group">
                             <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
-                            (click)="showDropdown = !showDropdown" (input)="filterItems(i, $event)">
-                            <datalist id="additems{{ i }}">
-                              <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, selectedItem.id)">
-                                {{ selectedItem.name }}
-                              </option>
-                            </datalist>
+                            (click)="showDropdown = !showDropdown" [(ngModel)]="question.d" (input)="filterItems(i, $event)">
+                          <datalist id="additems{{ i }}">
+                            <option *ngFor="let selectedItem of selectedItems" [value]="selectedItem.name" (click)="onDropdownChange(i, 'a', selectedItem.id)">
+                              {{ selectedItem.name }}
+                            </option>
+                          </datalist>
    
                             <td class="picture">
                               <div class="d-flex align-items-center px-2">
@@ -102,7 +108,7 @@
                           </div>
                         </div>
                       </label>
-                    <!-- ... Other code for options B, C, D ... -->
+                   
                   </div>
                 </div>
  
@@ -120,6 +126,7 @@
               </div>
  
               <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
+              <button type="button" class="btn btn-success" (click)="saveQuestions(qstn.id)">Save Questions</button>
             </div>
           </div>
         </div>
@@ -127,3 +134,5 @@
     </div>
   </div>
  
+
+

@@ -1,33 +1,73 @@
 
 <div class="col-xxl-12">
-    <h5 class="mb-3">Student Details </h5>
+    <div class="d-flex align-items-center">
+        <a [routerLink]="['/addressbook/student']">
+          <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem;"></i>
+        </a>
+        <h5 class="px-3 mb-0">Student Details</h5>
+      </div>
+      
     <div class="card">
         <div class="card-body">
-            <p class="text-muted">Use <code>[justified]="true"</code> attribute to generate equal-width elements
-                without borders, all horizontal space will be occupied by nav links.</p>
+            <!-- <p class="text-muted">Use <code>[justified]="true"</code> attribute to generate equal-width elements
+                without borders, all horizontal space will be occupied by nav links.</p> -->
            
             <tabset type="pills" [justified]="true" class="mb-3" role="tablist">
-                <tab heading="Home" class="nav-item">
-                    <div class="d-flex mt-3">
-                        <div class="flex-shrink-0">
-                            <i class="ri-checkbox-circle-fill text-success"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-2">
-                            Raw denim you probably haven't heard of them jean shorts Austin.
-                            Nesciunt tofu stumptown aliqua, retro synth master cleanse.
-                        </div>
-                    </div>
-                    <div class="d-flex mt-2">
-                        <div class="flex-shrink-0">
-                            <i class="ri-checkbox-circle-fill text-success"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-2">
-                            Too much or too little spacing, as in the example below, can make things unpleasant for
-                            the reader. The goal is to make your text as comfortable to read as possible.
-                        </div>
-                    </div>
-                </tab>
                 <tab heading="Profile" class="nav-item">
+
+                    <div class="row">
+                        <div  class="col-lg-12">
+                            <div class="card overflow-hidden">
+                                <div class="row g-0">
+                                    <div class="col-xl-3 col-md-4">
+                                        <div class="card-body   h-100" >
+                                            <img src="{{image}}"   alt=""style="object-fit: cover; width: 100%; height: 100%; aspect-ratio: 1/1;">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-xl-9 ">
+                                        <div class="card-body" >
+                                            
+                                            <h4 class="text-truncate text-capitalize">{{name}}</h4>
+                                            <div class="d-flex py-1 text-muted" style="font-size: 1rem;">
+                                            Rec. No. : {{rec_no}}
+                                            </div>
+                                            <div class="d-flex py-1 text-muted" style="font-size: 1rem;">
+                                             Section  : {{section}}
+                                            </div>
+                                            <div class="d-flex py-1 text-muted" style="font-size: 1rem;">
+                                                Standard : {{standard}}
+                                            </div>
+                                            <div class="d-flex py-1 text-muted" style="font-size: 1rem;">
+                                                  Date of birth  : {{Dob | date: 'dd/mm/yy'}}
+                                            </div>
+                                            <div class="d-flex py-1 text-muted" style="font-size: 1rem;">
+                                               Parent Name : {{parentname}}
+                                            </div>
+                                            <div class="d-flex py-1 text-muted" style="font-size: 1rem;">
+                                                Address : {{address}}
+                                            </div>
+                                           
+                                           
+                                        </div>
+                                        <div class="card-body border-top border-dashed hstack align-items-center gap-2">
+                                          
+                                            <div class="flex-shrink-0">
+                                                <span class="badge bg-warning-subtle text-warning"><i
+                                                        class="bi bi-star-fill align-baseline me-1"></i> Student</span>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </tab>
+
+
+                <tab heading="Marks" class="nav-item">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>
@@ -47,7 +87,7 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Messages" class="nav-item">
+                <tab heading="Behaviour" class="nav-item">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>
@@ -67,7 +107,7 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Settings" class="nav-item">
+                <tab heading="KG Sheet" class="nav-item">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>
@@ -84,6 +124,78 @@
                         <div class="flex-grow-1 ms-2">
                             After gathering lots of different opinions and graphic design basics, I came up with a
                             list of 30 graphic design tips that you can start implementing.
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="Comprehension" class="nav-item">
+                    <div class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="sort" listsortable="customer_name" >No.
+                                    </th>
+                                    <th class="sort" listsortable="email">Title</th>
+                                    <th class="sort" listsortable="customer_name">Total Question
+                                    </th>
+                                    <th class="sort" listsortable="customer_name">Correct Answer
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >view
+                                    </th>
+                                 
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of score let i=index;">
+                                    <td class="date">{{getcompno( data.compid)}}</td>
+                                    <td class="date">{{getcomp( data.compid)}}</td>
+                                    <td  style="margin-left: 10px;">{{data.crtans}}</td>
+                                      <td class="AssignToContainer">
+                                    <div style="margin-left: 10px;">{{data.wrngans}}</div>
+                                      </td>
+                                      <td class="bi bi-eye align-baseline me-1" style="font-size: 1.7rem;"></td>
+                                    
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </tab>
+                <tab heading="Fees" class="nav-item">
+                    <div class="d-flex mt-3">
+                        <div class="flex-shrink-0">
+                            <i class="ri-checkbox-circle-fill text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-2">
+                            For that very reason, I went on a quest and spoke to many different professional graphic
+                            designers and asked them what graphic design tips they live.
+                        </div>
+                    </div>
+                    <div class="d-flex mt-2">
+                        <div class="flex-shrink-0">
+                            <i class="ri-checkbox-circle-fill text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-2">
+                            After gathering lots of different opinions and graphic design basics, I came up with a
+                            list of 30 graphic design tips that you can start implementing.
+                        </div>
+                    </div>
+                </tab>
+                <tab heading="Van" class="nav-item">
+                    <div class="d-flex mt-3">
+                        <div class="flex-shrink-0">
+                            <i class="ri-checkbox-circle-fill text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-2">
+                            Each design is a new, unique piece of art birthed into this world, and while you have
+                            the opportunity to be creative and make your own style choices.
+                        </div>
+                    </div>
+                    <div class="d-flex mt-3">
+                        <div class="flex-shrink-0">
+                            <i class="ri-checkbox-circle-fill text-success"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-2">
+                            For that very reason, I went on a quest and spoke to many different professional graphic
+                            designers and asked them what graphic design tips they live.
                         </div>
                     </div>
                 </tab>

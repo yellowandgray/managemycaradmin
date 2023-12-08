@@ -25,9 +25,9 @@ import { NgPipesModule } from 'ngx-pipes';
 import { BookRoutingModule } from './book-routing.module';
 import { DriverComponent } from './driver/driver.component';
 import { OthersComponent } from './others/others.component';
-import { StudentsComponent } from './students/students.component';
+// import { StudentsComponent } from './students/students.component';
 import { TeacherComponent } from './teacher/teacher.component';
-import { NgbdListSortableHeader } from './students/student-short';
+// import { NgbdListSortableHeader } from './students/student-short';
 import { StudentComponent } from './student/student.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -36,14 +36,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 @NgModule({
   declarations: [
     TeacherComponent,
-    StudentsComponent,
+    // StudentsComponent,
     OthersComponent,
     StudentComponent,
     DriverComponent,
     StudentDetailsComponent,
 
 
-    NgbdListSortableHeader,
+    // NgbdListSortableHeader,
   ],
   imports: [
     CommonModule,

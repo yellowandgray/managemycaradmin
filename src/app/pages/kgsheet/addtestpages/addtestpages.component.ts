@@ -7,6 +7,10 @@ import { ApiService } from '../api/api.service';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Additems } from '../api/additemobj';
+import { Question } from '../../gramar/api/comprehensionobj';
+import { isEmpty } from 'lodash';
+
+
 
 
 @Component({
@@ -33,17 +37,23 @@ export class AddtestpagesComponent implements OnInit {
   selectedIds: string[] = [];
   selectedItem: Additems | undefined;
 showDropdown: boolean = false;
+loading = true;
   constructor(private route: ActivatedRoute,private fb: FormBuilder,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage) {}
+
+
 
 
   ngOnInit(): void {
     this.school_id = localStorage.getItem('school_id') ?? '';
 
 
+   
     this.route.paramMap.subscribe((params) => {
       this.cur_list_id = params.get('id')!;
       console.log('List ID on AddTestPage:', this.cur_list_id);
     });
+
+
 
 
     this.apiService.getAddItemData(this.kgSheetId).subscribe(actions => {
@@ -58,43 +68,60 @@ showDropdown: boolean = false;
     });
 
 
+
+
     if (this.school_id !== '') {
       this.apiService.getAddListDataDetails(this.kgSheetId, this.cur_list_id).subscribe(data => {
         if (data ) {
-          console.log("List details", data);
-          console.log("List NAme", data.items);
+         // console.log("List details", data);
+        //  console.log("List NAme", data.items);
          
           // Assuming you want to update a property in your component with the data
           this.listDetails = data;
+         
           const selectedItemIds: string[] = data.items;
           this.selectedItems = this.additems.filter(item => selectedItemIds.includes(item.id));
           this.selectedItems1 = this.additems.filter(item => selectedItemIds.includes(item.id));
           console.log("Selected Items", this.selectedItems);
           // Filtering additems based on selected item IDs
          
-          this.addlists = this.addlists = [data];
+        this.addlists = [data];
+     
          
         } else {
           console.error('No data found for the specified list ID.');
+
+
         }
    
       });
     }
 
 
-
-
-
-
-    // this.selectedItems = this.additems.filter(item => item.id.includes(item.id));
-
-
-    // console.log("Selected Items", this.selectedItems);
-
-
-    this.initializeForm();
+   
+    this.apiService.fetchQuestionsByListId(this.cur_list_id, this.kgSheetId).subscribe(
+      (questions) => {
+        this.qstn.questions = questions;
+        this.qstn.questions.sort((a, b) => a.qno - b.qno);
+        console.log('Questions:', this.qstn.questions.length);
+        if(this.qstn.questions.length === 0)
+        {
+          console.log('Questions addddd:', this.qstn.questions.length);
+          this.addQuestion();
+        }
+      },
+      (error) => {
+        console.error('Error fetching questions:', error);
+      }
+    );
+   
     this.addQuestion();
+    this.initializeForm();
+   
+    this.loading = false;
   }
+
+
 
 
   initializeForm(): void {
@@ -106,59 +133,30 @@ showDropdown: boolean = false;
     const newQuestion: ListQuestion = {
       qno: this.qstn.questions.length + 1,
       qstn: '',
-      qtype: 'MCQA',
-      a: '',
-      b: '',
-      c: '',
-      d: '',
+      a: '',  // Initialize with an empty string
+      b: '',  // Initialize with an empty string
+      c: '',  // Initialize with an empty string
+      d: '',  // Initialize with an empty string
       crtans: ''
-      
     };
-
-
+ 
     this.qstn.questions.push(newQuestion);
   }
+ 
 
 
-  // onDropdownChange(index: number, selectedItemId: string): void {
-  //   // Find the selected item by ID
-   
-  //   const selectedItem = this.additems.find(item => item.id === selectedItemId);
-  //  // console.log(selectedItem);
-  //   // Update the selected item for the specific dropdown
-  //   if (selectedItem !== undefined) {
-  //     //this.items[index] = selectedItem;
-  //   } else {
-  //     // Handle the case where the item is not found (optional)
-  //     console.error(`Item with ID ${selectedItemId} not found.`);
-  //     // You can choose to set a default or handle this case according to your application's logic.
-  //   }
-  // }
 
 
-  // filterItems(index: number, event: any): void {
-  //   this.searchTerm = event.target.value.toLowerCase();
-  //   this.filteredAdditems = this.additems.filter(item =>
-  //     item.name.toLowerCase().includes(this.searchTerm)
-  //   );
-  // }
   selectItem(item: Additems): void {
     this.selectedItem = item;
     this.showDropdown = false;
   }
- 
-  onDropdownChange(index: number, selectedItemId: string): void {
-    // Find the selected item by ID
-    const selectedItem = this.selectedItems.find(item => item.id === selectedItemId);
- 
-    // Update the selected item for the specific dropdown
-    if (selectedItem !== undefined) {
-      // Update the selectedItem in the array
-      this.selectedItems[index] = selectedItem;
-    } else {
-      console.error(`Item with ID ${selectedItemId} not found.`);
-    }
+  onDropdownChange(index: number, option: string, event: any): void {
+    const selectedItemId = (event?.target?.value || '').toString();
+    this.qstn.questions[index][option] = selectedItemId;
   }
+ 
+ 
  
  
   filterItems(index: number, event: any): void {
@@ -176,50 +174,30 @@ showDropdown: boolean = false;
     this.selectedItem = selectedItem;
   }
  
-  // filterItems(index: number, event: any): void {
-  //   if (this.showAllItems) {
-  //     console.log("step 2");
-  //     this.filteredAdditems = this.additems.filter(item =>
-  //       item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
-  //     );
-  //   } else {
-  //     console.log("step 3");
-  //     this.filteredAdditems = this.additems.filter(item =>
-  //       item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
-  //     );
-  //   }
  
-  //   console.log("step 4");
-  //   console.log(event.target.value);
-   
-  //   // Find the corresponding item in filteredAdditems based on id
-  //   const selectedItem = this.filteredAdditems.find(item => item.name === event.target.value);
-   
-  //   if (selectedItem) {
-  //     // If found, update the id and name in the items array
-  //     this.itemDetails[index].id = selectedItem.id;
-  //     console.log("item id",this.itemDetails[index].id);
-  //     this.itemDetails[index].name = selectedItem.name;
-  //     this.itemDetails[index].picture = selectedItem.picture;
-  //     console.log("item name",this.itemDetails[index].name);
-  //     if(selectedItem.id){
-  //       this.selectedIds.push(selectedItem.id);
-  //     }    
-  //   } else {
-  //     // Handle the case when the corresponding item is not found
-  //     console.error('Item not found for id:', event.target.value);
-  //   }
- 
-  //   // Extract only the 'id' values from filteredAdditems
-  //   const idsOnly = this.filteredAdditems.map(item => item.id);
-  //   console.log(idsOnly);
- 
-  //   // Update selectedItems based on the filtered items' IDs
-  //   this.selectedItems = this.filteredAdditems;
-  //   // console.log(this.selectedItems);
-  // }
  
   removeQuestion(index: number): void {
     this.qstn.questions.splice(index, 1);
   }
+
+
+
+
+  // saveQuestions(id:string){
+  //   this.apiService.createListQuestions(this.qstn,this.kgSheetId,id);
+  // //  this.addCourse?.hide();
+  //   this.qstn = new Addlist();
+   
+  // }
+
+
+  saveQuestions(id: string) {
+      console.log("step create");
+      console.log("step create",this.qstn.questions);
+      // List doesn't have questions, add the new questions
+      this.apiService.createListQuestions(this.qstn, this.kgSheetId, this.cur_list_id);
+    this.qstn = new Addlist();
+  }
 }
+
+
