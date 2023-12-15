@@ -26,6 +26,7 @@ export class TeacherComponent {
   selectedFile: File | null = null;
   downloadURL: string | null = null;
   isSubmitted = false;
+  deleteId:string='';
   files: File[] = [];
   loading: boolean = true;
           dataSubscription: Subscription | null = null;
@@ -38,7 +39,7 @@ export class TeacherComponent {
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
-
+  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
    
     this.MessageFormData = new FormGroup({  
@@ -117,6 +118,7 @@ export class TeacherComponent {
 
   delet(id: string){
 this.apiService.deleteTeacherData(id)
+this.deleteModal?.hide()
   }
   onsubmit(){
    
@@ -271,6 +273,10 @@ this.apiService.deleteTeacherData(id)
    
   }
 
+  deletpop(id:string){
+    this.deleteModal?.show()
+     this.deleteId=id;
 
+  }
 
 }

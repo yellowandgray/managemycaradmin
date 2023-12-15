@@ -46,6 +46,8 @@ export class ComprehensionComponent {
  dataSubscription: Subscription | null = null;
  school_id: string = 'stZWDh06GmAGgnoqctcE';
  kgSheetId = '3u90Jik86R10JulNCU3K';
+ deleteId:string='';
+ @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
 @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
 // @ViewChild('deleteRecordModal2', { static: false }) deleteRecordModal2?: ModalDirective;
@@ -188,21 +190,14 @@ export class ComprehensionComponent {
         // this.comprehensions.sort((a, b) => a.title.localeCompare(b.title));
         this.filteredItems = [...this.comprehensions];
         this.allItems=  this.comprehensions;
-        console.log('sdsdsd' , this.comprehensions)
-        console.log('sdsdsd' , this.comprehensions)
         this.comprehensions.forEach(item => {
-          console.log("Step 0: Checking item", item);
           const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
-          console.log("Step 1.0", listId);
          
           if (listId) {
-            console.log("Step 1.1: Entering loop for item with id", listId);
             this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
               standards => {
                 this.selectedStandards = standards[0]?.standard || [];
-                console.log('Fetched a standards:', this.selectedStandards);
                 item.standard =this.selectedStandards;
-                console.log("Step 1.2: Updated item with standards", item);
                 
               },
               error => {
@@ -251,7 +246,6 @@ export class ComprehensionComponent {
     };
  
     this.emp.questions.push(newQuestion);
-    console.log(this.emp.questions);
   }
  
  
@@ -280,11 +274,6 @@ save(id:string){
 
 
 
-printFormData() {
-  console.log('Printed Form Data:', this.MessageFormData.value);
-
-
-}
 
 
 
@@ -399,19 +388,15 @@ printFormData() {
 // }
 editComprehension(index: number) {
   this.deleteRecordModal?.show(); 
-  console.log("Step 1");
   const selectedComprehension = this.comprehensions[index];
 
   if (selectedComprehension) {
     this.emp = { ...selectedComprehension };
-    console.log("Step 2");
-    console.log("comprehension id ", this.emp.id);
     this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
 
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
 
       if (this.emp.questions) {
-        console.log("Questions", this.emp.questions);
         const questionFormArray = this.emp.questions.map((question: any) => {
           return this.fb.group({
             id: [question.id],
@@ -426,11 +411,8 @@ editComprehension(index: number) {
           });
         });
 
-        console.log("Step 3");
-        console.log("Questions array", questionFormArray);
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
 
-        console.log("messsage form data", this.MessageFormData);
         this.MessageFormData.patchValue({
           id: this.emp.id,
           no: this.emp.no,
@@ -438,7 +420,6 @@ editComprehension(index: number) {
           paragraph: this.emp.paragraph,
         });
 
-        console.log("messsage form data", this.MessageFormData.value);
        // Move the show() call here
 
         this.deleteRecordModal?.onHidden.subscribe(() => {
@@ -571,7 +552,6 @@ updateQuestions() {
 update(id: string) {
 
   this.updateQuestions();
-console.log( this.updateQuestions())
   const updatedQuestions = this.MessageFormData.value.questions.map((question: any) => {
     return {
       id: question.id,
@@ -597,9 +577,8 @@ console.log( this.updateQuestions())
 
 
 delet(id: string){
-  console.log(id,'check')
   this.apiService.quarydeleteComprehensionData(this.GrammarId,id)
-  console.log(this.apiService.quarydeleteComprehensionData(id,this.GrammarId),'check')
+  this.deleteModal?.hide()
 
 }
 
@@ -630,8 +609,7 @@ delet(id: string){
 setSelectedItemId(itemId: string) {
   this.selectedItemId = itemId;
   this.assign.list_id = this.selectedItemId;
-  console.log("school id: " + this.school_id);
-  console.log("Item id: " + itemId);
+
 
 
 
@@ -653,7 +631,6 @@ setSelectedItemId(itemId: string) {
 }
 
 assignstd1(listId: string): void {
-  console.log("Step 0.1");
 
 
   // Assuming listId is set when the "Assign to Standard" button is clicked
@@ -665,13 +642,11 @@ assignstd1(listId: string): void {
   // Fetch the entire document for the clicked list_id
   this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
     assignedData => {
-      console.log("Step 1");
 
 
       // Extract the 'standard' field or any other field you need
       this.selectedStandards = assignedData[0]?.standard || [];
       this.assignid = assignedData[0]?.id;
-      console.log("Assign ID" +this.assignid);
       // Update fetchedStandards only if assignedData[0] is defined
       this.fetchedStandards = assignedData[0]?.standard || [];
       this.fetchedStandards1 = assignedData[0]?.standard;
@@ -703,22 +678,18 @@ onStandardChange(standard: string): void {
     // Add standard if not selected
     this.selectedStandards.push(standard);
   }
-  console.log('Selected Standards:', this.selectedStandards);
 }
 
 saveSelectedStandards() {
   this.assign.list_id = this.selectedItemId;
   this.assign.standard = this.selectedStandards;
-  console.log("enter into save");
     if ( this.fetchedStandards1 != null) {
-      console.log("Update a Assign Data");
      // this.assign.standard = this.selectedStandards;
       this.apiService.updateAssignData(this.assign, this.school_id, this.assignid );
       this.assign = new Assign();
       this.deleteRecordModal2.hide();
    
     } else {
-      console.log("Create a New Assign Data");  
       this.apiService.createAssignData(this.assign, this.school_id);
       this.assign = new Assign();
       this.deleteRecordModal2.hide();
@@ -740,7 +711,6 @@ saveSelectedStandards() {
  
 }
 signSelectedStandards(): void {
-  console.log("Step 0");
   this.selectedStandards.forEach(standard => {
     this.assignstd1(standard);
   });
@@ -777,14 +747,11 @@ signSelectedStandards(): void {
 
 filterItemsByOption() {
   if (this.selectedOption === 'ALL' || this.selectedOption === '') {
-    console.log(this.comprehensions = [...this.allItems])
     this.comprehensions = [...this.allItems];
     this.applyNameFilter(); // Apply name filtering
   } else {
-    console.log("selected option",this.selectedOption)
     this.apiService.getListID(this.school_id, this.kgSheetId, this.selectedOption).subscribe(listIds => {
       this.comprehensions = this.allItems.filter(item => listIds.includes(item.id));
-      console.log("filtered comp",this.comprehensions)
       this.applyNameFilter(); // Apply name filtering
     });
   }
@@ -798,16 +765,19 @@ applyNameFilter() {
   });
 
   if (!this.filteredItems.length) {
-    console.log('No Students...');
   }
 }
 filteredItemsName(event: any): void {
   const value = event.target.value;
-  console.log('Filtering by name...', value);
   this.searchTerm = value;
   this.filterItemsByOption(); // Call the combined function
 }
 
+deletpop(id:string){
+  this.deleteModal?.show()
+   this.deleteId=id;
+
+}
  
 }
 

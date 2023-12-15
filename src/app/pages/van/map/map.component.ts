@@ -19,6 +19,9 @@ export class MapComponent {
   breadCrumbItems!: Array<{}>;
   Routeid: string='';
   selectedRouteNo: string = '';
+  filteredMaps: RouteMap[] = [];
+  filteredVans: Van[] = [];
+ 
   map:RouteMap[]=[];
   Vans: Van[] = [];
   Drivers: Driver[] = [];
@@ -60,17 +63,19 @@ ngOnInit() {
 
   this.apiService.getRouteData(this.SchoolId,this.vanId).subscribe(actions => {
     this.map = actions.map(action => action.payload.doc.data() as RouteMap);
+    this.filteredMaps = [...this.map];
  
   });
   
-  this.apiService.getVanData(this.SchoolId, this.vanId).subscribe(
-    (actions) => {
-      this.Vans = actions.map((action) => action.payload.doc.data() as Van);
-    },
-    (error) => {
-      console.error('Error fetching van data', error);
-    }
-  );
+    this.apiService.getVanData(this.SchoolId, this.vanId).subscribe(
+      (actions) => {
+        this.Vans = actions.map((action) => action.payload.doc.data() as Van);
+        this.filteredVans = [...this.Vans];
+      },
+      (error) => {
+        console.error('Error fetching van data', error);
+      }
+    );
 
 
    
@@ -85,18 +90,18 @@ ngOnInit() {
 getDriverName(driverId: string): string {
   const driver = this.Drivers.find((d) => d.driverid === driverId);
   return driver ? driver.name : 'No Driver Assign';
+
 }
 
 getvanName(vanId: string): string {
   // console.log( this.Vans.find((d) => d.vanid === this.vanId))
   const vans = this.Vans.find((d) => d.vanid === vanId);
   return vans ? vans.regno : 'No Van Assign';
+ 
 }
 
 updateSelectedPic() {
-  console.log('Selected registration number:', this.selectedRegNo);
-  console.log('Vans array:', this.Vans);
-  console.log('Vans array:', this.Seat);
+
   const selectedVan = this.Vans.find((van) => van.regno === this.selectedRegNo);
 
   if (selectedVan) {
@@ -115,9 +120,7 @@ updateSelectedPic() {
 
 
 updateSelectedDriverPic() {
-  console.log('Selected registration number:', this.selectedDriver);
-  console.log('Vans array:', this.Vans);
-  console.log('Vans array:', this.Seat);
+ 
   const selectedDriver = this.Drivers.find((driver) => driver.name === this.selectedDriver);
 
   if (selectedDriver) {
@@ -134,13 +137,11 @@ updateSelectedDriverPic() {
   }
 }
 Selectedrouteid() {
-  console.log('Selected registration number:', this.selectedRouteNo);
  
   const selectedRoute = this.map.find((route) => route.rno === this.selectedRouteNo);
 
   if (selectedRoute) {
     this.Routeid=selectedRoute.routeid
-    console.log('Selected registration number:', this.Routeid);
   } else {
    
     this.Routeid='';
@@ -156,7 +157,32 @@ update(){
 }
 
 
+filteredMap(event: any): void {
+  const value = event.target.value;
+  this.searchMap = value;
+  this.filterTeacher();
+}
 
+
+filterTeacher(): void {
+
+  this.filteredMaps = this.map.map((map) => ({ ...map, source: 'map' })).filter((map) => {
+    const nameMatch = !this.searchMap || map.rno.toLowerCase().includes(this.searchMap.toLowerCase());
+    return nameMatch;
+  });
+
+  this.filteredVans = this.Vans.map((van) => ({ ...van, source: 'van' })).filter((van) => {
+    const nameMatch = !this.searchMap || van.regno.toLowerCase().includes(this.searchMap.toLowerCase());
+    return nameMatch;
+  });
+
+  if (!this.filteredVans.length) {
+    console.log('No Vans...');
+  }
+  if (!this.filteredMaps.length) {
+    console.log('No Maps...');
+  }
+}
 
 
 save(){}

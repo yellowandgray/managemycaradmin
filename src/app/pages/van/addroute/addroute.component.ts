@@ -20,6 +20,8 @@ export class AddrouteComponent {
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
   loading: boolean = true;
+  deleteId:string='';
+  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
  
@@ -72,6 +74,7 @@ export class AddrouteComponent {
       // this.emp.eyal_id= this.data.data.eyal_id;  
     }
   }
+
   ngOnInit() {
     this.loading= true;
     this.apiService.getRouteData(this.SchoolId,this.vanId).subscribe(actions => {
@@ -86,14 +89,17 @@ export class AddrouteComponent {
 
 save() {
    
-   console.log(this.emp);  
    this.apiService.createRouteData(this.emp,this.SchoolId,this.vanId);
     this.emp = new Route();
   this.showModal?.hide()
 }
 
 
+deletpop(id:string){
+  this.deleteModal?.show()
+   this.deleteId=id;
 
+}
 
 
  update(id: string)

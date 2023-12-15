@@ -13,6 +13,10 @@ import { isEmpty } from 'lodash';
 
 
 
+
+
+
+
 @Component({
   selector: 'app-addtestpages',
   templateUrl: './addtestpages.component.html',
@@ -22,6 +26,8 @@ export class AddtestpagesComponent implements OnInit {
   form!: FormGroup;
   optionLabels = ['A', 'B', 'C', 'D'];
   qstn: Addlist = new Addlist();
+  qstnnew: Addlist = new Addlist();
+  qstnnewtest: Addlist = new Addlist();
   addlists: Addlist[] = [];
   school_id: string = '';
   cur_list_id: string = '';
@@ -38,7 +44,18 @@ export class AddtestpagesComponent implements OnInit {
   selectedItem: Additems | undefined;
 showDropdown: boolean = false;
 loading = true;
+optionNames: any = {};
+index: number = 0; // Assign the appropriate initial value
+option: string = '';
+curr: number = 0;
+selectedItemPictures: { [question: string]: { [category: string]: string } } = {};
+
+
   constructor(private route: ActivatedRoute,private fb: FormBuilder,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage) {}
+
+
+
+
 
 
 
@@ -47,11 +64,17 @@ loading = true;
     this.school_id = localStorage.getItem('school_id') ?? '';
 
 
+
+
    
     this.route.paramMap.subscribe((params) => {
       this.cur_list_id = params.get('id')!;
       console.log('List ID on AddTestPage:', this.cur_list_id);
     });
+
+
+
+
 
 
 
@@ -66,6 +89,10 @@ loading = true;
         } as Additems;
       });
     });
+
+
+
+
 
 
 
@@ -92,22 +119,35 @@ loading = true;
           console.error('No data found for the specified list ID.');
 
 
+
+
         }
    
       });
     }
 
 
+
+
    
     this.apiService.fetchQuestionsByListId(this.cur_list_id, this.kgSheetId).subscribe(
       (questions) => {
         this.qstn.questions = questions;
+       
+        this.qstnnew.questions = questions;
+        this.qstnnewtest.questions = questions;
         this.qstn.questions.sort((a, b) => a.qno - b.qno);
         console.log('Questions:', this.qstn.questions.length);
-        if(this.qstn.questions.length === 0)
-        {
+        if (this.qstn.questions.length === 0) {
           console.log('Questions addddd:', this.qstn.questions.length);
           this.addQuestion();
+        } else {
+          // Iterate over each question and update option names
+          this.qstn.questions.forEach((question, index) => {
+            this.curr = 1;
+            this.updateOptionNames(question, index);
+           // this.updatePicture(question, index);
+          });
         }
       },
       (error) => {
@@ -115,11 +155,18 @@ loading = true;
       }
     );
    
+ 
+   
+   
     this.addQuestion();
     this.initializeForm();
    
     this.loading = false;
   }
+
+
+
+
 
 
 
@@ -131,7 +178,7 @@ loading = true;
   }
   addQuestion() {
     const newQuestion: ListQuestion = {
-      qno: this.qstn.questions.length + 1,
+      qno: this.qstnnew.questions.length + 1,
       qstn: '',
       a: '',  // Initialize with an empty string
       b: '',  // Initialize with an empty string
@@ -140,9 +187,13 @@ loading = true;
       crtans: ''
     };
  
-    this.qstn.questions.push(newQuestion);
+    this.qstnnew.questions.push(newQuestion);
   }
  
+
+
+
+
 
 
 
@@ -153,51 +204,187 @@ loading = true;
   }
   onDropdownChange(index: number, option: string, event: any): void {
     const selectedItemId = (event?.target?.value || '').toString();
-    this.qstn.questions[index][option] = selectedItemId;
+    console.log("dropdown change value",selectedItemId)
+ //   this.qstn.questions[index][option] = selectedItemId;
   }
  
  
  
  
-  filterItems(index: number, event: any): void {
-    this.searchTerm = event.target.value.toLowerCase();
+  filterItems(index: number, option: string, event: any): void {
+    let item_name: string = '';
  
-    // Filter the items based on the search term
+    // Set different item_name values based on the option
+    if (option === 'a') {
+      item_name = 'a_name';
+    } else if (option === 'b') {
+      item_name = 'b_name';
+    } else if (option === 'c') {
+      item_name = 'c_name';
+    } else if (option === 'd') {
+      item_name = 'd_name';
+    }
+ 
+    this.searchTerm = event.target.value.toLowerCase();
+    console.log("search", this.searchTerm);
+    console.log("options", option);
     this.filteredAdditems = this.selectedItems.filter(item =>
       item.name.toLowerCase().includes(this.searchTerm)
     );
  
-    // If you need to update the selected item based on the filtered items, you can do so here
     const selectedItem = this.filteredAdditems.find(item => item.name === event.target.value);
-   
-    // Assuming this.selectedItem is a property in your component
+    console.log("selected item ", selectedItem, index, option);
+ 
     this.selectedItem = selectedItem;
+ 
+    if (this.selectedItem) {
+      console.log("selected item name ", this.qstn.questions[index][option]);
+      this.qstnnewtest.questions[index][option] = this.selectedItem.id;
+      console.log("selected item id ", this.qstnnewtest.questions[index][option]);
+      this.qstn.questions[index][item_name] = this.selectedItem.name;
+      console.log("question item name",this.qstn.questions[index][item_name]);
+
+
+      console.log("View image step 1");
+      this.updatePicture(selectedItem, index,option );
+      // Update the optionNames object with the current option name
+     // this.optionNames[index][option] = item_name;
+    }
   }
  
  
+  removeQuestion(index: number, qstnid?: string): void {
+    console.log("question id", qstnid);
  
-  removeQuestion(index: number): void {
-    this.qstn.questions.splice(index, 1);
+    if (qstnid) {
+      // Remove the question and associated pictures
+      this.apiService.removeQuestionFromDatabase(this.kgSheetId, this.cur_list_id, qstnid);
+      this.qstn.questions.splice(index, 1);
+      this.qstnnew.questions.splice(index, 1);
+ 
+      // Remove the selected pictures for the removed question
+      if (this.selectedItemPictures[index]) {
+        delete this.selectedItemPictures[index];
+      }
+    } else {
+      console.error('Question ID is undefined.');
+    }
   }
+ 
 
 
-
-
-  // saveQuestions(id:string){
-  //   this.apiService.createListQuestions(this.qstn,this.kgSheetId,id);
-  // //  this.addCourse?.hide();
-  //   this.qstn = new Addlist();
-   
-  // }
 
 
   saveQuestions(id: string) {
-      console.log("step create");
-      console.log("step create",this.qstn.questions);
+     
+      // console.log("step create",this.qstnnew.questions);
+      // console.log("step create 2",this.qstnnew);
       // List doesn't have questions, add the new questions
-      this.apiService.createListQuestions(this.qstn, this.kgSheetId, this.cur_list_id);
-    this.qstn = new Addlist();
+      if(this.curr = 1)
+      {
+        console.log("updated questions",this.qstnnew)
+        this.apiService.updateListQuestions(this.kgSheetId,this.qstnnew, this.cur_list_id);
+        this.curr = 0;
+        this.qstnnew = new Addlist();
+      }
+      else
+      {  
+        console.log("created questions",this.qstnnew)
+       this.apiService.createListQuestions(this.qstnnew, this.kgSheetId, this.cur_list_id);
+        this.qstnnew = new Addlist();
+      }
+   
+   
+  }
+
+
+
+
+  updateOptionNames(question: any, index: number) {
+    // Initialize an object to store option names for the current question
+    this.optionNames[index] = {};
+ 
+    ['a', 'b', 'c', 'd'].forEach((option) => {
+      const optionId = question[option];
+      if (optionId) {
+        console.log("Check current ID:", optionId);
+ 
+        // Find the item based on the ID
+        const selectedItem = this.selectedItems.find(item => item.id === optionId);
+ 
+        if (selectedItem) {
+          console.log("Check current question fetch:", selectedItem);
+ 
+          // Check if 'selectedItem.picture' is defined before accessing it
+          if (selectedItem.picture) {
+            // Ensure the necessary objects are initialized before setting properties
+            if (!this.selectedItemPictures[index]) {
+              this.selectedItemPictures[index] = {};
+            }
+ 
+            // Set the picture for the specific optionId
+            this.selectedItemPictures[index][option] = selectedItem.picture;
+            console.log("Current picture:", this.selectedItemPictures[index][optionId]);
+          } else {
+            // Handle the case where 'selectedItem.picture' is undefined
+            console.error(`Picture for option ${option} is undefined for ID ${optionId}.`);
+          }
+        } else {
+          // Handle the case where 'selectedItem' is undefined
+          console.error(`No item found with ID ${optionId}.`);
+        }
+      }
+    });
+ 
+    console.log('Selected Item Pictures:', this.selectedItemPictures);
+  }
+ 
+ 
+ 
+ // getItemName(question.a, i, 'a')
+ getItemName(itemId: string | undefined, index: number, category: string, event: any) {
+  if (itemId) {
+    const selectedItem = this.selectedItems.find(item => item.id === itemId);
+    if (selectedItem) {
+      const selectedName = selectedItem.name;
+      console.log(`Option ${category} name:`, selectedName);
+
+
+      // Update the optionNames object with the current option name
+      this.optionNames[index][category] = selectedName;
+      this.qstn.questions[index][category] = selectedName;
+     
+    }
   }
 }
+
+
+
+
+updatePicture(selectedItem: any, index: number,  category: string) {
+  console.log("View image step 2");
+  // Assuming you have a property to store the selected item's picture
+  if (!this.selectedItemPictures[index]) {
+    this.selectedItemPictures[index] = {};
+  }
+
+
+  // Ensure the category is defined
+ 
+
+
+  // Update the picture for the specific category
+  this.selectedItemPictures[index][category] = selectedItem ? selectedItem.picture : null;
+  console.log( "curr picture",this.selectedItemPictures[index][category]);
+}
+
+
+handleImageError(event: any) {
+  // Handle image loading errors
+  console.error('Error loading image:', event);
+}
+}
+
+
 
 

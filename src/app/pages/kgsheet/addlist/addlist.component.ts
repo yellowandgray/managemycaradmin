@@ -93,7 +93,8 @@ loading: boolean = true;
 
 
 
-
+deleteId:string='';
+@ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -397,7 +398,11 @@ loading: boolean = true;
   }
   
   
+  deletpop(id:string){
+    this.deleteModal?.show()
+     this.deleteId=id;
   
+  }
   
 
 
@@ -683,6 +688,7 @@ loading: boolean = true;
   delete(id: string){
     const kgSheetId = '3u90Jik86R10JulNCU3K';
     this.apiService.deleteListData(id,kgSheetId)
+    this.deleteModal?.hide()
       }
 
 

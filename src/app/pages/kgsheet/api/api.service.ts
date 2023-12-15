@@ -5,6 +5,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 
+
+
+
+
 import * as firebase from "firebase/compat";
 import { Additems } from "./additemobj";
 import { Observable } from "rxjs/internal/Observable";
@@ -28,6 +32,10 @@ import { ListQuestion } from "./listquestionsobj";
 
 
 
+
+
+
+
     getAddItemData(kgSheetId: string): Observable<any[]> {
       // Use 'collection' to access the 'KG_Sheet' collection and then 'doc' to specify the document ID
       // Finally, use 'collection' again to access the 'Items' subcollection within the specified document
@@ -40,6 +48,10 @@ import { ListQuestion } from "./listquestionsobj";
     // return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`).snapshotChanges();
     return this.firestore.collection(`KG_Sheet/${kgSheetId}/Items`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
     }
+
+
+
+
 
 
 
@@ -64,6 +76,10 @@ import { ListQuestion } from "./listquestionsobj";
 
 
 
+
+
+
+
      updateAddItemData(id: string,obj: Additems,kgSheetId: string){
       this.firestore.doc(`KG_Sheet/${kgSheetId}/Items/` + id).update({
         'id':id,
@@ -83,7 +99,15 @@ import { ListQuestion } from "./listquestionsobj";
 
 
 
+
+
+
+
   // Add list
+
+
+
+
 
 
 
@@ -117,6 +141,10 @@ import { ListQuestion } from "./listquestionsobj";
 
 
 
+
+
+
+
      updateListData(id: string,obj: Addlist,kgSheetId: string){
       this.firestore.doc(`KG_Sheet/${kgSheetId}/List/` + id).update({
         'id':id,      
@@ -142,6 +170,14 @@ import { ListQuestion } from "./listquestionsobj";
 
 
 
+
+
+
+
+
+
+
+
 checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
   return this.firestore
     .collection(`School/${schoolid}/KGSheet_Assign`, (ref) =>
@@ -149,6 +185,10 @@ checkListIdExists(schoolid: string, listId: string): Observable<any[]> {
     )
     .valueChanges();
 }
+
+
+
+
 
 
 
@@ -171,6 +211,10 @@ createAssignData(obj: Assign, schoolid: string) {
 
 
 
+
+
+
+
 updateAssignData(obj: Assign, schoolid: string, docId: string) {
   console.log(obj.list_id, 'list id');
   console.log(obj.standard, 'standard');
@@ -180,6 +224,10 @@ updateAssignData(obj: Assign, schoolid: string, docId: string) {
     'standard': obj.standard,
   });
 }
+
+
+
+
 
 
 
@@ -194,6 +242,8 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
   .valueChanges();
  // return this.firestore.doc<any>(path).valueChanges();
 }
+
+
 
 
 getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observable<string[]> {
@@ -213,6 +263,10 @@ getListID(schoolid: string, kgSheetId: string, selectedOption: string): Observab
 
 
 
+
+
+
+
 async createListQuestions(obj: Addlist, KgsheetId: string, Listid: string) {
   const ListDocRef = this.firestore.collection(`KG_Sheet/${KgsheetId}/List`).doc(Listid);
 console.log("Questions",obj.questions)
@@ -224,17 +278,25 @@ console.log("Questions",obj.questions)
        
         'qno': question.qno,
         'a': question.a,
+        'a_name':question.a_name,
         'b': question.b,
+        'b_name':question.b_name,
         'c': question.c,
+        'c_name':question.c_name,
         'd': question.d,
+        'd_name':question.d_name,
         'qstn': question.qstn,
         'crtans': question.crtans,
       });
 
 
+
+
       // Optionally update the question document ID
       await questionDocRef.update({ 'id': questionDocRef.id });
     }
+
+
 
 
     console.log('Questions added successfully.');
@@ -244,49 +306,75 @@ console.log("Questions",obj.questions)
 }
 
 
-   
-async updateListQuestions(obj: Addlist, KgsheetId: string, Listid: string) {
-  const ListDocRef = this.firestore.collection(`KG_Sheet/${KgsheetId}/List`).doc(Listid);
-  console.log("step 1 update");
-  try {
-    // Step 1: Update the main document
-    await ListDocRef.update({ 'id': Listid });
-   
-    // Step 2: Update or add questions
-    for (const question of obj.questions) {
-      console.log("step 2 update");
-      const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
-      const questionDocRef = ListDocRef.collection('Questions').doc(questionId);
 
 
+async updateListQuestions(kgSheetId: string, obj: Addlist, listId: string) {
+  const ListDocRef = this.firestore.collection(`KG_Sheet/${kgSheetId}/List/${listId}/Questions`);
+
+
+  for (const question of obj.questions) {
+    const questionId = question.id;
+
+
+    if (questionId) {
+      // Update existing document
+      const questionDocRef = ListDocRef.doc(questionId);
       await questionDocRef.set({
-        'id': questionId,
+        'id':question.id,
         'qno': question.qno,
         'a': question.a,
+        'a_name': question.a_name,
         'b': question.b,
+        'b_name': question.b_name,
         'c': question.c,
+        'c_name': question.c_name,
         'd': question.d,
+        'd_name': question.d_name,
         'qstn': question.qstn,
         'crtans': question.crtans,
       });
+    } else {
+      // Create new document
+      const newQuestionDocRef = await ListDocRef.add({
+        'qno': question.qno,
+        'a': question.a,
+        'a_name': question.a_name,
+        'b': question.b,
+        'b_name': question.b_name,
+        'c': question.c,
+        'c_name': question.c_name,
+        'd': question.d,
+        'd_name': question.d_name,
+        'qstn': question.qstn,
+        'crtans': question.crtans,
+      });
+
+
+      // Get the generated ID from the newly created document
+      const generatedId = newQuestionDocRef.id;
+
+
+      // Update the document with the generated ID
+      await newQuestionDocRef.update({ 'id': generatedId });
     }
-
-
-    console.log('Questions updated successfully.');
-  } catch (error) {
-    console.error('Error updating questions:', error);
   }
 }
 
 
 
 
+async removeQuestionFromDatabase(id: string, listId: string, questionId: string) {
+//  this.firestore.doc(`KG_Sheet/${id}/List/${listId}/Questions/${questionId}`).delete();
 
 
-
-
-
-
+  const questionDocRef = this.firestore.doc(`KG_Sheet/${id}/List/${listId}/Questions/${questionId}`);
+  try {
+    await questionDocRef.delete();
+    console.log(`Question with ID ${questionId} deleted successfully.`);
+  } catch (error) {
+    console.error('Error deleting question:', error);
+  }
+}
 
 
 
@@ -310,5 +398,10 @@ getComprehensionQuestionsData(garamerID: string, compid: string) {
 }
 
 
+
+
   }
+
+
+
 

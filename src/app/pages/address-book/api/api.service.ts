@@ -279,15 +279,25 @@ getScoreData(SchoolId: string,ScoreId:string) {
   return this.firestore.collection(`School/${SchoolId}/Score/${ScoreId}/Comprehension`).snapshotChanges();
  
  }
+
  getComprehensionData(SchoolId: string) {
   return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`,ref => ref.orderBy('no')).snapshotChanges();
-
  }
- getComprehensionQuestionsData(garamerID: string, compid: string) {
-  const path = `Grammar/${garamerID}/Comprehension/${compid}/Questions`;
-  console.log('Query Path:', path);
-  return this.firestore.collection(path).snapshotChanges();
+
+ getComprehensionQuestionsData(SchoolId: string, comprehensionId: string) {
+  return this.firestore.collection(`Grammar/${SchoolId}/Comprehension/${comprehensionId}/Questions`,ref => ref.orderBy('qno')).snapshotChanges();
 }
+
+getKgsheetQuestionsData(SchoolId: string, comprehensionId: string) {
+  return this.firestore.collection(`Grammar/${SchoolId}/Comprehension/${comprehensionId}/KG_Sheet`).snapshotChanges();
+}
+
+
+//  getComprehensionQuestionsData(garamerID: string, compid: string) {
+//   const path = `Grammar/${garamerID}/Comprehension/${compid}/Questions`;
+//   console.log('Query Path:', path);
+//   return this.firestore.collection(path).snapshotChanges();
+// }
 getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observable<any> {
   // Adjust the path according to your Firestore structure
   const path = `school/${kgSheetId}/Comp_Assign/${listId}`;

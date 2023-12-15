@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api/api.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Score } from '../api/scoreobj';
-import { Comprehension } from '../../gramar/api/comprehensionobj';
+
 import { Subscription } from 'rxjs';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Comprehension, Question } from '../api/compstudentobj';
+import { Index } from 'firebase/firestore';
 @Component({
   selector: 'app-student-details',
   templateUrl: './student-details.component.html',
@@ -15,10 +19,14 @@ export class StudentDetailsComponent {
   breadCrumbItems!: Array<{}>;
   currentTab:any = "Profile"
   score:Score[]=[];
+  scoreform:Score[]=[];
+  emp: Comprehension = new Comprehension(); 
+  MessageFormData: FormGroup;
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   ScoreId:string='4UwpeVOx1X4YofEWx3jq';
   GrammarId:string='XOO5IdohbzztfCg4GU6y';
   kgSheetId = '3u90Jik86R10JulNCU3K';
+  
   dataSubscription: Subscription | null = null;
   comprehensions: Comprehension[] = [];
   rec_no: string | null;
@@ -31,7 +39,10 @@ export class StudentDetailsComponent {
   mobile: string | null;
   image: string | null;
   studentid: string | null;
-  constructor(private route: ActivatedRoute,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,) { 
+  @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+ 
+  constructor(private route: ActivatedRoute,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private formBuilder: FormBuilder,private fb: FormBuilder) { 
+ 
   this.studentid= '';
   this.rec_no = '';
   this.name = '';
@@ -42,9 +53,33 @@ export class StudentDetailsComponent {
   this.address = '';
   this.image = '';
   this.mobile = '';
-}
 
- 
+  this.MessageFormData = this.formBuilder.group({
+    'no': ['', Validators.required],
+    'title': ['', Validators.required],
+    'paragraph': ['', Validators.required],
+    'questions': this.formBuilder.array([]) 
+  });
+  if (this.emp != null) {
+    this.MessageFormData.patchValue({  
+      id:this.emp.id,    
+      no: this.emp.no,
+      title: this.emp.title,
+      paragraph: this.emp.paragraph,
+     questions:this.emp.questions
+
+
+    });
+    this.emp.no= this.emp.no;  
+    this.emp.title= this.emp.title;
+    this.emp.id= this.emp.id;
+    this.emp. paragraph =this.emp.paragraph;
+    this.emp. questions =this.emp.questions;
+
+  } }
+
+
+
   ngOnInit(): void {
 
     this.route.paramMap.subscribe((params) => {
@@ -60,38 +95,38 @@ export class StudentDetailsComponent {
       this.image = params.get('image');
 
     });
+   
+
     this.route.paramMap.subscribe((params) => {
       this.studentid = params.get('studentid');
-      
+     
       this.apiService.getScoreData(this.SchoolId, this.ScoreId).subscribe(actions => {
         this.score = actions.map(action => action.payload.doc.data() as Score);
-        
-        // Filter the score array based on the condition
+  
         this.score = this.score.filter(score => score.stuid === this.studentid);
       });
+      
     });
- 
+  
 
-    this.dataSubscription = this.apiService.getComprehensionData(this.GrammarId).subscribe(
-      (actions) => {
-        this.comprehensions = actions.map((action) => action.payload.doc.data() as Comprehension);
-      
-      
-   
-        this.comprehensions.forEach(item => {
-       
-          const listId = item?.id; 
-   
-          if (listId) {
-            console.log("Step 1.1: Entering loop for item with id", listId);
-            this.apiService.getStandardsForList(this.SchoolId, this.kgSheetId, listId).subscribe(
-            );
-          }
-        })
-        
-      },);
-    this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
+    this.dataSubscription = this.apiService.getComprehensionData(this.GrammarId).subscribe(comprehensions => {
+      comprehensions.forEach(comprehension => {
+        const comprehensionData = comprehension.payload.doc.data() as Comprehension;
+        const comprehensionId = comprehension.payload.doc.id;
     
+        this.apiService.getComprehensionQuestionsData(this.GrammarId, comprehensionId).subscribe(questions => {
+          const questionsData = questions.map(question => question.payload.doc.data() as Question);
+          
+          comprehensionData.questions = questionsData;
+          this.comprehensions.push(comprehensionData);
+        });
+      });
+    });
+    
+
+    // this.apiService.getKgsheetQuestionsData(this.GrammarId,kgSheetId)
+    this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
+   
   }
 
   changeTab(tab: string) {
@@ -99,13 +134,90 @@ export class StudentDetailsComponent {
   }
 
   getcomp(compId: string): string {
-    const driver = this.comprehensions.find((d) => d.id === compId);
-    return driver ? driver.title :'No Driver Assign';
+    const comp = this.comprehensions.find((d) => d.id === compId);
+    return comp ? comp.title :'No Driver Assign';
   }
 
+  getcompqute(compId: string): string {
+    const comp = this.comprehensions.find((d) => d.id === compId);
+    return comp && comp.questions ? comp.questions.length.toString() : 'No Driver Assign';
+    
+  }
+
+  
+
   getcompno(compId: string): string {
-    const driver = this.comprehensions.find((d) => d.id === compId);
-    return driver ? String(driver.no) : 'No Driver Assign';
+    const comp = this.comprehensions.find((d) => d.id === compId);
+    return comp ? String(comp.no) : 'No Driver Assign';
 }
 
+
+editComprehension(compId: string, index: number) {
+
+
+  this.deleteRecordModal?.show();
+
+  const selectedComprehension = this.comprehensions.find((d) => d.id === compId);
+  this.apiService.getScoreData(this.SchoolId, this.ScoreId).subscribe(actions => {
+    this.score = actions.map(action => action.payload.doc.data() as Score);
+    this.score = this.score.filter(score => score.stuid === this.studentid);
+    this.scoreform = this.score.filter(score => score.compid === compId);
+  });
+
+  if (selectedComprehension) {
+    this.emp = { ...selectedComprehension };
+
+    if (this.emp.questions) {
+
+
+      const question = this.emp.questions[index];
+      const isQuestionAlreadyAdded = this.MessageFormData.value.questions.some(
+        (q: any) => q.id === question.id
+      );
+
+      if (!isQuestionAlreadyAdded) {
+        const questionFormArray = this.fb.group({
+          id: [question.id],
+          qno: [question.qno],
+          qstn: [question.qstn],
+          qtype: [question.qtype],
+          a: [question.a],
+          b: [question.b],
+          c: [question.c],
+          d: [question.d],
+          answer: [question.answer],
+        });
+
+        this.MessageFormData.setControl(
+          'questions',
+          this.fb.array([...this.MessageFormData.value.questions, questionFormArray])
+        );
+
+        this.MessageFormData.patchValue({
+          id: this.emp.id,
+          no: this.emp.no,
+          title: this.emp.title,
+          paragraph: this.emp.paragraph,
+        });
+
+        this.deleteRecordModal?.onHidden.subscribe(() => {
+          this.MessageFormData.reset();
+        });
+      }
+    }
+  }
 }
+// Kg Sheet
+
+
+
+
+}
+
+
+
+
+
+
+
+

@@ -168,7 +168,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="Search Route No." [(ngModel)]="searchMap"  >
+                                <input type="text" class="form-control search" placeholder="Search Route No." [(ngModel)]="searchMap"   placeholder="Search by Name" (input)="filteredMap($event)" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             </div>
@@ -196,10 +196,10 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of map;let i = index;" >
-                                    <td class="date">{{data.rno}}</td>
-                                    <td class="customer_name">{{getvanName( data.vanid)}}</td>
-                                    <td class="date">{{getDriverName(data.driverid)}}</td>
+                                <tr *ngFor="let data of filteredMaps || filteredVans ;let i = index;" >
+                                    <td class="date"><a [routerLink]="['/van/routes',{routeno:data.rno}]">{{data.rno }}</a></td>
+                                    <td class="customer_name"><a [routerLink]="['/van/vandetail',{van:data.vanid}]">{{getvanName(data.vanid)}}</a> </td>
+                                    <td class="date"><a [routerLink]="['/addressbook/driver-detail',{driverid:data.driverid}]" >{{getDriverName(data.driverid)}}</a>   </td>
                                     <!-- <td>
                                   <div class="d-flex gap-2">
                                       <div class="edit">

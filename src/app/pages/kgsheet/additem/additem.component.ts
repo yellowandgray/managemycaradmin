@@ -38,6 +38,8 @@ export class AddItemComponent {
   loading: boolean = true;
   filterItems: Additems[] = [];
   filterItems1: Additems[] = [];
+  deleteId:string='';
+  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
   constructor(private apiService: ApiService, private firestore: AngularFirestore, private storage: AngularFireStorage, private modalService: BsModalService) {
@@ -96,7 +98,6 @@ export class AddItemComponent {
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.picture = url;
-              console.log('imagePathsdb:', this.emp.picture); // Check if it's populated here
             });
           })
         ).subscribe(
@@ -160,9 +161,7 @@ export class AddItemComponent {
 
     } else {
       // If no file is selected, save the item data without an image.
-      console.log("Else Running");
       const kgSheetId = '3u90Jik86R10JulNCU3K';
-      console.log(this.emp);
       this.apiService.createAddItemData(this.emp, kgSheetId);
       this.emp = new Additems();
 
@@ -179,6 +178,7 @@ export class AddItemComponent {
 
   delet(id: string) {
     this.apiService.deleteAddItemData(id, this.kgSheetId)
+    this.deleteModal?.hide()
   }
 
 
@@ -200,7 +200,6 @@ export class AddItemComponent {
       this.filterItems = this.additems;
      
      
-      console.log("filter items ", this.filterItems);
       this.loading = false;
      
     });
@@ -251,7 +250,6 @@ export class AddItemComponent {
       return nameMatch && categoryMatch;
     });
  
-    console.log("filter items", this.filterItems);
     return this.filterItems;
   }
 
@@ -263,7 +261,6 @@ export class AddItemComponent {
 
   filterItemsByName(event: any): void {
     const value = event.target.value;
-    console.log('Filtering by name...', value);
     this.searchTerm = value;
     this.filteredItems();
   }
@@ -276,11 +273,7 @@ export class AddItemComponent {
   getVisibleItems(): Additems[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    console.log("startIndex ",startIndex)
-    console.log("endIndex ",endIndex)
-    console.log("page show ", this.filteredItems().slice(startIndex, endIndex))
     this.filterItems1 = this.filteredItems();
-    console.log("dsgsdfg .....",this.filterItems1)
     return this.filterItems1.slice(startIndex,endIndex);
   }
  
@@ -327,7 +320,6 @@ export class AddItemComponent {
   editStudent(filteredIndex: number) {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const originalIndex = startIndex + filteredIndex;
-    console.log("orginal index",originalIndex)
  
     if (originalIndex >= 0 && originalIndex < this.filteredItems().length) {
 
@@ -364,8 +356,6 @@ export class AddItemComponent {
     this.apiService.updateAddItemData(id.toString(), this.emp, this.kgSheetId);
     this.emp = new Additems();
     this.deleteRecordModal?.hide();
-    console.log(id, 'id check')
-    console.log(this.emp, 'emp check')
     this.MessageFormData.reset();
     this.deleteRecordModal?.hide();
 
@@ -375,7 +365,11 @@ export class AddItemComponent {
   }
 
 
-
+  deletpop(id:string){
+    this.deleteModal?.show()
+     this.deleteId=id;
+  
+  }
 
 
 

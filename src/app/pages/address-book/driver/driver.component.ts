@@ -39,10 +39,12 @@ export class DriverComponent {
   selectedImage1: any = null;
   selectedImage2: any = null;
   selectedImage3: any = null;
+  deleteId:string='';
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   loading: boolean = true;
 
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
@@ -110,7 +112,8 @@ export class DriverComponent {
     });
   }
   delet(driverid: string){
-this.apiService.deleteDriverData(driverid,this.SchoolId)
+this.apiService.deleteDriverData(driverid,this.SchoolId);
+this.deleteModal?.hide()
   }
 
 
@@ -142,7 +145,6 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.pic = url;
            
-              console.log('imagePathsdb:', this.emp.pic ); // Check if it's populated here
             });
           })
         ).subscribe(
@@ -182,7 +184,6 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.license = url;
            
-              console.log('imagePathsdb:', this.emp.license ); // Check if it's populated here
             });
           })
         ).subscribe(
@@ -222,7 +223,6 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.aadhar = url;
            
-              console.log('imagePathsdb:', this.emp.license ); // Check if it's populated here
             });
           })
         ).subscribe(
@@ -260,7 +260,6 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.pancard = url;
            
-              console.log('imagePathsdb:', this.emp.license ); // Check if it's populated here
             });
           })
         ).subscribe(
@@ -282,11 +281,14 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
   }
  
  
+  deletpop(id:string){
+    this.deleteModal?.show()
+     this.deleteId=id;
 
+  }
 
  
   save() {
-    console.log(this.emp);
 
 
     if (this.selectedImage) {
@@ -294,9 +296,7 @@ this.apiService.deleteDriverData(driverid,this.SchoolId)
       this.emp = new Driver();
     } else {
       // If no file is selected, save the item data without an image.
-      console.log("Else Running");
      
-     console.log(this.emp);  
      this.apiService.createDriverData(this.emp,this.SchoolId);
       this.emp = new Driver();
        

@@ -34,7 +34,7 @@ export class StudentComponent {
   students: Student[] = [];
   MessageFormData: FormGroup;
   emp: Student = new Student();
-
+  deleteId:string='';
 
 
 
@@ -77,7 +77,7 @@ export class StudentComponent {
 
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
-
+  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
 //  routes: Routes = [
 
@@ -171,14 +171,12 @@ export class StudentComponent {
 
   filterStudentsByName(event: any): void {
     const value = event.target.value;
-    console.log('Filtering by name...', value);
     this.searchTerm = value;
     this.filterStudents();
   }
  
  
   filterStudents() {
-    console.log('Filtering...', this.selectedStandard, this.selectedSection, this.searchTerm);
 
 
 
@@ -211,9 +209,7 @@ export class StudentComponent {
 
     // If there are no matches, set filteredStudents to an empty array
     if (!this.filteredStudents.length) {
-      console.log('Nooo Students...');
       this.filteredStudents = [];
-      console.log(this.filteredStudents);
     }
   }
 
@@ -233,10 +229,13 @@ export class StudentComponent {
   populateStudentNames() {
     // Populate studentNames with unique student names
     this.studentNames = [...new Set(this.students.map(student => student.name))];
-    console.log("student names ",this.studentNames);
   }
  
+  deletpop(id:string){
+    this.deleteModal?.show()
+     this.deleteId=id;
 
+  }
 
 
 
@@ -252,6 +251,7 @@ export class StudentComponent {
   // }
   delet(id: string){
 this.apiService.deleteStudentData(id)
+this.deleteModal?.hide()
   }
   onsubmit(){
    
@@ -280,7 +280,6 @@ this.apiService.deleteStudentData(id)
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.image = url;
-              console.log('imagePathsdb:', this.emp.image ); // Check if it's populated here
             });
           })
         ).subscribe(
@@ -348,13 +347,6 @@ this.apiService.deleteStudentData(id)
  
  
   save() {
-    console.log(this.emp);
-
-
-
-
-
-
 
 
     if (this.selectedImage) {
@@ -363,9 +355,7 @@ this.apiService.deleteStudentData(id)
       this.emp = new Student();
     } else {
       // If no file is selected, save the item data without an image.
-      console.log("Else Running");
      
-     console.log(this.emp);  
      this.apiService.createStudentData(this.emp);
      this.resetFilters();
       this.emp = new Student();
@@ -405,15 +395,11 @@ this.apiService.deleteStudentData(id)
       this.excelService.readExcel(file).then((data: any[]) => {
           // Check if data is not null, has more than minimumRows rows, and other conditions if needed
           if (data && data.length > 0 && data.length >= 5) {
-              console.log("Step 2");
-             // console.log("Student Dob ", data);
  
               data.forEach((student: any) => {
                   const rec_no = student[0];
                   const dob1 = student[3];
-                //  console.log("Student Rec no ", student[1]);
  
-                  // Check if rec_no is not null or undefined
                   if (rec_no != null && rec_no !== undefined) {
                  
                     const millisecondsPerDay = 24 * 60 * 60 * 1000;
@@ -424,9 +410,6 @@ this.apiService.deleteStudentData(id)
 
 
 
-
-
-        console.log("Student dob test ", jsDate);
 
 
 
@@ -446,7 +429,6 @@ this.apiService.deleteStudentData(id)
 
 
 
-                    console.log("Student dob ",formattedDate);
                       const studentData: Student = {
                           rec_no: rec_no,
                           name: student[1],
@@ -461,8 +443,6 @@ this.apiService.deleteStudentData(id)
                           role: 'student',
                           school: ''
                       };
-                      console.log('rec_no:', studentData.rec_no);
-                      console.log('rec_no:', student[6]);
  
                       this.apiService.createStudentData(studentData).then(
                           () => {
@@ -524,7 +504,6 @@ this.apiService.deleteStudentData(id)
    editStudent(index: number) {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const originalIndex = startIndex + index;
-    console.log("orginal index",originalIndex)
     const selectedStudent = this.students.indexOf(this.filteredStudents[originalIndex]);
   this.selectedStudentIndex = selectedStudent;
   this.emp = { ...this.students[selectedStudent] };

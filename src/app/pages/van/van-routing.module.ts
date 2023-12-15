@@ -5,6 +5,8 @@ import { MapComponent } from './map/map.component';
 import { AddrouteComponent } from './addroute/addroute.component';
 import { AddvanComponent } from './addvan/addvan.component';
 import { ArrivalsComponent } from './arrivals/arrivals.component';
+import { RouteDetailComponent } from './route-detail/route-detail.component';
+import { VanDetailsComponent } from './van-details/van-details.component';
 
 // Component
 
@@ -26,6 +28,14 @@ const routes: Routes = [
     {
         path: "map",
         component: MapComponent
+    },
+    {
+        path: "routes",
+        component: RouteDetailComponent
+    },
+    {
+        path: "vandetail",
+        component: VanDetailsComponent
     },
     
 ];

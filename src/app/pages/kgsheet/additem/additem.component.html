@@ -402,7 +402,7 @@
             </div>
             <div class="remove">
               <button class="bi bi-pencil-square align-baseline me-1 btn btn-success" (click)="editStudent(i)">Edit</button>
-              <button class="bi bi-trash3 align-baseline me-1 btn btn-light" (click)="delet(data.id)">Delete</button>
+              <button class="bi bi-trash3 align-baseline me-1 btn btn-light" (click)="deletpop(data.id)">Delete</button>
             </div>
           </div>
         </div><!--end card-->
@@ -454,7 +454,30 @@
  
  
  
- 
+  <div id="deleteRecordModal" class="modal fade zoomIn" bsModal #deleteModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
+            </div>
+            <div class="modal-body p-md-5">
+                <div class="text-center">
+                    <div class="text-danger">
+                        <i class="bi bi-trash display-4"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="mb-2">Are you sure ?</h3>
+                        <p class="text-muted fs-lg mx-3 mb-0">Are you sure you want to remove this record ?</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
+                    <button type="button" class="btn w-sm btn-danger btn-hover" id="delete-record" (click)="delet(deleteId)">Yes, Delete It!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

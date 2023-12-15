@@ -26,6 +26,8 @@ export class AddvanComponent {
   imgSrc: string='';
   selectedImage: any = null;
   selectedPreviewImage: string | null = null;
+  deleteId:string='';
+  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -100,11 +102,14 @@ add(){
  
 }
 
+deletpop(id:string){
+  this.deleteModal?.show()
+   this.deleteId=id;
 
+}
 
 save() {
    
-   console.log(this.emp);  
    this.apiService.createVanData(this.emp,this.SchoolId,this.vanId);
     this.emp = new Van();
   this.showModal?.hide()
@@ -177,7 +182,6 @@ delet(id: string){
             finalize(() => {
               fileRef.getDownloadURL().subscribe((url) => {
                 this.emp.pic = url;
-                console.log('imagePathsdb:', this.emp.pic ); // Check if it's populated here
               });
             })
           ).subscribe(
