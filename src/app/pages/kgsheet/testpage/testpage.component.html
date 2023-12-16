@@ -94,13 +94,13 @@
 
                                 <td class="picture">
                                     <div class="d-flex align-items-center">
-                                        <div class="avatar-xs bg-light rounded p-1 " style=" object-fit: cover;height: 50px; width: 50px;">
-                                            <img src="{{data.picture}}" alt="" (click)="openImageModal(data.picture)" class="img-fluid d-block  ">
+                                        <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                            <img src="{{data.picture}}" alt="" (click)="openImageModal(data.picture)" class="img-fluid d-block " style="object-fit: cover; width: 100%; height: 100%;" >
                                         </div>
                                      
                                     </div>
                                 </td>
-                                <td class="Items"> <button type="submit" class="btn btn-primary" id="add-btn" (click)="navigateToAddTestPage(data.id)"> Assign Test</button></td>
+                                <td class="Items"> <button type="submit" class="btn btn-primary" id="add-btn" (click)="navigateToAddTestPage(data.id)"> Assign Test / View</button></td>
                                 <!-- <td class="Total Items">{{data.items.length}}</td>
                                  
                                   <td class="AssignToContainer">

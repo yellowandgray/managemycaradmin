@@ -199,8 +199,9 @@ delet(id: string){
         this.imgSrc = '/assets/images/image_placeholder.jpg';
         this.selectedImage = null;
       }
+      this.deleteModal?.hide()
     }
     
-  
+ 
 
 }

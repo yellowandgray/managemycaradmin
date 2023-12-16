@@ -169,7 +169,7 @@
                             </thead>
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of routes;let i = index;" >
-                                    <td class="date">{{data.rno}}</td>
+                                    <td class="date"><a [routerLink]="['/van/routes',{routeno:data.rno}]">{{data.rno }}</a></td>
                                     <td class="customer_name">{{data.start}}</td>
                                     <td class="date">{{data.stop1}}</td>
                                     <td class="date">{{data.stop2}}</td>

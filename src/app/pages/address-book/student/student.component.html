@@ -1,34 +1,4 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
-
-
-
-
-
-
 
 
 <!-- End Breadcrumbs -->
@@ -42,14 +12,14 @@
             <form class="tablelist-form" [formGroup]="MessageFormData">
                 <div class="modal-body">
                     <input type="hidden" name="id" value="" formControlName="ids" />
-
-
-
-
-
-
-
-
+                    <div class="mb-3">
+                        <label for="course-category-input" class="form-label">Batch</label>
+                        <select class="form-select" id="course-category-input"  [(ngModel)]="emp.batch" formControlName="batch" >
+                            <option value="2023-24">2023-24</option>
+                            <option value="2024-25">2024-25</option>
+                            <option value="2025-26">2025-26</option>      
+                        </select>
+                    </div>
                     <!-- <div class="mb-3" id="modal-id" style="display: none;">
                         <label for="id-field" class="form-label">ID</label>
                         <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
@@ -60,12 +30,6 @@
                     </div>
 
 
-
-
-
-
-
-
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Name</label>
                         <input type="text"  class="form-control"[(ngModel)]="emp.name" formControlName="name" placeholder="Enter Name" required />
@@ -74,6 +38,18 @@
                     <div class="mb-3">
                         <!-- <label for="course-category-input" class="form-label">Standard<span class="text-danger">*</span></label> -->
                        <label for="course-category-input" class="form-label">Standard</label>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -113,6 +89,14 @@
 
 
 
+
+
+
+
+
+
+
+
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.section" formControlName="section" >
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -120,6 +104,14 @@
                             <option value="D">D</option>
                         </select>
                     </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -189,25 +181,18 @@
             <form class="tablelist-form" [formGroup]="MessageFormData">
                 <div class="modal-body">
                     <input type="hidden" name="id" value="" formControlName="ids" />
-
-
-
-
-
-
-
-
-             
+                    <div class="mb-3">
+                        <label for="course-category-input" class="form-label">Batch</label>
+                        <select class="form-select" id="course-category-input"  [(ngModel)]="emp.batch" placeholder="Enter Batch"  formControlName="batch" >
+                            <option value="2023-24">2023-24</option>
+                            <option value="2024-25">2024-25</option>
+                            <option value="2025-26">2025-26</option>      
+                        </select>
+                    </div>
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Rec. No.</label>
                         <input type="text"  class="form-control" formControlName="number"  [(ngModel)]="emp.rec_no" placeholder="Rec. No." required />
                     </div>
-
-
-
-
-
-
 
 
                     <div class="mb-3">
@@ -216,14 +201,6 @@
                     </div>
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Standard</label>
-
-
-
-
-
-
-
-
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.standard"  placeholder="Enter Standard" formControlName="standard" >
                             <option value="UKG">UKG</option>
                             <option value="LKG">LKG</option>
@@ -243,14 +220,6 @@
                     </div>
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Section</label>
-
-
-
-
-
-
-
-
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.section" formControlName="section" >
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -258,6 +227,13 @@
                             <option value="D">D</option>
                         </select>
                     </div>
+
+
+                 
+
+
+
+
 
 
 
@@ -284,6 +260,14 @@
                         <label for="phone-field" class="form-label">Mobile</label>
                         <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No."   pattern="[1-9]{1}[0-9]{9}" formControlName="mobile"  [(ngModel)]="emp.mobile" required />
                     </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -331,7 +315,23 @@
 
 
 
+
+
+
+
+
+
+
+
 <div>
+
+
+
+
+
+
+
+
 
 
 
@@ -354,15 +354,16 @@
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto d-flex">
-                           
-
-
-
-
-
-
-
-
+                            <div class="search-box ms-2">
+                                <!-- <span class="ri-search-line search-icon me-3"></span> -->
+                                <select class="form-select" id="course-category-input" [(ngModel)]="selectedBatch" (ngModelChange)="filterStudents()">
+                                    <!-- update currect batch year to first option Batch -->
+                                    <option value="2023-24">Batch</option>
+                                    <option value="2023-24">2023-24</option>
+                                    <option value="2024-25">2024-25</option>
+                                    <option value="2025-26">2025-26</option>        
+                                </select>
+                            </div>
                             <div class="search-box ms-2">
                                 <!-- <span class="ri-search-line search-icon me-3"></span> -->
                                 <select class="form-select" id="course-category-input" [(ngModel)]="selectedStandard" (change)="filterStudents()">
@@ -384,10 +385,6 @@
                                     <option value="XII">XII</option>
                                 </select>
                             </div>
-
-
-
-
                             <div class="search-box ms-2">
                                 <!-- <span class="ri-search-line search-icon me-3"></span> -->
                                 <select class="form-select" id="course-category-input" [(ngModel)]="selectedSection" (ngModelChange)="filterStudents()">
@@ -405,6 +402,10 @@
                                 <input type="text" class="form-control search" [(ngModel)]="searchTerm" (change)="filterStudents()" placeholder="Search by Name">
                                
                             </div> -->
+
+
+
+
 
 
 
@@ -438,6 +439,14 @@
                                         Add</button>
                                         <!-- <button type="button" class="btn btn-success add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
                                             Import</button> -->
+
+
+
+
+
+
+
+
 
 
 
@@ -486,6 +495,8 @@
    
 
 
+
+
                     <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
                         <table class="table align-middle table-nowrap" id="customerTable">
                             <thead class="table-light">
@@ -513,19 +524,17 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                              
+                             
                                         <tr *ngFor="let data of getVisibleItems(); let i = index;" id="a_{{ data.id }}" >
                                     <td class="customer_name">{{data.rec_no}}</td>
                                     <td class="customer_name">
-                                        <a [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id}]">{{ data.name }}</a>
+                                        <a [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:1}]">{{ data.name }}</a>
                                     </td>
-                                    
+                                   
                                     <td class="picture">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
                                                 <img [src]="data.image"(click)="showImagePreview(data.image)" class="img-fluid" alt="Image" style="object-fit: cover; width: 100%; height: 100%;">
-
-
                                                 <!-- <img src={{data.image}} alt="" class="img-fluid d-block" (click)="openImageModal(data.image)" style="object-fit: cover; width: 100%; height: 100%;"  > -->
                                             </div>
                                          
@@ -553,9 +562,9 @@
                                                     <i class="bi bi-three-dots"></i>
                                                 </button>
                                                 <ul *bsDropdownMenu class="dropdown-menu table-dropdown">
-                                                    <li><a class="dropdown-item" routerLink="/learning/overview"><i class="ph-calendar align-baseline me-1"></i> KG Sheet</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);" ><i class="ph-storefront align-baseline me-1"></i>Comprehension</a></li>
-                                                    <li><a class="dropdown-item" href="javascript:void(0);" ><i class="ph-calendar align-baseline me-1"></i> Van</a></li>
+                                                    <li><a class="dropdown-item"[routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:4}]"><i class="ph-calendar align-baseline me-1"></i> KG Sheet</a></li>
+                                                    <li><a class="dropdown-item" [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:5}]"><i class="ph-storefront align-baseline me-1"></i>Comprehension</a></li>
+                                                    <li><a class="dropdown-item" [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:7}]" ><i class="ph-calendar align-baseline me-1"></i> Van</a></li>
                                                 </ul>
                                             </div>
                                            
@@ -566,6 +575,14 @@
                         </table>
                        
                     </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -613,6 +630,9 @@
 
 
 
+
+
+
     <div id="deleteRecordModal" class="modal fade zoomIn" bsModal #deleteModal="bs-modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -637,197 +657,5 @@
             </div>
         </div>
     </div>
-
-
-
-
-    <!-- <div bsModal #deleteModal="bs-modal" class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close" (click)="deleteModal.hide()" id="btn-close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mt-2 text-center">
-                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                        <div class="mt-4 pt-2 fs-base mx-4 mx-sm-5">
-                            <h4>Are you Sure ?</h4>
-                            <p class="text-muted mx-4 mb-0">Are you Sure You want to Remove this Record ?</p>
-                        </div>
-                    </div>
-                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                        <button type="button" class="btn w-sm btn-light" (click)="deleteModal.hide()">Close</button>
-                        <button type="button" class="btn w-sm btn-danger " (click)="deleteData(deleteId)" id="delete-record">Yes, Delete It!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- Modal -->
-<!-- <div bsModal #deleteModal="bs-modal" class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" (click)="deleteModal.hide()" id="btn-close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mt-2 text-center">
-                    <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
-                    <div class="mt-4 pt-2 fs-base mx-4 mx-sm-5">
-                        <h4>Are you Sure ?</h4>
-                        <p class="text-muted mx-4 mb-0">Are you Sure You want to Remove this Record ?</p>
-                    </div>
-                </div>
-                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                    <button type="button" class="btn w-sm btn-light" (click)="deleteModal.hide()">Close</button>
-                    <button type="button" class="btn w-sm btn-danger "  id="delete-record" >yes, Delete It!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!--<div class="modal-header bg-light p-3"> -->
-                <!-- <h5 class="modal-title" id="exampleModalLabel"></h5> -->
-                <!-- <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
-            </div> -->
-            <!-- <form  class="tablelist-form" (ngSubmit)="save()">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-
-
-
-
-
-
-
-
-                    <div class="mb-3" id="modal-id" style="display: none;">
-                        <label for="id-field" class="form-label">ID</label>
-                        <input type="text" id="id-field" class="form-control" placeholder="ID" readonly />
-                    </div>
-
-
-
-
-
-
-
-
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">Customer Name</label>
-                        <input type="text" id="customername-field" class="form-control" [(ngModel)]="formdata.name" placeholder="Enter Name" required />
-                      </div>
-
-
-
-
-
-
-
-
-                      <div class="mb-3">
-                        <label for="email-field" class="form-label">mobile</label>
-                        <input type="email" id="email-field" class="form-control" [(ngModel)]="formdata.mobile" placeholder="Enter Email" required />
-                      </div>
-                      <div class="mb-3">
-                        <label for="address-field" class="form-label">Address</label>
-                        <input type="text" id="address-field" class="form-control" [(ngModel)]="formdata.address" placeholder="Enter Address" required />
-                      </div>
-           
-                      <div class="mb-3">
-                        <label for="phone-field" class="form-label">standard</label>
-                        <input type="text" id="phone-field" class="form-control" [(ngModel)]="formdata.standard" placeholder="Enter Phone no." required />
-                      </div>
-
-
-
-
-
-
-
-
-                      <div class="mb-3">
-                        <label for="date-field" class="form-label">parentname</label>
-                        <input type="text" id="date-field" class="form-control" [(ngModel)]="formdata.parentname"   placeholder="Enter Phone no."required />
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">section</label>
-                        <input type="text" id="date-field" class="form-control" [(ngModel)]="formdata.section"  placeholder="Enter Phone no." required />
-                      </div>
-                   
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">Dob</label>
-                        <input type="date" id="date-field" class="form-control" [(ngModel)]="formdata.Dob" required />
-                      </div>
-                   
-       
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn">Add Items</button>
-                       <button type="button" class="btn btn-success" id="edit-btn">Update</button> -->
-                    <!-- </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>  -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

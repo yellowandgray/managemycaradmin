@@ -138,8 +138,9 @@ add(){
 
 delet(id: string){
   this.apiService.deleteRouteData(id,this.SchoolId,this.vanId)
+  this.deleteModal?.hide()
     }
 
-
+ 
 
 }

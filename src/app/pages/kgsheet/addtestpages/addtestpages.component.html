@@ -1,8 +1,28 @@
-<div class="row">
+<div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Image Preview</h2>
+          <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
+         
+        </button>
+      </div>
+      <div class="modal-body align-items-center justify-content-center text-center">
+        <img *ngIf="selectedPreviewImage" [src]="selectedPreviewImage" class="img-fluid" alt="Preview" style="max-width: 100%; max-height: 100%; display: inline-block;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="row">
   <div class="col-lg-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title mb-0"> Add Test List </h4>
+      <div class="card-header d-flex  align-items-center">
+        <a [routerLink]="['/kgsheet/testpage']">
+          <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem;"></i>
+      </a>
+        <h4 class="card-title px-3 mb-0"> Add Test Question  </h4>
       </div>
       <div *ngIf="loading" class="text-center">
         <div class="spinner-border" role="status">
@@ -14,18 +34,19 @@
         <div id="customerList">
           <div class="row g-4 mb-3">
             <div class="col-sm-auto" *ngIf="addlists.length > 0">
-              <label class="form-label">List Name : {{addlists[0].name}}</label>
+              <label class="form-label"> <span style="color: #3762ea;">List Name : </span>  {{addlists[0].name}}</label>
             </div>
           </div>
-          <div class="mb-3">
-            <div *ngFor="let question of qstn.questions; let i = index" class="mb-3">
-              <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
+          <div class="mb-1">
+            <div *ngFor="let question of qstn.questions; let i = index" class="mb-1">
+              <label for="qstn{{ i }}" class="form-label" style="color: #3762ea;">Question {{ i + 1 }}</label>
               <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
 
-              <div class="row mb-3">
-                <div class="col-md-6">
+              <div class="row mb-3 ">
+                <div class="d-flex">
+                <div class="row-md-6 ">
                   <label class="p-2">A
-                    <div class="col-md-12 px-4">
+                    <div class="row-md-12 px-4">
                       <div class="input-group">
                         <!-- Input field for user input -->
                         <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
@@ -45,6 +66,7 @@
                           <div class="d-flex align-items-center px-2">
                             <div class="avatar-xs bg-light rounded p-1" style="height: 50px; width: 50px;">
                               <img *ngIf="selectedItemPictures[i] && selectedItemPictures[i]['a']" [src]="selectedItemPictures[i]['a']" alt=""
+                              (click)="showImagePreview(selectedItemPictures[i] && selectedItemPictures[i]['a'])"
                               class="img-fluid d-block" (error)="handleImageError($event)">
                             </div>
                           </div>
@@ -54,7 +76,7 @@
                   </label>
                                                                                                                                    
                   <label class="p-2">B
-                    <div class="col-md-12 px-4">
+                    <div class="row-md-12 px-4">
                       <div class="input-group">
                         <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
                         (click)="showDropdown = !showDropdown" [(ngModel)]="question.b_name"
@@ -69,7 +91,8 @@
                       <td class="picture">
                         <div class="d-flex align-items-center px-2">
                           <div class="avatar-xs bg-light rounded p-1" style="height: 50px; width: 50px;">
-                            <img *ngIf="selectedItemPictures[i] && selectedItemPictures[i]['a']" [src]="selectedItemPictures[i]['b']" alt=""
+                            <img *ngIf="selectedItemPictures[i] && selectedItemPictures[i]['b']" [src]="selectedItemPictures[i]['b']" alt=""
+                            (click)="showImagePreview(selectedItemPictures[i] && selectedItemPictures[i]['b'])"
                               class="img-fluid d-block">
                           </div>
                         </div>
@@ -78,7 +101,7 @@
                     </div>
                   </label>
                   <label class="p-2">C
-                    <div class="col-md-12 px-4">
+                    <div class="row-md-12 px-4">
                       <div class="input-group">
                         <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
                         (click)="showDropdown = !showDropdown" [(ngModel)]="question.c_name"
@@ -93,6 +116,7 @@
                         <div class="d-flex align-items-center px-2">
                           <div class="avatar-xs bg-light rounded p-1" style="height: 50px; width: 50px;">
                             <img *ngIf="selectedItemPictures[i] && selectedItemPictures[i]['c']" [src]="selectedItemPictures[i]['c']" alt=""
+                            (click)="showImagePreview(selectedItemPictures[i] && selectedItemPictures[i]['c'])"
                               class="img-fluid d-block">
                           </div>
                         </div>
@@ -101,7 +125,7 @@
                     </div>
                   </label>
                   <label class="p-2">D
-                    <div class="col-md-12 px-4">
+                    <div class="row-md-12 px-4">
                       <div class="input-group">
                         <input class="form-control" [attr.list]="'additems' + i" id="exampleDataList{{ i }}" placeholder="Search Item..."
                         (click)="showDropdown = !showDropdown" [(ngModel)]="question.d_name"
@@ -117,6 +141,7 @@
                         <div class="d-flex align-items-center px-2">
                           <div class="avatar-xs bg-light rounded p-1" style="height: 50px; width: 50px;">
                             <img *ngIf="selectedItemPictures[i] && selectedItemPictures[i]['d']" [src]="selectedItemPictures[i]['d']" alt=""
+                            (click)="showImagePreview(selectedItemPictures[i] && selectedItemPictures[i]['d'])"
                               class="img-fluid d-block">
                           </div>
                         </div>
@@ -127,9 +152,10 @@
                  
                 </div>
               </div>
+              </div>
 
               <div class="d-flex p-2 align-items-center">
-                <span class="me-3">Correct Answer:</span>
+                <span class="me-3"style="color: #3762ea;">Correct Answer:</span>
                 <select class="form-control" style="width: 80px;" [(ngModel)]="question.crtans">
                   <option value="a">A</option>
                   <option value="b">B</option>
@@ -139,12 +165,13 @@
               </div>
 
               <button type="button" class="btn btn-danger" (click)="removeQuestion(i, question?.id)">Remove Question</button>
-
+              <div class="pt-2 align-items-center">  <div class="card-body  border-top border-dashed black hstack align-items-center"> </div></div>
 
             </div>
-
-            <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
-            <button type="button" class="btn btn-success" (click)="saveQuestions(qstn.id)">Save Questions</button>
+   <div class="d-flex gap-4">  
+   <button type="button" class="btn btn-primary" (click)="addQuestion()">Add Question</button>
+  <button type="button" class="btn btn-success " (click)="saveQuestions(qstn.id)">Save Questions</button></div>
+         
           </div>
         </div>
       </div>

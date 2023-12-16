@@ -36,7 +36,7 @@ export function createTranslateLoader(http: HttpClient): any {
 @NgModule({
   declarations: [
     AppComponent,
-    AuthlayoutComponent,
+    AuthlayoutComponent
  
   ],
   imports: [

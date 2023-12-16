@@ -10,6 +10,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comprehension, Question } from '../api/compstudentobj';
 import { Index } from 'firebase/firestore';
+import { KgSheet } from '../api/kgsheetobj';
+import { Addlist } from '../api/addlistobj';
 @Component({
   selector: 'app-student-details',
   templateUrl: './student-details.component.html',
@@ -17,9 +19,10 @@ import { Index } from 'firebase/firestore';
 })
 export class StudentDetailsComponent {
   breadCrumbItems!: Array<{}>;
-  currentTab:any = "Profile"
+  currentTab:any = "Behaviour"
   score:Score[]=[];
   scoreform:Score[]=[];
+  kgsheet:KgSheet[]=[];
   emp: Comprehension = new Comprehension(); 
   MessageFormData: FormGroup;
   SchoolId:string='stZWDh06GmAGgnoqctcE';
@@ -29,6 +32,7 @@ export class StudentDetailsComponent {
   
   dataSubscription: Subscription | null = null;
   comprehensions: Comprehension[] = [];
+  addlists: Addlist[] = [];
   rec_no: string | null;
   name: string | null;
   standard: string | null;
@@ -39,6 +43,7 @@ export class StudentDetailsComponent {
   mobile: string | null;
   image: string | null;
   studentid: string | null;
+  selectedTab: number | null = null;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
  
   constructor(private route: ActivatedRoute,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private formBuilder: FormBuilder,private fb: FormBuilder) { 
@@ -93,10 +98,10 @@ export class StudentDetailsComponent {
       this.address = params.get('address');
       this.mobile = params.get('mobile');
       this.image = params.get('image');
-
+      this.selectedTab = params.get('select') ? +params.get('select')! : null;
     });
    
-
+   
     this.route.paramMap.subscribe((params) => {
       this.studentid = params.get('studentid');
      
@@ -105,9 +110,23 @@ export class StudentDetailsComponent {
   
         this.score = this.score.filter(score => score.stuid === this.studentid);
       });
+
+      this.apiService.getKgsheetQuestionsData(this.SchoolId, this.ScoreId).subscribe(actions => {
+        this.kgsheet = actions.map(action => action.payload.doc.data() as KgSheet);
+  console.log(   this.kgsheet = actions.map(action => action.payload.doc.data() as KgSheet),'check')
+        this.kgsheet = this.kgsheet.filter(kgsheet => kgsheet.stuid === this.studentid);
+        console.log(this.kgsheet,'check')
+      });
+
       
     });
+
+
+    
+    this.apiService.getListData(this.kgSheetId).subscribe(actions => {
+      this.addlists = actions.map(action => action.payload.doc.data() as Addlist);
   
+    });
 
     this.dataSubscription = this.apiService.getComprehensionData(this.GrammarId).subscribe(comprehensions => {
       comprehensions.forEach(comprehension => {
@@ -122,14 +141,15 @@ export class StudentDetailsComponent {
         });
       });
     });
-    
+  
 
-    // this.apiService.getKgsheetQuestionsData(this.GrammarId,kgSheetId)
     this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
+    
    
   }
 
   changeTab(tab: string) {
+    console.log(this.currentTab = tab,'check')
     this.currentTab = tab;
   }
 
@@ -144,6 +164,11 @@ export class StudentDetailsComponent {
     
   }
 
+  getlist(kgtestid: string): string {
+    const comp = this.addlists.find((d) => d.id === kgtestid);
+    return comp ? comp.name: 'No Driver Assign';
+    
+  }
   
 
   getcompno(compId: string): string {

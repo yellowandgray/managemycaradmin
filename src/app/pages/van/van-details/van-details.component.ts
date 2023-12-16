@@ -4,7 +4,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ApiService } from '../api/api.service';
 import { Van } from '../api/addvanobj';
 import { ActivatedRoute } from '@angular/router';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-van-details',
   templateUrl: './van-details.component.html',
@@ -17,7 +17,7 @@ export class VanDetailsComponent {
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
 
-  constructor(private apiService: ApiService,private route: ActivatedRoute ){ this.van = '';}
+  constructor(private apiService: ApiService,private route: ActivatedRoute ,private location: Location ){ this.van = '';}
  
   ngOnInit(){
     this.route.paramMap.subscribe((params) => {
@@ -31,5 +31,7 @@ export class VanDetailsComponent {
     });
   
   }
-
+  goBack() {
+    this.location.back();
+  }
 }

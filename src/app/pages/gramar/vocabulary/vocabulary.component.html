@@ -1,1 +1,278 @@
-<p>vocabulary works!</p>
+
+
+  
+
+
+
+
+        
+
+
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
+
+
+<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Update Vocabulary</h5>
+                <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+
+                  
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Name</label>
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Description</label>
+                        <input type="text"  class="form-control" formControlName="desc"  [(ngModel)]="emp.desc" placeholder="Enter Desription" required />
+                    </div>
+                   
+                    
+                 
+
+                    <div class="mb-3">
+                        <label class="form-label">Photo</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]="image_path || emp.pic" width="200px" height="150px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-ghost-danger" (click)="showModals.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
+                      
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
+                      
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Add Vocabulary</h5>
+                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
+            </div>
+            <form class="tablelist-form" [formGroup]="MessageFormData">
+                <div class="modal-body">
+                    <input type="hidden" name="id" value="" formControlName="ids" />
+
+        
+                   
+
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Name</label>
+                        <input type="text"  class="form-control" formControlName="name"  [(ngModel)]="emp.name" placeholder="Enter Name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="customername-field" class="form-label"> Description</label>
+                        <input type="text"  class="form-control" formControlName="desc"  [(ngModel)]="emp.desc" placeholder="Enter Desription" required />
+                    </div>
+                    
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Photo</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div class="text-left">
+                                    <img [src]=" image_path ||emp.pic" width="100px" height="100px" (click)="fileUploader.click()">
+                                </div>
+                            </div>
+                            
+                            
+                            <div>
+                                <div class="form-group justify-content-center">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                  
+                </div>
+                <div class="modal-footer">
+                    <div class="hstack gap-2 justify-content-end">
+                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
+                       
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Image Preview</h2>
+            <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
+            
+          </button>
+        </div>
+        <div class="modal-body align-items-center justify-content-center text-center">
+          <img *ngIf="selectedPreviewImage" [src]="selectedPreviewImage" class="img-fluid" alt="Preview" style="max-width: 100%; max-height: 100%; display: inline-block;">
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+<div>
+<div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Vocabulary List </h4>
+            </div>
+            <div class="card-body">
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto">
+                            <div class="search-box ms-2">
+                                <input type="text"  class="form-control search order-last order-md-first"  placeholder="Search by Name" >
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                            </div>
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>
+                                        Add</button>
+                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                            Import</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div  class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="sort" listsortable="customer_name" >No.
+                                    </th>
+                                    <th class="sort" listsortable="email">Name</th>
+                                    <th class="sort" listsortable="customer_name" >Photo
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >Description
+                                    </th>
+                                 
+                                    <th class="sort" listsortable="email">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                                <tr *ngFor="let data of vocabulary;let i = index;" >
+                                    <td class="date">{{i+1}}</td>
+                                    <td class="date">{{data.name}}</td>
+                                    <td class="picture">
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
+                                                <img src={{data.pic}} alt="" (click)="showImagePreview(data.pic)" class="img-fluid d-block  " style="object-fit: cover; width: 100%; height: 100%;">
+                                            </div>
+                                          
+                                        </div>
+                                    </td>
+                                    <!-- <td class="date">{{data.desc}}</td> -->
+                                    <td class="customer_name" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                        {{data.desc}}
+                                      </td>
+                                    
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <div class="edit">
+                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="edit(i)">Edit</button>
+                                            </div>
+                                            <div class="remove">
+                                                <button class="btn btn-sm btn-danger remove-item-btn" (click)="deletpop(data.id)">Remove</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                   
+                                   
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="pagination-wrap hstack gap-2">
+                            <pagination class="pagination-wrap hstack gap-2" [totalItems]="10" [itemsPerPage]="30" ></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+   
+
+
+    <div id="deleteRecordModal" class="modal fade zoomIn" bsModal #deleteModal="bs-modal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
+                </div>
+                <div class="modal-body p-md-5">
+                    <div class="text-center">
+                        <div class="text-danger">
+                            <i class="bi bi-trash display-4"></i>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="mb-2">Are you sure ?</h3>
+                            <p class="text-muted fs-lg mx-3 mb-0">Are you sure you want to remove this record ?</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                        <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
+                        <button type="button" class="btn w-sm btn-danger btn-hover" id="delete-record" (click)="delet(deleteId)">Yes, Delete It!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title">Image Preview</h2>
+                <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
+                
+              </button>
+            </div>
+            <div class="modal-body align-items-center justify-content-center text-center">
+              <img *ngIf="selectedPreviewImage" [src]="selectedPreviewImage" class="img-fluid" alt="Preview" style="max-width: 100%; max-height: 100%; display: inline-block;">
+            </div>
+          </div>
+        </div>
+      </div>
+     
+    <div>
+    <div>

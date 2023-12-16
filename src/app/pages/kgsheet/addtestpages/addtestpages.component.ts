@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ListQuestion } from '../api/listquestionsobj';
 import { Addlist } from '../api/addlistobj';
@@ -9,6 +9,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Additems } from '../api/additemobj';
 import { Question } from '../../gramar/api/comprehensionobj';
 import { isEmpty } from 'lodash';
+import Swal from 'sweetalert2';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 
 
@@ -48,6 +50,9 @@ optionNames: any = {};
 index: number = 0; // Assign the appropriate initial value
 option: string = '';
 curr: number = 0;
+selectedPreviewImage: string | null = null;
+@ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
+
 selectedItemPictures: { [question: string]: { [category: string]: string } } = {};
 
 
@@ -268,10 +273,22 @@ selectedItemPictures: { [question: string]: { [category: string]: string } } = {
       }
     } else {
       console.error('Question ID is undefined.');
+      this.qstn.questions.splice(index, 1);
+      this.qstnnew.questions.splice(index, 1);
     }
+   
   }
  
-
+  position() {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'successfully saved',
+      showConfirmButton: false,
+      showCancelButton: true,
+      timer: 1500,
+    });
+  }
 
 
 
@@ -293,11 +310,14 @@ selectedItemPictures: { [question: string]: { [category: string]: string } } = {
        this.apiService.createListQuestions(this.qstnnew, this.kgSheetId, this.cur_list_id);
         this.qstnnew = new Addlist();
       }
-   
+      this.position()
    
   }
 
-
+  showImagePreview(imageUrl: string) {
+    this.selectedPreviewImage = imageUrl;
+    this.showModals1?.show(); // Show the modal
+  }
 
 
   updateOptionNames(question: any, index: number) {

@@ -14,55 +14,65 @@
                 <form [formGroup]="MessageFormData">
 
                     <div class="mb-2">
-                        <label for="no" class="form-label">No. : {{emp.no}}</label>
-                       
+                        <label for="no" class="form-label "><span style="color: #3762ea;">No :</span> {{emp.no}}</label>
+
                     </div>
 
                     <div class="mb-2">
-                        <label for="title" class="form-label">Title : {{emp.title}}</label>
+                        <label for="title" class="form-label"><span style="color: #3762ea;">Title :</span>
+                            {{emp.title}}</label>
                     </div>
                     <div class="mb-2">
-                       <div class="form-label">Paragraph:</div>
-                        <label for="paragraph" class="form-label"  [innerHTML]="emp.paragraph"></label>
+                        <div class="form-label " style="color: #3762ea;">Paragraph :</div>
+                        <label for="paragraph" class="form-label" [innerHTML]="emp.paragraph"></label>
                     </div>
-                     
-                   
+
+
                 </form>
 
                 <div *ngFor="let question of emp.questions; let i = index" class="">
                     <div *ngFor="let data of scoreform">
-                        <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
-                        <div>{{question.qstn}}</div>
-                        <div class="d-flex p-2">
-                            <div  class="col-md-6 me-2" [ngStyle]="{
+
+                        <label for="qstn{{ i }}" class="form-label pt-1" style="color: #3762ea;">Question {{ i + 1 }}</label>
+                        
+
+
+                        <div class="row-md-12">
+                            <div class="mb-1">{{question.qstn}}</div>
+                            <label class=" ms-2 col-md-2"
+                                [ngStyle]="{
                     'background-color': data.stuanswer[i] === data.answers[i] && data.answers[i] === 'a' ? '#5ced73' :
                                         (data.stuanswer[i] !== data.answers[i] && data.stuanswer[i] === 'a' ? '#fb6767' :
-                                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'a' ? '#5ced73' : '')),}"> A. {{question.a}}</div>
+                                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'a' ? '#5ced73' : '')),}"> A.
+                                {{question.a}}</label>
 
-                            <div class="col-md-6 ms-1" [ngStyle]="{
+                            <label class="ms-2 col-md-2" [ngStyle]="{
     'background-color': data.stuanswer[i] === data.answers[i] && data.answers[i] === 'b' ? '#5ced73' :
                         (data.stuanswer[i] !== data.answers[i] && data.stuanswer[i] === 'b' ? '#fb6767' :
-                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'b' ? '#5ced73' : ''))}"> B. {{question.b}}</div>
+                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'b' ? '#5ced73' : ''))}"> B.
+                                {{question.b}}</label>
 
-                        </div>
 
-
-                        <div class="d-flex p-2">
-                            <div class="col-md-6 me-2" [ngStyle]="{
+                            <label class="ms-2 col-md-2" [ngStyle]="{
     'background-color': data.stuanswer[i] === data.answers[i] && data.answers[i] === 'c' ? '#5ced73' :
                         (data.stuanswer[i] !== data.answers[i] && data.stuanswer[i] === 'c' ? '#fb6767' :
-                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'c' ? '#5ced73' : '')),}"> C. {{question.c}}</div>
+                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'c' ? '#5ced73' : '')),}"> C.
+                                {{question.c}}</label>
 
 
-                            <div class="col-md-6 ms-1" [ngStyle]="{
+                            <label class=" ms-2 col-md-2" [ngStyle]="{
     'background-color': data.stuanswer[i] === data.answers[i] && data.answers[i] === 'd' ? '#5ced73' :
                         (data.stuanswer[i] !== data.answers[i] && data.stuanswer[i] === 'd' ? '#fb6767' :
-                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'd' ? '#5ced73' : '')), }"> D. {{question.d}}</div>
+                         (data.stuanswer[i] !== data.answers[i] && data.answers[i] === 'd' ? '#5ced73' : '')), }"> D.
+                                {{question.d}}</label>
+
+
                         </div>
-
                     </div>
+                    <div class="p-2 align-items-center">  <div class="card-body  border-top border-dashed black hstack align-items-center"> </div></div>
+                  
                 </div>
-
+              
 
 
             </div>
@@ -77,15 +87,15 @@
         <a [routerLink]="['/addressbook/student']">
             <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem;"></i>
         </a>
-        <h5 class="px-3 mb-0">Student Details</h5>
+        <h5 class="px-3 mb-0">{{name}}, {{standard}} {{section}}</h5>
     </div>
 
     <div class="card">
         <div class="card-body">
 
 
-            <tabset type="pills" [justified]="true" class="mb-3" role="tablist">
-                <tab heading="Profile" class="nav-item">
+            <tabset type="pills" [justified]="true" class="mb-3" role="tablist"  [(ngModel)]="selectedTab" >
+                <tab heading="Profile" class="nav-item" [active]="selectedTab === 1">
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -140,7 +150,7 @@
                 </tab>
 
 
-                <tab heading="Marks" class="nav-item">
+                <tab heading="Marks" class="nav-item" [active]="selectedTab === 2">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>
@@ -160,7 +170,8 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Behaviour" class="nav-item">
+
+                <tab heading="Behaviour" class="nav-item" [active]="selectedTab === 3">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>
@@ -180,36 +191,35 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="KG Sheet" class="nav-item">
+                <tab heading="KG Sheet" class="nav-item" [active]="selectedTab === 4">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
                         <thead class="table-light">
                             <tr>
                                 <th class="sort" listsortable="customer_name">No.
                                 </th>
-                                <th class="sort" listsortable="email">List Name</th>
+                                <th class="sort" listsortable="email">Title</th>
                                 <th class="sort" listsortable="customer_name">Total Question
                                 </th>
-                                <th class="sort" listsortable="customer_name">Correct Answer
+                                <th class="sort" listsortable="customer_name">Total Attended
                                 </th>
-                                <th class="sort" listsortable="customer_name">view
-                                </th>
+                              
 
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            <tr *ngFor="let data of score let i=index;">
-                                <td class="date">{{getcompno( data.compid)}}</td>
-                                <td class="date">{{getcomp( data.compid)}}</td>
-                                <td  style="margin-left: 10px;">{{getcompqute(data.compid)}}</td>
-                                  <td class="AssignToContainer">
-                                <div style="margin-left: 10px;">{{data.crtans}}</div>
-                                  </td>
-                                  <td class="bi bi-eye align-baseline me-1" style="font-size: 1.7rem;" (click)="editComprehension(data.compid,i)"></td>
-                                
+                            <tr *ngFor="let data of kgsheet let i=index;">
+                                <td class="date">{{i+1}}</td>
+                                <td class="date">{{ getlist(data.kgtestid)}}</td>
+
+                                <td style="margin-left: 10px;">{{data.answers.length}}</td>
+                                <td class="AssignToContainer">
+                                    <div style="margin-left: 10px;">{{data.totalatnd}}</div>
+                                </td>
+
                         </tbody>
                     </table>
                 </tab>
-                <tab heading="Comprehension" class="nav-item">
+                <tab heading="Comprehension" class="nav-item" [active]="selectedTab === 5">
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0"
                             id="customerTable">
@@ -245,7 +255,7 @@
 
                     </div>
                 </tab>
-                <tab heading="Fees" class="nav-item">
+                <tab heading="Fees" class="nav-item" [active]="selectedTab === 6">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>
@@ -265,7 +275,7 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading="Van" class="nav-item">
+                <tab heading="Van" class="nav-item" [active]="selectedTab === 7">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>

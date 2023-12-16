@@ -1,10 +1,4 @@
 
-
-
-   
-
-
-
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 <div>
 <div class="row">
@@ -12,13 +6,15 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title mb-0">Arrival Entry List </h4>
-            </div><!-- end card header -->
+             
+
+            </div>
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3 ">
                         <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
-                                <input type="Date"   id="date-field" class="form-control " placeholder="search R. No." >
+                                <input type="Date"   id="date-field" class="form-control "  [(ngModel)]="searchTerm"placeholder="search R. No." (input)="filteredTeacher($event)"  >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             <div class="search-box ms-2">
@@ -60,11 +56,11 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of arrivals;let i = index;" >
+                                <tr *ngFor="let data of filteredTeachers ;let i = index;" >
                                     <td class="date">{{data.date}}</td>
-                                    <td class="date">{{data.rno}}</td>
+                                    <td class="date"><a [routerLink]="['/van/routes',{routeno:data.rno}]">{{data.rno }}</a></td>
                                     <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
-                                    <td class="customer_name">{{data.driname}}</td>
+                                    <td class="customer_name"><a [routerLink]="['/addressbook/driver-detail',{driverid:data.driid}]" >{{data.driname}}</a></td>
                                     <td class="customer_name">{{data.ccgpresent}}</td>
                                     <td class="customer_name">{{data.uniform}}</td>
                                     <td class="date">{{data.remarks}}</td>
@@ -88,6 +84,5 @@
     </div>
 </div>
    
-
 
 

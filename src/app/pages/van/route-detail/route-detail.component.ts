@@ -4,7 +4,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Route } from '../api/routeobj';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-route-detail',
@@ -22,7 +23,7 @@ export class RouteDetailComponent {
   vanId:string='FODMJA3V33EWUiSDFM5F';
   routeno: string | null;
  
-  constructor(private apiService: ApiService, private route: ActivatedRoute) {
+  constructor(private apiService: ApiService, private route: ActivatedRoute,private location: Location ) {
     this.routeno = '';
   }
 ngOnInit(){
@@ -37,6 +38,10 @@ ngOnInit(){
   });
 
 }
+goBack() {
+  this.location.back();
+}
+
 
 }
 

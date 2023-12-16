@@ -321,7 +321,7 @@
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of filteredTeachers;let i = index;" id="a_{{data.id}}">
                                    
-                                    <td class="customer_name">{{data.name}}</td>
+                                    <td class="customer_name"><a [routerLink]="['/addressbook/teacher-detail',{teacherid:data.id}]"> {{data.name}}</a> </td>
                                     <td class="customer_name">{{data.age}}</td>
                                     <td class="picture">
                                         <div class="d-flex align-items-center">

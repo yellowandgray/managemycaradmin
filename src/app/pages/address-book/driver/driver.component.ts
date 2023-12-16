@@ -19,8 +19,8 @@ export class DriverComponent {
   Drivers: Driver[] = [];
   MessageFormData: FormGroup;
   emp: Driver = new Driver();
-
-
+  searchTerm: string = '';
+  filteredDrivers:  Driver[] = [];
  
   emps: { image: string } = { image: '' }; // Assuming emp object has an image property
  
@@ -108,6 +108,7 @@ export class DriverComponent {
    
     this.apiService.getDriverData(this.SchoolId).subscribe(actions => {
       this.Drivers = actions.map(action => action.payload.doc.data() as Driver);
+      this.filteredDrivers = [...this.Drivers];
       this.loading = false; 
     });
   }
@@ -361,6 +362,35 @@ this.deleteModal?.hide()
   resetForm() {
     this.selectedImage = null;
     this.isSubmitted = false;
+  }
+
+
+  filteredDriver(event: any): void {
+    const value = event.target.value;
+    console.log('Filtering by name...', value);
+    this.searchTerm = value;
+    this.filterDriver();
+  }
+ 
+ 
+  filterDriver() {
+    console.log('Filtering...', this.searchTerm);
+
+
+    this.filteredDrivers = this.Drivers.filter(Driver=> {
+     
+      const nameMatch = !this.searchTerm || Driver.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+      return nameMatch;
+    });
+
+
+    if (!this.filteredDrivers.length) {
+      console.log('Nooo Students...');
+      this.filteredDrivers = [];
+      console.log(this.filteredDrivers);
+    }
   }
 
 

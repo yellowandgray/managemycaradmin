@@ -1,4 +1,4 @@
-import { ListQuestion } from "./listquestionsobj";
+
 
 
 export class Addlist {
@@ -8,6 +8,6 @@ export class Addlist {
     items:string[] = [];
     list_id:string='';
     standard: string[] = [];
-    questions: ListQuestion[] = [];
+ 
    
   }

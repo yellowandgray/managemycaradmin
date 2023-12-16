@@ -7,6 +7,7 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { DriverComponent } from './driver/driver.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { DriverDetailsComponent } from './driver-details/driver-details.component';
+import { TeacherDetailsComponent } from './teacher-details/teacher-details.component';
 
 // Component
 
@@ -41,6 +42,11 @@ const routes: Routes = [
         path: "driver-detail",
         component: DriverDetailsComponent
     },
+    {
+        path: "teacher-detail",
+        component: TeacherDetailsComponent
+    },
+    
     
 ];
 

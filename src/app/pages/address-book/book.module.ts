@@ -32,6 +32,7 @@ import { StudentComponent } from './student/student.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { DriverDetailsComponent } from './driver-details/driver-details.component';
+import { TeacherDetailsComponent } from './teacher-details/teacher-details.component';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { DriverDetailsComponent } from './driver-details/driver-details.componen
     DriverComponent,
     StudentDetailsComponent,
     DriverDetailsComponent,
+    TeacherDetailsComponent,
 
 
     // NgbdListSortableHeader,

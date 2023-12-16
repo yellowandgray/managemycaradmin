@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Driver } from '../api/driverobj';
 import { ApiService } from '../api/api.service';
 import { ActivatedRoute } from '@angular/router';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-driver-details',
   templateUrl: './driver-details.component.html',
@@ -13,7 +13,7 @@ export class DriverDetailsComponent {
   driverdetails:Driver[] = [];
   driverid:string |null;
   SchoolId:string='stZWDh06GmAGgnoqctcE';
-  constructor(private apiService: ApiService,private route: ActivatedRoute  ) {this.driverid = '';}
+  constructor(private apiService: ApiService,private route: ActivatedRoute,private location: Location  ) {this.driverid = '';}
   ngOnInit(){
     this.route.paramMap.subscribe((params) => {
       this.driverid = params.get('driverid');
@@ -25,5 +25,8 @@ export class DriverDetailsComponent {
       
     });
   
+  }
+  goBack() {
+    this.location.back();
   }
 }

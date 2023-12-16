@@ -7,7 +7,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 
 import * as firebase from "firebase/compat";
-import { Comprehension } from "./comprehensionobj";
+import { Comprehension, Vocabulary } from "./comprehensionobj";
 import { Observable, map } from "rxjs";
 import { Assign } from "./assignobj ";
 
@@ -157,6 +157,42 @@ import { Assign } from "./assignobj ";
       }
     }
    
+
+    //vocabulary
+    getVocabularyData(SchoolId: string) {
+      return this.firestore.collection(`Grammar/${SchoolId}/Vocabulary`).snapshotChanges();
+   
+     }
+     createVocabularyData(obj: Vocabulary, GrammarId: string) {
+      const comprehensionDocRef =  this.firestore.collection(`Grammar/${GrammarId}/Vocabulary`).add({
+        'id': '',
+        'name': obj.name,
+        'desc': obj.desc,
+        'pic': obj.pic,
+      }).then(async docRef => {
+        console.log(docRef.id);
+        await this.firestore.doc(`Grammar/${GrammarId}/Vocabulary/`+ docRef.id).update({
+          'id':docRef.id})
+      });}
+
+
+
+      async updatevocabularyData(id: string, obj: Vocabulary, GrammarId: string) {
+        // Step 1: Update the main document
+        await this.firestore.doc(`Grammar/${GrammarId}/Vocabulary/${id}`).update({
+          'name': obj.name,
+          'desc': obj.desc,
+          'pic': obj.pic,
+         
+        });
+
+      }
+      deletevocabularyData(dataId: string,GrammarId: string){    
+        this.firestore.doc(`Grammar/${GrammarId}/Vocabulary/` + dataId).delete();
+      }
+
+
+
     // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
     //   const batch = this.firestore.firestore.batch();
     

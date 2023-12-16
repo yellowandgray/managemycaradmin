@@ -1,7 +1,3 @@
-
-
-
-
 import { Component, Inject, ViewChild } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { Student } from '../api/addressobj';
@@ -10,6 +6,11 @@ import {  ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { parse } from 'date-fns';
+
+
+
+
 
 
 
@@ -18,6 +19,10 @@ import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
 import { Router, Routes } from '@angular/router';
 import { StudentDetailsComponent } from '../student-details/student-details.component';
+
+
+
+
 
 
 
@@ -42,6 +47,13 @@ export class StudentComponent {
 
 
 
+
+
+
+
+
+
+
  
   emps: { image: string } = { image: '' };
  
@@ -57,7 +69,11 @@ export class StudentComponent {
   loading: boolean = true;
 
 
+
+
   selectedStandard: string = '';
+//Set current Batch year here......
+  selectedBatch: string = '2023-24';
   selectedSection: string = '';
   searchTerm: string = '';
   filteredStudents: Student[] = [];
@@ -69,8 +85,16 @@ export class StudentComponent {
 
 
 
+
+
+
+
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
+
+
+
+
 
 
 
@@ -79,11 +103,18 @@ export class StudentComponent {
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
+
 //  routes: Routes = [
+
 
 //     { path: 'addressbook/studentdetails/:name', component: StudentDetailsComponent },
 //   ];
  
+
+
+
+
+
 
 
 
@@ -95,7 +126,8 @@ export class StudentComponent {
       'number': new FormControl('', Validators.required),  
       'name': new FormControl('', Validators.required),      
       'Dob': new FormControl('', Validators.required),      
-      'standard': new FormControl('', Validators.required),      
+      'standard': new FormControl('', Validators.required),    
+      'batch': new FormControl('', Validators.required),    
       'mobile': new FormControl('', Validators.required),      
       'section': new FormControl('', Validators.required),
       'address': new FormControl('', Validators.required),  
@@ -112,6 +144,14 @@ export class StudentComponent {
 
 
 
+
+
+
+
+
+
+
+
       this.MessageFormData.patchValue({      
         name: this.emp.name,
         Dob: this.emp.Dob,
@@ -120,6 +160,7 @@ export class StudentComponent {
         section:  this.emp.section,  
         parentname:  this.emp.parentname,  
         standard:  this.emp.standard,  
+        batch: this.emp.batch,
         number: this.emp.rec_no,
         image:this.emp.image,
  
@@ -134,13 +175,16 @@ export class StudentComponent {
       this.emp.section= this.emp.standard;  
       this.emp.id= this.emp.id;  
       this.emp.standard= this.emp.standard;  
+      this.emp.batch = this.emp.batch;
       this.emp.image=this.emp.image;
       // this.emp.eyal_id= this.data.data.eyal_id;  
     }
     // getAddressBookData()
   }
 
+
  
+
 
   ngOnInit() {
     this.loading= true;
@@ -162,9 +206,15 @@ export class StudentComponent {
   }
 
 
+
+
   displayFn(student: Student): string {
     return student && student.name ? student.name : '';
   }
+
+
+
+
 
 
 
@@ -177,24 +227,14 @@ export class StudentComponent {
  
  
   filterStudents() {
-
-
-
-
-    // this.filteredStudents = this.students.filter(student => {
-    //   const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
-    //   const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
-    //   const nameMatch = !this.searchTerm || student.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-
-
-
-    //   return standardMatch && sectionMatch && nameMatch;
-    // });
-   
   this.filteredStudents = this.students.filter(student => {
+   // console.log("Selected Batch",this.selectedBatch);
+    const batchMatch = !this.selectedBatch || student.batch === this.selectedBatch;
+  //  console.log("Selected Batch",batchMatch);
     const standardMatch = !this.selectedStandard || student.standard === this.selectedStandard;
     const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
+
+
    
     // Check if the student's name contains the search term
     const nameMatch = this.searchTerm
@@ -202,9 +242,13 @@ export class StudentComponent {
       : true;
 
 
-    return standardMatch && sectionMatch && nameMatch;
+
+
+    return batchMatch && standardMatch && sectionMatch && nameMatch;
   });
     this.currentPage = 1;
+
+
 
 
     // If there are no matches, set filteredStudents to an empty array
@@ -212,6 +256,7 @@ export class StudentComponent {
       this.filteredStudents = [];
     }
   }
+
 
   navigateToDetails(name: string) {
  
@@ -235,20 +280,10 @@ export class StudentComponent {
     this.deleteModal?.show()
      this.deleteId=id;
 
+
   }
 
 
-
-
-
-
-
-  // ngOnInit() {
-  //   // Subscribe to the address-book collection data
-  //   this.apiService.getAddressBookData().subscribe(actions => {
-  //     this.students = actions.map(action => action.payload.doc.data() as Student);
-  //   });
-  // }
   delet(id: string){
 this.apiService.deleteStudentData(id)
 this.deleteModal?.hide()
@@ -268,14 +303,6 @@ this.deleteModal?.hide()
         var category = 'images';
         var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
         const fileRef = this.storage.ref(filePath);
-
-
-
-
-
-
-
-
         this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
@@ -291,65 +318,25 @@ this.deleteModal?.hide()
           }
         );
       }
-
-
-
-
-
-
-
-
     }
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
     }
   }
-
-
-
-
   add(){
     this.MessageFormData;
     this.deleteRecordModal?.show()
     this.emp = new Student();
- 
-   
   }
-
-
-
-
- 
-// In your component class
-// In your component class
-
-
-
-
-// Initialize filteredStudents to show all students initially
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
  
   save() {
 
 
+console.log("student data",this.emp);
     if (this.selectedImage) {
+
+
       this.apiService.createStudentData(this.emp);
       this.resetFilters();
       this.emp = new Student();
@@ -367,10 +354,6 @@ this.deleteModal?.hide()
 
 
 
-
-
-
-
   importExcel(): void {
     // Trigger the file input
     const fileInput = document.getElementById('fileInput');
@@ -378,12 +361,6 @@ this.deleteModal?.hide()
       fileInput.click();
     }
   }
-
-
-
-
-
-
 
 
   onFileChange(event: any): void {
@@ -395,45 +372,23 @@ this.deleteModal?.hide()
       this.excelService.readExcel(file).then((data: any[]) => {
           // Check if data is not null, has more than minimumRows rows, and other conditions if needed
           if (data && data.length > 0 && data.length >= 5) {
- 
               data.forEach((student: any) => {
                   const rec_no = student[0];
                   const dob1 = student[3];
- 
-                  if (rec_no != null && rec_no !== undefined) {
-                 
+                  const dobDate = parse(dob1, 'dd-MM-yyyy', new Date());
+                  if (rec_no != null && rec_no !== undefined) {  
+                    console.log("Dob",dob1);              
                     const millisecondsPerDay = 24 * 60 * 60 * 1000;
-        const jsDate = new Date((dob1 - 1) * millisecondsPerDay + Date.UTC(1900, 0, 1));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    const jsDate = new Date((dob1 - 1) * millisecondsPerDay + Date.UTC(1899, 11, 30));
         // Format the date as desired
-        const formattedDate = jsDate.toLocaleDateString('en-CA');
-       
-
-
-
-
-
-
-
-
+        const formattedDate = dobDate.toLocaleDateString('en-CA');
+                 // const formattedDate = jsDate.toLocaleDateString('en-CA');
                       const studentData: Student = {
                           rec_no: rec_no,
                           name: student[1],
                           standard: student[6],
                           section: student[7],
+                          batch:student[8],
                           Dob: formattedDate,
                           parentname: student[5],
                           address: student[4],
@@ -443,6 +398,7 @@ this.deleteModal?.hide()
                           role: 'student',
                           school: ''
                       };
+                      console.log("student DAta",studentData);
  
                       this.apiService.createStudentData(studentData).then(
                           () => {
@@ -465,25 +421,6 @@ this.deleteModal?.hide()
       });
   }
   }
- 
- 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    update(id: string)
    {
     if (this.selectedStudentIndex !== null) {
@@ -493,12 +430,6 @@ this.deleteModal?.hide()
       this.resetForm();
       this.resetFilters();
     }
-
-
-
-
-
-
    }
    
    editStudent(index: number) {
@@ -547,10 +478,6 @@ this.deleteModal?.hide()
     const endIndex = startIndex + this.itemsPerPage;
     return this.filteredStudents.slice(startIndex, endIndex);
   }
- 
-
-
- 
   getTotalPages(): number {
     return Math.ceil(this.filteredStudents.length / this.itemsPerPage);
   }
@@ -564,40 +491,4 @@ this.deleteModal?.hide()
   }
 
 
-
-
- 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

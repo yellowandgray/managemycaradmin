@@ -42,13 +42,13 @@
 
 
     <div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" data-bs-backdrop="static" data-bs-keyboard="false">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable " style="max-width: 1000px;">
           <div class="modal-content border-0">
               <div class="modal-header bg-danger p-3">
                   <h5 class="modal-title text-white" id="deleteRecordModal"> Update Comprehension</h5>
                   <button type="button" class="btn-close btn-close-white" (click)="deleteRecordModal.hide()" ></button>
               </div>
-              <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+              <div class="modal-body" style="max-height: 800px; overflow-y: auto;">
                 <input type="hidden" name="id" value="" formControlName="ids" />
                 <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                 <input type="hidden" id="id-field">
@@ -56,23 +56,23 @@
               <form [formGroup]="MessageFormData">
    
                 <div class="mb-3">
-                  <label for="no" class="form-label">No.</label>
+                  <label for="no" class="form-label" style="color: #3762ea;">No.</label>
                   <input type="number" id="no" class="form-control" formControlName="no" [(ngModel)]="emp.no" required />
                 </div>
              
                 <div class="mb-3">
-                  <label for="title" class="form-label">Title</label>
+                  <label for="title" class="form-label"style="color: #3762ea;">Title</label>
                   <input type="text" class="form-control" formControlName="title" [(ngModel)]="emp.title" placeholder="Enter Title" required />
                 </div>
              
                 <div class="mb-3">
-                  <label for="paragraph" class="form-label">Paragraph</label>
+                  <label for="paragraph" class="form-label"style="color: #3762ea;">Paragraph</label>
                   <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph" required style="height: 120px;"></textarea>
                 </div>
                
               </form>
               <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
-                <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
+                <label for="qstn{{ i }}" class="form-label" style="color: #3762ea;">Question {{ i + 1 }}</label>
                 <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
              
                 <label class="p-2">A <input type="text" class="form-control search" [(ngModel)]="question.a" /></label>
@@ -211,40 +211,40 @@
 
 
 <div bsModal #addCourse="bs-modal" class="modal fade" id="addCourse" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 1000px;">
       <div class="modal-content border-0">
           <div class="modal-header bg-danger p-3">
               <h5 class="modal-title text-white" id="addCourseModalLabel">Add Comprehension</h5>
               <button type="button" class="btn-close btn-close-white" (click)="addCourse.hide()"></button>
           </div>
-          <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+          <div class="modal-body" style="max-height: 800px; overflow-y: auto;">
             <input type="hidden" name="id" value="" formControlName="ids" />
             <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
             <input type="hidden" id="id-field">
 
 
           <form [formGroup]="MessageFormData">
-
+           
 
             <div class="mb-3">
-              <label for="no" class="form-label">No.</label>
+              <label for="no" class="form-label" style="color: #3762ea;">No.</label>
               <input type="number" id="no" class="form-control" formControlName="no" [(ngModel)]="emp.no" required />
             </div>
          
             <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
+              <label for="title" class="form-label" style="color: #3762ea;">Title</label>
               <input type="text" class="form-control" formControlName="title" [(ngModel)]="emp.title" placeholder="Enter Title" required />
             </div>
          
             <div class="mb-3">
-              <label for="paragraph" class="form-label">Paragraph</label>
+              <label for="paragraph" class="form-label" style="color: #3762ea;">Paragraph</label>
               <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph" required style="height: 120px;"></textarea>
             </div>
            
           </form>
 
           <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
-            <label for="qstn{{ i }}" class="form-label">Question {{ i + 1 }}</label>
+            <label for="qstn{{ i }}" class="form-label" style="color: #3762ea;">Question {{ i + 1 }}</label>
             <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
        
             <label class="p-2">A <input type="text" class="form-control search" [(ngModel)]="question.a" /></label>

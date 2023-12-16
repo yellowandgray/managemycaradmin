@@ -4,12 +4,18 @@
 
 
 
+
+
+
 // import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
 // import * as firebase from 'firebase';
 // import 'firebase/auth'; // Import other Firebase services as needed
 
+
 // import 'firebase/firestore';
 // import { Address } from './addressobj';
+
+
 
 
 // @Injectable({
@@ -17,43 +23,50 @@
 // })
 // export class ApiService {
 
+
 //    //fireSQL = new FireSQL(firebase.firestore());
+
 
 //   constructor(private firestore: AngularFirestore,private db: AngularFireDatabase) {
 //     firebase.firestore().settings({
 //       ignoreUndefinedProperties: true,
 //     })
-    
+   
+
 
 //   }
+
 
 // /////////////////////////
 // // sendToken(token:string) {
 // //   // this.firestore.doc('adminlogin/' + "6fJvKBu5brMiC3q3scCX").update({
 // //   //   'token':token,    
 // //   // });
-// // } 
+// // }
+
 
 // /////////////////////////
 // // getAdminDataCheck() {
 // //   return this.firestore.collection('adminlogin').get().toPromise();
-// // } 
+// // }
+
+
 
 
 //  //Paal
 // getPaalDataActive() {
 //   return this.firestore.collection('address-book',(ref: { orderBy: (arg0: string) => { (): any; new(): any; where: { (): any; new(): any; }; }; })=> ref.orderBy('name').where()).snapshotChanges();
-// } 
+// }
 // getPaalData() {
 //   return this.firestore.collection('address-book',(ref: { orderBy: (arg0: string) => any; })=> ref.orderBy('name')).snapshotChanges();
-// } 
+// }
 // createPaalData(obj: Address){
 //  return this.firestore.collection('address-book').add(
 //    {
 //      'id':'',
 //     //  'number':Number(obj.number),
 //      'name':obj.name,
-//      'age':obj.age, 
+//      'age':obj.age,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   }).then(async docRef => {
@@ -66,8 +79,8 @@
 //   this.firestore.doc('address-book/' + key).update({
 //     'id':key,
 //     // 'number':Number(obj.number),
-//     'name':obj.name, 
-//     'age':obj.age, 
+//     'name':obj.name,
+//     'age':obj.age,
 //     // 'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -76,7 +89,7 @@
 //     this.firestore.doc('address-book/' + dataId).delete();
 //   }
 import { Injectable } from "@angular/core";
-  
+ 
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Student } from "./addressobj";
 import * as firebase from "firebase/compat";
@@ -88,14 +101,14 @@ import { Observable } from "rxjs";
     providedIn: 'root'
   })
   export class ApiService {
-  
+ 
     constructor(private firestore: AngularFirestore) {}
-  
+ 
     //Get the address-book collection data
     // getAddressBookData() {
     //  // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
-    //    return this.firestore.collection('Users', ref => ref.where("role", "==", "student") && ref => ref.orderBy('name')).snapshotChanges();   
-      
+    //    return this.firestore.collection('Users', ref => ref.where("role", "==", "student") && ref => ref.orderBy('name')).snapshotChanges();  
+     
     // }
     getAddressBookData() {
       return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();
@@ -106,6 +119,7 @@ import { Observable } from "rxjs";
   //     .snapshotChanges();
   // }
 
+
     createStudentData(obj: Student){
       return this.firestore.collection('Users').add(
         {
@@ -114,12 +128,13 @@ import { Observable } from "rxjs";
           'name':obj.name,
           'role':obj.role,
           'image':obj.image,
-          'mobile':obj.mobile, 
+          'mobile':obj.mobile,
           'Dob':obj.Dob,
           'address':obj.address,
           'parentname':obj.parentname,
           'standard':obj.standard,
           'section':obj.section,
+          'batch':obj.batch,
           'school':localStorage.getItem('school_id')
           // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -130,17 +145,19 @@ import { Observable } from "rxjs";
        })
      }
 
+
      updateStudentData(id: string,obj: Student){
       this.firestore.doc('Users/' + id).update({
         'id':id,
         'rec_no':obj.rec_no,
         'name':obj.name,
-        'mobile':obj.mobile, 
+        'mobile':obj.mobile,
         'Dob':obj.Dob,
         'address':obj.address,
         'parentname':obj.parentname,
         'standard':obj.standard,
         'section':obj.section,
+        'batch':obj.batch,
         'image':obj.image,
         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
       });
@@ -154,12 +171,17 @@ import { Observable } from "rxjs";
 
 
 
+
+
+
     //driver
+
 
 getDriverData(SchoolId: string) {
   return this.firestore.collection(`School/${SchoolId}/Drivers`, ref => ref.orderBy('name')).snapshotChanges();
  
  }
+
 
  createDriverData(obj:Driver,SchoolId: string ){
       return this.firestore.collection(`School/${SchoolId}/Drivers`).add(
@@ -169,7 +191,7 @@ getDriverData(SchoolId: string) {
           'name':obj.name,
           'doj':obj.doj,
           'pic':obj.pic,
-          'phn':obj.phn, 
+          'phn':obj.phn,
           'dob':obj.dob,
           'address':obj.address,
           'pincode':obj.pincode,
@@ -177,7 +199,7 @@ getDriverData(SchoolId: string) {
           'town':obj.town,
           'license':obj.license,
           'pancard':obj.pancard,
-          
+         
           // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
        }).then(async docRef => {
@@ -187,6 +209,7 @@ getDriverData(SchoolId: string) {
        })
      }
 
+
      updateDriverData(driverid: string,obj: Driver,SchoolId:string){
       this.firestore.doc(`School/${SchoolId}/Drivers/` + driverid).update({
         'driverid':driverid,
@@ -194,7 +217,7 @@ getDriverData(SchoolId: string) {
           'name':obj.name,
           'doj':obj.doj,
           'pic':obj.pic,
-          'phn':obj.phn, 
+          'phn':obj.phn,
           'dob':obj.dob,
           'address':obj.address,
           'pincode':obj.pincode,
@@ -213,14 +236,17 @@ getDriverData(SchoolId: string) {
     // }
 
 
+
+
     //teacher
+
 
     getTeacherData() {
       // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
-        return this.firestore.collection('Users', ref => ref.where("role", "==","teacher")).snapshotChanges();   
+        return this.firestore.collection('Users', ref => ref.where("role", "==","teacher")).snapshotChanges();  
        
      }
-  
+ 
      createTeacherData(obj: Teacher){
        return this.firestore.collection('Users').add(
          {
@@ -229,7 +255,7 @@ getDriverData(SchoolId: string) {
            'name':obj.name,
            'role':obj.role,
            'doj':obj.doj,
-           'phn':obj.phn, 
+           'phn':obj.phn,
            'dob':obj.dob,
            'address':obj.address,
            'img':obj.img,
@@ -246,7 +272,7 @@ getDriverData(SchoolId: string) {
             'id':docRef.id})
         })
       }
-  
+ 
       updateTeacherData(id: string,obj: Teacher){
        this.firestore.doc('Users/' + id).update({
          'id':id,
@@ -255,7 +281,7 @@ getDriverData(SchoolId: string) {
          'name':obj.name,
          'role':obj.role,
          'doj':obj.doj,
-         'phn':obj.phn, 
+         'phn':obj.phn,
          'dob':obj.dob,
          'address':obj.address,
          'img':obj.img,
@@ -273,10 +299,16 @@ getDriverData(SchoolId: string) {
     //    //this.imageDetailList.push(imageDetails);
     //  }
 
+
 //teacher
+
 
 getScoreData(SchoolId: string,ScoreId:string) {
   return this.firestore.collection(`School/${SchoolId}/Score/${ScoreId}/Comprehension`).snapshotChanges();
+ 
+ }
+ getKgsheetQuestionsData(SchoolId: string,ScoreId:string) {
+  return this.firestore.collection(`School/${SchoolId}/Score/${ScoreId}/KG_Sheet`).snapshotChanges();
  
  }
 
@@ -284,13 +316,20 @@ getScoreData(SchoolId: string,ScoreId:string) {
   return this.firestore.collection(`Grammar/${SchoolId}/Comprehension`,ref => ref.orderBy('no')).snapshotChanges();
  }
 
+
  getComprehensionQuestionsData(SchoolId: string, comprehensionId: string) {
   return this.firestore.collection(`Grammar/${SchoolId}/Comprehension/${comprehensionId}/Questions`,ref => ref.orderBy('qno')).snapshotChanges();
 }
 
-getKgsheetQuestionsData(SchoolId: string, comprehensionId: string) {
-  return this.firestore.collection(`Grammar/${SchoolId}/Comprehension/${comprehensionId}/KG_Sheet`).snapshotChanges();
-}
+
+// getKgsheetQuestionsData(SchoolId: string, comprehensionId: string) {
+//   return this.firestore.collection(`Grammar/${SchoolId}/Comprehension/${comprehensionId}/KG_Sheet`).snapshotChanges();
+// }
+
+getListData(kgSheetId: string): Observable<any[]> {
+  return this.firestore.collection(`KG_Sheet/${kgSheetId}/List`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
+
+ }
 
 
 //  getComprehensionQuestionsData(garamerID: string, compid: string) {
@@ -307,14 +346,19 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
   )
   .valueChanges();
 
+
  // return this.firestore.doc<any>(path).valueChanges();
 }
+
 
   }
 
 
 
-  
+
+
+
+ 
 
 
 
@@ -322,14 +366,21 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 
 
 
-  
+
+
+
+
+
+
+
+ 
  //Eyal
 // getEyalDataActive() {
 //   return this.firestore.collection('eyal',ref=> ref.orderBy('name').where("active",'==','1')).snapshotChanges();
-// } 
+// }
 // getEyalData() {
 //   return this.firestore.collection('eyal',ref=> ref.orderBy('number')).snapshotChanges();
-// } 
+// }
 // createEyalData(obj: Eyal){
 //  return this.firestore.collection('eyal').add(
 //    {
@@ -338,7 +389,7 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //      'paal_id':obj.paal_id,
 //      'number':Number(obj.number),
 //      'name':obj.name,
-//      'nameta':obj.nameta, 
+//      'nameta':obj.nameta,
 //      'active':obj.active,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -354,8 +405,8 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //     'paal':obj.paal,
 //      'paal_id':obj.paal_id,
 //     'number':Number(obj.number),
-//     'name':obj.name, 
-//     'nameta':obj.nameta, 
+//     'name':obj.name,
+//     'nameta':obj.nameta,
 //     'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -364,13 +415,14 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //     this.firestore.doc('eyal/' + dataId).delete();
 //   }
 
+
 //  //Athikaram
 //  getAthikaramDataActive() {
 //   return this.firestore.collection('athikaram',ref=> ref.orderBy('name').where("active",'==','1')).snapshotChanges();
-// } 
+// }
 // getAthikaramData() {
 //   return this.firestore.collection('athikaram',ref=> ref.orderBy('number')).snapshotChanges();
-// } 
+// }
 // createAthikaramData(obj: Athikaram){
 //  return this.firestore.collection('athikaram').add(
 //    {
@@ -381,7 +433,7 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //      'eyal_id':obj.eyal_id,
 //      'number':Number(obj.number),
 //      'name':obj.name,
-//      'nameta':obj.nameta, 
+//      'nameta':obj.nameta,
 //      'active':obj.active,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -399,8 +451,8 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //      'eyal':obj.eyal,
 //      'eyal_id':obj.eyal_id,
 //     'number':Number(obj.number),
-//     'name':obj.name, 
-//     'nameta':obj.nameta, 
+//     'name':obj.name,
+//     'nameta':obj.nameta,
 //     'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -408,11 +460,11 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //   deleteAthikaramData(dataId: string){    
 //     this.firestore.doc('athikaram/' + dataId).delete();
 //   }
-  
+ 
 //  //Kural
 //  getKuralDataActive() {
 //   return this.firestore.collection('kural',ref=> ref.orderBy('name').where("active",'==','1')).snapshotChanges();
-// } 
+// }
 // getKuralDataFilter(paal_id_fil: String,
 //   eyal_id_fil: String,
 //   athikaram_id_fil: String) {
@@ -420,23 +472,27 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //     {
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number').where("eyal_id",'==',eyal_id_fil).where("athikaram_id",'==',athikaram_id_fil)).snapshotChanges();
 
+
 //     }else  if(athikaram_id_fil!=null)
 //     {
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number').where("athikaram_id",'==',athikaram_id_fil)).snapshotChanges();
+
 
 //     }else if(eyal_id_fil!=null)
 //     {
 //       console.log("yyyyyyyyy"+eyal_id_fil)
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number').where("eyal_id",'==',eyal_id_fil)).snapshotChanges();
 
+
 //     }else{
 //       return this.firestore.collection('kural',ref=> ref.orderBy('number')).snapshotChanges();
 
+
 //     }
-// } 
+// }
 // getKuralData() {
 //   return this.firestore.collection('kural',ref=> ref.orderBy('number')).snapshotChanges();
-// } 
+// }
 // createKuralData(obj: Kural){
 //  return this.firestore.collection('kural').add(
 //    {
@@ -449,12 +505,12 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //      'athikaram_id':obj.athikaram_id,
 //      'number':Number(obj.number),
 //      'name':obj.name,
-//      'nameta':obj.nameta, 
-//      'explanation':obj.explanation, 
-//     'explanationta':obj.explanationta, 
-//     'youtube_id':obj.youtube_id, 
-//     'audio_url':obj.audio_url, 
-//     'video_url':obj.video_url, 
+//      'nameta':obj.nameta,
+//      'explanation':obj.explanation,
+//     'explanationta':obj.explanationta,
+//     'youtube_id':obj.youtube_id,
+//     'audio_url':obj.audio_url,
+//     'video_url':obj.video_url,
 //      'active':obj.active,
 //      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
 //      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -474,13 +530,13 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //      'athikaram':obj.athikaram,
 //      'athikaram_id':obj.athikaram_id,
 //     'number':Number(obj.number),
-//     'name':obj.name, 
-//     'nameta':obj.nameta, 
-//     'explanation':obj.explanation, 
-//     'explanationta':obj.explanationta, 
-//     'youtube_id':obj.youtube_id, 
-//     'audio_url':obj.audio_url, 
-//     'video_url':obj.video_url, 
+//     'name':obj.name,
+//     'nameta':obj.nameta,
+//     'explanation':obj.explanation,
+//     'explanationta':obj.explanationta,
+//     'youtube_id':obj.youtube_id,
+//     'audio_url':obj.audio_url,
+//     'video_url':obj.video_url,
 //     'active':obj.active,
 //     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
 //   });
@@ -489,6 +545,9 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 //     this.firestore.doc('kural/' + dataId).delete();
 //   }
 
+
 //}
+
+
 
 

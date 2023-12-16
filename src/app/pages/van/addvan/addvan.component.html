@@ -231,7 +231,7 @@
                                           
                                         </div>
                                     </td>
-                                    <td class="date">{{data.regno}}</td>
+                                    <td class="date"><a [routerLink]="['/van/vandetail',{van:data.vanid}]">{{data.regno}}</a></td>
                                     <td class="customer_name">{{data.year| date: 'dd/MM/yyyy'}}</td>
                                     <td class="date">{{data.seats}}</td>
                                     <td class="date">{{data.disel}}</td>
