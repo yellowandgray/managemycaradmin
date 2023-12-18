@@ -7,6 +7,7 @@ import { AddvanComponent } from './addvan/addvan.component';
 import { ArrivalsComponent } from './arrivals/arrivals.component';
 import { RouteDetailComponent } from './route-detail/route-detail.component';
 import { VanDetailsComponent } from './van-details/van-details.component';
+import { ArrivalsDetailsComponent } from './arrivals-details/arrivals-details.component';
 
 // Component
 
@@ -36,6 +37,10 @@ const routes: Routes = [
     {
         path: "vandetail",
         component: VanDetailsComponent
+    },
+    {
+        path: "varrival-detail",
+        component: ArrivalsDetailsComponent
     },
     
 ];

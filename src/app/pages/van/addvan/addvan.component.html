@@ -14,7 +14,7 @@
            <form class="tablelist-form" [formGroup]="MessageFormData">
             <div class="modal-body">
                 <input type="hidden" name="id" value="" formControlName="ids" />
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label class="form-label">Photo</label>
                     <div class="d-flex no-block justify-content-left align-items-left">
                         <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
@@ -30,7 +30,31 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+               
+
+<div   class="mb-3">
+    <label class="form-label">Photo</label>
+    <div class="d-flex no-block justify-content-left align-items-left">
+        <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+            <div *ngIf="uploading==true" class="text-left ">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Uploading...</span>
                 </div>
+              </div>
+            <div class="text-left" *ngIf="uploading==false" >
+                <img [src]="image_path || emp.pic" width="200px" height="150px" (click)="fileUploader.click()" >
+                
+            </div>
+        </div>
+       
+        <div>
+            <div class="form-group justify-content-center px-3">
+                <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
+            </div>
+        </div>
+    </div>
+</div>
           
                  <div class="mb-3">
                     <label for="customername-field" class="form-label"> Reg. No.</label>

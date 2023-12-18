@@ -53,6 +53,7 @@ import { MapComponent } from './map/map.component';
 import { vanRoutingModule } from './van-routing.module';
 import { RouteDetailComponent } from './route-detail/route-detail.component';
 import { VanDetailsComponent } from './van-details/van-details.component';
+import { ArrivalsDetailsComponent } from './arrivals-details/arrivals-details.component';
 
 
 // Component
@@ -73,7 +74,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ArrivalsComponent,
     MapComponent,
     RouteDetailComponent,
-    VanDetailsComponent
+    VanDetailsComponent,
+    ArrivalsDetailsComponent
   
     // NgbdWidgetSortableHeader,
     // NgbdFileSortableHeader

@@ -17,10 +17,12 @@ export class Comprehension {
   id: string = '';
   no: number = null as unknown as number;
   title: string = '';
+  pic:string='';
   paragraph: string = '';
   questions: Question[] = [];
   list_id:string='';
   standard: string[] = [];
+  keywords: string[] = [];
 }
 
 export class Vocabulary {

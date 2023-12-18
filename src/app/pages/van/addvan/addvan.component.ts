@@ -27,6 +27,7 @@ export class AddvanComponent {
   selectedImage: any = null;
   selectedPreviewImage: string | null = null;
   deleteId:string='';
+  uploading: boolean = false;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
@@ -167,6 +168,7 @@ delet(id: string){
     }
 
     showPreview(event: any) {
+       this.uploading = true;
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
         reader.onload = (e: any) => this.imgSrc = e.target.result;
@@ -182,6 +184,7 @@ delet(id: string){
             finalize(() => {
               fileRef.getDownloadURL().subscribe((url) => {
                 this.emp.pic = url;
+                this.uploading = false;
               });
             })
           ).subscribe(
@@ -190,6 +193,7 @@ delet(id: string){
             },
             (error) => {
               console.error('Upload error:', error);
+              this.uploading = false;
             }
           );
         }
@@ -198,6 +202,7 @@ delet(id: string){
       else {
         this.imgSrc = '/assets/images/image_placeholder.jpg';
         this.selectedImage = null;
+        this.uploading = false;
       }
       this.deleteModal?.hide()
     }

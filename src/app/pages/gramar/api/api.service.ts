@@ -54,6 +54,16 @@ import { Assign } from "./assignobj ";
       return this.firestore.collection(path).snapshotChanges();
     }
    
+    async updateComprehensionKeyWords(id: string, keyWords: Array<string>, GrammarId: string) {
+      // Step 1: Update the main document
+      await this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).update({
+        'keywords':keyWords
+       
+      });
+
+
+    }
+
    
    
      
@@ -98,6 +108,8 @@ import { Assign } from "./assignobj ";
         'no': obj.no,
         'title': obj.title,
         'paragraph': obj.paragraph,
+        'pic': obj.pic,
+        'keywords':obj.keywords
       });
  
       const compID = comprehensionDocRef.id;
@@ -134,6 +146,8 @@ import { Assign } from "./assignobj ";
         'no': obj.no,
         'title': obj.title,
         'paragraph': obj.paragraph,
+        'pic': obj.pic,
+        'keywords':obj.keywords
        
       });
    
@@ -159,10 +173,14 @@ import { Assign } from "./assignobj ";
    
 
     //vocabulary
-    getVocabularyData(SchoolId: string) {
-      return this.firestore.collection(`Grammar/${SchoolId}/Vocabulary`).snapshotChanges();
-   
-     }
+    getVocabularyData(garamerID: string): Observable<any[]> {
+      console.log('Fetching items for KG_Sheet ID:', garamerID);
+      console.log("test1");
+   // return this.firestore.collection(`Grammar/${garamerID}/Vocabulary`, ref => ref.orderBy('name', 'asc')).snapshotChanges();
+    return this.firestore.collection(`Grammar/${garamerID}/Vocabulary`).snapshotChanges();
+   // return this.firestore.collection(`Grammar/${garamerID}/Vocabulary`).snapshotChanges();
+    }
+
      createVocabularyData(obj: Vocabulary, GrammarId: string) {
       const comprehensionDocRef =  this.firestore.collection(`Grammar/${GrammarId}/Vocabulary`).add({
         'id': '',
@@ -192,40 +210,6 @@ import { Assign } from "./assignobj ";
       }
 
 
-
-    // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
-    //   const batch = this.firestore.firestore.batch();
-    
-    //   // Step 1: Update the main document
-    //   const mainDocumentRef = this.firestore.doc(`Grammar/${GrammarId}/Comprehension/${id}`).ref;
-    //   batch.update(mainDocumentRef, {
-    //     'no': obj.no,
-    //     'title': obj.title,
-    //     'paragraph': obj.paragraph,
-    //   });
-    
-    //   // Step 2: Update or add questions in the subcollection
-    //   const questionsCollectionRef = this.firestore.collection(`Grammar/${GrammarId}/Comprehension/${id}/Questions`);
-  
-    //   for (const question of obj.questions) {
-    //     const questionId = question.id || this.firestore.createId(); // Use existing ID or create a new one
-    //     const questionDocRef = questionsCollectionRef.doc(questionId).ref; // Access the 'ref' property
-    //     batch.set(questionDocRef, {
-    //       'qno': question.qno,
-    //       'a': question.a,
-    //       'b': question.b,
-    //       'c': question.c,
-    //       'd': question.d,
-    //       'qstn': question.qstn,
-    //       'answer': question.answer,
-    //       'qtype': question.qtype,
-    //     });
-    //   }
-    
-    //   // Commit the batch
-    //   await batch.commit();
-    // }
-    
 
     
 createAssignData(obj: Assign, schoolid: string) {
@@ -299,220 +283,6 @@ updateAssignData(obj: Assign, schoolid: string, docId: string) {
       }
      
 
-
-    //  deleteComprehensionData( GrammarId: string ,id:string ){  
-    //   console.log(GrammarId ,id )  
-    //     this.firestore.doc(`Grammar/${GrammarId}/Comprehension/`+ id).delete();
-    //   }
-
-
-      // async updateComprehensionData(id: string, obj: Comprehension, GrammarId: string) {
-      //   const comprehensionDocRef = this.firestore.doc(`Grammar/${GrammarId}/Comprehension/` + id).ref;
-     
-      //   try {
-      //     // Update main Comprehension document
-      //     await comprehensionDocRef.update({
-      //       'no': obj.no,
-      //       'title': obj.title,
-      //       'paragraph': obj.paragraph,
-      //     });
-     
-      //     // Check if Questions subcollection exists
-      //     const questionsCollectionRef = comprehensionDocRef.collection('Questions');
-     
-      //     // Update or add a document in the Questions subcollection
-      //     const questionsQuerySnapshot = await questionsCollectionRef.get();
-     
-      //     if (!questionsQuerySnapshot.empty) {
-      //       // Assuming there's only one document in the Questions subcollection
-      //       const questionDocRef = questionsQuerySnapshot.docs[0].ref;
-      //       await questionDocRef.update({
-      //         'qno': obj.qno,
-      //         'a': obj.a,
-      //         'b': obj.b,
-      //         'c': obj.c,
-      //         'd': obj.d,
-      //         'qstn': obj.qstn,
-      //         'answer': obj.title, // Note: I assume 'answer' should be updated to 'obj.title'
-      //         'qtype': obj.qtype,
-      //       });
-      //     } else {
-      //       // If there are no documents, add a new one
-      //       const newQuestionDocRef = await questionsCollectionRef.add({
-      //         'qno': obj.qno,
-      //         'a': obj.a,
-      //         'b': obj.b,
-      //         'c': obj.c,
-      //         'd': obj.d,
-      //         'qstn': obj.qstn,
-      //         'answer': obj.title,
-      //         'qtype': obj.qtype,
-      //       });
-     
-      //       await newQuestionDocRef.update({ 'id': newQuestionDocRef.id });
-      //     }
-     
-      //   } catch (error) {
-      //     console.error('Error updating data:', error);
-      //   }
-      // }
-     
-
-
-    //  updateVanData(vanid: string,obj: Van,SchoolId:string,vanId:string ){
-    //   this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + vanid).update({
-       
-    //     'vanid':vanid,
-    //       'chassis':obj.chassis,
-    //       'disel':obj.disel,
-    //       'engno':obj.engno,
-    //       'pic':obj.pic,
-    //       'regno':obj.regno,
-    //       'seats':obj.seats,
-    //       'year':obj.year,
-    //     // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-    //   });
-    //  }
-    //  deleteVanData(Routeid:string, SchoolId:string,vanId:string ){    
-    //   this.firestore.doc(`School/${SchoolId}/Van/${vanId}/Vans/` + Routeid).delete();
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// getRouteData(SchoolId: string) {
-//   return this.firestore.collection(`School/${SchoolId}/Routes`, ref => ref.orderBy('name')).snapshotChanges();
- 
-//  }
-
-
-//  createRouteData(obj:Route,SchoolId: string ){
-//       return this.firestore.collection(`School/${SchoolId}/Routes`).add(
-//         {
-//           'Routeid':'',
-//           'aadhar':obj.aadhar,
-//           'name':obj.name,
-//           'doj':obj.doj,
-//           'pic':obj.pic,
-//           'phn':obj.phn,
-//           'dob':obj.dob,
-//           'address':obj.address,
-//           'pincode':obj.pincode,
-//           'age':obj.age,
-//           'town':obj.town,
-//           'license':obj.license,
-//           'pancard':obj.pancard,
-         
-//           // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
-//           // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-//        }).then(async docRef => {
-//          console.log(docRef.id);
-//          await this.firestore.doc(`School/${SchoolId}/Routes/`+ docRef.id).update({
-//            'Routeid':docRef.id})
-//        })
-//      }
-
-
-//      updateRouteData(Routeid: string,obj: Route,SchoolId:string){
-//       this.firestore.doc(`School/${SchoolId}/Routes/` + Routeid).update({
-//         'Routeid':Routeid,
-//           'aadhar':obj.aadhar,
-//           'name':obj.name,
-//           'doj':obj.doj,
-//           'pic':obj.pic,
-//           'phn':obj.phn,
-//           'dob':obj.dob,
-//           'address':obj.address,
-//           'pincode':obj.pincode,
-//           'age':obj.age,
-//           'town':obj.town,
-//           'license':obj.license,
-//           'pancard':obj.pancard,
-//         // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-//       });
-//      }
-//      deleteRouteData(Routeid:string, SchoolId:string){    
-//       this.firestore.doc(`School/${SchoolId}/Routes/`  + Routeid).delete();
-//     }
-    // insertImageDetails(imageDetails: any) {
-    //   //this.imageDetailList.push(imageDetails);
-    // }
-
-
-
-
-    //teacher
-
-
-  //   getTeacherData() {
-  //     // return this.firestore.collection('Users',ref=> ref.orderBy('name')).snapshotChanges();
-  //       return this.firestore.collection('Users', ref => ref.where("role", "==","teacher")).snapshotChanges();  
-       
-  //    }
- 
-  //    createTeacherData(obj: Teacher){
-  //      return this.firestore.collection('Users').add(
-  //        {
-  //          'id':'',
-  //          'age':obj.age,
-  //          'name':obj.name,
-  //          'role':obj.role,
-  //          'doj':obj.doj,
-  //          'phn':obj.phn,
-  //          'dob':obj.dob,
-  //          'address':obj.address,
-  //          'img':obj.img,
-  //          'email':obj.email,
-  //          'status':obj.status,
-  //          'qualification':obj.qualification,
-  //          'gender':obj.gender,
-  //          'school':localStorage.getItem('school_id')
-  //          // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
-  //          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-  //       }).then(async docRef => {
-  //         console.log(docRef.id);
-  //         await this.firestore.doc('Users/' + docRef.id).update({
-  //           'id':docRef.id})
-  //       })
-  //     }
- 
-  //     updateTeacherData(id: string,obj: Teacher){
-  //      this.firestore.doc('Users/' + id).update({
-  //        'id':id,
-         
-  //        'age':obj.age,
-  //        'name':obj.name,
-  //        'role':obj.role,
-  //        'doj':obj.doj,
-  //        'phn':obj.phn,
-  //        'dob':obj.dob,
-  //        'address':obj.address,
-  //        'img':obj.img,
-  //        'email':obj.email,
-  //        'status':obj.status,
-  //        'qualification':obj.qualification,
-  //        'gender':obj.gender,
-  //        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-  //      });
-  //     }
-  //     deleteTeacherData(dataId: string){    
-  //      this.firestore.doc('Users/' + dataId).delete();
-  //    }
-  //   //  insertImageDetails(imageDetails: any) {
-  //   //    //this.imageDetailList.push(imageDetails);
-  //   //  }
 
 
  }

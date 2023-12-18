@@ -1,0 +1,116 @@
+<a (click)="goBack()">
+    <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem;"></i>
+</a>
+
+<div class="row">
+    <div class="col-xxl-4 col-md-6">
+        <div class="card border-bottom border-2 border-secondary" >
+            <div class="card-body d-flex gap-3" *ngFor="let data of routedetail">
+                <div class="flex-grow-1">
+                    <!-- <h6 class="card-title mb-1">Start : {{data.start}}</h6> -->
+                    <p class="fw-medium fs-md mb-1">Start         : {{data.start}}</p>
+                    <p class="fw-medium fs-md mb-1"> Destination  : {{data.desti}}</p>
+                    <p class="text-muted mb-1">Route Details      : {{data.routedetails}}</p>
+                    <p class="text-muted mb-1">Stop 1  :  {{data.stop1}}</p>
+                    <p class="text-muted mb-1">Stop 2  :  {{data.stop2}}</p>
+                    <p class="text-muted mb-0">Stop 3  :  {{data.stop3}}</p>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xxl-4 col-md-6">
+        <div class="card border-bottom border-2 border-primary">
+            <div class="card-body d-flex gap-3" *ngFor="let data of filteredDrivers">
+                <div class="flex-grow-1">
+                    <h6 class="card-title mb-3">{{data.name}}</h6>
+                    <p class="fw-medium fs-md mb-1"> Age : {{data.age}}</p>
+                    <p class="text-muted mb-1">    DOB : {{data.dob| date: 'dd/MM/yyyy'}}</p>
+                    <p class="text-muted mb-0"> DOJ : {{data.doj| date: 'dd/MM/yyyy'}}</p>
+                    <p class="text-muted mb-0"> Mobile No. : {{data.phn}}</p>
+                    <p class="text-muted mb-0"> Address : {{data.address}}</p>
+                    <!-- <p class="text-muted mb-0"> Town : {{data.town}}</p> -->
+
+                </div>
+                
+                <div class="flex-shrink-0" style="height: 100px; width: 100px;">
+                            <img src="{{data.pic}}" alt=""
+                                style="object-fit: cover; width: 100%; height: 100%; aspect-ratio: 1/1;">
+                </div>
+            </div>
+        </div>
+    </div><!--end col-->
+    <div class="col-xxl-4 col-md-6">
+        <div class="card border-bottom border-2 border-info" *ngFor="let data of fildervan">
+            <div class="card-body d-flex gap-3">
+                <div class="flex-grow-1">
+                    <h6 class="card-title mb-3">{{data.regno}}</h6>
+                    <p class="fw-medium fs-md mb-1">  Make Year : {{data.year| date: 'dd/MM/yyyy'}}</p>
+                    <p class="text-muted mb-1">Total Seats : {{data.seats}}</p>
+                    <p class="text-muted mb-0">  Diesel Level(ltrs) : {{data.disel}}</p>
+                    <p class="text-muted mb-0">   Engine No. : {{data.engno}}</p>
+                    <p class="text-muted mb-0">   Chassis No. : {{data.chassis}}</p>
+
+                </div>
+                <div class="flex-shrink-0" style="height: 100px; width: 100px;">
+                    <img src="{{data.pic}}" alt=""
+                        style="object-fit: cover; width: 100%; height: 100%; aspect-ratio: 1/1;">
+        </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xxl-12">
+        <div class="card">
+            <div class="card-header d-flex align-items-center gap-3">
+                <h6 class="card-title mb-0 flex-grow-1">Arrival Details</h6>
+                <div class="flex-shrink-0">
+                    <button type="button" class="btn btn-danger btn-sm me-1"><i class="ph-x align-middle"></i> Cancel
+                        Order</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div  class="table-responsive table-card mt-3 mb-1">
+                    <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="sort" listsortable="customer_name" >Date
+                                </th>
+                                <th class="sort" listsortable="email">Route No.</th>
+                                <th class="sort" listsortable="customer_name" >Arrival Time
+                                </th>
+                                
+                                <th class="sort" listsortable="customer_name" > Driver Name
+                                </th>
+                                <th class="sort " listsortable="email"> <span class="ri-user-3-fill " style="font-size: 1rem;"></span></th>
+                                
+                                <th class="sort" listsortable="date" >Uniform (Driver)</th>
+                                <th class="sort" listsortable="email">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list form-check-all">
+                            <tr *ngFor="let data of arrivals ;let i = index;" >
+                                <td class="date">{{data.date}}</td>
+                                <td class="date"><a [routerLink]="['/van/varrival-detail',{routeno:data.rno}]">{{data.rno }}</a></td>
+                                <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
+                                <td class="customer_name"><a [routerLink]="['/addressbook/driver-detail',{driverid:data.driid}]" >{{data.driname}}</a></td>
+                                <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.ccgpresent=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.ccgpresent=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>
+                                <!-- <td class="customer_name">{{data.uniform}}</td> -->
+                                <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.uniform=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.uniform=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>
+                                <td class="date">{{data.remarks}}</td>
+                                
+                               
+                              
+                        </tbody>
+                    </table>
+                   
+                </div>
+                
+            </div>
+        </div><!--end card-->
+    </div><!--end col-->
+    
+</div>

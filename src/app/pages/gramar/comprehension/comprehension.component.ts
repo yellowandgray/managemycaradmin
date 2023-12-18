@@ -2,12 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { Comprehension, Question } from '../api/comprehensionobj';
+import { Comprehension, Question, Vocabulary } from '../api/comprehensionobj';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { array } from '@amcharts/amcharts5';
 import { Assign } from '../api/assignobj ';
-import { Subscription } from 'rxjs';
+import { Subscription, finalize } from 'rxjs';
 
 
 
@@ -23,7 +23,9 @@ export class ComprehensionComponent {
   filteredItems: Comprehension[] = [];
   allItems: Comprehension[] = [];
   addlists1: Comprehension[] = [];
-  
+  image_path: string = '';
+  selectedImage: any = null;
+  imgSrc: string='';
   emp: Comprehension = new Comprehension();
   GrammarId:string='XOO5IdohbzztfCg4GU6y';
   form: FormGroup | undefined;
@@ -34,12 +36,15 @@ export class ComprehensionComponent {
  assignForm: FormGroup;
  selectedStandards: string[] = [];
  selectedItemId: string ='';
- standardsList: string[] = ['V','VI','VII','VIII','IX','X','XI','XII'];
+ standardsList: string[] = ['UKG','LKG','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
  allPossibleStandards: string[] = [];
  fetchedStandards: string[] = [];
  assign: Assign =new Assign();
  assignid: string ='';
  fetchedStandards1: string[] = [];
+ filteredAdditems: Vocabulary[] = [];
+ vocabularyData: Vocabulary[] = [];
+ showAllItems: boolean = true;
 
  selectedOption: string = '';
  searchTerm: string = '';
@@ -47,12 +52,22 @@ export class ComprehensionComponent {
  school_id: string = 'stZWDh06GmAGgnoqctcE';
  kgSheetId = '3u90Jik86R10JulNCU3K';
  deleteId:string='';
+
+ itemDetails: any[] = [];
+ selectedIds: string[] = [];
+ selectedKeyWords: Set<string> = new Set<string>();
+ selectedKeywords1: string[] = [];
+ selectedItems: Vocabulary[] = [];
+ currListID:string='';
+ selectedPreviewImage: string | null = null;
+
  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
 @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
+@ViewChild('keywordModal', { static: false }) keywordModal?: ModalDirective;
 // @ViewChild('deleteRecordModal2', { static: false }) deleteRecordModal2?: ModalDirective;
 @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
-
+@ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
 
 
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private formBuilder: FormBuilder,private fb: FormBuilder) {
@@ -91,96 +106,39 @@ export class ComprehensionComponent {
     this.emp.id= this.emp.id;
     this.emp. paragraph =this.emp.paragraph;
     this.emp. questions =this.emp.questions;
-    this.allPossibleStandards = ['V','VI','VII','VIII','IX','X','XI','XII'];
+    this.allPossibleStandards = ['UKG','LKG','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
   } }
  
  
+  
   // ngOnInit() {
-  //   // Create an array to store the standards
-  //   const allStandards: any[] = [];
-  
-  //   this.comprehensions.forEach(item => {
-  //     const listId = item?.id;
-  
-  //     this.apiService.getComprehensionData(this.GrammarId).subscribe(actions => {
-  //       // Map actions to Comprehension objects and assign to this.comprehensions
-  //       this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension);
-        
-  //       // Log the mapped array
-  //       console.log(this.comprehensions);
-  //     });
-  
-  //     // Using optional chaining to avoid errors if 'id' is undefined
-  //     if (listId) {
-  //       this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
-  //         standards => {
-  //           // Get the first element of the standards array or an empty array if it's undefined
-  //           const currentStandards = standards[0]?.standard || [];
-            
-  //           // Update item.standard with the fetched standards and the current date
-  //           item.standard = [...currentStandards, new Date().toISOString()];
-            
-  //           // Log the updated item
-  //           console.log("Updated item with standards and date", item);
-            
-  //           // Push the standards to the allStandards array
-  //           allStandards.push(item.standard);
-  //         },
-  //         error => {
-  //           console.error('Error fetching standards:', error);
+  //   // this.loading= true;
+  //   this.dataSubscription = this.apiService.getComprehensionData(this.GrammarId).subscribe(
+  //     (actions) => {
+  //       this.comprehensions = actions.map((action) => action.payload.doc.data() as Comprehension);
+  //       // this.comprehensions.sort((a, b) => a.title.localeCompare(b.title));
+  //       this.filteredItems = [...this.comprehensions];
+  //       this.allItems=  this.comprehensions;
+  //       this.comprehensions.forEach(item => {
+  //         const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
+         
+  //         if (listId) {
+  //           this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
+  //             standards => {
+  //               this.selectedStandards = standards[0]?.standard || [];
+  //               item.standard =this.selectedStandards;
+                
+  //             },
+  //             error => {
+  //               console.error('Error fetching standards:', error);
+               
+  //             }
+  //           );
   //         }
-  //       );
-  //     }
-  //   });
-  
-  //   // Log the final array of all standards after the loop completes
-  //   console.log("All Standards:", allStandards);
-  // }
-  // ngOnInit() {
-  //   this.school_id = localStorage.getItem('school_id') ?? '';
-  //   if (this.school_id !== '') {
-  //     this.apiService.getComprehensionData(this.kgSheetId).subscribe(actions => {
-  //       this.comprehensions = actions.map(action => {
-  //         const data = action.payload.doc.data() as Comprehension;
-  //         return {
-  //           id: data.id,
-  //           title: data.title,
-  //           no: data.no,
-  //           paragraph: data.paragraph,
-  //           questions: data.questions,
-  //           standard: data.standard  
-  //         } as Comprehension;
-  //       });
-  
-    //       this.comprehensions.forEach(item => {
-    //         const listId = item?.id; // Using optional chaining to avoid errors if 'id' is undefined
-    //         if (listId) {
-    //           this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
-    //             standards => {
-    //               item.standard = standards[0]?.standard || [];
-    //               console.log('Fetched standards:', item.standard);
-    //             },
-    //             error => {
-    //               console.error('Error fetching standards:', error);
-    //             }
-    //           );
-    //         }
-    //       });
-    
-    //       console.log("Step 1", this.comprehensions);
-    //     });
-    //   }
-  // }
-  
+  //       })
+        
+  //     },);
 
-
-
-  
-  // ngOnInit() {
-  //   this.apiService.getComprehensionData(this.GrammarId).subscribe(actions => {
-  //     this.comprehensions = actions.map(action => action.payload.doc.data() as Comprehension);
-  //     console.log(this.comprehensions[0].standard,"check")
-  //   });
   // }
   ngOnInit() {
     // this.loading= true;
@@ -198,7 +156,7 @@ export class ComprehensionComponent {
               standards => {
                 this.selectedStandards = standards[0]?.standard || [];
                 item.standard =this.selectedStandards;
-                
+               
               },
               error => {
                 console.error('Error fetching standards:', error);
@@ -207,31 +165,31 @@ export class ComprehensionComponent {
             );
           }
         })
-        
+       
       },);
 
+
+      this.apiService.getVocabularyData(this.GrammarId).subscribe(actions => {
+        this.vocabularyData = actions.map(action => {
+          const data = action.payload.doc.data() as Vocabulary;
+       //   console.log("All Vocabulary DAta", data);
+
+
+          return {
+            id:data.id,
+            name: data.name,
+            pic: data.pic,
+            desc:data.desc
+          } as Vocabulary;
+        });
+        console.log("All Vocabulary DAta", this.vocabularyData);
+      });
+    //  console.log("All Vocabulary DAta", this.vocabularyData.values);
+      this.filteredAdditems = this.vocabularyData;
   }
 
-  // addQuestion() {
-  //   this.emp.questions.push({ qstn: '', qtype: 'MCQA', a: '', b: '', c: '', d: '',qno: this.emp.questions.length + 1, answer: '' });
-  //   console.log(this.emp.questions)
-  // }
-  // addQuestion() {
-  //   const questionGroup = this.fb.group({
-  //     qstn: ['', Validators.required],
-  //     qtype: ['MCQA', Validators.required],
-  //     a: ['', Validators.required],
-  //     b: ['', Validators.required],
-  //     c: ['', Validators.required],
-  //     d: ['', Validators.required],
-  //     answer: ['', Validators.required],
-  //     qno: this.emp.questions.length + 1,
-     
-  //   });
 
 
-  //   (this.MessageFormData.get('questions') as FormArray).push(questionGroup);
-  // }
 
   addQuestion() {
     const newQuestion: Question = {
@@ -273,119 +231,6 @@ save(id:string){
 
 
 
-
-
-
-
-
-// editComprehension(index: number) {
-//   const selectedStudent = this.comprehensions [index];
- 
- 
-//   this.emp = { ...selectedStudent };
- 
-//   this.MessageFormData.patchValue({
-//     id:this.emp.id,    
-//     no: this.emp.no,
-//     title: this.emp.title,
-//     paragraph: this.emp.paragraph,
- 
-//   });
- 
-//   this.deleteRecordModal?.show();
-
-
-//   this.deleteRecordModal?.onHidden.subscribe(() => {
-//     this.MessageFormData.reset();
- 
-//   });
-// }
-
-
-
-
-// editComprehension(index: number) {
-//   const selectedComprehension = this.comprehensions[index];
-
-
-//   this.emp = { ...selectedComprehension };
-
-
-//   this.MessageFormData.patchValue({
-//     id: this.emp.id,
-//     no: this.emp.no,
-//     title: this.emp.title,
-//     paragraph: this.emp.paragraph,
-//     questions:this.emp.questions
-//   });
-
-
- 
-//   this.deleteRecordModal?.show();
-
-
-//   // Subscribe to modal hidden event to reset the form
-//   this.deleteRecordModal?.onHidden.subscribe(() => {
-//     this.MessageFormData.reset();
-//   });
-// }
-
-
-
-
-
-
-// editComprehension(index: number) {
-//   console.log("Step 1");
-//   const selectedComprehension = this.comprehensions[index];
-
-
-//   if (selectedComprehension) {
-//     this.emp = { ...selectedComprehension };
-//     console.log("Step 2");
-//     console.log("comprehension id ", this.emp.id);
-//     this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
-    
-//        this.emp.questions = actions.map(action => action.payload.doc.data() as any);
-
-//       if (this.emp.questions) {
-//         console.log("Questions", this.emp.questions);
-//         const questionFormArray = this.emp.questions.map((question: any) => {
-//           return this.fb.group({
-//             id: [question.id],
-//             qno: [question.qno],
-//             qstn: [question.qstn],
-//             qtype: [question.qtype],
-//             a: [question.a],
-//             b: [question.b],
-//             c: [question.c],
-//             d: [question.d],
-//             answer: [question.answer]
-//           });
-//         });
-
-//         console.log("Step 3");
-//         console.log("Questions array", questionFormArray);
-//         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
-     
-//       }
-// console.log("messsage form data", this.MessageFormData);
-//       this.MessageFormData.patchValue({
-//         id: this.emp.id,
-//         no: this.emp.no,
-//         title: this.emp.title,
-//         paragraph: this.emp.paragraph,
-//       });
-//       console.log("messsage form data", this.MessageFormData.value);
-//       this.deleteRecordModal?.show();
-
-
-//       this.deleteRecordModal?.onHidden.subscribe(() => {
-//         this.MessageFormData.reset();
-//       });
-//     });
-//   }
-// }
 editComprehension(index: number) {
   this.deleteRecordModal?.show(); 
   const selectedComprehension = this.comprehensions[index];
@@ -430,54 +275,101 @@ editComprehension(index: number) {
   }
 }
 
-
-// trackByQuestion(index: number, item: AbstractControl): any {
-//   return index;
-// }
-
+editComprehension1(index: number) {
+  this.keywordModal?.show();
+  const selectedComprehension = this.comprehensions[index];
 
 
+  if (selectedComprehension) {
+    this.emp = { ...selectedComprehension };
+    this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
+
+
+      this.emp.questions = actions.map(action => action.payload.doc.data() as any);
+
+
+      if (this.emp.questions) {
+        const questionFormArray = this.emp.questions.map((question: any) => {
+          return this.fb.group({
+            id: [question.id],
+            qno: [question.qno],
+            qstn: [question.qstn],
+            qtype: [question.qtype],
+            a: [question.a],
+            b: [question.b],
+            c: [question.c],
+            d: [question.d],
+            answer: [question.answer]
+          });
+        });
+
+
+        this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
+
+
+        this.MessageFormData.patchValue({
+          id: this.emp.id,
+          no: this.emp.no,
+          title: this.emp.title,
+          paragraph: this.emp.paragraph,
+        });
+
+
+       // Move the show() call here
+
+
+        this.keywordModal?.onHidden.subscribe(() => {
+          this.MessageFormData.reset();
+        });
+      }
+    });
+  }
+}
+
+
+editListItemId(id: string) {
+  this.currListID = id;
+  console.log("Current List Id", this.currListID);
+  const existingData = this.comprehensions.find(item => item.id === id);
+  console.log("existing Data keywords length",existingData);
+  if (existingData) {
+ 
+    console.log('Data already exists:', existingData);
+   
+    this.itemDetails = existingData.keywords.map( itemname=> {
+      this.selectedIds.push(itemname);
+      console.log("items Name : ",itemname);
+      const item = this.vocabularyData.find(item => item.name === itemname);
+      console.log("vocabulary data ",this.vocabularyData);
+      console.log("items Name : ",item?.name);
+     
+      return item ? { id: item.id, name: item.name || '', pic: item.pic || '', desc: item.desc||'' } : null;
+    });
+    if(this.itemDetails.length==0)
+    {
+      this.itemDetails= Array.from({ length: 4 }, () => ({ id: '', name: '', pic: '', desc: '' }));
+    }
+    console.log('Item Details:', this.itemDetails);
 
 
 
-// updateQuestions() {
-//   const questionFormArray = this.emp.questions.map((question: any) => {
-//     return this.fb.group({
-//       id: [question.id],
-//       qno: [question.qno],
-//       qstn: [question.qstn],
-//       qtype: [question.qtype],
-//       a: [question.a],
-//       b: [question.b],
-//       c: [question.c],
-//       d: [question.d],
-//       answer: [question.answer],
-//     });
-//   });
 
 
-//   this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
+
+    // You can show a different modal or handle the behavior as needed
+  } else {
+    // Data is new, perform actions accordingly
+    console.log('Data is new');
+    this.currListID = id;
+    console.log("Current List Id", this.currListID);
+    // Show your existing modal or handle the behavior as needed
+  }
+}
 
 
-//   const updatedQuestions = this.emp.questions.map((question, index) => {
-//     const questionFormGroup = questionFormArray.at(index) as FormGroup;
-//     return {
-      
-//       id: questionFormGroup.get('id')?.value,
-//       qno: questionFormGroup.get('qno')?.value,
-//       qstn: questionFormGroup.get('qstn')?.value,
-//       qtype: questionFormGroup.get('qtype')?.value,
-//       a: questionFormGroup.get('a')?.value,
-//       b: questionFormGroup.get('b')?.value,
-//       c: questionFormGroup.get('c')?.value,
-//       d: questionFormGroup.get('d')?.value,
-//       answer: questionFormGroup.get('answer')?.value,
-//     };
-//   });
 
 
-//   this.emp.questions = updatedQuestions;
-// }
+
 
 updateQuestions() {
   const questionFormArray = this.emp.questions.map((question: any) => {
@@ -500,54 +392,31 @@ updateQuestions() {
 
 
 
-// Assuming 'this.emp.questions' is an array of type 'Question'
-// Assuming 'this.emp.questions' is an array of type 'Question'
+updateKeyWord(id: string): void {
+  // Filter out items with empty names and then extract names from itemDetails array
+  this.selectedKeywords1 = this.itemDetails
+    .filter(item => item.name.trim() !== '')  // Exclude items with empty names
+    .map(item => item.name);
 
 
+  // Check if the array is not empty before proceeding
+  if (this.selectedKeywords1.length === 0) {
+    console.log('No non-empty keywords selected. Skipping update.');
+    return;
+  }
 
 
+  // Use selectedKeywords1 array as needed (e.g., update in Firebase)
 
 
+  console.log('Updated Keywords:', this.selectedKeywords1);
 
 
-// update(id: string) {
-//   this.updateQuestions();
-//   this.apiService.updateComprehensionData(id.toString(), this.emp, this.GrammarId);
-//   this.emp = new Comprehension();
-//   this.deleteRecordModal?.hide();
-// }
-
-// update(id: string) {
-//   this.updateQuestions();
-//   this.apiService.updateComprehensionData(id.toString(), this.emp, this.GrammarId);
-//   this.emp = new Comprehension();
-//   this.deleteRecordModal?.hide();
-// }
-
-// update(id: string) {
-//   this.updateQuestions();
-//   const updatedQuestions = this.MessageFormData.value.questions.map((question: any) => {
-//     return {
-//       // id: question.id,
-//       qno: question.qno,
-//       qstn: question.qstn,
-//       qtype: question.qtype,
-//       a: question.a,
-//       b: question.b,
-//       c: question.c,
-//       d: question.d,
-//       answer: question.answer,
-//     };
-//   });
-
-//   this.emp.questions = updatedQuestions;
-
-//   this.apiService.updateComprehensionData(id.toString(), this.emp, this.GrammarId);
-
- 
-//   this.emp = new Comprehension();
-//   this.deleteRecordModal?.hide();
-// }
+  this.apiService.updateComprehensionKeyWords(id.toString(), this.selectedKeywords1, this.GrammarId);
+  this.keywordModal?.hide();
+ // this.emp1 = new Vocabulary();
+  // ... existing code ...
+}
 
 update(id: string) {
 
@@ -574,7 +443,41 @@ update(id: string) {
   this.deleteRecordModal?.hide();
 }
 
+showPreview(event: any) {
+  if (event.target.files && event.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (e: any) => this.imgSrc = e.target.result;
+    reader.readAsDataURL(event.target.files[0]);
+    this.selectedImage = event.target.files[0];
+    this.image_path='';
+    if (this.selectedImage != null) {
+      var category = 'images';
+      var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
+      const fileRef = this.storage.ref(filePath);
 
+      this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
+        finalize(() => {
+          fileRef.getDownloadURL().subscribe((url) => {
+            this.emp.pic = url;
+            console.log('imagePathsdb:', this.emp.pic ); // Check if it's populated here
+          });
+        })
+      ).subscribe(
+        () => {
+          console.log('Upload completed successfully');
+        },
+        (error) => {
+          console.error('Upload error:', error);
+        }
+      );
+    }
+
+  }
+  else {
+    this.imgSrc = '/assets/images/image_placeholder.jpg';
+    this.selectedImage = null;
+  }
+}
 
 delet(id: string){
   this.apiService.quarydeleteComprehensionData(this.GrammarId,id)
@@ -583,23 +486,16 @@ delet(id: string){
 }
 
 
-
-
-  // update(id: string)
-  //  {
-  //    this.apiService.updateComprehensionData(id.toString(),this.emp,this.GrammarId);
-  //    this.emp = new Comprehension();
-  //    this.deleteRecordModal?.hide();
-  //     // this.resetForm;
-
-
-  //  }
    
    add(){
     this.MessageFormData;
     this.addCourse?.show()
     this.emp = new Comprehension();
    
+  }
+  showImagePreview(imageUrl: string) {
+    this.selectedPreviewImage = imageUrl;
+    this.showModals1?.show(); // Show the modal
   }
 
 //assign
@@ -610,24 +506,6 @@ setSelectedItemId(itemId: string) {
   this.selectedItemId = itemId;
   this.assign.list_id = this.selectedItemId;
 
-
-
-
-
-
-
-
-
-  // this.apiService.checkListIdExists(this.school_id, itemId).subscribe(
-  //   response => {
-  //     console.log("API Response: ", response[0].id);
-  //     // Do something with the API response, if needed
-  //   },
-  //   error => {
-  //     console.error("API Error: ", error);
-  //     // Handle API error, if needed
-  //   }
-  // );
 }
 
 assignstd1(listId: string): void {
@@ -696,18 +574,6 @@ saveSelectedStandards() {
      
     }
 
-
-
-   
-  
-
-
-
-
-    // Reset the form and close the modal
-    // this.assign = new Assign();
-    // this.deleteRecordModal2?.hide();
-    // this.showModal?.hide();
  
 }
 signSelectedStandards(): void {
@@ -716,34 +582,71 @@ signSelectedStandards(): void {
   });
 }
 
+filterItems(index: number, event: any): void {
+  if (this.showAllItems) {
+    console.log("step 2");
+    this.filteredAdditems = this.vocabularyData.filter(item =>
+      item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+    );
+  } else {
+    console.log("step 3");
+    this.filteredAdditems = this.vocabularyData.filter(item =>
+      item.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+    );
+  }
+
+  console.log("step 4");
+  console.log(event.target.value);
  
-// filteredTeacher(event: any): void {
-//   const value = event.target.value;
-//   console.log('Filtering by name...', value);
-//   this.searchTerm = value;
-//   this.filterTeacher();
-// }
+  // Find the corresponding item in filteredAdditems based on id
+  const selectedItem = this.filteredAdditems.find(item => item.name === event.target.value);
+ 
+  if (selectedItem) {
+    // If found, update the id and name in the items array
+    this.itemDetails[index].id = selectedItem.id;
+    console.log("item id",this.itemDetails[index].id);
+    this.itemDetails[index].name = selectedItem.name;
+    this.itemDetails[index].pic = selectedItem.pic;
+    this.itemDetails[index].desc = selectedItem.desc;
+    console.log("item name",this.itemDetails[index].name);
+    console.log("item picture",this.itemDetails[index].pic);
+    if(selectedItem.id){
+      this.selectedIds.push(selectedItem.name);
+      this.selectedKeyWords.add(event.target.value);
+     
+      console.log("Selected Keywords Name", this.selectedIds)
+    }    
+  } else {
+    // Handle the case when the corresponding item is not found
+    console.error('Item not found for id:', event.target.value);
+  }
+
+  this.selectedItems = this.filteredAdditems;
+
+}
+
+onDropdownChange(index: number, selectedItemId: string): void {
+  // Find the selected item by ID
+ 
+  const selectedItem = this.vocabularyData.find(item => item.name === selectedItemId);
+ // console.log(selectedItem);
+  // Update the selected item for the specific dropdown
+  if (selectedItem !== undefined) {
+    //this.items[index] = selectedItem;
+  } else {
+    // Handle the case where the item is not found (optional)
+    console.error(`Item with ID ${selectedItemId} not found.`);
+    // You can choose to set a default or handle this case according to your application's logic.
+  }
+}
 
 
-// filterTeacher() {
-//   console.log('Filtering...', this.searchTerm);
+addRow(): void {
+  // this.items.push({ id: '', name: '', picture: '', punctuation: '' });
+   this.itemDetails.push({ id: '', name: '', pic: '', desc: '' });
+ }
 
 
-//   this.filteredItems = this.comprehensions.filter(teacher => {
-   
-//     const nameMatch = !this.searchTerm || teacher.title.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-
-//     return nameMatch;
-//   });
-
-
-//   if (!this.filteredItems.length) {
-//     console.log('Nooo Students...');
-//     this.filteredItems = [];
-//     console.log(this.filteredItems);
-//   }
-// }
 
 filterItemsByOption() {
   if (this.selectedOption === 'ALL' || this.selectedOption === '') {

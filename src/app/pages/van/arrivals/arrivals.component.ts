@@ -45,68 +45,71 @@ export class ArrivalsComponent {
     );
   }
   
-  filteredTeacher(event: any): void {
-    const value = event.target.value;
-    console.log('Filtering by name...', value);
-    this.searchTerm = value;
-    this.filterTeacher();
-  }
-  // filteredTeacher(event: any): void {
+  // filteredArrival (event: any): void {
   //   const value = event.target.value;
-
-   
-  //   const parsedDate = new Date(value);
-
- 
-  //   const formattedDate = formatDate(parsedDate, 'dd-MM-yyyy', 'en-US');
-
-  //   console.log('Filtering by date...', formattedDate);
-
-
-  //   this.searchTerm = formattedDate;
+  //   console.log('Filtering by name...', value);
+  //   this.searchTerm = value;
   //   this.filterTeacher();
   // }
  
  
+ 
+//   filterTeacher() {
+//     console.log('Filtering...', this.searchTerm);
+
+// console.log(this.arrivals)
+//     this.filteredTeachers = this.arrivals.filter(arriv => {
+//       console.log(arriv.date,'date')
+//       const nameMatch = !this.searchTerm || arriv.date.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+//       return nameMatch;
+//     });
+
+
+//     if (!this.filteredTeachers.length) {
+//       console.log('Nooo Students...');
+//       this.filteredTeachers = [];
+//       console.log(this.filteredTeachers);
+//     }
+//   }
+
+filteredArrival(event: any): void {
+  const value = event.target.value;
+
+ 
+  const parsedDate = new Date(value);
+
+
+  const formattedDate = formatDate(parsedDate, 'dd-MM-yyyy', 'en-US');
+
+  console.log('Filtering by date...', formattedDate);
+
+
+  this.searchTerm = formattedDate;
+  console.log('Filtering searchTerm...', this.searchTerm );
+  this.filterTeacher();
+}
   filterTeacher() {
     console.log('Filtering...', this.searchTerm);
 
-
     this.filteredTeachers = this.arrivals.filter(arriv => {
-     
-      const nameMatch = !this.searchTerm || arriv.date.toLowerCase().includes(this.searchTerm.toLowerCase());
+      console.log('Filtering data...', arriv.date);
+      const parsedDate = new Date(arriv.date);
 
+  
+      const formattedDate = formatDate(parsedDate, 'dd-MM-yyyy', 'en-US');
 
-      return nameMatch;
+      const dateMatch = !this.searchTerm || formattedDate.includes(this.searchTerm);
+      console.log('Filtering datsd...', dateMatch);
+      return dateMatch;
     });
 
-
     if (!this.filteredTeachers.length) {
-      console.log('Nooo Students...');
+      console.log('No Students...');
       this.filteredTeachers = [];
       console.log(this.filteredTeachers);
     }
   }
-  // filterTeacher() {
-  //   console.log('Filtering...', this.searchTerm);
-
-  //   this.filteredTeachers = this.arrivals.filter(arriv => {
-     
-  //     const parsedDate = new Date(arriv.date);
-
-  
-  //     const formattedDate = formatDate(parsedDate, 'dd-MM-yyyy', 'en-US');
-
-  //     const dateMatch = !this.searchTerm || formattedDate.includes(this.searchTerm);
-
-  //     return dateMatch;
-  //   });
-
-  //   if (!this.filteredTeachers.length) {
-  //     console.log('No Students...');
-  //     this.filteredTeachers = [];
-  //     console.log(this.filteredTeachers);
-  //   }
-  // }
 
 }
