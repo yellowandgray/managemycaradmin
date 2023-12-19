@@ -141,9 +141,9 @@
                   <textarea type="text" class="form-control" formControlName="paragraph" placeholder="Enter Paragraph" [(ngModel)]="emp.paragraph" required style="height: 120px;" readonly></textarea>
                 </div>
               </form>
-              <div *ngFor="let item of itemDetails; let i = index" class="col-md-12 px-4">
+              <div *ngFor="let item of itemDetails; let i = index" class="col-md-12 px-4 p-2" >
                 <div class="input-group">
-                  <div class="Name me-3">{{i+1}}</div>
+                  <div class="Name me-3 py-3">{{i+1}}</div>
                   <input class="form-control" [attr.list]="'vocabularyData' + i" id="exampleDataList{{ i }}"
                         value={{item.name}} [(ngModel)]="item.name"  (ngModelChange)="onDropdownChange(i, $event)" (input)="filterItems(i, $event)"  placeholder="Search Item...">
                         <td class="picture">
@@ -379,7 +379,7 @@
                                         {{data.paragraph}}
                                       </td>
                                       <td class="customer_name">
-                                        {{data.keywords.length}}
+                                        <div class=" px-4">{{data.keywords.length}}</div>
                                       </td>
                                     
                                       <td class="AssignToContainer">

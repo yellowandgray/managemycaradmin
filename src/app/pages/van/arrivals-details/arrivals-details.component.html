@@ -1,5 +1,5 @@
 <a (click)="goBack()">
-    <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem;"></i>
+    <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem; color: #3762ea;"></i>
 </a>
 
 <div class="row">
@@ -67,10 +67,10 @@
         <div class="card">
             <div class="card-header d-flex align-items-center gap-3">
                 <h6 class="card-title mb-0 flex-grow-1">Arrival Details</h6>
-                <div class="flex-shrink-0">
+                <!-- <div class="flex-shrink-0">
                     <button type="button" class="btn btn-danger btn-sm me-1"><i class="ph-x align-middle"></i> Cancel
                         Order</button>
-                </div>
+                </div> -->
             </div>
             <div class="card-body">
                 <div  class="table-responsive table-card mt-3 mb-1">
@@ -98,7 +98,6 @@
                                 <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
                                 <td class="customer_name"><a [routerLink]="['/addressbook/driver-detail',{driverid:data.driid}]" >{{data.driname}}</a></td>
                                 <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.ccgpresent=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.ccgpresent=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>
-                                <!-- <td class="customer_name">{{data.uniform}}</td> -->
                                 <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.uniform=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.uniform=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>
                                 <td class="date">{{data.remarks}}</td>
                                 
