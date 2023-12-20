@@ -22,6 +22,7 @@ export class VocabularyComponent {
   selectedImage: any = null;
   imgSrc: string='';
   deleteId:string='';
+  uploading: boolean = false;
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   // @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -106,6 +107,7 @@ export class VocabularyComponent {
   }
 
   showPreview(event: any) {
+    this.uploading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => this.imgSrc = e.target.result;
@@ -121,7 +123,8 @@ export class VocabularyComponent {
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.pic = url;
-              console.log('imagePathsdb:', this.emp.pic ); // Check if it's populated here
+              console.log('imagePathsdb:', this.emp.pic );
+              this.uploading = false; // Check if it's populated here
             });
           })
         ).subscribe(
@@ -130,6 +133,7 @@ export class VocabularyComponent {
           },
           (error) => {
             console.error('Upload error:', error);
+            this.uploading = false;
           }
         );
       }
@@ -138,6 +142,7 @@ export class VocabularyComponent {
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
+      this.uploading = false;
     }
   }
 

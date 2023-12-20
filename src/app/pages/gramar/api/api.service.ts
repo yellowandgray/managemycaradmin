@@ -228,6 +228,20 @@ createAssignData(obj: Assign, schoolid: string) {
   })
 }
 
+createVocabularyData1(obj: Vocabulary, GrammarId: string) {
+  const comprehensionDocRef =  this.firestore.collection(`Grammar/${GrammarId}/Vocabulary`).add({
+    'name': obj.name,
+    'desc': obj.desc,
+    'pic': obj.pic,
+  }).then(async docRef => {
+    console.log(docRef.id);
+    await this.firestore.doc(`Grammar/${GrammarId}/Vocabulary/${docRef.id}`).update({
+      'id': docRef.id
+    });
+  });
+}
+
+
 updateAssignData(obj: Assign, schoolid: string, docId: string) {
   console.log(obj.list_id, 'list id');
   console.log(obj.standard, 'standard');

@@ -14,13 +14,14 @@
                     <div class="row g-4 mb-3 ">
                         <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
-                                <input type="Date"   id="date-field" class="form-control "  [(ngModel)]="searchTerm"placeholder="search R. No." (input)="filteredArrival($event)"  >
+                                <input type="date" id="date-field" class="form-control" [(ngModel)]="searchTerm" (change)="filteredArrival($event);">
                                 <i class="ri-search-line search-icon"></i>
-                            </div>
-                            <div class="search-box ms-2">
+                              </div>
+                            <!-- <div class="search-box ms-2">
                                 <input type="text" class="form-control search" placeholder="Search Route No." >
                                 <i class="ri-search-line search-icon"></i>
-                            </div>
+                            </div> -->
+                            
                           
                             </div>
                         <div class="col-sm">
@@ -56,7 +57,7 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of filteredTeachers ;let i = index;" >
+                                <tr *ngFor="let data of filteredArrivals ;let i = index;" >
                                     <td class="date">{{data.date}}</td>
                                     <td class="date"><a [routerLink]="['/van/varrival-detail',{routeno:data.rno,driverid:data.driid}]">{{data.rno }}</a></td>
                                     <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>

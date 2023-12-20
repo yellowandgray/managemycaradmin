@@ -1,36 +1,31 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Start Breadcrumbs -->
 <app-breadcrumbs title="Items View" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 <!-- End Breadcrumbs -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<div id="deleteRecordModal" class="modal fade zoomIn" bsModal #deleteModal="bs-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
+            </div>
+            <div class="modal-body p-md-5">
+                <div class="text-center">
+                    <div class="text-danger">
+                        <i class="bi bi-trash display-4"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="mb-2">Are you sure ?</h3>
+                        <p class="text-muted fs-lg mx-3 mb-0">Are you sure you want to remove this record ?</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+                    <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
+                    <button type="button" class="btn w-sm btn-danger btn-hover" id="delete-record" (click)="delet(deleteId)">Yes, Delete It!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div bsModal #addCourse="bs-modal" class="modal fade" id="addCourse" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -42,18 +37,7 @@
             </div>
 
 
-
-
-
-
-
-
             <form  class="tablelist-form" [formGroup]="MessageFormData">
-
-
-
-
-
 
 
 
@@ -61,11 +45,6 @@
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                     <input type="hidden" id="id-field">
-
-
-
-
-
 
 
 
@@ -82,28 +61,21 @@
 
 
 
-
-
-
-                 
-
-
-
-
-
-
-
-
                     <div class="mb-3">
                         <label class="form-label">Picture</label>
                         <div class="d-flex no-block justify-content-left align-items-lt">
                             <div class="m-r-10 no-shrink">
-                                <div class="text-left">
+                                <div *ngIf="uploading==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left"  *ngIf="uploading==false">
                                     <img [src]="image_path || emp.picture" width="100px" height="100px" (click)="fileUploader.click()">
                                 </div>
                             </div>
                             <div>
-                                <div class="form-group justify-content-center">
+                                <div class="form-group justify-content-center px-3">
                                     <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
                                 </div>
                             </div>
@@ -147,9 +119,6 @@
 
 
 
-
-
-
                 </div>
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
@@ -181,17 +150,7 @@
 
 
 
-
-
-
-
             <form  class="tablelist-form" [formGroup]="MessageFormData">
-
-
-
-
-
-
 
 
                 <div class="modal-body">
@@ -226,12 +185,17 @@
                     <label class="form-label">Picture</label>
                     <div class="d-flex no-block justify-content-left align-items-lef">
                         <div class="m-r-10 no-shrink">
-                            <div class="text-left">
+                            <div *ngIf="uploading==true" class="text-left ">
+                                <div class="spinner-border" role="status">
+                                  <span class="visually-hidden">Uploading...</span>
+                                </div>
+                              </div>
+                            <div class="text-left"  *ngIf="uploading==false">
                                 <img [src]="image_path || emp.picture" width="100px" height="100px" (click)="fileUploader.click()">
                             </div>
                         </div>
                         <div>
-                            <div class="form-group justify-content-center">
+                            <div class="form-group justify-content-center px-3">
                                 <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
                             </div>
                         </div>
@@ -454,30 +418,7 @@
  
  
  
-  <div id="deleteRecordModal" class="modal fade zoomIn" bsModal #deleteModal="bs-modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
-            </div>
-            <div class="modal-body p-md-5">
-                <div class="text-center">
-                    <div class="text-danger">
-                        <i class="bi bi-trash display-4"></i>
-                    </div>
-                    <div class="mt-4">
-                        <h3 class="mb-2">Are you sure ?</h3>
-                        <p class="text-muted fs-lg mx-3 mb-0">Are you sure you want to remove this record ?</p>
-                    </div>
-                </div>
-                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                    <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
-                    <button type="button" class="btn w-sm btn-danger btn-hover" id="delete-record" (click)="delet(deleteId)">Yes, Delete It!</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 

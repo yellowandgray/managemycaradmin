@@ -81,10 +81,12 @@ import { Van } from "./addvanobj";
 
 //routes
 
-    getRouteData(SchoolId: string,vanId:string) {
-      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Routes`, ref => ref.orderBy('rno')).snapshotChanges();
-    
-     }
+getRouteData(SchoolId: string, vanId: string) {
+  return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Routes`, ref =>
+    ref.orderBy('rno', 'asc')
+  ).snapshotChanges();
+}
+
       createRouteData(obj:Route,SchoolId: string,vanId:string ){
       return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Routes`).add(
         {

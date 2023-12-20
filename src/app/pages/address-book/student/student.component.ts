@@ -81,22 +81,11 @@ export class StudentComponent {
   itemsPerPage = 10;
   currentPage = 1;
   selectedStudentIndex: number | null = null;
-
-
-
-
-
-
+  uploading: boolean = false;
 
 
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
-
-
-
-
-
-
 
 
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -110,15 +99,6 @@ export class StudentComponent {
 //     { path: 'addressbook/studentdetails/:name', component: StudentDetailsComponent },
 //   ];
  
-
-
-
-
-
-
-
-
-
 
   constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private router: Router, ) {
    
@@ -136,20 +116,6 @@ export class StudentComponent {
     });    
        
     if (this.emp != null) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
       this.MessageFormData.patchValue({      
@@ -293,6 +259,7 @@ this.deleteModal?.hide()
   }
  
   showPreview(event: any) {
+    this.uploading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => this.imgSrc = e.target.result;
@@ -307,6 +274,7 @@ this.deleteModal?.hide()
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.image = url;
+              this.uploading = false;
             });
           })
         ).subscribe(
@@ -315,6 +283,7 @@ this.deleteModal?.hide()
           },
           (error) => {
             console.error('Upload error:', error);
+            this.uploading = false;
           }
         );
       }
@@ -322,6 +291,7 @@ this.deleteModal?.hide()
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
+      this.uploading = false;
     }
   }
   add(){

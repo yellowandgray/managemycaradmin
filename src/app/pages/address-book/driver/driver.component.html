@@ -33,14 +33,19 @@
                         <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
+                                <div *ngIf="uploading==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left"  *ngIf="uploading==false">
                                     <img [src]="image_path || emp.pic" width="100px" height="100px" (click)="fileUploader.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
+                                <div class="form-group justify-content-center px-3">
                                     <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
                                 </div>
                             </div>
@@ -82,15 +87,20 @@
                         <label class="form-label">License</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path1 || emp.license" width="100px" height="100px" (click)="fileUploaders.click()">
+                                <div *ngIf="uploading1==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading1==false">
+                                    <img [src]="image_path1 || emp.license" width="100px" height="100px" (click)="fileUploader1.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
-                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploaders (change)="showPreview1($event)">
+                                <div class="form-group justify-content-center px-3">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader1 (change)="showPreview1($event)">
                                 </div>
                             </div>
                         </div>
@@ -99,15 +109,20 @@
                         <label class="form-label">PAN Card</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path2 || emp.pancard" width="100px" height="100px" (click)="fileUploader1.click()">
+                                <div *ngIf="uploading2==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading2==false">
+                                    <img [src]="image_path2 || emp.pancard" width="100px" height="100px" (click)="fileUploader2.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
-                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader1 (change)="showPreview2($event)">
+                                <div class="form-group justify-content-center px-3">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader2 (change)="showPreview2($event)">
                                 </div>
                             </div>
                         </div>
@@ -116,15 +131,20 @@
                         <label class="form-label">Aadhar Card</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path3 || emp.aadhar" width="100px" height="100px"(click)="fileUploader2.click()">
+                                <div *ngIf="uploading3==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading3==false">
+                                    <img [src]="image_path3 || emp.aadhar" width="100px" height="100px" (click)="fileUploader3.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
-                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader2 (change)="showPreview3($event)">
+                                <div class="form-group justify-content-center px-3" >
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader3 (change)="showPreview3($event)">
                                 </div>
                             </div>
                         </div>
@@ -188,14 +208,19 @@
                         <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
+                                <div *ngIf="uploading==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left"  *ngIf="uploading==false">
                                     <img [src]="image_path || emp.pic" width="100px" height="100px" (click)="fileUploader.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
+                                <div class="form-group justify-content-center px-3">
                                     <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
                                 </div>
                             </div>
@@ -248,15 +273,20 @@
                         <label class="form-label">License</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path1 || emp.license" width="100px" height="100px" (click)="fileUploader.click()">
+                                <div *ngIf="uploading1==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading1==false">
+                                    <img [src]="image_path1 || emp.license" width="100px" height="100px" (click)="fileUploader1.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
-                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview1($event)">
+                                <div class="form-group justify-content-center px-3">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader1 (change)="showPreview1($event)">
                                 </div>
                             </div>
                         </div>
@@ -265,15 +295,20 @@
                         <label class="form-label">PAN Card</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path2 || emp.pancard" width="100px" height="100px" (click)="fileUploader.click()">
+                                <div *ngIf="uploading2==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading2==false">
+                                    <img [src]="image_path2 || emp.pancard" width="100px" height="100px" (click)="fileUploader2.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
-                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview2($event)">
+                                <div class="form-group justify-content-center px-3">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader2 (change)="showPreview2($event)">
                                 </div>
                             </div>
                         </div>
@@ -282,15 +317,20 @@
                         <label class="form-label">Aadhar Card</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path3 || emp.aadhar" width="100px" height="100px" (click)="fileUploader.click()">
+                                <div *ngIf="uploading3==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading3==false">
+                                    <img [src]="image_path3 || emp.aadhar" width="100px" height="100px" (click)="fileUploader3.click()">
                                 </div>
                             </div>
                            
                            
                             <div>
-                                <div class="form-group justify-content-center">
-                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview3($event)">
+                                <div class="form-group justify-content-center px-3" >
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader3 (change)="showPreview3($event)">
                                 </div>
                             </div>
                         </div>

@@ -115,14 +115,20 @@
                         <label class="form-label">Photo</label>
                         <div class="d-flex no-block justify-content-left align-items-left">
                             <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
-                                <div class="text-left">
-                                    <img [src]="image_path || emp.pic" width="200px" height="150px" (click)="fileUploader.click()">
+                                <div *ngIf="uploading==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                      <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                  </div>
+                                <div class="text-left" *ngIf="uploading==false" >
+                                    <img [src]="image_path || emp.pic" width="200px" height="150px" (click)="fileUploader.click()" >
+                                    
                                 </div>
                             </div>
                             
                             
                             <div>
-                                <div class="form-group justify-content-center">
+                                <div class="form-group justify-content-center px-3">
                                     <input type="file" accept="image/*" class="form-control-sm" #fileUploader (change)="showPreview($event)">
                                 </div>
                             </div>

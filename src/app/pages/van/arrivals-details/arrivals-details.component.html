@@ -1,10 +1,16 @@
-<a (click)="goBack()">
-    <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem; color: #3762ea;"></i>
-</a>
+
+<div class="d-flex align-items-center">
+    <a (click)="goBack()">
+        <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem; color: #3762ea;"></i>
+    </a>
+    <h5 class="px-3 mb-0"  *ngFor="let data of routedetail">{{data.rno}}</h5>
+</div>
 
 <div class="row">
     <div class="col-xxl-4 col-md-6">
+        <h5>Route Details</h5>
         <div class="card border-bottom border-2 border-secondary" >
+            
             <div class="card-body d-flex gap-3" *ngFor="let data of routedetail">
                 <div class="flex-grow-1">
                     <!-- <h6 class="card-title mb-1">Start : {{data.start}}</h6> -->
@@ -21,6 +27,7 @@
     </div>
 
     <div class="col-xxl-4 col-md-6">
+        <h5>Driver Details</h5>
         <div class="card border-bottom border-2 border-primary">
             <div class="card-body d-flex gap-3" *ngFor="let data of filteredDrivers">
                 <div class="flex-grow-1">
@@ -42,6 +49,7 @@
         </div>
     </div><!--end col-->
     <div class="col-xxl-4 col-md-6">
+        <h5>Van Details</h5>
         <div class="card border-bottom border-2 border-info" *ngFor="let data of fildervan">
             <div class="card-body d-flex gap-3">
                 <div class="flex-grow-1">
@@ -65,19 +73,42 @@
 <div class="row">
     <div class="col-xxl-12">
         <div class="card">
-            <div class="card-header d-flex align-items-center gap-3">
+            <div class="card-header ">
                 <h6 class="card-title mb-0 flex-grow-1">Arrival Details</h6>
-                <!-- <div class="flex-shrink-0">
-                    <button type="button" class="btn btn-danger btn-sm me-1"><i class="ph-x align-middle"></i> Cancel
-                        Order</button>
-                </div> -->
+               
+               
             </div>
+           
             <div class="card-body">
+
+                <div class="row g-4 mb-3 d-flex" >
+                  
+                        <div class="col-sm-auto d-flex">
+                            <div class="search-box ms-2">
+                                <input type="date" id="date-field" class="form-control" [(ngModel)]="searchTerm" (change)="filteredArrival($event);">
+                                <i class="ri-search-line search-icon"></i>
+                              </div>
+
+
+                            <div class="search-box ms-2">
+                              <div class="search-box ms-2">
+                            <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItemsByOption()">
+                                <option value="All">All</option>
+                                <option value="Delay">Delay</option>
+                                <option value="On time">On time</option>        
+                            </select>
+                        </div>
+                            </div>
+                          
+                            </div>
+
+                   
+                </div>
                 <div  class="table-responsive table-card mt-3 mb-1">
                     <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="sort" listsortable="customer_name" >Date
+                        <thead class="table-light ">
+                            <tr >
+                                <th class="sort " listsortable="customer_name" >Date
                                 </th>
                                 <th class="sort" listsortable="email">Route No.</th>
                                 <th class="sort" listsortable="customer_name" >Arrival Time
@@ -85,18 +116,18 @@
                                 
                                 <th class="sort" listsortable="customer_name" > Driver Name
                                 </th>
-                                <th class="sort " listsortable="email"> <span class="ri-user-3-fill " style="font-size: 1rem;"></span></th>
+                                <th class="sort " listsortable="email">  <img src="assets/images/girl.png " style="width: 20px; height: 20px;"> </th>
                                 
-                                <th class="sort" listsortable="date" >Uniform (Driver)</th>
+                                <th class="sort" listsortable="date" > <img src="assets/images/shirt (1).png" style="width: 20px; height: 20px;" ></th>
                                 <th class="sort" listsortable="email">Remarks</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            <tr *ngFor="let data of arrivals ;let i = index;" >
+                            <tr *ngFor="let data of filteredArrivals ;let i = index;" >
                                 <td class="date">{{data.date}}</td>
-                                <td class="date"><a [routerLink]="['/van/varrival-detail',{routeno:data.rno}]">{{data.rno }}</a></td>
+                                <td class="date">{{data.rno}}</td>
                                 <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
-                                <td class="customer_name"><a [routerLink]="['/addressbook/driver-detail',{driverid:data.driid}]" >{{data.driname}}</a></td>
+                                <td class="customer_name">{{data.driname}}</td>
                                 <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.ccgpresent=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.ccgpresent=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>
                                 <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.uniform=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.uniform=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>
                                 <td class="date">{{data.remarks}}</td>

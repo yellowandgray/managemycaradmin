@@ -89,6 +89,7 @@ selectedOption: string = '';
 bsModalRef: BsModalRef | undefined;
 
 loading: boolean = true;
+uploading: boolean = false; // Check if it's populated here
 
 
 
@@ -693,6 +694,7 @@ deleteId:string='';
 
 
   showPreview(event: any) {
+    this.uploading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => this.imgSrc = e.target.result;
@@ -715,7 +717,8 @@ deleteId:string='';
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.picture = url;
-              console.log('imagePathsdb:', this.emp.picture ); // Check if it's populated here
+              this.uploading = false;
+              console.log('imagePathsdb:', this.emp.picture );
             });
           })
         ).subscribe(
@@ -724,6 +727,7 @@ deleteId:string='';
           },
           (error) => {
             console.error('Upload error:', error);
+            this.uploading = false;
           }
         );
       }
@@ -734,6 +738,7 @@ deleteId:string='';
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
+      this.uploading = false;
     }
   }
 

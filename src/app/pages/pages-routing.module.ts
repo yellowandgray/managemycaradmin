@@ -20,8 +20,12 @@ const routes: Routes = [
   {
     path: 'van', loadChildren: () => import('./van/van.module').then(m => m.vanModule)
   },
+
   {
     path: 'kgsheet', loadChildren: () => import('./kgsheet/kgsheet.module').then(m => m.KgModule)
+  },
+  {
+    path: 'test', loadChildren: () => import('./test-exam/test.module').then(m => m.TestModule)
   },
   {
     path: 'ecommerce', loadChildren: () => import('./ecommerce/ecommerce.module').then(m => m.EcommerceModule)

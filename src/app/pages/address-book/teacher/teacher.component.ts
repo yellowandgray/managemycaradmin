@@ -34,6 +34,7 @@ export class TeacherComponent {
   image_path: string = '';
   imgSrc: string='';
   selectedCategory: string = '';
+  uploading: boolean = false;
   selectedImage: any = null;
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -125,6 +126,7 @@ this.deleteModal?.hide()
   }
  
   showPreview(event: any) {
+    this.uploading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => this.imgSrc = e.target.result;
@@ -140,7 +142,8 @@ this.deleteModal?.hide()
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.img = url;
-              console.log('imagePathsdb:', this.emp.img ); // Check if it's populated here
+              this.uploading = false;
+               // Check if it's populated here
             });
           })
         ).subscribe(
@@ -149,6 +152,7 @@ this.deleteModal?.hide()
           },
           (error) => {
             console.error('Upload error:', error);
+            this.uploading = false;
           }
         );
       }
@@ -157,6 +161,7 @@ this.deleteModal?.hide()
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
+      this.uploading = false;
     }
   }
   

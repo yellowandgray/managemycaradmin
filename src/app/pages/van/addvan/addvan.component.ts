@@ -155,8 +155,9 @@ showImagePreview(imageUrl: string) {
 
 delet(id: string){
   this.apiService.deleteVanData(id,this.SchoolId,this.vanId)
+  this.deleteModal?.hide()
     }
-    onImageSelected(event: any) {
+   onImageSelected(event: any) {
       if (event.target.files && event.target.files[0]) {
         this.selectedImage = event.target.files[0];
       }
@@ -168,6 +169,7 @@ delet(id: string){
     }
 
     showPreview(event: any) {
+    
        this.uploading = true;
       if (event.target.files && event.target.files[0]) {
         const reader = new FileReader();
@@ -204,7 +206,7 @@ delet(id: string){
         this.selectedImage = null;
         this.uploading = false;
       }
-      this.deleteModal?.hide()
+    
     }
     
  

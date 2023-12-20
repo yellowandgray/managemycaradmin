@@ -125,6 +125,8 @@ export const MENU: MenuItem[] = [
         ]
         
     },
+
+
     {
         id: 12,
         label: 'Grammar',
@@ -142,6 +144,35 @@ export const MENU: MenuItem[] = [
                 link: '/Gramar/vocabulary',
                 parentId: 12
             },
+         
+           
+           
+        ]
+        
+    },
+    {
+        id: 13,
+        label: 'Test / Exam',
+        icon: 'ph-folder-open',
+        subItems: [
+            {
+                id: 11,
+                label: 'Create Test',
+                link: '/test/create-test',
+                parentId: 13
+            },
+            {
+                id: 12,
+                label: 'Assign Marks',
+                link: '/test/assign-mark',
+                parentId: 13
+            },
+            // {
+            //     id: 13,
+            //     label: 'Test',
+            //     link: '/kgsheet/testpage',
+            //     parentId: 13
+            // },
          
            
            
@@ -183,7 +214,7 @@ export const MENU: MenuItem[] = [
             },
             {
                 id: 5,
-                label: 'Map',
+                label: 'Map Route,van & driver',
                 link: 'van/map',
                 parentId: 11
             },

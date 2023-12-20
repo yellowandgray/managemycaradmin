@@ -38,6 +38,7 @@ export class AddItemComponent {
   loading: boolean = true;
   filterItems: Additems[] = [];
   filterItems1: Additems[] = [];
+  uploading: boolean = false;
   deleteId:string='';
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
@@ -82,6 +83,7 @@ export class AddItemComponent {
 
 
   showPreview(event: any) {
+    this.uploading = true;
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onload = (e: any) => this.imgSrc = e.target.result;
@@ -98,6 +100,7 @@ export class AddItemComponent {
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.picture = url;
+              this.uploading = false;
             });
           })
         ).subscribe(
@@ -106,6 +109,7 @@ export class AddItemComponent {
           },
           (error) => {
             console.error('Upload error:', error);
+            this.uploading = false;
           }
         );
       }
@@ -113,6 +117,7 @@ export class AddItemComponent {
     else {
       this.imgSrc = '/assets/images/image_placeholder.jpg';
       this.selectedImage = null;
+      this.uploading = false;
     }
   }
 
