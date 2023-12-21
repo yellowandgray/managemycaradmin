@@ -1,33 +1,4 @@
-<!-- <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
-    <thead class="table-light">
-        <tr>
-           
-            <th class="sort" listsortable="email">R. No.</th>
-            <th class="sort" listsortable="date" >Start</th>
-            <th class="sort" listsortable="email">Stop 1</th>
-            <th class="sort" listsortable="email">Stop 2</th>
-            <th class="sort" listsortable="email">Stop 3</th>
-            <th class="sort" listsortable="email">Route Details</th>
-            <th class="sort" listsortable="customer_name" >Destination
-            </th>
-            
 
-        </tr>
-    </thead>
-    <tbody class="list form-check-all">
-        <tr *ngFor="let data of routedetail;let i = index;" >
-            <td class="date">{{data.rno}}</td>
-            <td class="customer_name">{{data.start}}</td>
-            <td class="date">{{data.stop1}}</td>
-            <td class="date">{{data.stop2}}</td>
-            <td class="date">{{data.stop3}}</td>
-            <td class="customer_name">{{data.routedetails}}</td>
-            <td class="date">{{data.desti}}</td>
-            <td>
-        
-      </td>
-    </tbody>
-</table> -->
 <div class="col-xxl-12">
     <div class="d-flex align-items-center">
         <a (click)="goBack()">
@@ -46,24 +17,30 @@
                             <div class="col-xl-12 ">
                                 <div class="card-body">
 
-                                    <h4 class="text-truncate text-capitalize">{{data.rno}}</h4>
-                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                        Start : {{data.start}}
+                                    <h4 class="text-truncate text-capitalize">Route No. : {{data.rno}}</h4>
+                                    <div class="d-flex py-1  tb-fond-md">
+                                        <span class="text-muted">  Start : </span>  <span class="tb-table-striped-color px-1">  {{data.start}}</span> 
+                                       
                                     </div>
-                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                        Stop1 : {{data.stop1}}
+                                    <div class="d-flex py-1 tb-fond-md">
+                                        <span class="text-muted"> Stop1 : </span>  <span class="tb-table-striped-color px-1">   {{data.stop1}}</span> 
+                                       
                                     </div>
-                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                        Stop2 : {{data.stop2}}
+                                    <div class="d-flex py-1  tb-fond-md">
+                                        <span class="text-muted">Stop2 : </span>  <span class="tb-table-striped-color px-1">   {{data.stop2}}</span> 
+                                        
                                     </div>
-                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                        Stop3 : {{data.stop3}}
+                                    <div class="d-flex py-1  tb-fond-md">
+                                        <span class="text-muted">Stop3 : </span>  <span class="tb-table-striped-color px-1">   {{data.stop3}}</span> 
+                                        
                                     </div>
-                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                        Route Details : {{data.routedetails}}
+                                    <div class="d-flex py-1  tb-fond-md">
+                                        <span class="text-muted">Route Details :  </span>  <span class="tb-table-striped-color px-1">  {{data.routedetails}}</span> 
+                                        
                                     </div>
-                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                        Destination : {{data.desti}}
+                                    <div class="d-flex py-1  tb-fond-md">
+                                        <span class="text-muted">Destination :  </span>  <span class="tb-table-striped-color px-1">  {{data.desti}}</span> 
+                                      
                                     </div>
 
                                 </div>

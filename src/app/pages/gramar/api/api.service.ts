@@ -295,7 +295,11 @@ updateAssignData(obj: Assign, schoolid: string, docId: string) {
          
           );
       }
-     
+      getScoreData(SchoolId: string,ScoreId:string) {
+        return this.firestore.collection(`School/${SchoolId}/Score/${ScoreId}/Comprehension`).snapshotChanges();
+       
+       }
+      
 
 
 

@@ -3,7 +3,7 @@ export class Score {
     stuid:string='';
     wrngans: string=''  ; 
     crtans:string[]=[];  
-    stuanswer: string[] = []; ; 
-    answers:string='' ; 
+    stuanswer: string[] = []; 
+    answers:string[] = []; 
     compid:string='';
   }

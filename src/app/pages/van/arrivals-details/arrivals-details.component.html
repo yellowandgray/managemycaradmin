@@ -3,7 +3,7 @@
     <a (click)="goBack()">
         <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem; color: #3762ea;"></i>
     </a>
-    <h5 class="px-3 mb-0"  *ngFor="let data of routedetail">{{data.rno}}</h5>
+    <h5 class="px-3 mb-0"   style="color: #3762ea;"*ngFor="let data of routedetail">Route No. {{data.rno}}</h5>
 </div>
 
 <div class="row">
@@ -14,12 +14,12 @@
             <div class="card-body d-flex gap-3" *ngFor="let data of routedetail">
                 <div class="flex-grow-1">
                     <!-- <h6 class="card-title mb-1">Start : {{data.start}}</h6> -->
-                    <p class="fw-medium fs-md mb-1">Start         : {{data.start}}</p>
-                    <p class="fw-medium fs-md mb-1"> Destination  : {{data.desti}}</p>
-                    <p class="text-muted mb-1">Route Details      : {{data.routedetails}}</p>
-                    <p class="text-muted mb-1">Stop 1  :  {{data.stop1}}</p>
-                    <p class="text-muted mb-1">Stop 2  :  {{data.stop2}}</p>
-                    <p class="text-muted mb-0">Stop 3  :  {{data.stop3}}</p>
+                    <p class="fw-medium fs-md mb-1"><samp class="text-muted"> Start </samp>        : {{data.start}}</p>
+                    <p class="fw-medium fs-md mb-1"><samp class="text-muted">Destination</samp>  : {{data.desti}}</p>
+                    <p class=" mb-1"> <samp class="text-muted">Route Details</samp>     : {{data.routedetails}}</p>
+                    <p class=" mb-1"><samp class="text-muted">Stop 1 </samp>  :  {{data.stop1}}</p>
+                    <p class=" mb-1"><span class="text-muted"> Stop 2 </span> :  {{data.stop2}}</p>
+                    <p class=" mb-0"><span class="text-muted">  Stop 3  </span> :  {{data.stop3}}</p>
                 </div>
                
             </div>
@@ -31,12 +31,12 @@
         <div class="card border-bottom border-2 border-primary">
             <div class="card-body d-flex gap-3" *ngFor="let data of filteredDrivers">
                 <div class="flex-grow-1">
-                    <h6 class="card-title mb-3">{{data.name}}</h6>
-                    <p class="fw-medium fs-md mb-1"> Age : {{data.age}}</p>
-                    <p class="text-muted mb-1">    DOB : {{data.dob| date: 'dd/MM/yyyy'}}</p>
-                    <p class="text-muted mb-0"> DOJ : {{data.doj| date: 'dd/MM/yyyy'}}</p>
-                    <p class="text-muted mb-0"> Mobile No. : {{data.phn}}</p>
-                    <p class="text-muted mb-0"> Address : {{data.address}}</p>
+                    <h6 class="card-title mb-3"> <samp class="text-muted">Name</samp>      :{{data.name}}</h6>
+                    <p class="fw-medium fs-md mb-1"> <samp class="text-muted">  Age </samp>   : {{data.age}}</p>
+                    <p class=" mb-1"> <samp class="text-muted">  DOB </samp>      : {{data.dob| date: 'dd/MM/yyyy'}}</p>
+                    <p class=" mb-0"> <samp class="text-muted">DOJ</samp>      : {{data.doj| date: 'dd/MM/yyyy'}}</p>
+                    <p class=" mb-0"> <samp class="text-muted">  Mobile No.</samp>    : {{data.phn}}</p>
+                    <p class=" mb-0"><samp class="text-muted">Address </samp>      : {{data.address}}</p>
                     <!-- <p class="text-muted mb-0"> Town : {{data.town}}</p> -->
 
                 </div>
@@ -53,12 +53,12 @@
         <div class="card border-bottom border-2 border-info" *ngFor="let data of fildervan">
             <div class="card-body d-flex gap-3">
                 <div class="flex-grow-1">
-                    <h6 class="card-title mb-3">{{data.regno}}</h6>
-                    <p class="fw-medium fs-md mb-1">  Make Year : {{data.year| date: 'dd/MM/yyyy'}}</p>
-                    <p class="text-muted mb-1">Total Seats : {{data.seats}}</p>
-                    <p class="text-muted mb-0">  Diesel Level(ltrs) : {{data.disel}}</p>
-                    <p class="text-muted mb-0">   Engine No. : {{data.engno}}</p>
-                    <p class="text-muted mb-0">   Chassis No. : {{data.chassis}}</p>
+                    <h6 class="card-title mb-3"><samp class="text-muted">  Reg. No.</samp>     : {{data.regno}}</h6>
+                    <p class="fw-medium fs-md mb-1"><samp class="text-muted">Make Year</samp>        : {{data.year| date: 'dd/MM/yyyy'}}</p>
+                    <p class=" mb-1"><samp class="text-muted"> Total Seats</samp>     : {{data.seats}}</p>
+                    <p class=" mb-0"> <samp class="text-muted">Diesel Level(ltrs)</samp>       : {{data.disel}}</p>
+                    <p class=" mb-0"><samp class="text-muted"> Engine No.</samp>        : {{data.engno}}</p>
+                    <p class=" mb-0"> <samp class="text-muted">Chassis No.</samp>        : {{data.chassis}}</p>
 
                 </div>
                 <div class="flex-shrink-0" style="height: 100px; width: 100px;">
@@ -84,15 +84,27 @@
                 <div class="row g-4 mb-3 d-flex" >
                   
                         <div class="col-sm-auto d-flex">
-                            <div class="search-box ms-2">
+                            <!-- <div class="search-box ms-2">
                                 <input type="date" id="date-field" class="form-control" [(ngModel)]="searchTerm" (change)="filteredArrival($event);">
                                 <i class="ri-search-line search-icon"></i>
+                              </div> -->
+                              <div class="d-flex justify-content-center align-items-center"><label>From :</label>
+                                <div class="search-box ms-2">
+                                    <input type="date" id="from-date-field" class="form-control" [(ngModel)]="fromDate" (change)="filteredArrival()">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div></div>
+                                <div class="d-flex justify-content-center align-items-center px-2">
+                              <label>To :</label>
+                              <div class="search-box ms-2">
+                                  <input type="date" id="to-date-field" class="form-control" [(ngModel)]="toDate" (change)="filteredArrival()">
+                                  <i class="ri-search-line search-icon"></i>
                               </div>
 
 
                             <div class="search-box ms-2">
                               <div class="search-box ms-2">
                             <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItemsByOption()">
+                                <option value="All"> Status</option>
                                 <option value="All">All</option>
                                 <option value="Delay">Delay</option>
                                 <option value="On time">On time</option>        
@@ -110,7 +122,7 @@
                             <tr >
                                 <th class="sort " listsortable="customer_name" >Date
                                 </th>
-                                <th class="sort" listsortable="email">Route No.</th>
+                                <!-- <th class="sort" listsortable="email">Route No.</th> -->
                                 <th class="sort" listsortable="customer_name" >Arrival Time
                                 </th>
                                 
@@ -125,7 +137,7 @@
                         <tbody class="list form-check-all">
                             <tr *ngFor="let data of filteredArrivals ;let i = index;" >
                                 <td class="date">{{data.date}}</td>
-                                <td class="date">{{data.rno}}</td>
+                                <!-- <td class="date">{{data.rno}}</td> -->
                                 <td class="date" [ngStyle]="{'color': data.arrivaltime < '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
                                 <td class="customer_name">{{data.driname}}</td>
                                 <td class="customer_name">  <i class=" ri-checkbox-circle-fill" *ngIf="data.ccgpresent=='Yes'"  style="color: green; font-size: 1.5rem;"></i> <i class="ri-close-circle-fill" *ngIf="data.ccgpresent=='No'"   style="color: red    ; font-size: 1.5rem;"></i></td>

@@ -18,9 +18,12 @@ export class ArrivalsComponent {
   breadCrumbItems!: Array<{}>;
   arrivals: Arrival[] = [];
   filteredArrivals:  Arrival[] = [];
-  searchTerm: string = moment().format('YYYY-MM-DD'); 
+  // searchTerm: string = moment().format('YYYY-MM-DD'); 
+  fromDate: string = moment().format('YYYY-MM-DD');
+  toDate: string = moment().format('YYYY-MM-DD');
+
   loading: boolean = true;
-  
+  selectedOption: string = 'All';
 
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
@@ -36,12 +39,12 @@ export class ArrivalsComponent {
     this.loading = true;
   
     
-    this.searchTerm = moment().format('YYYY-MM-DD');
+    this.fromDate = moment().format('YYYY-MM-DD');
   
     this.apiService.getArrivalData(this.SchoolId, this.vanId).subscribe(
       (actions) => {
         this.arrivals = actions.map((action) => action.payload.doc.data() as Arrival);
-        this.filterTeacher(); 
+        this.filteredArrival(); 
         this.loading = false;
       },
       (error) => {
@@ -52,37 +55,71 @@ export class ArrivalsComponent {
   }
 
 
-filteredArrival(event: any): void {
-  const value = event.target.value;
-  console.log('Filtering by date...', value);
-  this.searchTerm = value;
-  console.log(this.searchTerm, 'date');
-  this.filterTeacher();
-}
+// filteredArrival(event: any): void {
+//   const value = event.target.value;
+//   console.log('Filtering by date...', value);
+//   this.searchTerm = value;
+//   console.log(this.searchTerm, 'date');
+//   this.filterTeacher();
+// }
 
-filterTeacher() {
-  console.log('Filtering...', this.searchTerm);
-  console.log(this.arrivals, 'arrival');
+// filterTeacher() {
+//   console.log('Filtering...', this.searchTerm);
+//   console.log(this.arrivals, 'arrival');
+
+//   this.filteredArrivals = this.arrivals.filter((arriv) => {
+//     console.log(arriv.date, 'date');
+
+//     const formattedDate = moment(arriv.date, 'DD-MM-YYYY').format('YYYY-MM-DD').toLowerCase();
+//     const searchTermLower = this.searchTerm.toLowerCase();
+//     const dateMatch = !searchTermLower || formattedDate.includes(searchTermLower);
+
+//     console.log(dateMatch, 'match');
+//     return dateMatch;
+//   });
+
+//   if (!this.filteredArrivals.length) {
+//     console.log('No Students...');
+//     this.filteredArrivals = [];
+//     console.log(this.filteredArrivals);
+//   }
+// }
+
+
+filteredArrival(): void {
+  console.log('Filtering by date range...', this.fromDate, this.toDate);
 
   this.filteredArrivals = this.arrivals.filter((arriv) => {
-    console.log(arriv.date, 'date');
+      const formattedDate = moment(arriv.date, 'DD-MM-YYYY').format('YYYY-MM-DD').toLowerCase();
+      const fromSearchTerm = this.fromDate.toLowerCase();
+      const toSearchTerm = this.toDate.toLowerCase();
 
-    const formattedDate = moment(arriv.date, 'DD-MM-YYYY').format('YYYY-MM-DD').toLowerCase();
-    const searchTermLower = this.searchTerm.toLowerCase();
-    const dateMatch = !searchTermLower || formattedDate.includes(searchTermLower);
+      const dateMatch = (!fromSearchTerm || formattedDate >= fromSearchTerm) &&
+                        (!toSearchTerm || formattedDate <= toSearchTerm);
 
-    console.log(dateMatch, 'match');
-    return dateMatch;
+      console.log(dateMatch, 'match');
+      return dateMatch;
   });
 
   if (!this.filteredArrivals.length) {
-    console.log('No Students...');
-    this.filteredArrivals = [];
-    console.log(this.filteredArrivals);
+      console.log('No Students...');
+      this.filteredArrivals = [];
+      console.log(this.filteredArrivals);
   }
 }
 
-
+filterItemsByOption() {
+  this.filteredArrivals = this.arrivals.filter(data => {
+    if (this.selectedOption === 'All') {
+      return true; 
+    } else if (this.selectedOption === 'On time') {
+      return data.arrivaltime <= '09:15';
+    } else if (this.selectedOption === 'Delay') {
+      return data.arrivaltime >= '09:15';
+    }
+    return false;
+  });
+}
 
 
 

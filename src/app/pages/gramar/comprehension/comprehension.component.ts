@@ -8,6 +8,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import { array } from '@amcharts/amcharts5';
 import { Assign } from '../api/assignobj ';
 import { Subscription, finalize } from 'rxjs';
+import { Score } from '../../address-book/api/scoreobj';
 
 
 
@@ -56,7 +57,11 @@ export class ComprehensionComponent {
  dataSubscription: Subscription | null = null;
  school_id: string = 'stZWDh06GmAGgnoqctcE';
  kgSheetId = '3u90Jik86R10JulNCU3K';
+ SchoolId:string='stZWDh06GmAGgnoqctcE';
+  ScoreId:string='4UwpeVOx1X4YofEWx3jq';
  deleteId:string='';
+ score:Score[]=[];
+ scoreform:Score[]=[];
 
 
  itemDetails: any[] = [];
@@ -78,6 +83,7 @@ export class ComprehensionComponent {
 // @ViewChild('deleteRecordModal2', { static: false }) deleteRecordModal2?: ModalDirective;
 @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
 @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
+@ViewChild('compDetailsModal', { static: false }) compDetailsModal?: ModalDirective;
 
 
 
@@ -846,6 +852,138 @@ showUploaderForItem(item: any): boolean {
 
 // Your component code...
 
+editComprehensionDetails1(compId: string, index: number) {
+
+
+
+
+  this.compDetailsModal?.show();
+
+
+  const selectedComprehension = this.comprehensions.find((d) => d.id === compId);
+  this.apiService.getScoreData(this.SchoolId, this.ScoreId).subscribe(actions => {
+    this.score = actions.map(action => action.payload.doc.data() as Score);
+   // this.score = this.score.filter(score => score.stuid === this.studentid);
+  //  this.scoreform = this.score.filter(score => score.compid === compId);
+  });
+
+
+  if (selectedComprehension) {
+    this.emp = { ...selectedComprehension };
+
+
+    if (this.emp.questions) {
+
+
+
+
+      const question = this.emp.questions[index];
+      const isQuestionAlreadyAdded = this.MessageFormData.value.questions.some(
+        (q: any) => q.id === question.id
+      );
+
+
+      if (!isQuestionAlreadyAdded) {
+        const questionFormArray = this.fb.group({
+          id: [question.id],
+          qno: [question.qno],
+          qstn: [question.qstn],
+          qtype: [question.qtype],
+          a: [question.a],
+          b: [question.b],
+          c: [question.c],
+          d: [question.d],
+          answer: [question.answer],
+        });
+
+
+        this.MessageFormData.setControl(
+          'questions',
+          this.fb.array([...this.MessageFormData.value.questions, questionFormArray])
+        );
+
+
+        this.MessageFormData.patchValue({
+          id: this.emp.id,
+          no: this.emp.no,
+          title: this.emp.title,
+          paragraph: this.emp.paragraph,
+        });
+
+
+        this.compDetailsModal?.onHidden.subscribe(() => {
+          this.MessageFormData.reset();
+        });
+      }
+    }
+  }
+}
+
+
+editComprehensionDetails(index: number) {
+  this.compDetailsModal?.show();
+  const selectedComprehension = this.comprehensions[index];
+
+
+
+
+  if (selectedComprehension) {
+    this.emp = { ...selectedComprehension };
+    this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
+
+
+
+
+      this.emp.questions = actions.map(action => action.payload.doc.data() as any);
+
+
+
+
+      if (this.emp.questions) {
+        const questionFormArray = this.emp.questions.map((question: any) => {
+          return this.fb.group({
+            id: [question.id],
+            qno: [question.qno],
+            qstn: [question.qstn],
+            qtype: [question.qtype],
+            a: [question.a],
+            b: [question.b],
+            c: [question.c],
+            d: [question.d],
+            answer: [question.answer]
+          });
+        });
+
+
+
+
+        this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
+
+
+
+
+        this.MessageFormData.patchValue({
+          id: this.emp.id,
+          no: this.emp.no,
+          title: this.emp.title,
+          paragraph: this.emp.paragraph,
+        });
+
+
+
+
+       // Move the show() call here
+
+
+
+
+        this.compDetailsModal?.onHidden.subscribe(() => {
+          this.MessageFormData.reset();
+        });
+      }
+    });
+  }
+}
 
 
 

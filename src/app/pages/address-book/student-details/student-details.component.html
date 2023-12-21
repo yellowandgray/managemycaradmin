@@ -31,11 +31,12 @@
                 </form>
 
                 <div *ngFor="let question of emp.questions; let i = index" class="">
-                    <div *ngFor="let data of scoreform">
-
+                   
+                    <div  *ngFor="let data of scoreform" >
+                       
                         <label for="qstn{{ i }}" class="form-label pt-1" style="color: #3762ea;">Question {{ i + 1 }}</label>
                         
-
+                         <div *ngIf="question.qtype=='MCQA'">
 
                         <div class="row-md-12">
                             <div class="mb-1">{{question.qstn}}</div>
@@ -69,6 +70,22 @@
 
                         </div>
                     </div>
+                        <div *ngIf="question.qtype=='Input'">
+                            <div class="mb-1">{{question.qstn}}</div>
+                            <div class="mb-1 d-flex"> Answer : <span   [ngStyle]="{
+                                'background-color': data.stuanswer[i] === data.answers[i] && data.answers[i]  ? '#5ced73' :
+                                                    (data.stuanswer[i] !== data.answers[i] && data.stuanswer[i]  ? '#fb6767' :
+                                                     (data.stuanswer[i] !== data.answers[i] && data.answers[i] ? '#5ced73' : '')), }">{{data.stuanswer[i]}} </span>
+                            <div class="px-2" *ngIf="data.stuanswer[i] !== data.answers[i] && data.answers[i]"> Correct Answer : <span [ngStyle]="{
+                                'background-color': data.answers[i] === data.answers[i] && data.answers[i]  ? '#5ced73' :
+                                                    (data.answers[i] !== data.answers[i] && data.stuanswer[i]  ? '#fb6767' :
+                                                     (data.answers[i] !== data.answers[i] && data.answers[i] ? '#5ced73' : '')), }"> {{data.answers[i]}}</span></div></div>
+                          </div>
+
+                      
+                    
+                </div>
+                
                     <div class="p-2 align-items-center">  <div class="card-body  border-top border-dashed black hstack align-items-center"> </div></div>
                   
                 </div>
