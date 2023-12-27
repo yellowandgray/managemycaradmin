@@ -218,8 +218,15 @@
                                 <div>
                                     <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
-                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
-                                            Import</button>
+                                        <!-- <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                            Import</button> -->
+                                            <label for="fileInput" class="btn btn-info add-btn me-2">
+                                                <i class="ri-add-line align-bottom me-1"></i> Import
+
+                                              </label>
+                                              <input type="file" id="fileInput" style="display: none" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+                                              <button class="btn btn-subtle-danger me-2"  (click)="downloadExcelTemplate()">Download Template</button>
+                                              <button type="button" class="btn btn-primary"><i class="ph-cloud-arrow-up align-middle me-1"></i> Export</button>
                                     <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
                                 </div>
                             </div>
@@ -261,7 +268,7 @@
                                           
                                         </div>
                                     </td>
-                                    <td class="date"><a [routerLink]="['/van/vandetail',{van:data.vanid}]">{{data.regno}}</a></td>
+                                    <td class="date"><a style="border-bottom: 1px solid " [routerLink]="['/van/vandetail',{van:data.vanid}]">{{data.regno}}</a></td>
                                     <td class="customer_name">{{data.year| date: 'dd/MM/yyyy'}}</td>
                                     <td class="date">{{data.seats}}</td>
                                     <td class="date">{{data.disel}}</td>

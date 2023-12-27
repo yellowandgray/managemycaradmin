@@ -173,7 +173,10 @@ import { Observable } from "rxjs";
 
 
 
-
+    getArrivalData(SchoolId: string,vanId:string) {
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`, ref =>  ref.orderBy('rno')).snapshotChanges();
+    
+     }
     //driver
 
 

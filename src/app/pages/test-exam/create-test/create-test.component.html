@@ -57,6 +57,44 @@
                     <label for="phone-field" class="form-label"> Name</label>
                     <input type="text" id="phone-field" class="form-control" placeholder="Enter Name" formControlName="name" [(ngModel)]="emp.name" required />
                 </div>
+
+                <!-- <div class="mb-3">
+                    <label class="form-label">Standard</label>
+                    <select id="course-category-input" class="form-select" formControlName="standards" multiple>
+                        <option value="UKG">UKG</option>
+                        <option value="LKG">LKG</option>
+                        <option value="I">I</option>
+                        <option value="II">II</option>
+                        <option value="III">III</option>
+                        <option value="IV">IV</option>
+                        <option value="V">V</option>
+                        <option value="VI">VI</option>
+                        <option value="VII">VII</option>
+                        <option value="VIII">VIII</option>
+                        <option value="IX">IX</option>
+                        <option value="X">X</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                </div> -->
+                
+                <div class="modal-body p-4" *ngIf="allPossibleStandards.length > 0">
+                    <div class="mb-3 col-sm-6">
+                      <label for="course-category-input" class="form-label">Standard<span class="text-danger">*</span></label>
+                      <div class="form-check mb-2" *ngFor="let standard of allPossibleStandards">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          [id]="standard"
+                          [checked]="fetchedStandards.includes(standard)"
+                          (change)="onStandardChange(standard)"
+                        />
+                        <label class="form-check-label" [for]="standard">{{ standard }}</label>
+                      </div>
+                    </div>
+                  </div>
+              
+                 
                 <div class="mb-3">
                     <label for="phone-field" class="form-label"> Start Date</label>
                     <input type="date" id="phone-field" class="form-control" placeholder="Enter Startdate" formControlName="startdate" [(ngModel)]="emp.startdate" required />
@@ -66,25 +104,7 @@
                     <input type="date" id="phone-field" class="form-control" placeholder="Enter Enddate" formControlName="enddate" [(ngModel)]="emp.enddate" required />
                 </div>
 
-                <div class="mb-3">
-                    <label for="course-category-input" class="form-label">Standard</label>
-                    <select class="form-select" id="course-category-input"  [(ngModel)]="emp.standard"  placeholder="Enter Standard" formControlName="standard" >
-                        <option value="UKG">UKG</option>
-                        <option value="LKG">LKG</option>
-                        <option value="I">I</option>
-                        <option value="II">II</option>
-                        <option value="III">III</option>
-                        <option value="IV">IV</option>
-                        <option value="V">V</option>
-                        <option value="VI">VI</option>.
-                        <option value="VII">VII</option>
-                        <option value="VIII">VIII</option>
-                        <option value="IX">IX</option>
-                        <option value="X">X</option>                          
-                        <option value="XI">XI</option>
-                        <option value="XII">XII</option>
-                    </select>
-                </div>
+            
                
 
             </div>
@@ -126,16 +146,7 @@
                         <label for="phone-field" class="form-label"> Name</label>
                         <input type="text" id="phone-field" class="form-control" placeholder="Enter Name" formControlName="name" [(ngModel)]="emp.name" required />
                     </div>
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label"> Start Date</label>
-                        <input type="date" id="phone-field" class="form-control" placeholder="Enter Startdate" formControlName="startdate" [(ngModel)]="emp.startdate" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label"> End Date</label>
-                        <input type="date" id="phone-field" class="form-control" placeholder="Enter Enddate" formControlName="enddate" [(ngModel)]="emp.enddate" required />
-                    </div>
-    
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="course-category-input" class="form-label">Standard</label>
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.standard"  placeholder="Enter Standard" formControlName="standard" >
                             <option value="UKG">UKG</option>
@@ -153,8 +164,28 @@
                             <option value="XI">XI</option>
                             <option value="XII">XII</option>
                         </select>
+                    </div> -->
+                    <label for="course-category-input" class="form-label">Standard</label> 
+                    <div class="form-check mb-2" *ngFor="let standard of allPossibleStandards">
+                     
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          [id]="standard"
+                          [checked]="selectedStandards.includes(standard)"
+                          (change)="onStandardChange(standard)"
+                        />
+                        <label class="form-check-label" [for]="standard">{{ standard }}</label>
+                      </div>
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> Start Date</label>
+                        <input type="date" id="phone-field" class="form-control" placeholder="Enter Startdate" formControlName="startdate" [(ngModel)]="emp.startdate" required />
                     </div>
-                   
+                    <div class="mb-3">
+                        <label for="phone-field" class="form-label"> End Date</label>
+                        <input type="date" id="phone-field" class="form-control" placeholder="Enter Enddate" formControlName="enddate" [(ngModel)]="emp.enddate" required />
+                    </div>
+      
 
                 </div>
                 <div class="modal-footer">
@@ -181,10 +212,23 @@
             <div class="card-body">
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                        <div class="col-sm-auto">
+                        <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
                                 <input type="text" class="form-control search" placeholder="Search Name" >
                                 <i class="ri-search-line search-icon"></i>
+                            </div>
+                            <div class=" ms-2 d-flex">
+                                <div class="search-box ms-2">
+                                    <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">Batch</label>
+                               
+                                </div>
+                                <div class="search-box ms-2">
+                                <select class=" ms-2 form-select" id="course-category-input"  [(ngModel)]="emp.year" placeholder="Enter Batch"  formControlName="year">
+                                    <option value="2023-24">2023-24</option>
+                                    <option value="2024-25">2024-25</option>
+                                    <option value="2025-26">2025-26</option>      
+                                </select>
+                            </div>
                             </div>
                             
                         </div>
@@ -195,6 +239,7 @@
                                         Add</button>
                                         
                                 </div>
+                             
                             </div>
                         </div>
                     </div>
@@ -212,11 +257,11 @@
                                    
                                     <th class="sort" listsortable="email"> No.</th>
                                     <th class="sort" listsortable="email">Name</th>
-                                    <th class="sort" listsortable="email">Year</th>
+                                    <th class="sort" listsortable="email">Batch Year</th>
                                     <th class="sort" listsortable="email">Standard</th>
                                     <th class="sort" listsortable="email">Start Date</th>
                                     <th class="sort" listsortable="email">End Date</th>
-                                    <th class="sort" listsortable="email">Assign Mark</th>
+                                    <th class="sort" listsortable="email">Assign Marks</th>
                                     <th class="sort">Action</th>
 
                                 </tr>
@@ -233,14 +278,14 @@
                                     <!-- <td class="customer_name">{{data.}}</td> -->
                                     <td class="AssignToContainer">
                                         <div class="d-flex align-items-center">
-                                          <button type="submit" class="btn btn-primary" id="add-btn">Assign</button>
+                                          <button type="submit" class="btn btn-primary" id="add-btn"  [routerLink]="['/test/student-mark',{examname:data.name,standard:data.standard} ]">Assign Mark</button>
                                         </div>
                                         
                                       </td>
                                     <td>
                                   <div class="d-flex gap-2">
                                       <div class="edit">
-                                          <button class="btn btn-sm btn-success edit-item-btn" (click)="editTest(i)"  >Edit</button>
+                                          <button class="btn btn-sm btn-success edit-item-btn" (click)="editTest(i)">Edit</button>
                                       </div>
                                       <div class="remove">
                                           <button class="btn btn-sm btn-danger remove-item-btn" (click)="deletpop(data.testid)">Remove</button>

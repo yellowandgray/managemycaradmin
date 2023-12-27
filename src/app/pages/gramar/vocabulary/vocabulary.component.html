@@ -164,7 +164,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text"  class="form-control search order-last order-md-first"  placeholder="Search by Name" >
+                                <input type="text"  class="form-control search order-last order-md-first" [(ngModel)]="searchTerm" placeholder="Search by Name"  (input)="filteredTeacher($event)" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             </div>
@@ -173,8 +173,14 @@
                                 <div>
                                     <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>
                                         Add</button>
-                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
-                                            Import</button>
+                                        
+                                            <label for="fileInput" class="btn btn-info add-btn me-2">
+                                                <i class="ri-add-line align-bottom me-1"></i> Import
+                                              </label>
+                                              <input type="file" id="fileInput" style="display: none" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+                                              <button class="btn btn-subtle-danger me-2"  (click)="downloadExcelTemplate()">Download Template</button>
+
+                                              <button type="button" class="btn btn-primary"><i class="ph-cloud-arrow-up align-middle me-1"></i> Export</button>
                                    
                                 </div>
                             </div>
@@ -185,19 +191,19 @@
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="sort" listsortable="customer_name" >No.
+                                    <th class="sort " style="width: 4%;" listsortable="customer_name" >No.
                                     </th>
-                                    <th class="sort" listsortable="email">Name</th>
-                                    <th class="sort" listsortable="customer_name" >Photo
+                                    <th class="sort" style="width: 4%;" listsortable="email">Name</th>
+                                    <th class="sort" style="width: 5%;" listsortable="customer_name" >Photo
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >Description
+                                    <th class="sort" style="width: 76%;"listsortable="customer_name" >Description
                                     </th>
                                  
-                                    <th class="sort" listsortable="email">Action</th>
+                                    <th class="sort" style="width: 13%;"listsortablelistsortable="email">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of vocabulary;let i = index;" >
+                                <tr *ngFor="let data of filteredvocabulary;let i = index;" >
                                     <td class="date">{{i+1}}</td>
                                     <td class="date">{{data.name}}</td>
                                     <td class="picture">
@@ -208,10 +214,11 @@
                                           
                                         </div>
                                     </td>
-                                    <!-- <td class="date">{{data.desc}}</td> -->
-                                    <td class="customer_name" style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                        {{data.desc}}
-                                      </td>
+                                    <td class="date">{{data.desc}}</td>
+                                    <!-- <td class="customer_name">
+                                        <div><textarea >{{data.desc}}</textarea></div>
+                                        
+                                      </td> -->
                                     
                                     <td>
                                         <div class="d-flex gap-2">

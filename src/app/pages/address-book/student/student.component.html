@@ -1,6 +1,8 @@
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 
 
+
+
 <!-- End Breadcrumbs -->
 <div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -15,9 +17,7 @@
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Batch</label>
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.batch" formControlName="batch" >
-                            <option value="2023-24">2023-24</option>
-                            <option value="2024-25">2024-25</option>
-                            <option value="2025-26">2025-26</option>      
+                            <option *ngFor="let n of yearsArray" [value]="n">{{n}}</option>    
                         </select>
                     </div>
                     <!-- <div class="mb-3" id="modal-id" style="display: none;">
@@ -28,6 +28,8 @@
                         <label for="customername-field" class="form-label"> Rec. No.</label>
                         <input type="text"  class="form-control"[(ngModel)]="emp.rec_no" formControlName="number" placeholder="Rec. No." required />
                     </div>
+
+
 
 
                     <div class="mb-3">
@@ -41,30 +43,9 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.standard" placeholder="Enter Standard" formControlName="standard" >
-                            <option value="UKG">UKG</option>
                             <option value="LKG">LKG</option>
+                            <option value="UKG">UKG</option>
                             <option value="I">I</option>
                             <option value="II">II</option>
                             <option value="III">III</option>
@@ -86,39 +67,15 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
                         <select class="form-select" id="course-category-input" [(ngModel)]="emp.section" formControlName="section" >
                             <option value="A">A</option>
                             <option value="B">B</option>
                             <option value="C">C</option>
                             <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
                         </select>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                     <div class="mb-3">
                         <label for="date-field" class="form-label">DOB</label>
@@ -188,16 +145,16 @@
                     <input type="hidden" name="id" value="" formControlName="ids" />
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Batch</label>
-                        <select class="form-select" id="course-category-input"  [(ngModel)]="emp.batch" placeholder="Enter Batch"  formControlName="batch" >
-                            <option value="2023-24">2023-24</option>
-                            <option value="2024-25">2024-25</option>
-                            <option value="2025-26">2025-26</option>      
+                        <select class="form-select" id="course-category-input" [(ngModel)]="emp.batch" placeholder="Enter Batch" formControlName="batch" (ngModelChange)="updateBatch($event)">
+                            <option *ngFor="let n of yearsArray" [value]="n">{{n}}</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="customername-field" class="form-label"> Rec. No.</label>
                         <input type="text"  class="form-control" formControlName="number"  [(ngModel)]="emp.rec_no" placeholder="Rec. No." required />
                     </div>
+
+
 
 
                     <div class="mb-3">
@@ -207,8 +164,8 @@
                     <div class="mb-3">
                         <label for="course-category-input" class="form-label">Standard</label>
                         <select class="form-select" id="course-category-input"  [(ngModel)]="emp.standard"  placeholder="Enter Standard" formControlName="standard" >
-                            <option value="UKG">UKG</option>
                             <option value="LKG">LKG</option>
+                            <option value="UKG">UKG</option>
                             <option value="I">I</option>
                             <option value="II">II</option>
                             <option value="III">III</option>
@@ -230,22 +187,12 @@
                             <option value="B">B</option>
                             <option value="C">C</option>
                             <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
                         </select>
                     </div>
 
-
-                 
-
-
-
-
-
-
-
-
-
-
-
+  
 
                     <div class="mb-3">
                         <label for="date-field" class="form-label">DOB</label>
@@ -265,17 +212,6 @@
                         <label for="phone-field" class="form-label">Mobile</label>
                         <input type="number" id="phone-field" class="form-control" placeholder="Enter Mobile No."   pattern="[1-9]{1}[0-9]{9}" formControlName="mobile"  [(ngModel)]="emp.mobile" required />
                     </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -319,7 +255,13 @@
 </div>
 
 
+
+
 <div>
+
+
+
+
 
 
 
@@ -339,13 +281,14 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
+                                <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">Batch</label>
+                           
+                            </div>
+                            <div class="search-box ms-2">
                                 <!-- <span class="ri-search-line search-icon me-3"></span> -->
-                                <select class="form-select" id="course-category-input" [(ngModel)]="selectedBatch" (ngModelChange)="filterStudents()">
-                                    <!-- update currect batch year to first option Batch -->
-                                    <option value="2023-24">Batch</option>
-                                    <option value="2023-24">2023-24</option>
-                                    <option value="2024-25">2024-25</option>
-                                    <option value="2025-26">2025-26</option>        
+                               
+                                <select class="form-select" id="course-category-input" [(ngModel)]="selectedBatch" (ngModelChange)="filterStudents()">                                      
+                                    <option *ngFor="let n of yearsArray" [value]="n">{{n}}</option>
                                 </select>
                             </div>
                             <div class="search-box ms-2">
@@ -353,8 +296,8 @@
                                 <select class="form-select" id="course-category-input" [(ngModel)]="selectedStandard" (change)="filterStudents()">
                                     <option value="">Standard</option>
                                     <option value="">ALL</option>
-                                    <option value="UKG">UKG</option>
                                     <option value="LKG">LKG</option>
+                                    <option value="UKG">UKG</option>
                                     <option value="I">I</option>
                                     <option value="II">II</option>
                                     <option value="III">III</option>
@@ -377,18 +320,15 @@
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="C">C</option>
-                                    <option value="D"> D</option>
+                                    <option value="D">D</option>
                                     <option value="E">E</option>
-                                 
+                                    <option value="F">F</option>
                                 </select>
                             </div>
                             <!-- <div class="search-box ms-2">
                                 <input type="text" class="form-control search" [(ngModel)]="searchTerm" (change)="filterStudents()" placeholder="Search by Name">
                                
                             </div> -->
-
-
-
 
 
 
@@ -404,10 +344,6 @@
                               </div>
                              
                              
-                             
-                             
-                           
-                           
                             <!-- <div class="modal-header  ps-4">
                                 <button type="button" class="btn btn-secondary  add-btn me-2" id="create-btn" ><i class="ri-search-line align-bottom me-1"></i>
                                     Search</button> -->
@@ -426,28 +362,23 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             <!-- <div> -->
                                                 <label for="fileInput" class="btn btn-info add-btn me-2">
                                                   <i class="ri-add-line align-bottom me-1"></i> Import
+
                                                 </label>
                                                 <input type="file" id="fileInput" style="display: none" (change)="onFileChange($event)" accept=".xlsx, .xls" />
                                               <!-- </div> -->
                                              
-                                             
-                                    <!-- <button class="btn btn-subtle-danger" (click)="deleteModal.show()"><i class="ri-delete-bin-2-line"></i></button> -->
+                                              <!-- <button type="button" class="btn btn-primary add-btn" ><i class="bi bi-plus-circle align-baseline me-1"></i> Add
+                                                Customer</button>  -->
+                                    <button class="btn btn-subtle-danger me-2"  (click)="downloadExcelTemplate()">Download Template</button>
+
+                                    <button type="button" class="btn btn-primary"><i class="ph-cloud-arrow-up align-middle me-1"></i> Export</button>
+
+                                   <!-- <button type="button" class="btn  add-btn me-2 " style="background-color:  #3762ea; " id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>
+                                       <span style="color: aliceblue;">Export</span>  </button> -->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -477,6 +408,10 @@
                             <p>Loading...</p>
                           </div>
    
+
+
+
+
 
 
 
@@ -512,7 +447,7 @@
                                         <tr *ngFor="let data of getVisibleItems(); let i = index;" id="a_{{ data.id }}" >
                                     <td class="customer_name">{{data.rec_no}}</td>
                                     <td class="customer_name">
-                                        <a [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:1}]">{{ data.name }}</a>
+                                        <a style="border-bottom: 1px solid " [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:1}]">{{ data.name }}</a>
                                     </td>
                                    
                                     <td class="picture">
@@ -575,6 +510,22 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     <div class="d-flex justify-content-end mt-3">
                         <div class="pagination-wrap hstack gap-2">
                           <button
@@ -615,8 +566,6 @@
 
 
 
-
-
     <div id="deleteRecordModal" class="modal fade zoomIn" bsModal #deleteModal="bs-modal">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -641,5 +590,9 @@
             </div>
         </div>
     </div>
+
+
+
+
 
 

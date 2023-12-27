@@ -1,5 +1,3 @@
-
-
 <div class="modal fade" bsModal #deleteRecordModal2="bs-modal">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -11,6 +9,8 @@
         <div class="modal-body p-4" *ngIf="allPossibleStandards.length > 0">
           <div class="mb-3 col-sm-6">
             <label for="course-category-input" class="form-label">Assign<span class="text-danger">*</span></label>
+
+
 
 
             <div class="form-check mb-2" *ngFor="let standard of allPossibleStandards">
@@ -28,6 +28,8 @@
         </div>
 
 
+
+
         <div class="modal-footer">
           <div class="hstack gap-2 justify-content-end">
             <button type="button" class="btn btn-ghost-danger" (click)="deleteRecordModal2.hide()">
@@ -42,7 +44,13 @@
 </div>
 
 
+
+
  
+
+
+
+
 
 
 
@@ -105,15 +113,15 @@
        </div>
                  
                
-            
-                
+           
+               
                  <div  *ngIf="question.qtype=='MCQA'">
                  <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
                  <label class="p-2">A <input type="text" class="form-control search" [(ngModel)]="question.a" /></label>
                  <label class="px-3">B <input type="text" class="form-control search" [(ngModel)]="question.b" /></label>
                  <label class="p-2">C <input type="text" class="form-control search" [(ngModel)]="question.c" /></label>
                  <label class="px-3">D <input type="text" class="form-control search" [(ngModel)]="question.d" /></label>
-            
+           
                  <div class="d-flex p-2 align-items-center">
                    <span class="me-3">Correct Answer:</span>
                    <select class="form-control" style="width: 80px;" [(ngModel)]="question.answer">
@@ -129,6 +137,8 @@
                  <div class="d-flex p-2 align-items-center"> <span class="me-3">Correct Answer : </span> <input type="text" style="width: 200px;" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.answer" /></div>
                </div>
                </div>
+
+
 
 
                 <div class="modal-footer">
@@ -147,6 +157,10 @@
 
 
 
+
+
+
+
     <div bsModal #keywordModal="bs-modal" class="modal fade" id="keywordModal" data-bs-backdrop="static" data-bs-keyboard="false">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 800px;">
           <div class="modal-content border-0">
@@ -154,7 +168,7 @@
                   <h5 class="modal-title text-white" id="keywordModal"> Select Keywords for Comprehension</h5>
                   <button type="button" class="btn-close btn-close-white" (click)="keywordModal.hide()" ></button>
               </div>
-              <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+              <div class="modal-body" style="max-height: 600px; overflow-y: auto;">
                 <input type="hidden" name="id" value="" formControlName="ids" />
                 <div id="alert-error-msg" class="d-none alert alert-danger py-2"></div>
                 <input type="hidden" id="id-field">
@@ -196,7 +210,7 @@
                                       <!-- Hidden file input -->
                                       <input type="file" accept="image/*" class="form-control-sm" #fileUploader1 (change)="showPreview1($event, i)" style="display: none;">
                                       <div class="m-t-2" *ngIf="!item.pic">
-                                        <button class="btn btn-primary" style="height: 30px; width: 50px; font-size: 7px; padding: 0; background-color: blueviolet;" (click)="fileUploader1.click()">Pick Image</button>
+                                        <button class="btn btn-primary" style="height: 30px; width: 50px; font-size: 7px; padding: 0; background-color: blueviolet; border-bottom: solid;" (click)="fileUploader1.click()">Pick Image</button>
                                     </div>
                                     </div>
                               </div>
@@ -236,6 +250,17 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 <div bsModal #addCourse="bs-modal" class="modal fade" id="addCourse" data-bs-backdrop="static" data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 1000px;">
       <div class="modal-content border-0">
@@ -251,8 +276,14 @@
 
 
 
+
+
+
+
           <form [formGroup]="MessageFormData">
            
+
+
 
 
             <div class="mb-3">
@@ -290,18 +321,20 @@
           </form>
 
 
+
+
           <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
             <div class="d-flex align-items-center mb-2">
               <label for="qstn{{ i }}" class="form-label" style="color: #3762ea; width: 120px;">Question {{ i + 1 }}</label>
-          
+         
               <input type="radio" id="MCQA{{ i }}" [(ngModel)]="question.qtype" value="MCQA" name="questionType{{ i }}"/>
               <label for="MCQA{{ i }}" class="ms-2" style="width: 50px;">MCQA</label>
-          
+         
               <input type="radio" id="Input{{ i }}" [(ngModel)]="question.qtype" value="Input" name="questionType{{ i }}"/>
               <label for="Input{{ i }}" class="ms-2" style="width: 50px;">Input</label>
             </div>
                
-          
+         
        
            
             <div  *ngIf="question.qtype=='MCQA'">
@@ -346,6 +379,12 @@
 
 
 
+
+
+
+
+
+
 <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -375,6 +414,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 <div>
 <div class="row">
@@ -387,6 +440,14 @@
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                       <div class="col-sm-4 d-flex">
+
+
+
+
+
+
+
+
 
 
 
@@ -433,6 +494,10 @@
 
 
 
+
+
+
+
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
                             <thead class="table-light">
@@ -456,7 +521,11 @@
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of filteredItems;let i = index;" >
                                     <td class="date">{{data.no}}</td>
-                                    <td class="date">{{data.title}}</td>
+                                    <td class="date">
+                                      <span style="border-bottom: 1px solid; color: #3762ea; cursor: pointer;" (click)="editComprehensionDetails(i); showDetails(emp)">
+                                        {{data.title}}
+                                      </span>
+                                    </td>
                                     <td class="picture">
                                       <div class="d-flex align-items-center">
                                           <div class="avatar-xs bg-light rounded p-1 " style="height: 50px; width: 50px;">
@@ -483,6 +552,10 @@
 
 
 
+
+
+
+
        
                                     <td>
                                         <div class="d-flex gap-2">
@@ -495,7 +568,7 @@
                                             <div class="keywords">
                                               <button class="btn btn-sm btn-purple remove-item-btn" (click)="editComprehension1(i); editListItemId(data.id)" >Keywords</button>
                                           </div>
-                                          <td class="bi bi-eye align-baseline me-1" style="font-size: 1.7rem;"  (click)="editComprehensionDetails(i)"></td>
+                                          <!-- <td class="bi bi-eye align-baseline me-1" style="font-size: 1.7rem;"  (click)="editComprehensionDetails(i); showDetails(emp)"></td> -->
                                         </div>
                                     </td>
                                    
@@ -505,6 +578,10 @@
                         </table>
                        
                     </div>
+
+
+
+
 
 
 
@@ -519,6 +596,10 @@
         </div>
      
     </div>
+
+
+
+
 
 
 
@@ -549,6 +630,8 @@
   </div>  
 
 
+
+
   <div bsModal #compDetailsModal="bs-modal" class="modal fade" id="compDetailsModal" data-bs-backdrop="static"
   data-bs-keyboard="false">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 1000px;">
@@ -563,14 +646,22 @@
               <input type="hidden" id="id-field">
 
 
+
+
               <form [formGroup]="MessageFormData">
+
+
 
 
                   <div class="mb-2">
                       <label for="no" class="form-label "><span style="color: #3762ea;">No :</span> {{emp.no}}</label>
 
 
+
+
                   </div>
+
+
 
 
                   <div class="mb-2">
@@ -579,9 +670,40 @@
                   </div>
                   <div class="mb-2">
                       <div class="form-label " style="color: #3762ea;">Paragraph :</div>
-                      <label for="paragraph" class="form-label" [innerHTML]="emp.paragraph"></label>
-                     <!-- <label for="paragraph" class="form-label" [innerHTML]="emp.paragraph | highlightKeywords: question.keywords"></label> -->
+                      <label for="paragraph" class="form-label" [innerHTML]="processParagraph()"></label>
                   </div>
+          <!-- your-component.component.html -->
+          <div class="mb-2">
+            <label for="title" class="form-label">
+              <span style="color: #3762ea;">KeyWords :</span>
+            </label>
+            <!-- Remove the input box and button for manual filtering -->
+          </div>
+         
+          <table class="table" *ngIf="filteredData.length > 0" style="max-width: 800px;">
+            <thead>
+              <tr>
+                <th style=" color:#3762ea; ">No</th> <!-- Adjust background color and text color as needed -->
+                <th style=" color:#3762ea; ">Name</th>
+                <th style=" color:#3762ea; ">Picture</th>
+                <th  style=" color:#3762ea; ">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of filteredData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td><img [src]="item.pic" alt="Profile Pic" style="width: 50px; height: 50px;"></td>
+                <td>{{ item.desc }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+                 
+               
+
+
 
 
 
@@ -589,15 +711,22 @@
               </form>
 
 
+
+
               <div *ngFor="let question of emp.questions; let i = index" class="">
                  
+
+
 
 
                       <label for="qstn{{ i }}" class="form-label pt-1" style="color: #3762ea;">Question {{ i + 1 }}</label>
                      
 
 
+
+
    <div  *ngIf="question.qtype=='MCQA'">
+
 
                       <div class="row-md-12">
                           <div class="mb-1">{{question.qstn}}</div>
@@ -606,9 +735,19 @@
 
 
 
+
+
+
+
                               <div class="row-md-12">
                              
                                 <label class="ms-2 col-md-2" [ngStyle]="{'background-color': question.answer !== '' && question.answer === 'b' ? '#5ced73' : ''}"> B. {{question.b}}</label>
+
+
+
+
+
+
 
 
 
@@ -624,9 +763,19 @@
 
 
 
+
+
+
+
+
+
                                           <div class="row-md-12">
                                          
                                             <label class="ms-2 col-md-2" [ngStyle]="{'background-color':question.answer !== '' && question.answer === 'd' ? '#5ced73' : ''}"> D. {{question.d}}</label>
+
+
+
+
 
 
 
@@ -638,6 +787,8 @@
                        </div></div>
 
 
+
+
               </div>
           </div>
       </div>
@@ -646,25 +797,12 @@
       <div class="row-md-2">
         <div class="mb-1">{{question.qstn}}</div>
 
+
         </div>
         <div class="row-md-2">
         <div class="mb-1 col-md-2"  [ngStyle]="{'background-color':question.answer !== '' ? '#5ced73' : ''}">{{question.answer}}</div>
-        
+       
         </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

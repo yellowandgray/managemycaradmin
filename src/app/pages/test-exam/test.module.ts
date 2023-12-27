@@ -21,6 +21,10 @@ import { TestRoutesModule } from './test-routing.module';
 import { AssignMarkComponent } from './assign-mark/assign-mark.component';
 import { CreateTestComponent } from './create-test/create-test.component';
 import { SharedModule } from "../../shared/shared.module";
+import { StudentMarkDetailComponent } from './student-mark-detail/student-mark-detail.component';
+
+
+// import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -39,7 +43,8 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 @NgModule({
     declarations: [
         AssignMarkComponent,
-        CreateTestComponent
+        CreateTestComponent,
+        StudentMarkDetailComponent
         // NgbdWidgetSortableHeader,
         // NgbdFileSortableHeader
     ],
@@ -63,7 +68,9 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
         NgxEchartsModule.forRoot({ echarts }),
         CKEditorModule,
         DropzoneModule,
-        SharedModule
-    ]
-})
+        SharedModule,
+        
+    ],
+
+})  
 export class TestModule { }

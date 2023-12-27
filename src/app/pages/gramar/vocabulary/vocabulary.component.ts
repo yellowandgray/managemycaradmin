@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs';
+import { ExcelService } from './excel.service';
 
 @Component({
   selector: 'app-vocabulary',
@@ -22,6 +23,8 @@ export class VocabularyComponent {
   selectedImage: any = null;
   imgSrc: string='';
   deleteId:string='';
+  searchTerm: string = '';
+  filteredvocabulary:  Vocabulary[] = [];
   uploading: boolean = false;
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -29,7 +32,7 @@ export class VocabularyComponent {
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage )
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private excelService: ExcelService )
   {
    
     this.MessageFormData = new FormGroup({  
@@ -66,6 +69,7 @@ export class VocabularyComponent {
    
     this.apiService.getVocabularyData(this.GrammarId).subscribe(actions => {
       this.vocabulary = actions.map(action => action.payload.doc.data() as Vocabulary);
+      this.filteredvocabulary = [...this.vocabulary];
      
     },(error) => {
       console.error('Error fetching arrivals', error);
@@ -104,6 +108,33 @@ export class VocabularyComponent {
     this.deleteRecordModal?.show()
      this.emp = new Vocabulary();
    
+  }
+  filteredTeacher(event: any): void {
+    const value = event.target.value;
+    console.log('Filtering by name...', value);
+    this.searchTerm = value;
+    this.filterTeacher();
+  }
+ 
+ 
+  filterTeacher() {
+    console.log('Filtering...', this.searchTerm);
+
+
+    this.filteredvocabulary = this.vocabulary.filter(vocabulary => {
+     
+      const nameMatch = !this.searchTerm || vocabulary.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+
+
+      return nameMatch;
+    });
+
+
+    if (!this.filteredvocabulary.length) {
+      console.log('Nooo Students...');
+      this.filteredvocabulary = [];
+      console.log(this.filteredvocabulary);
+    }
   }
 
   showPreview(event: any) {
@@ -174,4 +205,72 @@ export class VocabularyComponent {
     this.apiService.deletevocabularyData(id,this.GrammarId)
     this.deleteModal?.hide()
   }
+
+  importExcel(): void {
+    // Trigger the file input
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+  async onFileChange(event: any): Promise<void> {
+    console.log("Step 1");
+    const input = event.target;
+    const file = input.files[0];
+  
+    if (file) {
+      try {
+        const data = await this.excelService.readExcel(file);
+  
+        // Check if data is not null, has more than minimumRows rows, and other conditions if needed
+        if (data && data.length > 0 && data.length >= 5) {
+          data.forEach(async (vavoca: any) => {
+            const rec_no = vavoca[0];
+            const dob1 = vavoca[3];
+  
+            if (rec_no != null && rec_no !== undefined) {
+              // Parse Excel date value to JavaScript Date
+              const excelDateValue = parseFloat(dob1);
+              const jsDate = new Date((excelDateValue - 1) * 24 * 60 * 60 * 1000 + Date.UTC(1899, 11, 30));
+              const formattedDate = jsDate.toLocaleDateString('en-CA');
+  
+              // Create Vocabulary object
+              const studentData: Vocabulary = {
+                id: '', // Ensure you handle the ID appropriately
+                name: vavoca[0],
+                pic: '', // You may need to handle image upload separately
+                desc: vavoca[1],
+              };
+  
+              console.log("student Data", studentData);
+  
+              // Assuming this.apiService.createVocabularyData returns a Promise
+              await this.apiService.createVocabularyData(studentData, this.GrammarId);
+              console.log('Vocabulary data created successfully');
+            }
+          });
+        } else {
+          console.error('File does not meet the minimum criteria for processing');
+        }
+      } catch (error) {
+        console.error('Error reading Excel file or creating vocabulary data:', error);
+      }
+    }
+  }
+  downloadExcelTemplate(): void {
+    const templateFileName = 'vocabulary_bulk_data_template.xlsx'; 
+    const templateFilePath = 'student/vocabulary_bulk_data_template.xlsx'; 
+
+    const fileRef = this.storage.ref(templateFilePath);
+
+    fileRef.getDownloadURL().subscribe((url) => {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = templateFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
+  
 }

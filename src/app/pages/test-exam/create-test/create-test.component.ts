@@ -23,7 +23,11 @@ export class CreateTestComponent {
   emp: CreateTest =new CreateTest();
   MessageFormData: FormGroup;
   SchoolId:string='stZWDh06GmAGgnoqctcE';
-  
+  allPossibleStandards: string[] = []; 
+  standardsList: string[] = ['UKG', 'LKG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+  fetchedStandards: string[] = [];
+  selectedStandards: string[] = [];
+  standardsControl = new FormControl(); 
   isSubmitted = false;
   files: File[] = [];
   loading: boolean = true;
@@ -47,7 +51,7 @@ export class CreateTestComponent {
    
     this.MessageFormData = new FormGroup({  
       'name': new FormControl('', Validators.required),  
-      'standard': new FormControl('', Validators.required),  
+      'standard': new FormControl([]),  
       'startdate': new FormControl('', Validators.required),  
       'testid': new FormControl('', Validators.required),  
       'year': new FormControl('', Validators.required),  
@@ -70,7 +74,7 @@ export class CreateTestComponent {
         testid:  this.emp.testid,   
         year:  this.emp.year,  
         enddate:  this.emp.enddate,  
-        
+   
       
  
       });
@@ -83,7 +87,8 @@ export class CreateTestComponent {
       this.emp. testid= this.emp.testid,   
       this.emp. year=  this.emp.year,  
       this.emp.enddate=  this.emp.enddate 
-      
+      // this.selectedStandards = this.emp.standard || [];
+      this.allPossibleStandards = ['UKG', 'LKG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
       // this.emp.eyal_id= this.data.data.eyal_id;  
     }
   }
@@ -96,8 +101,10 @@ export class CreateTestComponent {
       console.error('Error fetching arrivals', error);
       this.loading = false; 
     });
-  }
 
+    
+  }
+  
  
 add(){
   this.MessageFormData;
@@ -142,18 +149,17 @@ showImagePreview(imageUrl: string) {
   this.emp = { ...selectedVan }; // Copy selected Van data to emp object
   
   this.MessageFormData.patchValue({
-     
     name: this.emp.name,
-    standard: this.emp.standard,
+    // standard: this.emp.standard, // Remove this line to avoid duplicating standard values
     startdate: this.emp.startdate, 
     testid:  this.emp.testid,   
     year:  this.emp.year,  
     enddate:  this.emp.enddate,  
-    
   });
-  this.editModal?.show();
 
- 
+  this.selectedStandards = [...this.emp.standard]; // Set the selected standards
+  console.log(this.selectedStandards, 'check');
+  this.editModal?.show();
 }
 
 delet(id: string){
@@ -172,6 +178,17 @@ delet(id: string){
       this.selectedImage = null;
       this.isSubmitted = false;
     }
+    onStandardChange(standard: string): void {
+      if (this.selectedStandards.includes(standard)) {
+    
+        this.selectedStandards = this.selectedStandards.filter(s => s !== standard);
+      } else {
+      
+        this.emp.standard.push(standard);
+      }
+      console.log('Selected Standards:', this.emp.standard);
+    }
+
 
     // showPreview(event: any) {
     

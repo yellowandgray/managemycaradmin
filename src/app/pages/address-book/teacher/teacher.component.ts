@@ -6,6 +6,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { ApiService } from '../api/api.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ExcelService } from './excel.service';
+import { parse } from 'date-fns';
 
 @Component({
   selector: 'app-teacher',
@@ -41,7 +43,7 @@ export class TeacherComponent {
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage ) {
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private excelService: ExcelService ) {
    
     this.MessageFormData = new FormGroup({  
       'age': new FormControl('', Validators.required),   
@@ -282,6 +284,99 @@ this.deleteModal?.hide()
     this.deleteModal?.show()
      this.deleteId=id;
 
+  }
+
+
+  importExcel(): void {
+    // Trigger the file input
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+
+
+
+  onFileChange(event: any): void {
+    console.log("Step 1");
+    const input = event.target;
+    const file = input.files[0];
+ 
+    if (file) {
+      this.excelService.readExcel(file).then((data: any[]) => {
+          // Check if data is not null, has more than minimumRows rows, and other conditions if needed
+          if (data && data.length > 0 && data.length >= 5) {
+              data.forEach((student: any) => {
+                  const rec_no = student[0];
+                  const dob1 = student[3];
+                  const doj1 = student[9];
+                  const dobDate = parse(dob1, 'dd-MM-yyyy', new Date());
+                  const dojDate = parse(doj1, 'dd-MM-yyyy', new Date());
+                  if (rec_no != null && rec_no !== undefined) {  
+                    console.log("Dob",dob1);              
+                    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+                    const millisecondsPerDay2 = 24 * 60 * 60 * 1000;
+                    const jsDate = new Date((dob1 - 1) * millisecondsPerDay + Date.UTC(1899, 11, 30));
+                    const jsDate2 = new Date((doj1 - 1) * millisecondsPerDay2 + Date.UTC(1899, 11, 30));
+        // Format the date as desired
+        const formattedDate = dobDate.toLocaleDateString('en-CA');
+        const formattedDate2 = dojDate.toLocaleDateString('en-CA');
+                 // const formattedDate = jsDate.toLocaleDateString('en-CA');
+                      const studentData: Teacher = {
+                          // rec_no: rec_no,
+                          name: student[0],
+                          email: student[8],
+                          gender: student[5],       
+                          status:student[6],
+                          dob: formattedDate,
+                          doj:formattedDate,
+                          qualification: student[7],
+                          address: student[4],
+                          phn: student[2],
+                          img: '',
+                          id: '',
+                          role: 'teacher',
+                          age: student[1]
+                      };
+                      console.log("student DAta",studentData);
+ 
+                      this.apiService.createTeacherData(studentData).then(
+                          () => {
+                              console.log('File uploaded successfully');
+                          },
+                          (error) => {
+                              console.error('Error uploading file:', error);
+                              console.log('File upload failed');
+                          }
+                      );
+                  }
+                  // else {
+                  //     console.error('rec_no is null or undefined in a row');
+                  // }
+              });
+          } else {
+              console.error('File does not meet the minimum criteria for processing');
+              console.log('File upload failed');
+          }
+      });
+  }
+  }
+
+  downloadExcelTemplate(): void {
+    const templateFileName = 'vocabulary_bulk_data_template.xlsx'; 
+    const templateFilePath = 'student/vocabulary_bulk_data_template.xlsx'; 
+
+    const fileRef = this.storage.ref(templateFilePath);
+
+    fileRef.getDownloadURL().subscribe((url) => {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = templateFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
   }
 
 }

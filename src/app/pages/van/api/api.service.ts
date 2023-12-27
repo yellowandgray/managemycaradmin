@@ -24,7 +24,7 @@ import { Van } from "./addvanobj";
     // }
 
     getArrivalData(SchoolId: string,vanId:string) {
-      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`, ref => ref.orderBy('rno')).snapshotChanges();
+      return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Arrival_Entry`, ref =>  ref.orderBy('rno')).snapshotChanges();
     
      }
     
@@ -83,7 +83,7 @@ import { Van } from "./addvanobj";
 
 getRouteData(SchoolId: string, vanId: string) {
   return this.firestore.collection(`School/${SchoolId}/Van/${vanId}/Routes`, ref =>
-    ref.orderBy('rno', 'asc')
+    ref.orderBy('rno',)
   ).snapshotChanges();
 }
 

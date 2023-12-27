@@ -136,35 +136,43 @@
                                                 <div class="card-body">
                 
                                                     <h4 class="text-truncate text-capitalize">{{data.name}}</h4>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Age : {{data.age}}
-                                                     </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        DOB : {{data.dob| date: 'dd/MM/yyyy'}}
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">  Age : </span>  <span class="tb-table-striped-color px-1">  {{data.age}}</span> 
+                                                       
                                                     </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        DOJ : {{data.doj| date: 'dd/MM/yyyy'}}
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">   DOB : </span>  <span class="tb-table-striped-color px-1">  {{data.dob| date: 'dd/MM/yyyy'}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">   DOJ :  </span>  <span class="tb-table-striped-color px-1">  {{data.doj| date: 'dd/MM/yyyy'}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted"> Gender :  </span>  <span class="tb-table-striped-color px-1">   {{data.gender}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">    Mar. Status : </span>  <span class="tb-table-striped-color px-1"> {{data.status}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">   Qualification :</span>  <span class="tb-table-striped-color px-1">   {{data.qualification}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted"> Address : </span>  <span class="tb-table-striped-color px-1">   {{data.address}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">  Email : </span>  <span class="tb-table-striped-color px-1"> {{data.email}}</span> 
+                                                       
+                                                    </div>
+                                                    <div class="d-flex py-1  tb-fond-md">
+                                                        <span class="text-muted">Mobile No. :</span>  <span class="tb-table-striped-color px-1"> {{data.phn}}</span> 
+                                                       
                                                     </div>
                                                     
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Gender : {{data.gender}}
-                                                    </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Mar. Status : {{data.status}}
-                                                    </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Qualification : {{data.qualification}}
-                                                    </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Address : {{data.address}}
-                                                    </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Email : {{data.email}}
-                                                    </div>
-                                                    <div class="d-flex py-1 text-muted tb-fond-md">
-                                                        Mobile No. : {{data.phn}}
-                                                    </div>
-                
                 
                                                 </div>
                                               
@@ -184,7 +192,7 @@
                 </tab>
 
 
-                <tab heading="Remarks" class="nav-item">
+                <tab heading="Report" class="nav-item">
                     <div class="d-flex mt-3">
                         <div class="flex-shrink-0">
                             <i class="ri-checkbox-circle-fill text-success"></i>

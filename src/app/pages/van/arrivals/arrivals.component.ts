@@ -40,11 +40,18 @@ export class ArrivalsComponent {
   
     
     this.fromDate = moment().format('YYYY-MM-DD');
-  
+
     this.apiService.getArrivalData(this.SchoolId, this.vanId).subscribe(
       (actions) => {
         this.arrivals = actions.map((action) => action.payload.doc.data() as Arrival);
-        this.filteredArrival(); 
+        this.arrivals.sort((a, b) => {
+          const rnoA = parseInt(a.rno, 10); 
+          const rnoB = parseInt(b.rno, 10);
+    
+          return rnoA - rnoB;
+        });
+    
+        this.filterItems(); 
         this.loading = false;
       },
       (error) => {
@@ -52,73 +59,59 @@ export class ArrivalsComponent {
         this.loading = false;
       }
     );
+    
+  
+    // this.apiService.getArrivalData(this.SchoolId, this.vanId).subscribe(
+    //   (actions) => {
+    //     this.arrivals = actions.map((action) => action.payload.doc.data() as Arrival);
+    //     this.filterItems(); 
+    //     this.loading = false;
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching arrivals', error);
+    //     this.loading = false;
+    //   }
+    // );
   }
 
 
-// filteredArrival(event: any): void {
-//   const value = event.target.value;
-//   console.log('Filtering by date...', value);
-//   this.searchTerm = value;
-//   console.log(this.searchTerm, 'date');
-//   this.filterTeacher();
-// }
 
-// filterTeacher() {
-//   console.log('Filtering...', this.searchTerm);
-//   console.log(this.arrivals, 'arrival');
-
-//   this.filteredArrivals = this.arrivals.filter((arriv) => {
-//     console.log(arriv.date, 'date');
-
-//     const formattedDate = moment(arriv.date, 'DD-MM-YYYY').format('YYYY-MM-DD').toLowerCase();
-//     const searchTermLower = this.searchTerm.toLowerCase();
-//     const dateMatch = !searchTermLower || formattedDate.includes(searchTermLower);
-
-//     console.log(dateMatch, 'match');
-//     return dateMatch;
-//   });
-
-//   if (!this.filteredArrivals.length) {
-//     console.log('No Students...');
-//     this.filteredArrivals = [];
-//     console.log(this.filteredArrivals);
-//   }
-// }
-
-
-filteredArrival(): void {
-  console.log('Filtering by date range...', this.fromDate, this.toDate);
+filterItems(): void {
+  console.log('Filtering by date range and arrival time option...', this.fromDate, this.toDate, this.selectedOption);
 
   this.filteredArrivals = this.arrivals.filter((arriv) => {
-      const formattedDate = moment(arriv.date, 'DD-MM-YYYY').format('YYYY-MM-DD').toLowerCase();
-      const fromSearchTerm = this.fromDate.toLowerCase();
-      const toSearchTerm = this.toDate.toLowerCase();
+    const formattedDate = moment(arriv.date, 'DD-MM-YYYY').format('YYYY-MM-DD').toLowerCase();
+    const fromSearchTerm = this.fromDate.toLowerCase();
+    const toSearchTerm = this.toDate.toLowerCase();
 
-      const dateMatch = (!fromSearchTerm || formattedDate >= fromSearchTerm) &&
-                        (!toSearchTerm || formattedDate <= toSearchTerm);
+    const dateMatch = (!fromSearchTerm || formattedDate >= fromSearchTerm) &&
+      (!toSearchTerm || formattedDate <= toSearchTerm);
 
-      console.log(dateMatch, 'match');
-      return dateMatch;
+    let timeMatch = false;
+    if (this.selectedOption === 'All') {
+      timeMatch = true;
+    } else if (this.selectedOption === 'On time') {
+      timeMatch = arriv.arrivaltime <= '09:15';
+    } else if (this.selectedOption === 'Delay') {
+      timeMatch = arriv.arrivaltime > '09:15';
+    }
+
+    console.log(dateMatch, 'date match', timeMatch, 'time match');
+    return dateMatch && timeMatch;
   });
 
   if (!this.filteredArrivals.length) {
-      console.log('No Students...');
-      this.filteredArrivals = [];
-      console.log(this.filteredArrivals);
+    console.log('No Students...');
+    this.filteredArrivals = [];
+    console.log(this.filteredArrivals);
+  } else {
+    // Sort the filtered arrivals by date
+    this.filteredArrivals.sort((a, b) => {
+      const dateA: any = moment(a.date, 'DD-MM-YYYY').toDate();
+      const dateB: any = moment(b.date, 'DD-MM-YYYY').toDate();
+      return dateA - dateB;
+    });
   }
-}
-
-filterItemsByOption() {
-  this.filteredArrivals = this.arrivals.filter(data => {
-    if (this.selectedOption === 'All') {
-      return true; 
-    } else if (this.selectedOption === 'On time') {
-      return data.arrivaltime <= '09:15';
-    } else if (this.selectedOption === 'Delay') {
-      return data.arrivaltime >= '09:15';
-    }
-    return false;
-  });
 }
 
 

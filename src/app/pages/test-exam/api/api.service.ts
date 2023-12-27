@@ -135,7 +135,10 @@ getDriverData(SchoolId: string) {
       });
      }
    
-
+//student mark
+getAddressBookData() {
+  return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();
+}
 
 
  }

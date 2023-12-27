@@ -129,7 +129,7 @@ export const MENU: MenuItem[] = [
 
     {
         id: 12,
-        label: 'Grammar',
+        label: 'English',
         icon: 'ph-storefront',
         subItems: [
             {
@@ -202,13 +202,13 @@ export const MENU: MenuItem[] = [
         subItems: [
             {
                 id: 3,
-                label: 'Add Route',
+                label: ' Route',
                 link: 'van/addroute',
                 parentId: 11
             },
             {
                 id: 4,
-                label: 'Add Van',
+                label: ' Van',
                 link: 'van/addvan',
                 parentId: 11
             },

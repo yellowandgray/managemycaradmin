@@ -25,20 +25,20 @@
                               </div> -->
                               <div class="d-flex justify-content-center align-items-center"><label>From :</label>
                                 <div class="search-box ms-2">
-                                    <input type="date" id="from-date-field" class="form-control" [(ngModel)]="fromDate" (change)="filteredArrival()">
+                                    <input type="date" id="from-date-field" class="form-control" [(ngModel)]="fromDate" (change)="filterItems()">
                                     <i class="ri-search-line search-icon"></i>
                                 </div></div>
                                 <div class="d-flex justify-content-center align-items-center px-2">
                               <label>To :</label>
                               <div class="search-box ms-2">
-                                  <input type="date" id="to-date-field" class="form-control" [(ngModel)]="toDate" (change)="filteredArrival()">
+                                  <input type="date" id="to-date-field" class="form-control" [(ngModel)]="toDate" (change)="filterItems()">
                                   <i class="ri-search-line search-icon"></i>
                               </div>
                             </div>
 
                               <div class="search-box ms-2">
                                 <div class="search-box ms-2">
-                              <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItemsByOption()">
+                              <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItems()">
                                 <option value="All"> Status</option>
                                   <option value="All">All</option>
                                   <option value="Delay">Delay</option>
@@ -84,9 +84,9 @@
                             <tbody class="list form-check-all">
                                 <tr *ngFor="let data of filteredArrivals ;let i = index;" >
                                     <td class="date">{{data.date}}</td>
-                                    <td class="date"><a [routerLink]="['/van/varrival-detail',{routeno:data.rno,driverid:data.driid}]">{{data.rno }}</a></td>
-                                    <td class="date" [ngStyle]="{'color': data.arrivaltime <= '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
-                                    <td class="customer_name"><a [routerLink]="['/addressbook/driver-detail',{driverid:data.driid}]" >{{data.driname}}</a></td>
+                                    <td class="date"><a style="border-bottom: 1px solid " [routerLink]="['/van/varrival-detail',{routeno:data.rno,driverid:data.driid}]">{{data.rno }}</a></td>
+                                    <td class="date"  [ngStyle]="{'color': data.arrivaltime <= '09:15' ? 'green' : 'red'}" *ngIf="data.arrivaltime">{{data.arrivaltime}}</td>
+                                    <td class="customer_name"><a style="border-bottom: 1px solid "  [routerLink]="['/addressbook/driver-detail',{driverid:data.driid}]" >{{data.driname}}</a></td>
                                     <td class="customer_name">{{data.ccgpresent}}</td>
                                     <td class="customer_name">{{data.uniform}}</td>
                                     <td class="date">{{data.remarks}}</td>

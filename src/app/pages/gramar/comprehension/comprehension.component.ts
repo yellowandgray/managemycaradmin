@@ -17,6 +17,14 @@ import { Score } from '../../address-book/api/scoreobj';
 
 
 
+
+
+
+
+
+
+
+
 @Component({
   selector: 'app-comprehension',
   templateUrl: './comprehension.component.html',
@@ -50,6 +58,11 @@ export class ComprehensionComponent {
  filteredAdditems: Vocabulary[] = [];
  vocabularyData: Vocabulary[] = [];
  showAllItems: boolean = true;
+ filteredData: Vocabulary[] = [];
+ empKeywords: string[] = [];
+ selectedEmp: any;
+
+
 
 
  selectedOption: string = '';
@@ -64,6 +77,8 @@ export class ComprehensionComponent {
  scoreform:Score[]=[];
 
 
+
+
  itemDetails: any[] = [];
  itemDetailsNew: any[] = [];
  selectedIds: string[] = [];
@@ -76,6 +91,8 @@ export class ComprehensionComponent {
  selectedPreviewImage: string | null = null;
 
 
+
+
  @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 @ViewChild('addCourse', { static: false }) addCourse?: ModalDirective;
 @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
@@ -84,6 +101,10 @@ export class ComprehensionComponent {
 @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
 @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
 @ViewChild('compDetailsModal', { static: false }) compDetailsModal?: ModalDirective;
+
+
+
+
 
 
 
@@ -110,6 +131,10 @@ export class ComprehensionComponent {
 
 
 
+
+
+
+
  
   if (this.emp != null) {
     this.MessageFormData.patchValue({  
@@ -118,6 +143,10 @@ export class ComprehensionComponent {
       title: this.emp.title,
       paragraph: this.emp.paragraph,
      questions:this.emp.questions
+
+
+
+
 
 
 
@@ -164,10 +193,18 @@ export class ComprehensionComponent {
 
 
 
+
+
+
+
       this.apiService.getVocabularyData(this.GrammarId).subscribe(actions => {
         this.vocabularyData = actions.map(action => {
           const data = action.payload.doc.data() as Vocabulary;
        //   console.log("All Vocabulary DAta", data);
+
+
+
+
 
 
 
@@ -180,10 +217,14 @@ export class ComprehensionComponent {
           } as Vocabulary;
         });
         console.log("All Vocabulary DAta", this.vocabularyData);
+        this.filteredData = [...this.vocabularyData];
+       // this.filterTable();
       });
     //  console.log("All Vocabulary DAta", this.vocabularyData.values);
       this.filteredAdditems = this.vocabularyData;
   }
+
+
 
 
   addQuestion() {
@@ -211,6 +252,8 @@ export class ComprehensionComponent {
   }
 
 
+
+
 save(id:string){
   this.apiService.createComprehensionQuestions(this.emp,this.GrammarId);
   this.addCourse?.hide();
@@ -219,9 +262,13 @@ save(id:string){
 }
 
 
+
+
 editComprehension(index: number) {
   this.deleteRecordModal?.show();
   const selectedComprehension = this.comprehensions[index];
+
+
 
 
   if (selectedComprehension) {
@@ -229,7 +276,11 @@ editComprehension(index: number) {
     this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
 
 
+
+
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
+
+
 
 
       if (this.emp.questions) {
@@ -248,7 +299,11 @@ editComprehension(index: number) {
         });
 
 
+
+
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
+
+
 
 
         this.MessageFormData.patchValue({
@@ -259,7 +314,11 @@ editComprehension(index: number) {
         });
 
 
+
+
        // Move the show() call here
+
+
 
 
         this.deleteRecordModal?.onHidden.subscribe(() => {
@@ -271,9 +330,15 @@ editComprehension(index: number) {
 }
 
 
+
+
 editComprehension1(index: number) {
   this.keywordModal?.show();
   const selectedComprehension = this.comprehensions[index];
+
+
+
+
 
 
 
@@ -285,7 +350,15 @@ editComprehension1(index: number) {
 
 
 
+
+
+
+
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
+
+
+
+
 
 
 
@@ -306,6 +379,8 @@ editComprehension1(index: number) {
         });
 
 
+
+
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
         this.MessageFormData.patchValue({
           id: this.emp.id,
@@ -317,7 +392,15 @@ editComprehension1(index: number) {
 
 
 
+
+
+
+
        // Move the show() call here
+
+
+
+
 
 
 
@@ -329,6 +412,8 @@ editComprehension1(index: number) {
     });
   }
 }
+
+
 
 
 editListItemId(id: string) {
@@ -356,6 +441,8 @@ editListItemId(id: string) {
     console.log('Item Details:', this.itemDetails);
 
 
+
+
     // You can show a different modal or handle the behavior as needed
   } else {
     // Data is new, perform actions accordingly
@@ -365,6 +452,8 @@ editListItemId(id: string) {
     // Show your existing modal or handle the behavior as needed
   }
 }
+
+
 
 
 updateQuestions() {
@@ -383,6 +472,8 @@ updateQuestions() {
   });
 
 
+
+
   this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
  
 }
@@ -396,7 +487,19 @@ updateQuestions() {
 
 
 
+
+
+
+
+
+
+
+
+
+
 update(id: string) {
+
+
 
 
   this.updateQuestions();
@@ -415,15 +518,23 @@ update(id: string) {
   });
 
 
+
+
   this.emp.questions = updatedQuestions;
+
+
 
 
   this.apiService.updateComprehensionData(id.toString(), this.emp, this.GrammarId);
 
 
+
+
   this.emp = new Comprehension();
   this.deleteRecordModal?.hide();
 }
+
+
 
 
 showPreview(event: any) {
@@ -437,6 +548,8 @@ showPreview(event: any) {
       var category = 'images';
       var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
+
+
 
 
       this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
@@ -457,6 +570,8 @@ showPreview(event: any) {
     }
 
 
+
+
   }
   else {
     this.imgSrc = '/assets/images/image_placeholder.jpg';
@@ -465,8 +580,12 @@ showPreview(event: any) {
 }
 
 
+
+
 showPreview1(event: any, index: number) {
   console.log("step 0");
+
+
 
 
   if (event.target.files && event.target.files[0]) {
@@ -479,9 +598,13 @@ showPreview1(event: any, index: number) {
     };
 
 
+
+
     reader.readAsDataURL(event.target.files[0]);
     this.selectedImage = event.target.files[0];
     this.image_path = '';
+
+
 
 
     if (this.selectedImage != null) {
@@ -489,6 +612,8 @@ showPreview1(event: any, index: number) {
       var category = 'images';
       var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
       const fileRef = this.storage.ref(filePath);
+
+
 
 
       this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
@@ -528,12 +653,22 @@ showPreview1(event: any, index: number) {
 
 
 
+
+
+
+
 delet(id: string){
   this.apiService.quarydeleteComprehensionData(this.GrammarId,id)
   this.deleteModal?.hide()
 
 
+
+
 }
+
+
+
+
 
 
 
@@ -551,7 +686,15 @@ delet(id: string){
   }
 
 
+
+
 //assign
+
+
+
+
+
+
 
 
 
@@ -563,10 +706,18 @@ setSelectedItemId(itemId: string) {
   this.assign.list_id = this.selectedItemId;
 
 
+
+
 }
 
 
+
+
 assignstd1(listId: string): void {
+
+
+
+
 
 
 
@@ -578,9 +729,15 @@ assignstd1(listId: string): void {
   }
 
 
+
+
   // Fetch the entire document for the clicked list_id
   this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
     assignedData => {
+
+
+
+
 
 
 
@@ -593,6 +750,8 @@ assignstd1(listId: string): void {
       this.fetchedStandards1 = assignedData[0]?.standard;
 
 
+
+
  // Set the selectedItemId
       this.setSelectedItemId(listId);
     },
@@ -603,18 +762,28 @@ assignstd1(listId: string): void {
 
 
 
+
+
+
+
       // Reset selectedStandards to an empty array
       this.selectedStandards = [];
+
+
 
 
       // Set the selectedItemId
       this.setSelectedItemId(listId);
 
 
+
+
       this.fetchedStandards = [];
     }
   );
 }
+
+
 
 
 onStandardChange(standard: string): void {
@@ -626,6 +795,8 @@ onStandardChange(standard: string): void {
     this.selectedStandards.push(standard);
   }
 }
+
+
 
 
 saveSelectedStandards() {
@@ -645,19 +816,29 @@ saveSelectedStandards() {
     }
 
 
+
+
  
 }
+
+
 
 
 updateKeyWord(id: string): void {
   console.log("final keywords item Details", this.itemDetails);
 
 
+
+
   // Filter items in itemDetails with non-empty names and empty ids
   this.newVocabulary = this.itemDetails.filter(item => item.name.trim() !== '' && item.id === '');
 
 
+
+
   console.log("final keywords item Details New", this.newVocabulary);
+
+
 
 
   // Extract names from all non-empty items in itemDetails
@@ -666,13 +847,19 @@ updateKeyWord(id: string): void {
     .map(item => item.name);
 
 
+
+
   if (this.selectedKeywords1.length === 0) {
     console.log('No non-empty keywords selected. Skipping update.');
     return;
   }
 
 
+
+
   console.log('Updated Keywords:', this.selectedKeywords1);
+
+
 
 
   // If there are items in newVocabulary, create a newVocabulary1 object
@@ -692,14 +879,22 @@ updateKeyWord(id: string): void {
  
 
 
+
+
   // Call your API services as needed
   // this.apiService.createVocabularyData1(this.newVocabulary1, this.GrammarId);
    this.apiService.updateComprehensionKeyWords(id.toString(), this.selectedKeywords1, this.GrammarId);
 
 
+
+
   // Hide the modal
   this.keywordModal?.hide();
 }
+
+
+
+
 
 
 
@@ -711,6 +906,8 @@ signSelectedStandards(): void {
 }
 
 
+
+
 filterItems(index: number, event: any): void {
   console.log("step 4");
  
@@ -718,11 +915,19 @@ filterItems(index: number, event: any): void {
 
 
 
+
+
+
+
  console.log("event value",this.itemDetails[index].name);
+
+
 
 
   // Find the corresponding item in vocabularyData based on the selected name
   const selectedItem = this.vocabularyData.find(item => item.name === event.target.value);
+
+
 
 
   if (selectedItem) {
@@ -757,6 +962,10 @@ filterItems(index: number, event: any): void {
 
 
 
+
+
+
+
 onDropdownChange(index: number, selectedItemId: string): void {
   // Find the selected item by ID
  
@@ -774,6 +983,8 @@ onDropdownChange(index: number, selectedItemId: string): void {
 }
 
 
+
+
 filterItems1(index: number, event: any): void {
  
   this.itemDetails[index].desc = event.target.value;
@@ -783,10 +994,20 @@ filterItems1(index: number, event: any): void {
 
 
 
+
+
+
+
 addRow(): void {
   // this.items.push({ id: '', name: '', picture: '', punctuation: '' });
    this.itemDetails.push({ id: '', name: '', pic: '', desc: '' });
  }
+
+
+
+
+
+
 
 
 
@@ -806,12 +1027,16 @@ filterItemsByOption() {
 }
 
 
+
+
 applyNameFilter() {
   // Apply name filtering
   this.filteredItems = this.comprehensions.filter(List => {
     const nameMatch = !this.searchTerm || List.title.toLowerCase().includes(this.searchTerm.toLowerCase());
     return nameMatch;
   });
+
+
 
 
   if (!this.filteredItems.length) {
@@ -824,12 +1049,18 @@ filteredItemsName(event: any): void {
 }
 
 
+
+
 deletpop(id:string){
   this.deleteModal?.show()
    this.deleteId=id;
 
 
+
+
 }
+
+
 
 
 // new code
@@ -837,7 +1068,13 @@ deletpop(id:string){
 
 
 
+
+
+
+
 // Your component code...
+
+
 
 
 isItemInVocabulary(itemName: string): boolean {
@@ -845,19 +1082,30 @@ isItemInVocabulary(itemName: string): boolean {
 }
 
 
+
+
 showUploaderForItem(item: any): boolean {
   return item.name !== '' && !this.isItemInVocabulary(item.name);
 }
 
 
+
+
 // Your component code...
+
 
 editComprehensionDetails1(compId: string, index: number) {
 
 
 
 
+
+
+
+
   this.compDetailsModal?.show();
+
+
 
 
   const selectedComprehension = this.comprehensions.find((d) => d.id === compId);
@@ -868,11 +1116,19 @@ editComprehensionDetails1(compId: string, index: number) {
   });
 
 
+
+
   if (selectedComprehension) {
     this.emp = { ...selectedComprehension };
 
 
+
+
     if (this.emp.questions) {
+
+
+
+
 
 
 
@@ -881,6 +1137,8 @@ editComprehensionDetails1(compId: string, index: number) {
       const isQuestionAlreadyAdded = this.MessageFormData.value.questions.some(
         (q: any) => q.id === question.id
       );
+
+
 
 
       if (!isQuestionAlreadyAdded) {
@@ -897,10 +1155,14 @@ editComprehensionDetails1(compId: string, index: number) {
         });
 
 
+
+
         this.MessageFormData.setControl(
           'questions',
           this.fb.array([...this.MessageFormData.value.questions, questionFormArray])
         );
+
+
 
 
         this.MessageFormData.patchValue({
@@ -909,6 +1171,8 @@ editComprehensionDetails1(compId: string, index: number) {
           title: this.emp.title,
           paragraph: this.emp.paragraph,
         });
+
+
 
 
         this.compDetailsModal?.onHidden.subscribe(() => {
@@ -920,9 +1184,15 @@ editComprehensionDetails1(compId: string, index: number) {
 }
 
 
+
+
 editComprehensionDetails(index: number) {
   this.compDetailsModal?.show();
   const selectedComprehension = this.comprehensions[index];
+
+
+
+
 
 
 
@@ -934,7 +1204,15 @@ editComprehensionDetails(index: number) {
 
 
 
+
+
+
+
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
+
+
+
+
 
 
 
@@ -957,7 +1235,15 @@ editComprehensionDetails(index: number) {
 
 
 
+
+
+
+
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
+
+
+
+
 
 
 
@@ -972,7 +1258,15 @@ editComprehensionDetails(index: number) {
 
 
 
+
+
+
+
        // Move the show() call here
+
+
+
+
 
 
 
@@ -986,9 +1280,77 @@ editComprehensionDetails(index: number) {
 }
 
 
+// processParagraph(): string {
+//   let processedParagraph = this.emp.paragraph;
+
+
+//   // Apply both bold and underline with a specific color to each keyword
+//   this.emp.keywords.forEach(keyword => {
+//     const regex = new RegExp(keyword, 'gi');
+//     processedParagraph = processedParagraph.replace(regex, match => `<strong style="color: #71198F;">${match}</strong>`);
+//   });
+
+
+//   return processedParagraph;
+// }
+processParagraph(): string {
+  let processedParagraph = this.emp.paragraph;
+
 
  
+  this.emp.keywords.forEach(keyword => {
+    const regex = new RegExp(keyword, 'gi');
+    processedParagraph = processedParagraph.replace(regex, match => `<strong><font color= #71198F  size="3"> <u>${match} </u> </font> </strong>`);
+  });
+ 
+  
+
+  return processedParagraph;
 }
+// processParagraph(): string {
+//   let processedParagraph = this.emp.paragraph;
+
+//   this.emp.keywords.forEach(keyword => {
+//     const regex = new RegExp(keyword, 'gi');
+//     processedParagraph = processedParagraph.replace(regex, match => `<strong><font style="color: #71198F; border-bottom: 1px solid; font-size: 3px;">${match}</font></strong>`);
+//   });
+
+//   return processedParagraph;
+// }
+
+
+filterTable(keywords: string[]) {
+  // Filter the vocabularyData based on keywords
+  this.filteredData = this.vocabularyData.filter((item) =>
+    keywords.some((keyword) =>
+      item.name.toLowerCase().includes(keyword.toLowerCase())
+    )
+  );
+}
+
+
+showDetails(emp: any) {
+  this.selectedEmp = emp;
+  // Update filteredData based on the selectedEmp keywords
+  this.filterTable(emp.keywords);
+}
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

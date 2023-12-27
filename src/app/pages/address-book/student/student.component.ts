@@ -15,10 +15,26 @@ import { parse } from 'date-fns';
 
 
 
+
+
+
+
+
+
+
+
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
 import { Router, Routes } from '@angular/router';
 import { StudentDetailsComponent } from '../student-details/student-details.component';
+
+
+
+
+
+
+
+
 
 
 
@@ -54,6 +70,20 @@ export class StudentComponent {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
   emps: { image: string } = { image: '' };
  
@@ -71,9 +101,16 @@ export class StudentComponent {
 
 
 
+
+
+
+
   selectedStandard: string = '';
 //Set current Batch year here......
   selectedBatch: string = '2023-24';
+  yearsArray=["2023-24","2024-25","2025-26"]
+
+
   selectedSection: string = '';
   searchTerm: string = '';
   filteredStudents: Student[] = [];
@@ -82,10 +119,14 @@ export class StudentComponent {
   currentPage = 1;
   selectedStudentIndex: number | null = null;
   uploading: boolean = false;
+  // private readonly fileName = 'student_bulk_data_template.xlsx';
+
 
 
   selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
+
+
 
 
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -93,12 +134,19 @@ export class StudentComponent {
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
 
+
+
+
+
 //  routes: Routes = [
+
+
 
 
 //     { path: 'addressbook/studentdetails/:name', component: StudentDetailsComponent },
 //   ];
  
+
 
   constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private router: Router, ) {
    
@@ -116,6 +164,8 @@ export class StudentComponent {
     });    
        
     if (this.emp != null) {
+
+
 
 
       this.MessageFormData.patchValue({      
@@ -146,13 +196,30 @@ export class StudentComponent {
       // this.emp.eyal_id= this.data.data.eyal_id;  
     }
     // getAddressBookData()
+    
   }
+
+
 
 
  
 
 
+
+
   ngOnInit() {
+    //Year Logic
+  //  var year = new Date().getFullYear()
+  //  console.log(year);
+  //  this.yearsArray.forEach(element => {
+  //   console.log(element);
+  //   if(element.includes(year.toString()))
+  //   {
+  //     this.selectedBatch=element;
+  //     console.log(element);
+  //   }
+  //  });
+   //
     this.loading= true;
     // Subscribe to the address-book collection data
     this.dataSubscription = this.apiService.getAddressBookData().subscribe(
@@ -169,7 +236,15 @@ export class StudentComponent {
         // Handle the error appropriately, e.g., display a message to the user
       }
     );
+
+
+
+
   }
+
+
+
+
 
 
 
@@ -179,6 +254,15 @@ export class StudentComponent {
   }
 
 
+
+
+
+
+
+
+  updateBatch(selectedBatch: string): void {
+    this.emp.batch = selectedBatch;
+}
 
 
 
@@ -201,11 +285,17 @@ export class StudentComponent {
     const sectionMatch = !this.selectedSection || student.section === this.selectedSection;
 
 
+
+
    
     // Check if the student's name contains the search term
     const nameMatch = this.searchTerm
       ? student.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
       : true;
+
+
+
+
 
 
 
@@ -217,11 +307,17 @@ export class StudentComponent {
 
 
 
+
+
+
+
     // If there are no matches, set filteredStudents to an empty array
     if (!this.filteredStudents.length) {
       this.filteredStudents = [];
     }
   }
+
+
 
 
   navigateToDetails(name: string) {
@@ -247,7 +343,11 @@ export class StudentComponent {
      this.deleteId=id;
 
 
+
+
   }
+
+
 
 
   delet(id: string){
@@ -257,7 +357,22 @@ this.deleteModal?.hide()
   onsubmit(){
    
   }
- 
+  downloadExcelTemplate(): void {
+    const templateFileName = 'student_bulk_data_template.xlsx'; 
+    const templateFilePath = 'student/student_bulk_data_template.xlsx'; 
+
+    const fileRef = this.storage.ref(templateFilePath);
+
+    fileRef.getDownloadURL().subscribe((url) => {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = templateFileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  }
+
   showPreview(event: any) {
     this.uploading = true;
     if (event.target.files && event.target.files[0]) {
@@ -298,13 +413,18 @@ this.deleteModal?.hide()
     this.MessageFormData;
     this.deleteRecordModal?.show()
     this.emp = new Student();
+    this.emp.batch = this.selectedBatch;
   }
  
   save() {
 
 
+
+
 console.log("student data",this.emp);
     if (this.selectedImage) {
+
+
 
 
       this.apiService.createStudentData(this.emp);
@@ -324,6 +444,10 @@ console.log("student data",this.emp);
 
 
 
+
+
+
+
   importExcel(): void {
     // Trigger the file input
     const fileInput = document.getElementById('fileInput');
@@ -331,6 +455,8 @@ console.log("student data",this.emp);
       fileInput.click();
     }
   }
+
+
 
 
   onFileChange(event: any): void {
@@ -459,6 +585,8 @@ console.log("student data",this.emp);
   onPageChange(pageNumber: number) {
     this.currentPage = pageNumber;
   }
+
+
 
 
 }

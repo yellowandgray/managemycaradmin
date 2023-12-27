@@ -79,6 +79,12 @@ export class AddrouteComponent {
     this.loading= true;
     this.apiService.getRouteData(this.SchoolId,this.vanId).subscribe(actions => {
       this.routes = actions.map(action => action.payload.doc.data() as Route);
+      this.routes.sort((a, b) => {
+        const rnoA = parseInt(a.rno, 10); 
+        const rnoB = parseInt(b.rno, 10);
+  
+        return rnoA - rnoB;
+      });
       this.loading = false; 
     });
   }

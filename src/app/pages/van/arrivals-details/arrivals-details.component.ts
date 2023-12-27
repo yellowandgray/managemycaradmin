@@ -84,7 +84,7 @@ filterItemsByOption() {
     } else if (this.selectedOption === 'On time') {
       return data.arrivaltime <= '09:15';
     } else if (this.selectedOption === 'Delay') {
-      return data.arrivaltime >= '09:15';
+      return data.arrivaltime > '09:15';
     }
     return false;
   });

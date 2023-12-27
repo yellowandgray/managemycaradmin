@@ -2,12 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AssignMarkComponent } from './assign-mark/assign-mark.component';
 import { CreateTestComponent } from './create-test/create-test.component';
-
-
-
-
-// Component
-
+import { StudentMarkDetailComponent } from './student-mark-detail/student-mark-detail.component';
 
 
 const routes: Routes = [
@@ -19,10 +14,10 @@ const routes: Routes = [
         path: "create-test",
         component: CreateTestComponent
     },
-    // {
-    //     path: "arrivals",
-    //     component: ArrivalsComponent
-    // },
+    {
+        path: "student-mark",
+        component: StudentMarkDetailComponent
+    },
    
     
 ];

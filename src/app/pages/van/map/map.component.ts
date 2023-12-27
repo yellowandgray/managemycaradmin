@@ -8,7 +8,7 @@ import { Driver } from '../../address-book/api/driverobj';
 import { co } from '@fullcalendar/core/internal-common';
 import { ModalDirective } from 'ngx-bootstrap/modal/modal.directive';
 import { RouteMap } from '../api/mapobj';
-
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-map',
@@ -20,6 +20,8 @@ export class MapComponent {
   Routeid: string='';
   selectedRouteNo: string = '';
   filteredMaps: RouteMap[] = [];
+  emp: RouteMap =new RouteMap();
+  
   filteredVans: Van[] = [];
  
   map:RouteMap[]=[];
@@ -40,29 +42,34 @@ export class MapComponent {
   town: string='';
   phone: string='';
   // MessageFormData: FormGroup;
+  // editForm: FormGroup;
   searchMap: string = '';
   SchoolId:string='stZWDh06GmAGgnoqctcE';
   vanId:string='FODMJA3V33EWUiSDFM5F';
 
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
-
-  constructor(private apiService: ApiService,private firestore: AngularFirestore ){
-  // this.MessageFormData = new FormGroup({  
-  //   'vanid': new FormControl('', Validators.required),  
-  //   'chassis': new FormControl('', Validators.required),  
-  //   'disel': new FormControl('', Validators.required),  
-  //   'engno': new FormControl('', Validators.required),  
-  //   'seats': new FormControl('', Validators.required),  
+  @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private fb: FormBuilder ){
+  
+   
+      // this.emp.rno = this.selectedRouteNo,
+      // this.emp. routeid= this.selectedRegNo,
+      // this.emp.vanid= this.emp.vanid,
+      // this.emp.driverid= this.selectedDriver
+  
  
-
-  // }); 
-  // this.fetchVanData();
 }
 
 ngOnInit() {
 
   this.apiService.getRouteData(this.SchoolId,this.vanId).subscribe(actions => {
     this.map = actions.map(action => action.payload.doc.data() as RouteMap);
+    this.map.sort((a, b) => {
+      const rnoA = parseInt(a.rno, 10); 
+      const rnoB = parseInt(b.rno, 10);
+
+      return rnoA - rnoB;
+    });
     this.filteredMaps = [...this.map];
  
   });
@@ -150,12 +157,32 @@ Selectedrouteid() {
 }
 
 update(){
-  this.apiService.updateRoutemapData(this.Routeid,this.SchoolId,this.vanId,this.Driverid,this.Vanid);
+  this.apiService.updateRoutemapData(this.Routeid,this.SchoolId,this.vanId,this.Driverid,this.Vanid );
   this.showModal?.hide()
+  this.editModal?.hide()
+
   // this.Routeid='';
 // this.updateSelectedPic.reset()
 }
 
+
+open(){
+this.selectedRouteNo='';
+this.selectedRegNo='';
+this.selectedDriver=''
+  this.showModal?.show()
+}
+
+
+editmap(rno: string,van:string,driver:string) {
+  this.selectedRouteNo=rno;
+  this.selectedRegNo=van;
+  this.selectedDriver=driver;
+  this.Selectedrouteid() ;
+  this.updateSelectedPic();
+  this.updateSelectedDriverPic();
+  this.editModal?.show();
+}
 
 filteredMap(event: any): void {
   const value = event.target.value;
@@ -184,6 +211,32 @@ filterTeacher(): void {
   }
 }
 
+// editmap(index: number){  this.editModal?.show();}
+// editmap(index: number) {
+//   this.editModal?.show();
+//   const selectedComprehension = this.map[index];
+
+//   if (selectedComprehension) {
+//     this.editForm.patchValue({
+//       rno: selectedComprehension.rno,
+//       vanid: selectedComprehension.vanid, 
+//       driverid: selectedComprehension.driverid,
+//     });
+//   }
+// }
 
 save(){}
+saveChanges() {
+
+  // const routeNo = this.editForm.get('rno').value;
+  // const vanNo = this.editForm.get('vanid').value;
+  // const driverName = this.editForm.get('driverName').value;
+
+  // this.apiService.updateRoutemapData(routeNo, this.SchoolId, vanNo, driverName,);
+
+  // // Close the modal
+  // this.editModal?.hide();
+
+
+}
 }

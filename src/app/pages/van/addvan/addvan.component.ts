@@ -6,6 +6,8 @@ import { ApiService } from '../api/api.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
+import { ExcelService } from './excel.service';
+import { parse } from 'date-fns';
 
 @Component({
   selector: 'app-addvan',
@@ -37,7 +39,7 @@ export class AddvanComponent {
   // @ViewChild('deleteRecordModal2') deleteRecordModal2: any;
   // @ViewChild('deleteRecordModal') deleteRecordModal: any;
  
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage )
+  constructor(private excelService: ExcelService,private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage )
   {
    
     this.MessageFormData = new FormGroup({  
@@ -122,7 +124,21 @@ showImagePreview(imageUrl: string) {
   this.showModals1?.show(); // Show the modal
 }
 
+downloadExcelTemplate(): void {
+  const templateFileName = 'van_bulk_data_template.xlsx'; 
+  const templateFilePath = 'student/van_bulk_data_template.xlsx'; 
 
+  const fileRef = this.storage.ref(templateFilePath);
+
+  fileRef.getDownloadURL().subscribe((url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = templateFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
 
  update(id: string)
  {
@@ -208,7 +224,68 @@ delet(id: string){
       }
     
     }
+    importExcel(): void {
+      // Trigger the file input
+      const fileInput = document.getElementById('fileInput');
+      if (fileInput) {
+        fileInput.click();
+      }
+    }
+    onFileChange(event: any): void {
+      console.log("Step 1");
+      const input = event.target;
+      const file = input.files[0];
     
- 
-
+      if (file) {
+        this.excelService.readExcel(file).then((data: any[]) => {
+          // Check if data is not null, has more than minimumRows rows, and other conditions if needed
+          if (data && data.length > 0 && data.length >= 5) {
+            data.forEach((van: any) => {
+              const rec_no = van[0];
+              const dob1 = van[3];
+    
+              if (rec_no != null && rec_no !== undefined) {
+                const excelDateValue = parseFloat(dob1);
+                const jsDate = new Date((excelDateValue - 1) * 24 * 60 * 60 * 1000 + Date.UTC(1899, 11, 30));
+                const formattedDate = jsDate.toLocaleDateString('en-CA');
+    
+                const studentData: Van = {
+                  chassis: van[1],
+                  disel: van[4],
+                  engno: van[5],
+                  seats: van[2],
+                  year: formattedDate,
+                  pic: '',
+                  vanid: '',
+                  regno: van[0]
+                };
+    
+                console.log("student Data", studentData);
+    
+                this.apiService.createVanData(studentData, this.SchoolId, this.vanId).then(
+                  () => {
+                    console.log('File uploaded successfully');
+                  },
+                  (error) => {
+                    console.error('Error uploading file:', error);
+                    console.log('File upload failed');
+                  }
+                );
+              }
+            });
+          } else {
+            console.error('File does not meet the minimum criteria for processing');
+            console.log('File upload failed');
+          }
+        });
+      }
+    }
+    // windowScroll() {
+    //   const element = document.getElementById('yourElementId');
+    //   if (element) {
+    //     // Access element properties here
+    //     const elementStyle = element.style;
+    //     // ...
+    //   }
+    // }
 }
