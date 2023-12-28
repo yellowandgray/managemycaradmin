@@ -8,7 +8,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
 import { ExcelService } from './excel.service';
 import { parse } from 'date-fns';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-addvan',
   templateUrl: './addvan.component.html',
@@ -287,5 +287,36 @@ delet(id: string){
     //     const elementStyle = element.style;
     //     // ...
     //   }
+ 
     // }
+
+    exportData() {
+      // Create a copy of the array and modify it as needed
+      const modifiedStudents = this.Vans.map(van => ({
+       // Id: student.id,
+      
+       Regno: van.regno,
+       Year:van.year,
+       Seats: van.seats,
+       Diesel: van.disel,
+       Engineno:van.engno,
+      
+  
+        // Include or exclude fields as needed
+      }));
+  
+  
+      // Rearrange the order of fields if needed
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedStudents);
+  
+  
+      // Create a workbook and append the modified worksheet
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Vans');
+  
+  
+      // Trigger the download of the Excel file
+      XLSX.writeFile(wb, 'exported_van.xlsx');
+    
+    }
 }

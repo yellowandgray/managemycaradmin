@@ -169,23 +169,41 @@
 
 
                 <tab heading="Report" class="nav-item" [active]="selectedTab === 2">
-                    <div class="d-flex mt-3">
-                        <div class="flex-shrink-0">
-                            <i class="ri-checkbox-circle-fill text-success"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-2">
-                            In some designs, you might adjust your tracking to create a certain artistic effect. It
-                            can also help you fix fonts that are poorly spaced to begin with.
-                        </div>
-                    </div>
-                    <div class="d-flex mt-2">
-                        <div class="flex-shrink-0">
-                            <i class="ri-checkbox-circle-fill text-success"></i>
-                        </div>
-                        <div class="flex-grow-1 ms-2">
-                            A wonderful serenity has taken possession of my entire soul, like these sweet mornings
-                            of spring which I enjoy with my whole heart.
-                        </div>
+                    <div  class="table-responsive table-card mt-3 mb-1">
+                        <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="sort" listsortable="email"> No.</th>
+                                    <th class="sort" listsortable="email">Students Name</th>
+                                     <th class="sort">standard</th>
+                                     <th class="sort">Section</th>
+                                    <th class="sort" listsortable="email">Tamil</th>
+                                    <th class="sort" listsortable="email">English</th>
+                                    <th class="sort" listsortable="email">Mathematics</th>
+                                    <th class="sort" listsortable="email">Science</th>
+                                    <th class="sort">History</th>
+                                    <th class="sort">Total</th>
+
+                                </tr>
+                            </thead>
+                            <!-- <tbody class="list form-check-all p-1">
+                                <tr *ngFor="let mark of filteredmark; let i = index;">
+                                    <td class="date">{{i + 1}}</td>
+                                    <td class="date">{{mark.student.name}}</td>
+                                    <td class="date">{{mark.student.standard}}</td>
+                                    <td class="date">{{mark.student.section}}</td>
+                                    <td class="customer_name p-1"><input type="number" [(ngModel)]="mark.marks.marks.tamil" /></td>
+                                    <td class="date"><input type="number" [(ngModel)]="mark.marks.marks.english" /></td>
+                                    <td class="date"><input type="number" [(ngModel)]="mark.marks.marks.mathematics" /></td>
+                                    <td class="date"><input type="number" [(ngModel)]="mark.marks.marks.science" /></td>
+                                    <td class="AssignToContainer"><input type="number" [(ngModel)]="mark.marks.marks.history"  /></td>
+                                    <td class="AssignToContainer">{{ mark.marks.total }}</td>
+                                    <td class="AssignToContainer">{{getOverallTotal(mark.marks.marks)}}</td>
+                                    <td class="AssignToContainer"><button (click)="saveMarksForSubject('your_subject')">Save Marks</button></td> 
+                                  </tr>
+                            </tbody> -->
+                        </table>
+                       
                     </div>
                 </tab>
 

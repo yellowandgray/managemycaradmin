@@ -3,16 +3,23 @@ export class CreateMarks {
     year: string = '';
     test_id: string = '';
     marks: {
-      tamil: string;
-      english: string;
-      mathematics: string;
-      science: string;
-      history: string;
+      tamil: number;
+      english: number;
+      mathematics: number;
+      science: number;
+      history: number;
     } = {
-      tamil: '',
-      english: '',
-      mathematics: '',
-      science: '',
-      history: '',
+      tamil: 0,
+      english: 0,
+      mathematics: 0,
+      science: 0,
+      history: 0,
     };
+    // total: number = 0; 
+
+    
+    // updateTotal(): void {
+    //   this.total = Object.values(this.marks).reduce((acc, mark) => acc + mark, 0);
+    // }
+  
   }

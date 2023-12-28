@@ -148,7 +148,7 @@ showImagePreview(imageUrl: string) {
 
  }
  
- editTest(index: number) {
+editTest(index: number) {
   const selectedVan = this.tests[index];
   this.emp = { ...selectedVan }; // Copy selected Van data to emp object
   
@@ -169,32 +169,58 @@ showImagePreview(imageUrl: string) {
 delet(id: string){
   this.apiService.deletetestData(id,this.SchoolId)
   this.deleteModal?.hide()
-    }
+}
 
 
-   onImageSelected(event: any) {
+onImageSelected(event: any) {
       if (event.target.files && event.target.files[0]) {
         this.selectedImage = event.target.files[0];
       }
     }
     
-    resetForm() {
+resetForm() {
       this.selectedImage = null;
       this.isSubmitted = false;
     }
-    onStandardChange(standard: string): void {
-      if (this.selectedStandards.includes(standard)) {
+
+// onStandardChange(standard: string): void {
+//       if (this.selectedStandards.includes(standard)) {
     
-        this.selectedStandards = this.selectedStandards.filter(s => s !== standard);
-      } else {
+//         this.selectedStandards = this.selectedStandards.filter(s => s !== standard);
+//       } else {
       
-        this.emp.standard.push(standard);
-      }
+//         this.emp.standard.push(standard);
+//       }
+//       console.log('Selected Standards:', this.emp.standard);
+//     }
+
+    // onStandardChange(standard: string): void {
+    //   const index = this.emp.standard.indexOf(standard);
+    
+    //   if (index !== -1) {
+    //     // Standard is already selected, remove it
+    //     this.emp.standard.splice(index, 1);
+    //   } else {
+    //     // Standard is not selected, add it
+    //     this.emp.standard.push(standard);
+    //   }
+    
+    //   console.log('Selected Standards:', this.emp.standard);
+    // }
+
+    onStandardChange(standard: string): void {
+      this.emp.standard = this.emp.standard.includes(standard)
+        ? this.emp.standard.filter(s => s !== standard)
+        : [...this.emp.standard, standard];
+    
       console.log('Selected Standards:', this.emp.standard);
     }
 
 
-    filteredName(event: any): void {
+
+
+
+filteredName(event: any): void {
       const value = event.target.value;
       console.log('Filtering by name...', value);
       this.searchTerm = value;
@@ -202,7 +228,7 @@ delet(id: string){
     }
    
    
-    filterTeacher() {
+filterTeacher() {
       console.log('Filtering...', this.searchTerm);
   
   
@@ -222,7 +248,7 @@ delet(id: string){
       }
     }
 
-    filterItemsByOption() {
+filterItemsByOption() {
       this.filteredtest = this.tests.filter(student => {
           const batchMatch = this.selectedOption === 'all' || student.year === this.selectedOption;
           const nameMatch = this.searchTerm

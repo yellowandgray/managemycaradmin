@@ -12,6 +12,8 @@ import { Comprehension, Question } from '../api/compstudentobj';
 import { Index } from 'firebase/firestore';
 import { KgSheet } from '../api/kgsheetobj';
 import { Addlist } from '../api/addlistobj';
+import { CreateMarks } from '../../test-exam/api/studentmarkobj';
+import { Student } from '../api/addressobj';
 @Component({
   selector: 'app-student-details',
   templateUrl: './student-details.component.html',
@@ -23,6 +25,10 @@ export class StudentDetailsComponent {
   score:Score[]=[];
   scoreform:Score[]=[];
   kgsheet:KgSheet[]=[];
+
+  // filteredmarks: { student: Student; marks: CreateMarks }[] = [];
+  filterstudent: Student[] = [];
+  students: Student[] = [];
   emp: Comprehension = new Comprehension(); 
   MessageFormData: FormGroup;
   SchoolId:string='stZWDh06GmAGgnoqctcE';
@@ -143,6 +149,42 @@ export class StudentDetailsComponent {
     });
   
 
+//     this.dataSubscription = this.apiService.getAddressBookData().subscribe(
+//       (actions) => {
+//         this.students = actions.map((action) => action.payload.doc.data() as Student);
+//         this.students.sort((a, b) => a.name.localeCompare(b.name));
+     
+//         this.filterstudent = this.students.filter((student) => this.standards.includes(student.standard));
+//         this.marksList = this.filterstudent.map((student) => ({
+//           student,
+//           marks: new CreateMarks(),
+//         }));
+//      this.filteredmark= this.filterstudent.map((student) => ({
+//       student,
+//       marks: new CreateMarks(),
+
+//     }));
+
+//     this.apiService.getMarkData(this.SchoolId).subscribe((actions) => {
+//       this.createMarks = actions.map((action) => action.payload.doc.data() as CreateMarks);
+    
+//       this.filteredmark = this.filterstudent.map((student) => {
+//         const marks = this.createMarks.find((mark) => mark.stud_id === student.id);
+//         return {
+//           student,
+//           marks: marks || new CreateMarks(), 
+//         };
+//       });
+    
+//       console.log(this.filteredmark, 'check');
+//     });
+   
+   
+//   },
+//   (error) => {
+//     console.error('Error fetching address book data:', error);
+//   }
+// );
     this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
     
    
@@ -233,8 +275,9 @@ editComprehension(compId: string, index: number) {
   }
 }
 // Kg Sheet
-
-
+getOverallTotal(marks: { [key: string]: number }): number {
+  return Object.values(marks).reduce((total, mark) => total + mark, 0);
+}
 
 
 }

@@ -8,7 +8,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ExcelService } from './excel.service';
 import { parse } from 'date-fns';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-teacher',
   templateUrl: './teacher.component.html',
@@ -377,6 +377,40 @@ this.deleteModal?.hide()
       link.click();
       document.body.removeChild(link);
     });
+  }
+
+  exportData() {
+    // Create a copy of the array and modify it as needed
+    const modifiedStudents = this.filteredTeachers.map(teachers => ({
+     // Id: student.id,
+    
+      Name: teachers.name,
+      Age:teachers.age,
+      Mobile: teachers.phn,
+      DOB: teachers.dob,
+      DOJ:teachers.dob,
+      Address: teachers.address,
+      Gender: teachers.gender,
+      Status: teachers.status,
+      Qualification: teachers.qualification,
+      Email: teachers.email
+
+      // Include or exclude fields as needed
+    }));
+
+
+    // Rearrange the order of fields if needed
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedStudents);
+
+
+    // Create a workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'teachers');
+
+
+    // Trigger the download of the Excel file
+    XLSX.writeFile(wb, 'exported_teachers.xlsx');
+  
   }
 
 }

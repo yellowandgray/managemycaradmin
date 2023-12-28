@@ -7,7 +7,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs';
 import { ExcelService } from './excel.service';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-vocabulary',
   templateUrl: './vocabulary.component.html',
@@ -272,5 +272,37 @@ export class VocabularyComponent {
       document.body.removeChild(link);
     });
   }
+  exportData() {
+    // Create a copy of the array and modify it as needed
+    const modifiedStudents = this.filteredvocabulary.map(Vocabulary => ({
+     // Id: student.id,
+    
+      Name: Vocabulary.name,
+      Description:Vocabulary.desc,
+      // Mobile: student.phn,
+      // DOB: student.dob,
+      // DOJ:student.dob,
+      // Address: student.address,
+      // Gender: student.gender,
+      // Status: student.status,
+      // Qualification: student.qualification,
+      // Email: student.email
+
+      // Include or exclude fields as needed
+    }));
+
+
+    // Rearrange the order of fields if needed
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedStudents);
+
+
+    // Create a workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Vocabulary');
+
+
+    // Trigger the download of the Excel file
+    XLSX.writeFile(wb, 'exported_vocabulary.xlsx');
   
+  }
 }

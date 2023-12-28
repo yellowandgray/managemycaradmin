@@ -36,14 +36,7 @@
                                 </div> -->
                               
                                  
-                                <div class="search-box ms-1">
-                                    <select class=" form-select" id="course-category-input"   [(ngModel)]="selectedStandard" (change)="filterItemsByOption()">
-                                      <option [value]="'standard'" [selected]="selectedStandard === 'standard'">standard</option>
-                                      <option *ngFor="let standard of standards" [value]="standard">
-                                        {{ standard }}
-                                      </option>
-                                    </select>
-                                  </div>
+                              
                                   
                                   <!-- <div class="search-box ms-1">
                                     <select class="form-select" id="course-category-input" [(ngModel)]="selectedStandard" (change)="filterItemsByOption()">
@@ -54,15 +47,22 @@
                                     </select>
                                   </div> -->
                                   
-                                  
+                                  <div class="search-box ms-1">
+                                    <select class=" form-select" id="course-category-input"   [(ngModel)]="selectedStandard" (change)="filterItems()">
+                                      <option [value]="'standard'" [selected]="selectedStandard === 'standard'">ALL</option>
+                                      <option *ngFor="let standard of standards" [value]="standard">
+                                        {{ standard }}
+                                      </option>
+                                    </select>
+                                  </div>
                                 
                               
                                
                                 <div class="search-box ms-2 ps-2">
                                     <!-- <span class="ri-search-line search-icon me-3"></span> -->
-                                    <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItemsByOption()" >
+                                    <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItems()" >
                                         <option value="">Section</option>
-                                        <option value="">ALL</option>
+                                        <option value="all">ALL</option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="C">C</option>
@@ -75,7 +75,7 @@
                                 <div class="col-sm">
                                     <div class="d-flex justify-content-sm-end">
                                         <div>
-                                            <button type="button" class="btn btn-info add-btn me-2" id="create-btn"  (click)="save()"><i class="ri-add-line align-bottom me-1"></i>
+                                            <button type="button" class="btn btn-info add-btn me-2" id="create-btn"  (click)="save()"><i class="ri-send-plane-fill align-bottom me-1"></i>
                                                 Save</button>
                                                 
                                         </div>
@@ -102,7 +102,7 @@
                                         <th class="sort" listsortable="email">Mathematics</th>
                                         <th class="sort" listsortable="email">Science</th>
                                         <th class="sort">History</th>
-                                       
+                                        <th class="sort">Total</th>
     
                                     </tr>
                                 </thead>
@@ -116,7 +116,9 @@
                                         <td class="date"><input type="number" [(ngModel)]="mark.marks.marks.english" /></td>
                                         <td class="date"><input type="number" [(ngModel)]="mark.marks.marks.mathematics" /></td>
                                         <td class="date"><input type="number" [(ngModel)]="mark.marks.marks.science" /></td>
-                                        <td class="AssignToContainer"><input type="number" [(ngModel)]="mark.marks.marks.history" /></td>
+                                        <td class="AssignToContainer"><input type="number" [(ngModel)]="mark.marks.marks.history"  /></td>
+                                        <!-- <td class="AssignToContainer">{{ mark.marks.total }}</td> -->
+                                        <td class="AssignToContainer">{{getOverallTotal(mark.marks.marks)}}</td>
                                         <!-- <td class="AssignToContainer"><button (click)="saveMarksForSubject('your_subject')">Save Marks</button></td> -->
                                       </tr>
                                 </tbody>

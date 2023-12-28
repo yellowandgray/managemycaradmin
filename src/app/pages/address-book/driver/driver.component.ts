@@ -8,7 +8,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs';
 import { ExcelService } from './excel.service';
 import { parse } from 'date-fns';
-
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-driver',
@@ -501,6 +501,38 @@ this.deleteModal?.hide()
       link.click();
       document.body.removeChild(link);
     });
+  }
+  exportData() {
+    // Create a copy of the array and modify it as needed
+    const modifiedStudents = this.filteredDrivers.map(driver => ({
+     // Id: student.id,
+    
+      Name: driver.name,
+      Age:driver.age,
+      Mobile: driver.phn,
+      DOB: driver.dob,
+      DOJ:driver.doj,
+      Address: driver.address,
+      Town: driver.town,
+      Pincode: driver.pincode
+      // Mobile: student.section,
+      // Batch: student.batch
+      // Include or exclude fields as needed
+    }));
+
+
+    // Rearrange the order of fields if needed
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedStudents);
+
+
+    // Create a workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'driver');
+
+
+    // Trigger the download of the Excel file
+    XLSX.writeFile(wb, 'exported_driver.xlsx');
+   
   }
 }
 

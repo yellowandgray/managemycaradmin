@@ -2,12 +2,13 @@
 //   }
 import { Injectable } from "@angular/core";
   
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Action, AngularFirestore, DocumentSnapshot } from '@angular/fire/compat/firestore';
 
 import * as firebase from "firebase/compat";
 import { CreateTest } from "./testobj";
 import { Marks } from "./addvanobj";
 import { CreateMarks } from "./studentmarkobj";
+import { Observable, map } from "rxjs";
 
 
 
@@ -157,6 +158,68 @@ createMarkstData(marks: CreateMarks,SchoolId: string,studentId: string,test_id:s
      await this.firestore.doc(`School/${SchoolId}/Test_Marks/`+ docRef.id).update({
        'id':docRef.id})
    })
+ }
+//  getMarkData(schoolId: string) {
+//   return this.firestore.doc(`School/${schoolId}/Test_Marks`).valueChanges();
+// }
+// getMarkData(studentId: string, schoolId: string): Observable<any> {
+//   return this.firestore.collection(`School/${schoolId}/Test_Marks`, 
+//     ref => ref.where('stud_id', '==', studentId)
+//   ).valueChanges();
+// }
+
+// getMarkData(schoolId: string): Observable<any[]> {
+//   console.log('Fetching items for KG_Sheet ID:', schoolId);
+//   console.log("test1");
+
+// return this.firestore.collection(`School/${schoolId}/Test_Marks`).snapshotChanges();
+
+// }
+
+getDocumentByStudentId(schoolId: string, studentId: string): Observable<any | null> {
+  return this.firestore
+    .collection(`School/${schoolId}/Test_Marks`, (ref) => ref.where('stud_id', '==', studentId).limit(1))
+    .get()
+    .pipe(
+      map((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          // If a document with the specified studentId exists, return it
+          return querySnapshot.docs[0].data();
+        } else {
+          // If no document is found, return null
+          return null;
+        }
+      })
+    );
+}
+
+ updateMarkData(documentId: string, marks: CreateMarks, schoolId: string,test_id:string| null,year:string |null) {
+  return this.firestore.doc(`School/${schoolId}/Test_Marks/${documentId}`).update({
+    stud_id: marks.stud_id,
+    test_id: test_id,
+    marks: marks.marks,
+    year: year,
+  });
+}
+
+deleteMarkData(documentId: string, schoolId: string) {
+  return this.firestore.doc(`School/${schoolId}/Test_Marks/${documentId}`).delete();
+}
+
+
+getAllMarksData(schoolId: string,studentId:string): Observable<Action<DocumentSnapshot<CreateMarks>>[]> {
+  return this.firestore.collection(`School/${schoolId}/Test_Marks/${studentId}`).snapshotChanges()
+    .pipe(
+      map(actions => actions.map(action => {
+        const data = action.payload.doc.data() as CreateMarks;
+        return { type: action.type, payload: { doc: action.payload.doc, data } } as unknown as Action<DocumentSnapshot<CreateMarks>>;
+      }))
+    );
+}
+
+getMarkData(SchoolId: string) {
+  return this.firestore.collection(`School/${SchoolId}/Test_Marks`).snapshotChanges();
+ 
  }
 
 
