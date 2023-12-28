@@ -7,6 +7,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import * as firebase from "firebase/compat";
 import { CreateTest } from "./testobj";
 import { Marks } from "./addvanobj";
+import { CreateMarks } from "./studentmarkobj";
 
 
 
@@ -139,6 +140,24 @@ getDriverData(SchoolId: string) {
 getAddressBookData() {
   return this.firestore.collection('Users', ref => ref.where("role", "==", "student")).snapshotChanges();
 }
+
+// mark assign
+
+createMarkstData(marks: CreateMarks,SchoolId: string,studentId: string,test_id:string| null,year:string |null){
+  return this.firestore.collection(`School/${SchoolId}/Test_Marks`).add(
+    {
+      'id':'',
+      'stud_id':studentId,
+      'test_id': test_id,
+      'marks':marks.marks,
+      'year':year,
+     
+   }).then(async docRef => {
+     console.log(docRef.id);
+     await this.firestore.doc(`School/${SchoolId}/Test_Marks/`+ docRef.id).update({
+       'id':docRef.id})
+   })
+ }
 
 
  }

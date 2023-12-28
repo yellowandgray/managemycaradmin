@@ -27,6 +27,7 @@ export class CreateTestComponent {
   standardsList: string[] = ['UKG', 'LKG', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
   fetchedStandards: string[] = [];
   selectedStandards: string[] = [];
+  filteredtest:  CreateTest[] = [];
   standardsControl = new FormControl(); 
   isSubmitted = false;
   files: File[] = [];
@@ -36,6 +37,8 @@ export class CreateTestComponent {
   selectedImage: any = null;
   selectedPreviewImage: string | null = null;
   deleteId:string='';
+  selectedOption: string = '';
+  searchTerm: string = '';
   uploading: boolean = false;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
@@ -96,6 +99,7 @@ export class CreateTestComponent {
     this.loading = true;
     this.apiService.gettestData(this.SchoolId).subscribe(actions => {
       this.tests = actions.map(action => action.payload.doc.data() as CreateTest);
+      this.filteredtest=[...this.tests];
       this.loading = false; 
     },(error) => {
       console.error('Error fetching arrivals', error);
@@ -190,49 +194,44 @@ delet(id: string){
     }
 
 
-    // showPreview(event: any) {
-    
-    //    this.uploading = true;
-    //   if (event.target.files && event.target.files[0]) {
-    //     const reader = new FileReader();
-    //     reader.onload = (e: any) => this.imgSrc = e.target.result;
-    //     reader.readAsDataURL(event.target.files[0]);
-    //     this.selectedImage = event.target.files[0];
-    //     this.image_path='';
-    //     if (this.selectedImage != null) {
-    //       var category = 'images';
-    //       var filePath = `${category}/${this.selectedImage.name.split('.').slice(0, -1).join('.')}_${new Date().getTime()}`;
-    //       const fileRef = this.storage.ref(filePath);
+    filteredName(event: any): void {
+      const value = event.target.value;
+      console.log('Filtering by name...', value);
+      this.searchTerm = value;
+      this.filterTeacher();
+    }
+   
+   
+    filterTeacher() {
+      console.log('Filtering...', this.searchTerm);
   
-    //       this.storage.upload(filePath, this.selectedImage).snapshotChanges().pipe(
-    //         finalize(() => {
-    //           fileRef.getDownloadURL().subscribe((url) => {
-    //             this.emp.pic = url;
-    //             this.uploading = false;
-    //           });
-    //         })
-    //       ).subscribe(
-    //         () => {
-    //           console.log('Upload completed successfully');
-    //         },
-    //         (error) => {
-    //           console.error('Upload error:', error);
-    //           this.uploading = false;
-    //         }
-    //       );
-    //     }
   
-    //   }
-    //   else {
-    //     this.imgSrc = '/assets/images/image_placeholder.jpg';
-    //     this.selectedImage = null;
-    //     this.uploading = false;
-    //   }
-    
-    // }
-    
- 
+      this.filteredtest = this.tests.filter(vocabulary => {
+       
+        const nameMatch = !this.searchTerm || vocabulary.name.toLowerCase().startsWith(this.searchTerm.toLowerCase());
+  
+  
+        return nameMatch;
+      });
+  
+  
+      if (!this.filteredtest.length) {
+        console.log('Nooo Students...');
+        this.filteredtest = [];
+        console.log(this.filteredtest);
+      }
+    }
+
+    filterItemsByOption() {
+      this.filteredtest = this.tests.filter(student => {
+          const batchMatch = this.selectedOption === 'all' || student.year === this.selectedOption;
+          const nameMatch = this.searchTerm
+              ? student.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
+              : true;
+  
+          return batchMatch && nameMatch;
+      });
+  }
+
 
 }
-
-

@@ -7,40 +7,12 @@ import { finalize } from 'rxjs/internal/operators/finalize';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { parse } from 'date-fns';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import * as XLSX from 'xlsx';
 
 import { ExcelService } from './excel.service';
 import { Subscription } from 'rxjs';
 import { Router, Routes } from '@angular/router';
 import { StudentDetailsComponent } from '../student-details/student-details.component';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 @Component({
@@ -57,34 +29,6 @@ export class StudentComponent {
   emp: Student = new Student();
   deleteId:string='';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
   emps: { image: string } = { image: '' };
  
   //selectedImage: File | null = null;
@@ -97,12 +41,6 @@ export class StudentComponent {
   imgSrc: string='';
   selectedImage: any = null;
   loading: boolean = true;
-
-
-
-
-
-
 
 
   selectedStandard: string = '';
@@ -288,7 +226,7 @@ export class StudentComponent {
 
 
    
-    // Check if the student's name contains the search term
+  
     const nameMatch = this.searchTerm
       ? student.name.toLowerCase().startsWith(this.searchTerm.toLowerCase())
       : true;
@@ -587,6 +525,38 @@ console.log("student data",this.emp);
   }
 
 
+  exportData() {
+    // Create a copy of the array and modify it as needed
+    const modifiedStudents = this.filteredStudents.map(student => ({
+     // Id: student.id,
+     RecNo:student.rec_no,
+      Name: student.name,
+      Mobile: student.mobile,
+      DOB: student.Dob,
+      Address: student.address,
+      ParentName: student.parentname,
+      Standard: student.standard,
+      Section: student.section,
+      Batch: student.batch
+      // Include or exclude fields as needed
+    }));
+
+
+    // Rearrange the order of fields if needed
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedStudents);
+
+
+    // Create a workbook and append the modified worksheet
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Students');
+
+
+    // Trigger the download of the Excel file
+    XLSX.writeFile(wb, 'exported_students.xlsx');
+    console.log("selected Batch",this.selectedBatch);
+    console.log("selected Stadaed",this.selectedStandard);
+    console.log("selected Section",this.selectedSection);
+  }
 
 
 }
