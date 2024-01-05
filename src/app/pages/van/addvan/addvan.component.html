@@ -208,7 +208,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="Search Reg. No." >
+                                <input type="text" class="form-control search" placeholder="Search Reg. No." [(ngModel)]="searchMap" (input)="filteredMap($event)" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             
@@ -251,14 +251,13 @@
                                     <th class="sort" listsortable="email">Seats</th>
                                     <th class="sort" listsortable="email">Diesel Level(ltrs)</th>
                                     <th class="sort" listsortable="email">Engine No.</th>
-                                    <th class="sort" listsortable="customer_name" >Chassis No.
-                                    </th>
+                                    <th class="sort" listsortable="customer_name" >Chassis No.</th>
                                     <th class="sort">Action</th>
 
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of Vans;let i = index;" >
+                                <tr *ngFor="let data of filteredvans;let i = index;" >
 
                                     
                                     <td class="picture">

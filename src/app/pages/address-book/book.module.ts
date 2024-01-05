@@ -35,6 +35,7 @@ import { DriverDetailsComponent } from './driver-details/driver-details.componen
 import { TeacherDetailsComponent } from './teacher-details/teacher-details.component';
 
 
+
 @NgModule({
   declarations: [
     TeacherComponent,
@@ -45,6 +46,7 @@ import { TeacherDetailsComponent } from './teacher-details/teacher-details.compo
     StudentDetailsComponent,
     DriverDetailsComponent,
     TeacherDetailsComponent,
+
 
 
     // NgbdListSortableHeader,
@@ -59,6 +61,7 @@ import { TeacherDetailsComponent } from './teacher-details/teacher-details.compo
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
+  
     SimplebarAngularModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),

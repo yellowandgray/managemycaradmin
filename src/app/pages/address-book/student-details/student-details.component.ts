@@ -14,6 +14,7 @@ import { KgSheet } from '../api/kgsheetobj';
 import { Addlist } from '../api/addlistobj';
 import { CreateMarks } from '../../test-exam/api/studentmarkobj';
 import { Student } from '../api/addressobj';
+import { CreateTest } from '../../test-exam/api/testobj';
 @Component({
   selector: 'app-student-details',
   templateUrl: './student-details.component.html',
@@ -25,8 +26,10 @@ export class StudentDetailsComponent {
   score:Score[]=[];
   scoreform:Score[]=[];
   kgsheet:KgSheet[]=[];
-
-  // filteredmarks: { student: Student; marks: CreateMarks }[] = [];
+  createMarks:CreateMarks[]=[];
+  createMarksing:CreateMarks[]=[];
+  filteredmark: { student: Student; marks: CreateMarks }[] = [];
+  tests: CreateTest[] = [];
   filterstudent: Student[] = [];
   students: Student[] = [];
   emp: Comprehension = new Comprehension(); 
@@ -127,7 +130,13 @@ export class StudentDetailsComponent {
       
     });
 
-
+    this.apiService.gettestData(this.SchoolId).subscribe(actions => {
+      this.tests = actions.map(action => action.payload.doc.data() as CreateTest);
+    
+    },(error) => {
+      console.error('Error fetching arrivals', error);
+     
+    });
     
     this.apiService.getListData(this.kgSheetId).subscribe(actions => {
       this.addlists = actions.map(action => action.payload.doc.data() as Addlist);
@@ -149,42 +158,16 @@ export class StudentDetailsComponent {
     });
   
 
-//     this.dataSubscription = this.apiService.getAddressBookData().subscribe(
-//       (actions) => {
-//         this.students = actions.map((action) => action.payload.doc.data() as Student);
-//         this.students.sort((a, b) => a.name.localeCompare(b.name));
+    this.apiService.getMarkData(this.SchoolId).subscribe((marks) => {
+      this.createMarks = marks.map((mark) => mark as CreateMarks);
+      console.log(this.createMarks, 'check');
+      this.createMarksing = this.createMarks.filter(kgsheet => kgsheet.stud_id === this.studentid);
      
-//         this.filterstudent = this.students.filter((student) => this.standards.includes(student.standard));
-//         this.marksList = this.filterstudent.map((student) => ({
-//           student,
-//           marks: new CreateMarks(),
-//         }));
-//      this.filteredmark= this.filterstudent.map((student) => ({
-//       student,
-//       marks: new CreateMarks(),
-
-//     }));
-
-//     this.apiService.getMarkData(this.SchoolId).subscribe((actions) => {
-//       this.createMarks = actions.map((action) => action.payload.doc.data() as CreateMarks);
+      console.log(this.filteredmark, 'check');
+    });
     
-//       this.filteredmark = this.filterstudent.map((student) => {
-//         const marks = this.createMarks.find((mark) => mark.stud_id === student.id);
-//         return {
-//           student,
-//           marks: marks || new CreateMarks(), 
-//         };
-//       });
-    
-//       console.log(this.filteredmark, 'check');
-//     });
-   
-   
-//   },
-//   (error) => {
-//     console.error('Error fetching address book data:', error);
-//   }
-// );
+
+ 
     this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
     
    
@@ -203,6 +186,21 @@ export class StudentDetailsComponent {
   getcompqute(compId: string): string {
     const comp = this.comprehensions.find((d) => d.id === compId);
     return comp && comp.questions ? comp.questions.length.toString() : 'No Driver Assign';
+    
+  }
+  gettest(testId: string): string {
+    const comp = this.tests.find((d) => d.testid === testId);
+    return comp ? comp.name  : 'No Driver Assign';
+    
+  }
+  getsdate(testId: string): string {
+    const comp = this.tests.find((d) => d.testid === testId);
+    return comp ? comp.startdate  : 'No Driver Assign';
+    
+  }
+  getenddate(testId: string): string {
+    const comp = this.tests.find((d) => d.testid === testId);
+    return comp ? comp.enddate  : 'No Driver Assign';
     
   }
 

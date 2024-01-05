@@ -358,8 +358,12 @@ getStandardsForList(schoolid: string,kgSheetId: string, listId: string): Observa
 // details
 getMarkData(schoolId: string): Observable<any[]> {
   // Assuming 'Test_Marks' is the collection name
-  return this.firestore.collection(`School/${schoolId}/Test_Marks`).snapshotChanges();
+  return this.firestore.collection(`School/${schoolId}/Test_Marks`).valueChanges();
 }
+gettestData(SchoolId: string) {
+  return this.firestore.collection(`School/${SchoolId}/Test_Name`).snapshotChanges();
+
+ }
 
   }
 

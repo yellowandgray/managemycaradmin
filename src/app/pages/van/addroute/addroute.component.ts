@@ -21,6 +21,8 @@ export class AddrouteComponent {
   vanId:string='FODMJA3V33EWUiSDFM5F';
   loading: boolean = true;
   deleteId:string='';
+  searchMap: string = '';
+  filteredMaps: Route[] = [];
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
   @ViewChild('editModal', { static: false }) editModal?: ModalDirective;
@@ -85,6 +87,7 @@ export class AddrouteComponent {
   
         return rnoA - rnoB;
       });
+      this.filteredMaps = [...this.routes];
       this.loading = false; 
     });
   }
@@ -147,6 +150,59 @@ delet(id: string){
   this.deleteModal?.hide()
     }
 
- 
+    // filteredMap(event: any): void {
+    //   const value = event.target.value;
+    //   this.searchMap = value;
+    //   this.filterMap();
+    // }
+    
+    
+    // filterMap(): void {
+    
+    //   this.filteredMaps = this.routes.map((map) => ({ ...map, source: 'map' })).filter((map) => {
+    //     const nameMatch = !this.searchMap || map.rno.toLowerCase().includes(this.searchMap.toLowerCase());
+    //     return nameMatch;
+    //   });
+    
+    //   if (!this.filteredMaps.length) {
+    //     console.log('No Maps...');
+    //   }
+    // }
+
+    filteredMap(event: any): void {
+      const value = event.target.value;
+      console.log('Filtering by name...', value);
+      this.searchMap = value;
+      this.filterMap();
+    }
+   
+   
+    filterMap() {
+      console.log('Filtering...', this.searchMap);
+  
+  
+      this.filteredMaps = this.routes.filter(teacher => {
+       
+        const nameMatch = !this.searchMap || teacher.rno.toLowerCase().includes(this.searchMap.toLowerCase());
+  
+  
+        return nameMatch;
+      });
+  
+  
+      if (!this.filteredMaps.length) {
+        console.log('Nooo Students...');
+        this.filteredMaps = [];
+        console.log(this.filteredMaps);
+      }
+    } 
+    // this.filteredVans = this.Vans.map((van) => ({ ...van, source: 'van' })).filter((van) => {
+    //   const nameMatch = !this.searchMap || van.regno.toLowerCase().includes(this.searchMap.toLowerCase());
+    //   return nameMatch;
+    // });
+  
+    // if (!this.filteredVans.length) {
+    //   console.log('No Vans...');
+    // }
 
 }
