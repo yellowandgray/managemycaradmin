@@ -83,6 +83,7 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
         localStorage.removeItem('login'); 
+        localStorage.removeItem('role');
         
         this.currentUserSubject.next(null!);
     }

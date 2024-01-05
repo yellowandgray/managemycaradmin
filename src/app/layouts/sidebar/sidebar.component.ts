@@ -1,7 +1,9 @@
 import { Component, ElementRef, EventEmitter, HostListener, Output, ViewChild } from '@angular/core';
 
 import { MenuItem } from './menu.model';
-import { MENU } from './menu';
+import { getMenu } from './menu';
+
+
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -13,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class SidebarComponent {
   menu: any;
   toggle: any = true;
+
   menuItems: MenuItem[] = [];
   @ViewChild('sideMenu') sideMenu!: ElementRef;
   @Output() mobileMenuButtonClicked = new EventEmitter();
@@ -23,7 +26,10 @@ export class SidebarComponent {
 
   ngOnInit(): void {
     // Menu Items
-    this.menuItems = MENU;
+    const userRole: string | null = localStorage.getItem('role');
+    if (userRole !== null) {
+      this.menuItems = getMenu(userRole);
+    }
 
     this.router.events.subscribe((event) => {
       if (document.documentElement.getAttribute('data-layout') == 'vertical' || document.documentElement.getAttribute('data-layout') == 'horizontal') {
