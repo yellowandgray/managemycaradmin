@@ -30,6 +30,8 @@ export class AddvanComponent {
   selectedPreviewImage: string | null = null;
   deleteId:string='';
   uploading: boolean = false;
+  searchMap: string = '';
+  filteredvans: Van[] = [];
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
   @ViewChild('showModals1', { static: false }) showModals1?: ModalDirective;
   @ViewChild('showModal', { static: false }) showModal?: ModalDirective;
@@ -90,6 +92,7 @@ export class AddvanComponent {
     this.loading = true;
     this.apiService.getVanData(this.SchoolId,this.vanId).subscribe(actions => {
       this.Vans = actions.map(action => action.payload.doc.data() as Van);
+      this.filteredvans=[...this.Vans]
       this.loading = false; 
     },(error) => {
       console.error('Error fetching arrivals', error);
@@ -290,6 +293,34 @@ delet(id: string){
  
     // }
 
+
+    filteredMap(event: any): void {
+      const value = event.target.value;
+      console.log('Filtering by name...', value);
+      this.searchMap = value;
+      this.filterMap();
+    }
+   
+   
+    filterMap() {
+      console.log('Filtering...', this.searchMap);
+  
+  
+      this.filteredvans = this.Vans.filter(teacher => {
+       
+        const nameMatch = !this.searchMap || teacher.regno.toLowerCase().includes(this.searchMap.toLowerCase());
+  
+  
+        return nameMatch;
+      });
+  
+  
+      if (!this.filteredvans.length) {
+        console.log('Nooo Students...');
+        this.filteredvans = [];
+        console.log(this.filteredvans);
+      }
+    } 
     exportData() {
       // Create a copy of the array and modify it as needed
       const modifiedStudents = this.Vans.map(van => ({

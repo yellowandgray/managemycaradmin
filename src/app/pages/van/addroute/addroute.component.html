@@ -126,7 +126,7 @@
                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto">
                             <div class="search-box ms-2">
-                                <input type="text" class="form-control search" placeholder="Search R. No." >
+                                <input type="text" class="form-control search" placeholder="Search R. No."  [(ngModel)]="searchMap" (input)="filteredMap($event)" >
                                 <i class="ri-search-line search-icon"></i>
                             </div>
                             
@@ -168,7 +168,7 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
-                                <tr *ngFor="let data of routes;let i = index;" >
+                                <tr *ngFor="let data of filteredMaps;let i = index;" >
                                     <td class="date"><a style="border-bottom: 1px solid " [routerLink]="['/van/routes',{routeno:data.rno}]">{{data.rno }}</a></td>
                                     <td class="customer_name">{{data.start}}</td>
                                     <td class="date">{{data.stop1}}</td>
