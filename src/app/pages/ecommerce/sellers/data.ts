@@ -19,7 +19,7 @@ const seller1Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+       
         },
     },
     stroke: {
@@ -66,7 +66,7 @@ const seller2Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {
@@ -113,7 +113,7 @@ const seller3Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {
@@ -160,7 +160,7 @@ const seller4Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {
@@ -207,7 +207,7 @@ const seller5Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {
@@ -254,7 +254,7 @@ const seller6Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {
@@ -301,7 +301,7 @@ const seller7Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {
@@ -348,7 +348,7 @@ const seller8Chart: ChartOptions = {
             inverseColors: false,
             opacityFrom: 0.45,
             opacityTo: 0.05,
-            stops: [20, 100, 100, 100],
+         
         },
     },
     stroke: {

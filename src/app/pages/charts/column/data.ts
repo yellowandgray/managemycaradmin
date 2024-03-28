@@ -1843,7 +1843,7 @@ const columnWithDataChart: ChartOptions = {
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,
-          stops: [50, 0, 100, 100],
+        
       },
   },
   yaxis: {
@@ -2192,7 +2192,7 @@ const ColumnWithRotatedChart: ChartOptions = {
           inverseColors: true,
           opacityFrom: 0.85,
           opacityTo: 0.85,
-          stops: [50, 0, 100],
+         
       },
   },
 };
