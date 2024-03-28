@@ -55,12 +55,14 @@ export class LoginComponent {
   /**
    * Form submit
    */
+  
   onSubmit1() {
     this.submitted = true;
 
     
 
     // Login Api
+
    /* this.authenticationService.login(this.f['email'].value, this.f['password'].value).subscribe((data: any) => {
       if (data.status == 'success') {
         localStorage.setItem('toast', 'true');

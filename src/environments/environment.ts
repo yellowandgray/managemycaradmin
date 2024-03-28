@@ -19,12 +19,12 @@
 export const environment = {
   production: false,
   firebase : {
-      apiKey: "AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90",
-      authDomain: "school-runner-decf3.firebaseapp.com",
-      projectId: "school-runner-decf3",
-      storageBucket: "school-runner-decf3.appspot.com",
-      messagingSenderId: "231831769030",
-      appId: "1:231831769030:web:11d9098fd2b39035d72cc7"
+    apiKey: "AIzaSyCsfVs81KxVWxgxpwhv2XbvOInFngXQ2h8",
+    authDomain: "fluted-reason-415816.firebaseapp.com",
+    projectId: "fluted-reason-415816",
+    storageBucket: "fluted-reason-415816.appspot.com",
+    messagingSenderId: "592242630088",
+    appId: "1:592242630088:web:a78422511c80894ccdb4fd"
     },
     defaultauth: 'firebase'
 };

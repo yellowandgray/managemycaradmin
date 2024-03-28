@@ -16,349 +16,209 @@ const getMenuForAdmin = () => [
         label: 'MENUITEMS.MENU.TEXT',
         isTitle: true
     },
-    {
-        id: 2,
-        label: 'MENUITEMS.DASHBOARD.TEXT',
-        icon: 'ph-gauge',
-        subItems: [
-            {
-                id: 3,
-              //  label: 'MENUITEMS.DASHBOARD.LIST.ANALYTICS',
-                label: 'Option 1',
-                link: '/analytics',
-                parentId: 2
-               
-            },
-            {
-                id: 4,
-              //  label: 'MENUITEMS.DASHBOARD.LIST.CRM',
-              label: 'Option 2',
-                link: '/crm',
-                parentId: 2
-            },
-            {
-                id: 5,
-               // label: 'MENUITEMS.DASHBOARD.LIST.ECOMMERCE',
-               label: 'Option 3',
-                link: '/',
-                parentId: 2
-            },
-            {
-                id: 6,
-              //  label: 'MENUITEMS.DASHBOARD.LIST.LEARNING',
-              label: 'Option 4',
-                link: '/learning',
-                parentId: 2
-            },
-            {
-                id: 7,
-              //  label: 'MENUITEMS.DASHBOARD.LIST.REALESTATE',
-              label: 'Option 5',
-                link: '/real-estate',
-                parentId: 2
-            }
-        ]
-    },
+    
 
     {
         id: 2,
-        label: 'Address Book',
+        label: 'Booking',
         icon: 'ph-buildings',
-        subItems: [
-            {
-                id: 3,
-                label: 'Students',
-                link: '/addressbook/student',
-                parentId: 2
-            },
-            {
-                id: 4,
-                label: 'Teachers',
-                link: 'addressbook/teacher',
-                parentId: 2
-               
-            },
-            {
-                id: 5,
-                label: 'Driver',
-                link: 'addressbook/driver',
-                parentId: 2,
-               
-            },
-            {
-                id: 6,
-                label: 'Other',
-                link: 'addressbook/others',
-                parentId: 2
-               
-            },
-       
-        ]
+        link: '/addressbook/student',
+        
     },
 
-    {
-        id: 8,
-        label: 'Academics',
-        isTitle: true
-    },
-    // {
-    //     id: 9,
-    //     label: 'KG Sheet',
-    //     icon: 'ph-calendar',
-    //     link: 'school/van',
-    //     parentId: 8
-    // },
-
+ 
 
 {
         id: 9,
-        label: 'KG Sheet',
+        label: 'Garages',
         icon: 'ph-calendar',
-        subItems: [
-            {
-                id: 3,
-                label: 'Items',
-                link: '/kgsheet/additems',
-                parentId: 9
-            },
-            {
-                id: 4,
-                label: 'List',
-                link: '/kgsheet/addlist',
-                parentId: 9
-            },
-            {
-                id: 5,
-                label: 'Test',
-                link: '/kgsheet/testpage',
-                parentId: 9
-            },
-         
-           
-           
-        ]
+        link: '/kgsheet/additems',
         
     },
 
 
     {
         id: 12,
-        label: 'English',
+        label: 'Users',
         icon: 'ph-storefront',
-        subItems: [
-            {
-                id: 7,
-                label: 'Comprehension',
-                link: '/Gramar/comprehension',
-                parentId: 12
-            },
-            {
-                id: 8,
-                label: 'Vocabulary',
-                link: '/Gramar/vocabulary',
-                parentId: 12
-            },
-         
-           
-           
-        ]
+        link: '/Gramar/comprehension',
+        
         
     },
     {
         id: 13,
-        label: 'Test / Exam',
+        label: 'Queries',
         icon: 'ph-folder-open',
-        subItems: [
-            {
-                id: 11,
-                label: 'Create Test',
-                link: '/test/create-test',
-                parentId: 13
-            },
-            {
-                id: 12,
-                label: 'Assign Marks',
-                link: '/test/assign-mark',
-                parentId: 13
-            },
-            // {
-            //     id: 13,
-            //     label: 'Test',
-            //     link: '/kgsheet/testpage',
-            //     parentId: 13
-            // },
-         
-           
-           
-        ]
+        link: '/test/create-test',
+       
         
     },
 
 
-    {
-        id: 10,
-        label: 'Non-Academics',
-        isTitle: true
-    },
     // {
-    //     id: 11,
+    //     id: 10,
+    //     label: 'Non-Academics',
+    //     isTitle: true
+    // },
+    // // {
+    // //     id: 11,
+    // //     label: 'Van',
+    // //     icon: 'ph-calendar',
+    // //     link: 'school/van',
+    // //     parentId: 10
+    // // },
+
+
+    // {
+    //     id:11,
     //     label: 'Van',
     //     icon: 'ph-calendar',
-    //     link: 'school/van',
-    //     parentId: 10
+    //     subItems: [
+    //         {
+    //             id: 3,
+    //             label: ' Route',
+    //             link: 'van/addroute',
+    //             parentId: 11
+    //         },
+    //         {
+    //             id: 4,
+    //             label: ' Van',
+    //             link: 'van/addvan',
+    //             parentId: 11
+    //         },
+    //         {
+    //             id: 5,
+    //             label: 'Map Route,van & driver',
+    //             link: 'van/map',
+    //             parentId: 11
+    //         },
+    //         {
+    //             id: 6,
+    //             label: 'Arrivals',
+    //             link: 'van/arrivals',
+    //             parentId: 11
+    //         },
+           
+           
+    //     ]
     // },
-
-
-    {
-        id:11,
-        label: 'Van',
-        icon: 'ph-calendar',
-        subItems: [
-            {
-                id: 3,
-                label: ' Route',
-                link: 'van/addroute',
-                parentId: 11
-            },
-            {
-                id: 4,
-                label: ' Van',
-                link: 'van/addvan',
-                parentId: 11
-            },
-            {
-                id: 5,
-                label: 'Map Route,van & driver',
-                link: 'van/map',
-                parentId: 11
-            },
-            {
-                id: 6,
-                label: 'Arrivals',
-                link: 'van/arrivals',
-                parentId: 11
-            },
-           
-           
-        ]
-    },
     // ... (other menu items for admins)
 ];
-const getMenuForTeacher = () => [
-    {
-        id: 1,
-        label: 'MENUITEMS.MENU.TEXT',
-        isTitle: true
-    },
+// const getMenuForTeacher = () => [
+//     {
+//         id: 1,
+//         label: 'MENUITEMS.MENU.TEXT',
+//         isTitle: true
+//     },
     
-    {
-        id: 2,
-        label: 'Address Book',
-        icon: 'ph-buildings',
-        subItems: [
-            {
-                id: 3,
-                label: 'Students',
-                link: '/addressbook/student',
-                parentId: 2
-            },
+//     {
+//         id: 2,
+//         label: 'Address Book',
+//         icon: 'ph-buildings',
+//         subItems: [
+//             {
+//                 id: 3,
+//                 label: 'Students',
+//                 link: '/addressbook/student',
+//                 parentId: 2
+//             },
          
        
-        ]
-    },
+//         ]
+//     },
 
-    {
-        id: 8,
-        label: 'Academics',
-        isTitle: true
-    },
-    // {
-    //     id: 9,
-    //     label: 'KG Sheet',
-    //     icon: 'ph-calendar',
-    //     link: 'school/van',
-    //     parentId: 8
-    // },
+//     {
+//         id: 8,
+//         label: 'Academics',
+//         isTitle: true
+//     },
+//     // {
+//     //     id: 9,
+//     //     label: 'KG Sheet',
+//     //     icon: 'ph-calendar',
+//     //     link: 'school/van',
+//     //     parentId: 8
+//     // },
 
 
-{
-        id: 9,
-        label: 'KG Sheet',
-        icon: 'ph-calendar',
-        subItems: [
-            {
-                id: 3,
-                label: 'Items',
-                link: '/kgsheet/additems',
-                parentId: 9
-            },
-            {
-                id: 4,
-                label: 'List',
-                link: '/kgsheet/addlist',
-                parentId: 9
-            },
-            {
-                id: 5,
-                label: 'Test',
-                link: '/kgsheet/testpage',
-                parentId: 9
-            },
+// {
+//         id: 9,
+//         label: 'KG Sheet',
+//         icon: 'ph-calendar',
+//         subItems: [
+//             {
+//                 id: 3,
+//                 label: 'Items',
+//                 link: '/kgsheet/additems',
+//                 parentId: 9
+//             },
+//             {
+//                 id: 4,
+//                 label: 'List',
+//                 link: '/kgsheet/addlist',
+//                 parentId: 9
+//             },
+//             {
+//                 id: 5,
+//                 label: 'Test',
+//                 link: '/kgsheet/testpage',
+//                 parentId: 9
+//             },
          
            
            
-        ]
+//         ]
         
-    },
+//     },
 
 
-    {
-        id: 12,
-        label: 'English',
-        icon: 'ph-storefront',
-        subItems: [
-            {
-                id: 7,
-                label: 'Comprehension',
-                link: '/Gramar/comprehension',
-                parentId: 12
-            },
-            {
-                id: 8,
-                label: 'Vocabulary',
-                link: '/Gramar/vocabulary',
-                parentId: 12
-            },
+//     {
+//         id: 12,
+//         label: 'English',
+//         icon: 'ph-storefront',
+//         subItems: [
+//             {
+//                 id: 7,
+//                 label: 'Comprehension',
+//                 link: '/Gramar/comprehension',
+//                 parentId: 12
+//             },
+//             {
+//                 id: 8,
+//                 label: 'Vocabulary',
+//                 link: '/Gramar/vocabulary',
+//                 parentId: 12
+//             },
          
            
            
-        ]
+//         ]
         
-    },
-    {
-        id: 13,
-        label: 'Test / Exam',
-        icon: 'ph-folder-open',
-        subItems: [
-            {
-                id: 11,
-                label: 'Create Test',
-                link: '/test/create-test',
-                parentId: 13
-            },
-            {
-                id: 12,
-                label: 'Assign Marks',
-                link: '/test/assign-mark',
-                parentId: 13
-            },
+//     },
+//     {
+//         id: 13,
+//         label: 'Test / Exam',
+//         icon: 'ph-folder-open',
+//         subItems: [
+//             {
+//                 id: 11,
+//                 label: 'Create Test',
+//                 link: '/test/create-test',
+//                 parentId: 13
+//             },
+//             {
+//                 id: 12,
+//                 label: 'Assign Marks',
+//                 link: '/test/assign-mark',
+//                 parentId: 13
+//             },
           
            
-        ]
+//         ]
         
-    }, 
-    // ... (other menu items for teachers)
-];
+//     }, 
+//     // ... (other menu items for teachers)
+// ];
 // const getMenu = () => {
   
  
@@ -370,11 +230,10 @@ const getMenuForTeacher = () => [
 //     }
 // };
 export const getMenu = (userRole: string): MenuItem[] => {
-    if (userRole === 'teacher') {
-      return getMenuForTeacher();
-    } else {
-      return getMenuForAdmin();
-    }
+
+  
+      return getMenuForAdmin()
+ 
   };
 
 //export const MENU = getMenu();

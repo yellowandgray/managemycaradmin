@@ -72,7 +72,7 @@ export function createTranslateLoader(http: HttpClient): any {
     
     
     //initializeApp({"projectId":"school-runner-decf3","appId":"1:231831769030:web:11d9098fd2b39035d72cc7","databaseURL":"https://school-runner-decf3-default-rtdb.firebaseio.com","storageBucket":"school-runner-decf3.appspot.com","apiKey":"AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90","authDomain":"school-runner-decf3.firebaseapp.com","messagingSenderId":"231831769030"})),
-    // initializeApp({"projectId":"school-runner-decf3","appId":"1:231831769030:web:11d9098fd2b39035d72cc7","databaseURL":"https://school-runner-decf3-default-rtdb.firebaseio.com","storageBucket":"school-runner-decf3.appspot.com","locationId":"us-central","apiKey":"AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90","authDomain":"school-runner-decf3.firebaseapp.com","messagingSenderId":"231831769030"})),
+    //initializeApp({"projectId":"school-runner-decf3","appId":"1:231831769030:web:11d9098fd2b39035d72cc7","databaseURL":"https://school-runner-decf3-default-rtdb.firebaseio.com","storageBucket":"school-runner-decf3.appspot.com","locationId":"us-central","apiKey":"AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90","authDomain":"school-runner-decf3.firebaseapp.com","messagingSenderId":"231831769030"})),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ],
