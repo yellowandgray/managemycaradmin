@@ -22,7 +22,7 @@ const getMenuForAdmin = () => [
         id: 2,
         label: 'Booking',
         icon: 'ph-buildings',
-        link: '/addressbook/student',
+        link: '/managecar/',
         
     },
 
@@ -32,7 +32,7 @@ const getMenuForAdmin = () => [
         id: 9,
         label: 'Garages',
         icon: 'ph-calendar',
-        link: '/kgsheet/additems',
+        link: '/managecar/garage',
         
     },
 
@@ -41,7 +41,7 @@ const getMenuForAdmin = () => [
         id: 12,
         label: 'Users',
         icon: 'ph-storefront',
-        link: '/Gramar/comprehension',
+        link: '/managecar/user',
         
         
     },
@@ -49,7 +49,7 @@ const getMenuForAdmin = () => [
         id: 13,
         label: 'Queries',
         icon: 'ph-folder-open',
-        link: '/test/create-test',
+        link: '/managecar/queries',
        
         
     },

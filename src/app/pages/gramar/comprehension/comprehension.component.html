@@ -106,10 +106,7 @@
                 <div class="d-flex align-items-center mb-2 gap-2">
          <label for="qstn{{ i }}" class="form-label" style="color: #3762ea;">Question {{ i + 1 }}</label>
      
-         <!-- <input type="radio" id="mcqa{{ i }}" [(ngModel)]="question.qtype" value="MCQA" />
-         <label for="mcqa{{ i }}" class="ms-2">MCQA</label>
-         <input type="radio" id="input{{ i }}" [(ngModel)]="question.qtype" value="input" />
-         <label for="input{{ i }}" class="ms-2">Input</label> -->
+        
        </div>
                  
                
@@ -274,18 +271,7 @@
             <input type="hidden" id="id-field">
 
 
-
-
-
-
-
-
           <form [formGroup]="MessageFormData">
-           
-
-
-
-
             <div class="mb-3">
               <label for="no" class="form-label" style="color: #3762ea;">No.</label>
               <input type="number" id="no" class="form-control" formControlName="no" [(ngModel)]="emp.no" required />
@@ -319,10 +305,6 @@
           </div>
            
           </form>
-
-
-
-
           <div *ngFor="let question of emp.questions; let i = index" class="mb-3">
             <div class="d-flex align-items-center mb-2">
               <label for="qstn{{ i }}" class="form-label" style="color: #3762ea; width: 120px;">Question {{ i + 1 }}</label>
@@ -333,9 +315,6 @@
               <input type="radio" id="Input{{ i }}" [(ngModel)]="question.qtype" value="Input" name="questionType{{ i }}"/>
               <label for="Input{{ i }}" class="ms-2" style="width: 50px;">Input</label>
             </div>
-               
-         
-       
            
             <div  *ngIf="question.qtype=='MCQA'">
             <input type="text" id="qstn{{ i }}" class="form-control" [(ngModel)]="question.qstn" />
@@ -343,7 +322,6 @@
             <label class="px-3">B <input type="text" class="form-control search" [(ngModel)]="question.b" /></label>
             <label class="p-2">C <input type="text" class="form-control search" [(ngModel)]="question.c" /></label>
             <label class="px-3">D <input type="text" class="form-control search" [(ngModel)]="question.d" /></label>
-       
             <div class="d-flex p-2 align-items-center">
               <span class="me-3">Correct Answer:</span>
               <select class="form-control" style="width: 80px;" [(ngModel)]="question.answer">
@@ -373,18 +351,6 @@
       </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -401,33 +367,6 @@
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 <div>
 <div class="row">
@@ -440,22 +379,6 @@
                 <div id="customerList">
                     <div class="row g-4 mb-3">
                       <div class="col-sm-4 d-flex">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <div class="search-box ms-2 col-sm-auto">
                           <select class="form-select" id="course-category-input" [(ngModel)]="selectedOption"  (change)="filterItemsByOption()">
                             <option value="">Standard</option>
@@ -490,13 +413,6 @@
                             </div>
                        
                     </div>
-
-
-
-
-
-
-
 
                     <div class="table-responsive table-card mt-3 mb-1">
                         <table class="table table-hover table-striped align-middle table-nowrap mb-0" id="customerTable">
@@ -547,15 +463,6 @@
                                         </div>
                                         <div style="margin-left: 10px;">{{data.standard}}</div>
                                       </td>
-                                     
-
-
-
-
-
-
-
-
        
                                     <td>
                                         <div class="d-flex gap-2">

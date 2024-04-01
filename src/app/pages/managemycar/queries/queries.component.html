@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Queries List </h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+              
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm-auto d-flex">
+                            <div class="search-box ms-2">
+                                <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">search</label>
+                           
+                            </div>
+                          
+                          
+                            <div class="search-box ms-2">
+                                <input  class="form-control" placeholder="Search by"
+                                  placeholder="Search by Name" list="studentNames">
+                                  <i class="ri-search-line search-icon"></i>
+                                <datalist id="studentNames">
+                               
+                                </datalist>
+                              </div>
+                             
+                             
+                            
+                           
+                        </div>
+                        <div class="col-sm">
+                            <!-- <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" ><i class="ri-add-line align-bottom me-1"></i>Add</button>
+                                      
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h2 class="modal-title">Image Preview</h2>
+                                <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
+                               
+                              </button>
+                            </div>
+                           
+                          </div>
+                        </div>
+                      </div>
+                     
+                    <div>
+                        <div *ngIf="loading" class="text-center">
+                       
+                            <div class="spinner-border" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p>Loading...</p>
+                          </div>
+   
+
+                    <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
+                        <table class="table align-middle table-nowrap" id="customerTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <!-- <th scope="col" style="width: 50px;">
+                                    </th> -->
+                                    <th class="sort" listsortable="customer_name" >Rec. No.
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >message
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >userid
+                                    </th>
+                                  
+                                   
+                                 
+                                 
+                                  
+                                </tr>
+                            </thead>
+                            <tbody class="list form-check-all">
+                             
+                                        <tr *ngFor="let data of garages ; let i = index;" id="a_{{ data.id }}" >
+                                    <td class="customer_name">{{i+1}}</td>
+                                    
+                                    <td class="date">{{data.message}}</td>
+                                    <td class="date">{{data.userid}}</td>
+                                 
+                                  
+                               
+                            </tbody>
+                        </table>
+                       
+                    </div>
+
+
+                 
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>

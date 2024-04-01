@@ -201,14 +201,6 @@ export class ComprehensionComponent {
         this.vocabularyData = actions.map(action => {
           const data = action.payload.doc.data() as Vocabulary;
        //   console.log("All Vocabulary DAta", data);
-
-
-
-
-
-
-
-
           return {
             id:data.id,
             name: data.name,
@@ -220,7 +212,6 @@ export class ComprehensionComponent {
         this.filteredData = [...this.vocabularyData];
        // this.filterTable();
       });
-    //  console.log("All Vocabulary DAta", this.vocabularyData.values);
       this.filteredAdditems = this.vocabularyData;
   }
 
@@ -267,22 +258,10 @@ save(id:string){
 editComprehension(index: number) {
   this.deleteRecordModal?.show();
   const selectedComprehension = this.comprehensions[index];
-
-
-
-
   if (selectedComprehension) {
     this.emp = { ...selectedComprehension };
     this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
-
-
-
-
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
-
-
-
-
       if (this.emp.questions) {
         const questionFormArray = this.emp.questions.map((question: any) => {
           return this.fb.group({
@@ -297,30 +276,13 @@ editComprehension(index: number) {
             answer: [question.answer]
           });
         });
-
-
-
-
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
-
-
-
-
         this.MessageFormData.patchValue({
           id: this.emp.id,
           no: this.emp.no,
           title: this.emp.title,
           paragraph: this.emp.paragraph,
         });
-
-
-
-
-       // Move the show() call here
-
-
-
-
         this.deleteRecordModal?.onHidden.subscribe(() => {
           this.MessageFormData.reset();
         });
@@ -338,29 +300,12 @@ editComprehension1(index: number) {
 
 
 
-
-
-
-
-
   if (selectedComprehension) {
     this.emp = { ...selectedComprehension };
     this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
 
 
-
-
-
-
-
-
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
-
-
-
-
-
-
 
 
       if (this.emp.questions) {
@@ -378,9 +323,6 @@ editComprehension1(index: number) {
           });
         });
 
-
-
-
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
         this.MessageFormData.patchValue({
           id: this.emp.id,
@@ -388,21 +330,6 @@ editComprehension1(index: number) {
           title: this.emp.title,
           paragraph: this.emp.paragraph,
         });
-
-
-
-
-
-
-
-
-       // Move the show() call here
-
-
-
-
-
-
 
 
         this.keywordModal?.onHidden.subscribe(() => {
@@ -441,8 +368,6 @@ editListItemId(id: string) {
     console.log('Item Details:', this.itemDetails);
 
 
-
-
     // You can show a different modal or handle the behavior as needed
   } else {
     // Data is new, perform actions accordingly
@@ -452,9 +377,6 @@ editListItemId(id: string) {
     // Show your existing modal or handle the behavior as needed
   }
 }
-
-
-
 
 updateQuestions() {
   const questionFormArray = this.emp.questions.map((question: any) => {
@@ -479,27 +401,7 @@ updateQuestions() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 update(id: string) {
-
-
 
 
   this.updateQuestions();
@@ -709,17 +611,7 @@ setSelectedItemId(itemId: string) {
 
 
 }
-
-
-
-
 assignstd1(listId: string): void {
-
-
-
-
-
-
 
 
   // Assuming listId is set when the "Assign to Standard" button is clicked
@@ -734,12 +626,6 @@ assignstd1(listId: string): void {
   // Fetch the entire document for the clicked list_id
   this.apiService.getStandardsForList(this.school_id, this.kgSheetId, listId).subscribe(
     assignedData => {
-
-
-
-
-
-
 
 
       // Extract the 'standard' field or any other field you need
@@ -816,11 +702,8 @@ saveSelectedStandards() {
     }
 
 
-
-
  
 }
-
 
 
 
@@ -1002,16 +885,6 @@ addRow(): void {
   // this.items.push({ id: '', name: '', picture: '', punctuation: '' });
    this.itemDetails.push({ id: '', name: '', pic: '', desc: '' });
  }
-
-
-
-
-
-
-
-
-
-
 
 
 filterItemsByOption() {
@@ -1200,23 +1073,7 @@ editComprehensionDetails(index: number) {
   if (selectedComprehension) {
     this.emp = { ...selectedComprehension };
     this.apiService.getComprehensionQuestionsData(this.GrammarId, this.emp.id).subscribe(actions => {
-
-
-
-
-
-
-
-
       this.emp.questions = actions.map(action => action.payload.doc.data() as any);
-
-
-
-
-
-
-
-
       if (this.emp.questions) {
         const questionFormArray = this.emp.questions.map((question: any) => {
           return this.fb.group({
@@ -1232,22 +1089,7 @@ editComprehensionDetails(index: number) {
           });
         });
 
-
-
-
-
-
-
-
         this.MessageFormData.setControl('questions', this.fb.array(questionFormArray));
-
-
-
-
-
-
-
-
         this.MessageFormData.patchValue({
           id: this.emp.id,
           no: this.emp.no,

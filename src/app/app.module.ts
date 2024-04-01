@@ -22,7 +22,7 @@ import { AuthlayoutComponent } from './authlayout/authlayout.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import {AngularFireModule} from '@angular/fire/compat'
+import { AngularFireModule } from '@angular/fire/compat'
 import { environment } from 'src/environments/environment.prod';
 
 
@@ -37,7 +37,7 @@ export function createTranslateLoader(http: HttpClient): any {
   declarations: [
     AppComponent,
     AuthlayoutComponent
- 
+
   ],
   imports: [
     TranslateModule.forRoot({
@@ -56,25 +56,31 @@ export function createTranslateLoader(http: HttpClient): any {
     LayoutsModule,
     ToastrModule.forRoot(),
     FormsModule,
-   // imports: [FormsModule, ...otherModules],
+    // imports: [FormsModule, ...otherModules],
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     provideFirebaseApp(() =>
-    initializeApp({
-      "projectId": "school-runner-decf3",
-      "appId": "1:231831769030:web:11d9098fd2b39035d72cc7",
-      "databaseURL": "https://school-runner-decf3-default-rtdb.firebaseio.com",
-      "storageBucket": "school-runner-decf3.appspot.com",
-      "apiKey": "AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90",
-      "authDomain": "school-runner-decf3.firebaseapp.com",
-      "messagingSenderId": "231831769030"
-    })),
-    
-    
+      initializeApp({
+        "projectId": "fluted-reason-415816",
+        "appId": "1:231831769030:web:11d9098fd2b39035d72cc7",
+        "databaseURL": "https://school-runner-decf3-default-rtdb.firebaseio.com",
+        "storageBucket": "school-runner-decf3.appspot.com",
+        "apiKey": "AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90",
+        "authDomain": "school-runner-decf3.firebaseapp.com",
+        "messagingSenderId": "231831769030"
+      })),
+
+
     //initializeApp({"projectId":"school-runner-decf3","appId":"1:231831769030:web:11d9098fd2b39035d72cc7","databaseURL":"https://school-runner-decf3-default-rtdb.firebaseio.com","storageBucket":"school-runner-decf3.appspot.com","apiKey":"AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90","authDomain":"school-runner-decf3.firebaseapp.com","messagingSenderId":"231831769030"})),
     //initializeApp({"projectId":"school-runner-decf3","appId":"1:231831769030:web:11d9098fd2b39035d72cc7","databaseURL":"https://school-runner-decf3-default-rtdb.firebaseio.com","storageBucket":"school-runner-decf3.appspot.com","locationId":"us-central","apiKey":"AIzaSyAGhQA94m5Ck8hJgCOS9c4Q_JlpZd6Nn90","authDomain":"school-runner-decf3.firebaseapp.com","messagingSenderId":"231831769030"})),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    provideFirebaseApp(() => initializeApp({ "projectId": "fluted-reason-415816",
+     "appId": "1:592242630088:web:a78422511c80894ccdb4fd", 
+     "storageBucket": "fluted-reason-415816.appspot.com", 
+     "apiKey": "AIzaSyCsfVs81KxVWxgxpwhv2XbvOInFngXQ2h8",
+      "authDomain": "fluted-reason-415816.firebaseapp.com", 
+      "messagingSenderId": "592242630088" }))
   ],
   providers: [],
   bootstrap: [AppComponent]
