@@ -1,93 +1,4 @@
-// import { Injectable, Type } from '@angular/core';
-// //import { AngularFirestore } from '@angular/fire/firestore';
-// import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-
-
-
-
-
-// import { AngularFireDatabase, AngularFireList } from '@angular/fire/compat/database';
-// import * as firebase from 'firebase';
-// import 'firebase/auth'; // Import other Firebase services as needed
-
-
-// import 'firebase/firestore';
-// import { Address } from './addressobj';
-
-
-
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class ApiService {
-
-
-//    //fireSQL = new FireSQL(firebase.firestore());
-
-
-//   constructor(private firestore: AngularFirestore,private db: AngularFireDatabase) {
-//     firebase.firestore().settings({
-//       ignoreUndefinedProperties: true,
-//     })
-   
-
-
-//   }
-
-
-// /////////////////////////
-// // sendToken(token:string) {
-// //   // this.firestore.doc('adminlogin/' + "6fJvKBu5brMiC3q3scCX").update({
-// //   //   'token':token,    
-// //   // });
-// // }
-
-
-// /////////////////////////
-// // getAdminDataCheck() {
-// //   return this.firestore.collection('adminlogin').get().toPromise();
-// // }
-
-
-
-
-//  //Paal
-// getPaalDataActive() {
-//   return this.firestore.collection('address-book',(ref: { orderBy: (arg0: string) => { (): any; new(): any; where: { (): any; new(): any; }; }; })=> ref.orderBy('name').where()).snapshotChanges();
-// }
-// getPaalData() {
-//   return this.firestore.collection('address-book',(ref: { orderBy: (arg0: string) => any; })=> ref.orderBy('name')).snapshotChanges();
-// }
-// createPaalData(obj: Address){
-//  return this.firestore.collection('address-book').add(
-//    {
-//      'id':'',
-//     //  'number':Number(obj.number),
-//      'name':obj.name,
-//      'age':obj.age,
-//      'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
-//      'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-//   }).then(async docRef => {
-//     console.log(docRef.id);
-//     await this.firestore.doc('address-book/' + docRef.id).update({
-//       'id':docRef.id})
-//   })
-// }
-// updatePaalData(key: string,obj: Address){
-//   this.firestore.doc('address-book/' + key).update({
-//     'id':key,
-//     // 'number':Number(obj.number),
-//     'name':obj.name,
-//     'age':obj.age,
-//     // 'active':obj.active,
-//     'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
-//   });
-//  }
-//   deletePaalData(dataId: string){    
-//     this.firestore.doc('address-book/' + dataId).delete();
-//   }
 import { Injectable } from "@angular/core";
  
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -99,13 +10,21 @@ import {Booking}from "./bookingobj";
 import { Garages } from "./garageobj";
 import { User, Vehicle } from "./userobj";
 import { Comprehension } from "../../gramar/api/comprehensionobj";
-// import * as firebase from 'firebase';
-  @Injectable({
-    providedIn: 'root'
-  })
+import { serverTimestamp } from "firebase/firestore";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
+@Injectable({
+  providedIn: 'root'
+})
+
+
   export class ApiService {
+  getUserById(id: string) {
+    throw new Error('Method not implemented.');
+  }
+
  
-    constructor(private firestore: AngularFirestore) {}
+    constructor(private firestore: AngularFirestore,private http: HttpClient) {}
  
     //Get the address-book collection data
     // getAddressBookData() {
@@ -113,6 +32,72 @@ import { Comprehension } from "../../gramar/api/comprehensionobj";
     //    return this.firestore.collection('Users', ref => ref.where("role", "==", "student") && ref => ref.orderBy('name')).snapshotChanges();  
      
     // }
+
+
+    getUsers(): Observable<any> {
+      const url = 'https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/users';
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer api-token-1'
+        })
+      };
+      return this.http.get<any>(url, httpOptions);
+    }
+
+
+    getbanner(): Observable<any> {
+      const url = 'https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/getAllWelcomebanner';
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer api-token-1'
+        })
+      };
+      return this.http.get<any>(url, httpOptions);
+    }
+
+    
+    getGarages(): Observable<any> {
+      const url = 'https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/getAllGarages';
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer api-token-1'
+        })
+      };
+      return this.http.get<any>(url, httpOptions);
+    }
+    getGaragesid(id:string): Observable<any> {
+      const url = `https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/getGarageById/${id}`;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer api-token-1'
+        })
+      };
+      return this.http.get<any>(url, httpOptions);
+    }
+
+    getBooking(): Observable<any> {
+      const url = 'https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/getAllBookings';
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer api-token-1'
+        })
+      };
+      return this.http.get<any>(url, httpOptions);
+    }
+
+    getvehicles(): Observable<any> {
+      const url = 'https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/getvehicles';
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Authorization': 'Bearer api-token-1'
+        })
+      };
+      return this.http.get<any>(url, httpOptions);
+    }
+
+
+
+
     getAddressBookData() {
       return this.firestore.collection('booking',).snapshotChanges();
     }
@@ -132,9 +117,11 @@ import { Comprehension } from "../../gramar/api/comprehensionobj";
           'motnotes':obj.motnotes,
           'status':obj.status,
           'time':obj.time,
-          
-          // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
-          // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+          'userid':obj.userid,
+          'vehicleId':obj.vehicleId,
+          'garageid':obj.garageid,
+          'createdAt':serverTimestamp(),
+          'updatedAt':serverTimestamp(),
        }).then(async docRef => {
          console.log(docRef.id);
          await this.firestore.doc('booking/' + docRef.id).update({
@@ -151,7 +138,10 @@ import { Comprehension } from "../../gramar/api/comprehensionobj";
         'motnotes':obj.motnotes,
         'status':obj.status,
         'time':obj.time,
-        // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+        'userid':obj.userid,
+        'vehicleId':obj.vehicleId,
+        'garageid':obj.garageid,
+        'updatedAt':serverTimestamp(),
       });
      }
      deleteStudentData(dataId: string){    
@@ -324,8 +314,12 @@ import { Comprehension } from "../../gramar/api/comprehensionobj";
 //User
 
 getUserData() {
-  return this.firestore.collection('users', ref => ref.where("role", "==","user")).snapshotChanges();
-}
+  const url = `https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/users`;
+  return this.http.get(url);
+  console.log(url)
+  
+} 
+
 
 
 getVehicleData(bookId: string): Observable<Vehicle[]> {

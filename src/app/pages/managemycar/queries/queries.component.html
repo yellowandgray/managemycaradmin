@@ -8,7 +8,7 @@
               
                 <div id="customerList">
                     <div class="row g-4 mb-3">
-                        <div class="col-sm-auto d-flex">
+                        <!-- <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
                                 <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">search</label>
                            
@@ -27,7 +27,7 @@
                              
                             
                            
-                        </div>
+                        </div> -->
                         <div class="col-sm">
                             <!-- <div class="d-flex justify-content-sm-end">
                                 <div>
@@ -67,14 +67,14 @@
                                 <tr>
                                     <!-- <th scope="col" style="width: 50px;">
                                     </th> -->
-                                    <th class="sort" listsortable="customer_name" >Rec. No.
-                                    </th>
-                                    <th class="sort" listsortable="customer_name" >message
-                                    </th>
-                                    <th class="sort" listsortable="customer_name" >userid
+                                    <!-- <th class="sort" listsortable="customer_name" >datet
+                                    </th> -->
+                                   
+                                    <th class="sort" listsortable="customer_name" >Name
                                     </th>
                                   
-                                   
+                                    <th class="sort" listsortable="customer_name" >Message
+                                    </th>
                                  
                                  
                                   
@@ -83,10 +83,11 @@
                             <tbody class="list form-check-all">
                              
                                         <tr *ngFor="let data of garages ; let i = index;" id="a_{{ data.id }}" >
-                                    <td class="customer_name">{{i+1}}</td>
-                                    
+                                    <!-- <td class="customer_name">{{i+1}}</td> -->
+                                    <td><a  style="border-bottom: 1px solid;"[routerLink]="['/userdetails', data.userid]">{{ getUserById(data.userid)}}</a></td>
                                     <td class="date">{{data.message}}</td>
-                                    <td class="date">{{data.userid}}</td>
+                                  
+                                    <!-- <td class="date">{{getUserById(data.userid)}}</td> -->
                                  
                                   
                                

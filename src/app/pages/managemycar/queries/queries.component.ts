@@ -17,8 +17,8 @@ import { Queries } from '../api/queriesobj';
 export class QueriesComponent {
  
   garages: Queries[] = [];
-  MessageFormData: FormGroup;
-  emp: Queries = new Queries();
+
+
   deleteId:string='';
 
 
@@ -36,7 +36,7 @@ export class QueriesComponent {
 
   selectedStandard: string = '';
 
-
+  usersdata: any;
   
 
 
@@ -71,41 +71,14 @@ export class QueriesComponent {
 
 
   constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private router: Router, ) {
-   
-    this.MessageFormData = new FormGroup({  
-      'message': new FormControl('', Validators.required),  
-      'userid': new FormControl('', Validators.required),      
-     
-        
-      // 'active': new FormControl(''),
-    });    
-       
-    if (this.emp != null) {
-
-
-
-
-      this.MessageFormData.patchValue({      
-        message: this.emp.message,
-        userid: this.emp.userid,
-      
-      
- 
-      });
-      // this.key = this.data.data.key;
-      this.emp.message= this.emp.message;
-      this.emp.userid= this.emp.userid;  
- 
-    }
-  
     
   }
 
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.loading= true;
-   
+    await this.fetchUserData();
     this.dataSubscription = this.apiService.getQueriesData().subscribe(
       (actions) => {
         this.garages = actions.map((action) => action.payload.doc.data() as Queries);
@@ -121,98 +94,31 @@ export class QueriesComponent {
 
   }
 
-
-
-
-  navigateToDetails(name: string) {
- 
-    this.router.navigate(['/studentdetails', name]);
-  }
- 
- 
-  showImagePreview(imageUrl: string) {
-    this.selectedPreviewImage = imageUrl;
-    this.showModals1?.show(); // Show the modal
-  }
- 
- 
- 
- 
- 
-  deletpop(id:string){
-    this.deleteModal?.show()
-     this.deleteId=id;
-
-
-
-
+  async fetchUserData() {
+    try {
+      const response = await this.apiService.getUsers().toPromise();
+      console.log(response);
+      if (response && response.status === 'Success' && Array.isArray(response.data)) {
+        this.usersdata = response.data; // Assuming data is an array of users
+      } else {
+        this.usersdata = []; // Initialize as an empty array if data is not in the expected format
+        console.error('Invalid data format: ', response);
+      }
+      console.log(this.usersdata);
+      this.loading = false;
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+      this.usersdata = []; // Initialize as an empty array if an error occurs
+      this.loading = false;
+    }
   }
 
-
-
-
-  delet(id: string){
-this.apiService.deleteStudentData(id)
-this.deleteModal?.hide()
-  }
-  onsubmit(){
-   
-  }
-  downloadExcelTemplate(): void {
-    const templateFileName = 'student_bulk_data_template.xlsx'; 
-    const templateFilePath = 'student/student_bulk_data_template.xlsx'; 
-
-    const fileRef = this.storage.ref(templateFilePath);
-
-    fileRef.getDownloadURL().subscribe((url) => {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = templateFileName;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-  }
-
-  
-  add(){
-    this.MessageFormData;
-    this.deleteRecordModal?.show()
-    this.emp = new Queries();
- 
-  }
- 
-
-  save() {
-console.log("student data",this.emp);
-// this.apiService.createGaragesData(this.emp);
-this.deleteRecordModal?.hide()
-
-  }
-
-  editStudent(index: number) {
- 
-
-  this.emp = { ...this.garages[index] };
-
-   
-    this.MessageFormData.patchValue({
-      message: this.emp.message,
-      userid: this.emp.userid,
- 
     
-    });
-    this.showModals?.show();
- 
-   
-  }
-  update(id: string)
-  {
-  console.log(id)
-    //  this.apiService.updateGaragesData(id.toString(), this.emp);
-    //  this.emp = new Queries();
-     this.showModals?.hide();
-     
-   
-  }
+  getUserById(userId: string): string {
+    console.log(userId);
+    const user = this.usersdata.find((user: any) => user.id === userId);
+    return user ? `${user.firstname} ${user.lastname}` : 'No User Assigned';
+}
+
+
 }

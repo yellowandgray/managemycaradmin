@@ -12,9 +12,9 @@ import { Comprehension, Question } from '../api/compstudentobj';
 import { Index } from 'firebase/firestore';
 import { KgSheet } from '../api/kgsheetobj';
 import { Addlist } from '../api/addlistobj';
-import { CreateMarks } from '../../test-exam/api/studentmarkobj';
+
 import { Student } from '../api/addressobj';
-import { CreateTest } from '../../test-exam/api/testobj';
+
 @Component({
   selector: 'app-student-details',
   templateUrl: './student-details.component.html',
@@ -26,10 +26,10 @@ export class StudentDetailsComponent {
   score:Score[]=[];
   scoreform:Score[]=[];
   kgsheet:KgSheet[]=[];
-  createMarks:CreateMarks[]=[];
-  createMarksing:CreateMarks[]=[];
-  filteredmark: { student: Student; marks: CreateMarks }[] = [];
-  tests: CreateTest[] = [];
+  // createMarks:CreateMarks[]=[];
+  createMarksing:[]=[];
+  // filteredmark: { student: Student; marks: CreateMarks }[] = [];
+  // tests: CreateTest[] = [];
   filterstudent: Student[] = [];
   students: Student[] = [];
   emp: Comprehension = new Comprehension(); 
@@ -122,7 +122,7 @@ export class StudentDetailsComponent {
 
       this.apiService.getKgsheetQuestionsData(this.SchoolId, this.ScoreId).subscribe(actions => {
         this.kgsheet = actions.map(action => action.payload.doc.data() as KgSheet);
-  console.log(   this.kgsheet = actions.map(action => action.payload.doc.data() as KgSheet),'check')
+         console.log(   this.kgsheet = actions.map(action => action.payload.doc.data() as KgSheet),'check')
         this.kgsheet = this.kgsheet.filter(kgsheet => kgsheet.stuid === this.studentid);
         console.log(this.kgsheet,'check')
       });
@@ -130,13 +130,7 @@ export class StudentDetailsComponent {
       
     });
 
-    this.apiService.gettestData(this.SchoolId).subscribe(actions => {
-      this.tests = actions.map(action => action.payload.doc.data() as CreateTest);
-    
-    },(error) => {
-      console.error('Error fetching arrivals', error);
-     
-    });
+   
     
     this.apiService.getListData(this.kgSheetId).subscribe(actions => {
       this.addlists = actions.map(action => action.payload.doc.data() as Addlist);
@@ -158,13 +152,7 @@ export class StudentDetailsComponent {
     });
   
 
-    this.apiService.getMarkData(this.SchoolId).subscribe((marks) => {
-      this.createMarks = marks.map((mark) => mark as CreateMarks);
-      console.log(this.createMarks, 'check');
-      this.createMarksing = this.createMarks.filter(kgsheet => kgsheet.stud_id === this.studentid);
-     
-      console.log(this.filteredmark, 'check');
-    });
+    
     
 
  
@@ -188,21 +176,7 @@ export class StudentDetailsComponent {
     return comp && comp.questions ? comp.questions.length.toString() : 'No Driver Assign';
     
   }
-  gettest(testId: string): string {
-    const comp = this.tests.find((d) => d.testid === testId);
-    return comp ? comp.name  : 'No Driver Assign';
-    
-  }
-  getsdate(testId: string): string {
-    const comp = this.tests.find((d) => d.testid === testId);
-    return comp ? comp.startdate  : 'No Driver Assign';
-    
-  }
-  getenddate(testId: string): string {
-    const comp = this.tests.find((d) => d.testid === testId);
-    return comp ? comp.enddate  : 'No Driver Assign';
-    
-  }
+ 
 
   getlist(kgtestid: string): string {
     const comp = this.addlists.find((d) => d.id === kgtestid);

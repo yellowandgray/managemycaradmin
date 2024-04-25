@@ -239,7 +239,7 @@
                    
                  
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer">  
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
                         <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
@@ -379,7 +379,7 @@
                                         <tr *ngFor="let data of getVisibleItems(); let i = index;" id="a_{{ data.id }}" >
                                     <td class="customer_name">{{data.rec_no}}</td>
                                     <td class="customer_name">
-                                        <a style="border-bottom: 1px solid " [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:1}]">{{ data.name }}</a>
+                                        <a style="border-bottom: 1px solid" [routerLink]="['/addressbook/studentdetails', { rec_no: data.rec_no, name: data.name, standard: data.standard, section: data.section, Dob: data.Dob, parentname: data.parentname, address: data.address,image:data.image,studentid:data.id,select:1}]">{{ data.name }}</a>
                                     </td>
                                    
                                     <td class="picture">

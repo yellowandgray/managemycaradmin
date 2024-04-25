@@ -1,0 +1,201 @@
+<div class="col-xxl-12">
+    <div class="d-flex align-items-center">
+        <a  (click)="goBack()">
+            <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem; color: #3762ea;"></i>
+        </a>
+        <h5 class="px-3 mb-0"> Add Garage Details</h5>
+        <!-- <h5 class="px-3 mb-0">{{name}}, {{standard}} {{section}}</h5> -->
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+
+
+            <tabset type="pills" [justified]="true" class="mb-3" role="tablist">
+                <tab heading="Service" class="nav-item">
+                  
+                    <div class="mb-3 p-4" style=" overflow-y: auto;">
+
+                        <div id="newlink">
+                            <div id="1">
+                                <div *ngFor="let data of services; let i = index">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label for="name{{i}}" class="form-label"> Name</label>
+                                                <input type="text" class="form-control" [id]="'name' + i"
+                                                    name="name{{i}}" placeholder=" Name" [(ngModel)]="data.name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3">
+                                            <div class="mb-3">
+                                                <label for=" des{{i}}" class="form-label">Description</label>
+                                                <textarea class="form-control" [id]="'des' + i" name="des{{i}}"
+                                                    [(ngModel)]="data.des" rows="3"
+                                                    placeholder="Enter description"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="include{{i}}" class="form-label">Include Service</label>
+                                                <textarea class="form-control" [id]="'include' + i" name="include{{i}}"
+                                                    [(ngModel)]="data.include" rows="3"
+                                                    placeholder="Enter Include Service"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <div class="mb-3">
+                                                <label for="cost{{i}}" class="form-label"> cost (£)</label>
+                                                <input type="number" class="form-control" [id]="'cost' + i"
+                                                    name="cost{{i}}" [(ngModel)]="data.cost" placeholder="cost">
+                                            </div>
+                                        </div>
+
+                                        <div class="hstack col-lg-1">
+                                            <a href="javascript:void(0);" (click)="delet(data.id)" class="btn btn-subtle-danger btn-icon btn-lg remove-item-btn" >
+                                                <i class="ph-trash"></i>
+                                            </a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="newForm" style="display: none;">
+
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="hstack gap-2">
+                                <button type="button" class="btn btn-success btn-load" (click)="saveService()" [disabled]="submitted">
+                                    <span *ngIf="!submitted" class="d-flex align-items-center">
+                                      <span class="flex-grow-1 ms-2">Save</span>
+                                    </span>
+                                    <span *ngIf="submitted" class="d-flex align-items-center">
+                                      <span class="spinner-border flex-shrink-0 me-2" role="status" aria-hidden="true"></span>
+                                      <span class="flex-grow-1">Loading...</span>
+                                    </span>
+                                  </button>
+                                  
+                                <!-- <button type="submit" class="btn btn-secondary" (click)="saveService()">Save</button> -->
+                                <a href="javascript:void(0);" class="btn btn-primary" (click)="addNewServiceRow()">Add
+                                    New</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </tab>
+
+
+                <tab heading="Time Slot" class="nav-item">
+                    <div class="col-lg-11">
+                        <div class="mb-3 p-4">
+                            <label for="passedYear" class="form-label py-2"> Garage Time Slot</label>
+                            <div class="row g-2 justify-content-center  p-3" >
+                                <div class="col-lg-3 ">
+                                    <input class="form-control" data-choices data-choices-search-false
+                                        name="passedYear" id="passedYear" [(ngModel)]="monfri">
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    Start Time:
+                                </div>
+                                <div class="col-lg-2">
+                                    <input [ngxTimepicker]="picker" class="form-control" [id]="startTime"
+                                        name="startTime" [(ngModel)]="startTime">
+                                    <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    End Time:
+                                </div>
+                                <div class="col-lg-3 ">
+                                    <input [ngxTimepicker]="picker1" class="form-control" [id]="endTime"
+                                        name="endTime" [(ngModel)]="endTime">
+                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
+                                </div>
+                                
+
+                                <div class="col-lg-3 ">
+                                    <input class="form-control" data-choices data-choices-search-false
+                                        name="passedYear" id="passedYear" [(ngModel)]="sat">
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    Start Time:
+                                </div>
+                                <div class="col-lg-2">
+                                    <input [ngxTimepicker]="picker" class="form-control" [id]="startTime"
+                                        name="startTime" [(ngModel)]="startTime1">
+                                    <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    End Time:
+                                </div>
+                                <div class="col-lg-3 ">
+                                    <input [ngxTimepicker]="picker1" class="form-control" [id]="endTime"
+                                        name="endTime" [(ngModel)]="endTime1">
+                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
+                                </div>
+                               
+                                <div class="col-lg-3 ">
+                                    <input class="form-control" data-choices data-choices-search-false
+                                        name="passedYear" id="passedYear" [(ngModel)]="sun">
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    Start Time:
+                                </div>
+                                <div class="col-lg-2">
+                                    <input [ngxTimepicker]="picker" class="form-control" [id]="startTime"
+                                        name="startTime" [(ngModel)]="startTime2">
+                                    <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    End Time:
+                                </div>
+                                <div class="col-lg-3 ">
+                                    <input [ngxTimepicker]="picker1" class="form-control" [id]="endTime"
+                                        name="endTime" [(ngModel)]="endTime2">
+                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
+                                </div>
+                               
+                            </div>
+                            <div class="col-lg-12 py-3">
+                                <div class="hstack gap-2">
+                                    <button type="submit" class="btn btn-secondary"
+                                        (click)="saveTimeService()">Update</button>
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </tab>
+
+
+                <tab heading="Appointments" class="nav-item">
+
+                    <div class="row">
+                        <div class="p-2 col-lg-3">
+                            <label>Date:</label>
+                            <input type="date" class="form-control" [(ngModel)]="date" (change)="updateSelectedDay()">
+                        </div>
+                    </div>
+
+                    <div>
+                      <div class="d-flex gap-5"><p>Start Time: {{ startTime }}</p>
+                        <p>End Time: {{ endTime }}</p></div>
+                        
+
+                        <div *ngFor="let slot of timeSlot" class="d-flex justify-content-center py-1">
+                            <button type="button" class="btn rounded-pill btn-success px-5">{{ slot.startTime }} - {{ slot.endTime }}</button>
+                        </div>
+
+                    </div>
+                </tab>
+
+
+
+            </tabset>
+        </div>
+    </div>
+</div>

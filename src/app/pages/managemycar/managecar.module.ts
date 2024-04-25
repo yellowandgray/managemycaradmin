@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -29,7 +29,15 @@ import { UsersComponent } from './users/users.component';
 import { QueriesComponent } from './queries/queries.component';
 import { GaragesComponent } from './garages/garages.component';
 import { BookingComponent } from './booking/booking.component';
+import { GareageAvailTimeComponent } from './garage-avail-time/garage-avail-time.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker'; 
 
+import { MatNativeDateModule } from '@angular/material/core';
+import { WelcomeBannerComponent } from './welcome-banner/welcome-banner.component';
+import { UserdetailsComponent } from './userdetails/userdetails.component';
+import { VehicledetailsComponent } from './vehicledetails/vehicledetails.component';
+import { GaragesdetailsComponent } from './garagesdetails/garagesdetails.component';
+import { UservehicledetailsComponent } from './uservehicledetails/uservehicledetails.component';
 
 
 
@@ -38,7 +46,14 @@ import { BookingComponent } from './booking/booking.component';
     UsersComponent,
     QueriesComponent,
     GaragesComponent,
-    BookingComponent
+    BookingComponent,
+    GareageAvailTimeComponent,
+    WelcomeBannerComponent,
+    UserdetailsComponent,
+    VehicledetailsComponent,
+    GaragesdetailsComponent,
+    UservehicledetailsComponent,
+   
 
 
     // NgbdListSortableHeader,
@@ -53,10 +68,13 @@ import { BookingComponent } from './booking/booking.component';
     ModalModule,
     FormsModule,
     ReactiveFormsModule,
-  
+   NgxMaterialTimepickerModule,
     SimplebarAngularModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
+  ],
+  providers: [
+    DatePipe // Add DatePipe to the providers array if you need to use it globally
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

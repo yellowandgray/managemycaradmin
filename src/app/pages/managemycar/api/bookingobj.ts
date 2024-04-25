@@ -4,10 +4,15 @@ export class Booking {
   id:string='';
   bookingdate:string='';
   motdue: string=''  ;  
-  motnotes: string='student' ;  
+  motnotes: string='' ;  
   status: string='' ;
   time: string='';
   totalamount:string='' ;
+  garageid:string='';
+  createdAt:string='';
+  userid:string='';
+  vehicleId:string='';
+
   
  
 

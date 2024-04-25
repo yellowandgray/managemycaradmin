@@ -120,8 +120,9 @@ if (this.loginForm.invalid) {
         localStorage.setItem('login', 'true');
         localStorage.setItem('school_id', users[0].data()['school']);
         localStorage.setItem('role', users[0].data()['role']);
-        localStorage.setItem('username', users[0].data()['name']);
-        localStorage.setItem('userPicture', users[0].data()['picture']);
+       // localStorage.setItem('username', users[0].data()['name']);
+        localStorage.setItem('username', 'Vaidy');
+        localStorage.setItem('userPicture', "assets/images/logo-mmc-final.png");
         console.log(localStorage.getItem('school_id'));
         console.log(localStorage.getItem('role'));
 

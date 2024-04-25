@@ -1,134 +1,5 @@
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 
-
-
-
-<!-- End Breadcrumbs -->
-<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Update Student</h5>
-                <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
-            </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">First Name</label>
-                        <input type="text" id="date-field" class="form-control"[(ngModel)]="emp.firstname"  placeholder="Enter First Name" formControlName="firstname" required />
-                    </div>
-
-
-
-
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Last Name</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.lastname" formControlName="lastname"  placeholder="Enter Last Name"  required />
-                    </div>
-     
-
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">Email</label>
-                        <input type="text" id="date-field" class="form-control"  formControlName="email" [(ngModel)]="emp.email"   placeholder="Enter Email"  >
-                  
-                    </div>
-                   
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Address</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Address" formControlName="address" [(ngModel)]="emp.address" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label">Phone</label>
-                        <input type="text" id="address-field" class="form-control" placeholder="Enter Phone" formControlName="phone"  [(ngModel)]="emp.phone" required />
-                    </div>
-           
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Post Code</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Post Code"  formControlName="postcode"  [(ngModel)]="emp.postcode" required />
-                    </div>
-                    
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-ghost-danger" (click)="showModals.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Add</h5>
-                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
-            </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-                    
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">First Name</label>
-                        <input type="text" id="date-field" class="form-control"[(ngModel)]="emp.firstname"  placeholder="Enter First Name" formControlName="firstname" required />
-                    </div>
-
-
-
-
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Last Name</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.lastname" formControlName="lastname"  placeholder="Enter Last Name"  required />
-                    </div>
-     
-
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">Email</label>
-                        <input type="text" id="date-field" class="form-control"  formControlName="email" [(ngModel)]="emp.email"   placeholder="Enter Email"  >
-                  
-                    </div>
-                   
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Address</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Address" formControlName="address" [(ngModel)]="emp.address" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label">Phone</label>
-                        <input type="text" id="address-field" class="form-control" placeholder="Enter Phone" formControlName="phone"  [(ngModel)]="emp.phone" required />
-                    </div>
-           
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Post Code</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Post Code"  formControlName="postcode"  [(ngModel)]="emp.postcode" required />
-                    </div>
-
-
-
-                    
-                   
-                 
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
-                      
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-<div>
-
-
-
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -138,7 +9,7 @@
             <div class="card-body">
               
                 <div id="customerList">
-                    <div class="row g-4 mb-3">
+                    <!-- <div class="row g-4 mb-3">
                         <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
                                 <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">search</label>
@@ -154,26 +25,22 @@
                                
                                 </datalist>
                               </div>
-                             
-                             
-                            
-                           
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
-                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn"  (click)="add()"><i class="ri-add-line align-bottom me-1"></i>Add</button>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn"  ><i class="ri-add-line align-bottom me-1"></i>Add</button>
                                       
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h2 class="modal-title">Image Preview</h2>
-                                <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
+                                <button type="button" class="btn-close" id="close-modal">
                                
                               </button>
                             </div>
@@ -183,6 +50,7 @@
                       </div>
                      
                     <div>
+                     
                         <div *ngIf="loading" class="text-center">
                        
                             <div class="spinner-border" role="status">
@@ -190,61 +58,49 @@
                             </div>
                             <p>Loading...</p>
                           </div>
-   
 
                     <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
                         <table class="table align-middle table-nowrap" id="customerTable">
                             <thead class="table-light">
                                 <tr>
-                                    <!-- <th scope="col" style="width: 50px;">
-                                    </th> -->
-                                    <th class="sort" listsortable="customer_name" >Rec. No.
+                             
+                                    
+                                    <th class="sort" listsortable="customer_name" >Name
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >Firstname
-                                    </th>
-                                    <th class="sort" listsortable="customer_name" >Lastname
+                                  
+                                    <th class="sort" listsortable="customer_name" >Phone
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Email
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Address
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >Phone
-                                    </th>
+                                  
                                     <th class="sort" listsortable="customer_name" >Postcode
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Vehicle
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >Action
-                                    </th>
+                                    <!-- <th class="sort" listsortable="customer_name" >Action
+                                    </th> -->
                                   
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
                              
-                                        <tr *ngFor="let data of garages ; let i = index;"  >
-                                    <td class="customer_name">{{i+1}}</td>
+                                        <tr *ngFor="let data of usersdata.data ; let i = index;"  >
+                                   
                                     
-                                    <td class="date">{{data.firstname}}</td>
-                                    <td class="date">{{data.lastname}}</td>
+                                    <td class="date">{{data.firstname}} {{data.lastname}}</td>
+                                    <td class="date">{{data.phone}}</td>
                                     <td class="date">{{data.email}}</td>
                                     <td class="date">{{data.address}}</td>
-                                    <td class="date">{{data.phone}}</td>
                                     <td class="date">{{data.postcode}}</td>
                                     <td>
                                             <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="deletpop(data.id)">Vehicle Details</button>
+                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="details(data.id, data.firstname, data.lastname)"> {{ fetchVehicle(data.id) | async }} Vehicles</button>
+
                                             </div>
                                     </td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="editStudent(i)">Edit</button>
-                                            </div>
-                                            <div class="remove">
-                                                <button class="btn btn-sm btn-danger remove-item-btn" (click)="delet(data.id)">Remove</button>
-                                            </div>
-                                        </div>
-                                    </td>
+                                 
                             </tbody>
                         </table>
                        
@@ -259,39 +115,3 @@
     </div>
 </div>
 
-<div id="deleteRecordModal" class="modal fade zoomIn" class="modal fade" bsModal #deleteModal="bs-modal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content ">
-            <div class="modal-header  bg-danger p-3">
-                <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
-            </div>
-            <div class="modal-body p-md-5  "  style="max-height: 400px; overflow-y: auto;">
-                <ul>
-                    <li *ngFor="let vehicle of vehicleData | async">
-                      <p>Book: {{ vehicle.book }}</p>
-                      <p>Color: {{ vehicle.color }}</p>
-                      <p>Date Registered: {{ vehicle.dateregd }}</p>
-                      <p>Description: {{ vehicle.desc }}</p>
-                      <p>Engine: {{ vehicle.engine }}</p>
-                      <p>Euro Status: {{ vehicle.eurostatus }}</p>
-                      <p>Fuel Type: {{ vehicle.fueltype }}</p>
-                      <p>Make: {{ vehicle.make }}</p>
-                      <p>Model: {{ vehicle.model }}</p>
-                      <p>MOT Due Date: {{ vehicle.motduedate }}</p>
-                      <p>Registration Place: {{ vehicle.regnplace }}</p>
-                      <p>Vehicle Age: {{ vehicle.vehicleage }}</p>
-                      <p>Vehicle Number: {{ vehicle.vehicleno }}</p>
-                      <p>Year Manufactured: {{ vehicle.yearmanuf }}</p>
-                    </li>
-                  </ul>
-                  
-
-
-                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                    <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
-                 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

@@ -1,0 +1,277 @@
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Update Welcome Banner</h5>
+                <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
+            </div>
+            <form #garageForm="ngForm" class="py-2">
+                <div class="modal-content">
+
+
+                    <div class="p-3 ">
+                        <label for="name-field" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="name-field" name="name" [(ngModel)]="banner.tittle"
+                            required>
+                    </div>
+
+                 
+
+                    <div class="p-3">
+                        <div class="mb-3">
+                            <label class="form-label"> Points</label>
+                            <div *ngFor="let data of subtittles; let i = index" class="py-2">
+                                <input type="text" class="form-control" [id]="'name' + i" name="name{{i}}"
+                                    placeholder=" name" [(ngModel)]="data.tittles">
+
+                            </div>
+                            <div class="py-2">
+                                <button class="btn btn-primary" (click)="addSubtitles()">Add Points</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3">
+                        <label class="form-label">Photo</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div *ngIf="uploading==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                </div>
+                                <div class="text-left" *ngIf="uploading==false">
+                                    <img [src]="image_path || banner.pic" width="100px" height="100px"
+                                        (click)="fileUploader.click()">
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div class="form-group justify-content-center px-3">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader
+                                        (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3"><select class="form-select" id="active-field" [(ngModel)]="banner.active" name="active">
+                        <option [ngValue]="true">ON</option>
+                        <option [ngValue]="false">OFF</option>
+                    </select></div>
+
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button>
+                            <button type="submit" class="btn btn-success" id="add-btn"
+                                (click)="update(banner.id)">update </button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h5 class="modal-title" id="exampleModalLabel"> Add Welcome Banner</h5>
+                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
+            </div>
+            <form #garageForm="ngForm" class="py-2">
+                <div class="modal-content">
+
+
+                    <div class="p-3 ">
+                        <label for="name-field" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="name-field" name="name" [(ngModel)]="banner.tittle"
+                            required>
+                    </div>
+
+                
+
+                    <div class="p-3">
+                        <div class="mb-3">
+                            <label class="form-label"> Points</label>
+                            <div *ngFor="let data of subtittles; let i = index" class="py-2">
+                                <input type="text" class="form-control" [id]="'name' + i" name="name{{i}}"
+                                    placeholder=" name" [(ngModel)]="data.tittles">
+
+                            </div>
+                            <div class="py-2">
+                                <button class="btn btn-primary" (click)="addSubtitles()">Add Points</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-3">
+                        <label class="form-label">Photo</label>
+                        <div class="d-flex no-block justify-content-left align-items-left">
+                            <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                                <div *ngIf="uploading==true" class="text-left ">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Uploading...</span>
+                                    </div>
+                                </div>
+                                <div class="text-left" *ngIf="uploading==false">
+                                    <img [src]="image_path || banner.pic" width="100px" height="100px"
+                                        (click)="fileUploader.click()">
+                                </div>
+                            </div>
+
+
+                            <div>
+                                <div class="form-group justify-content-center px-3">
+                                    <input type="file" accept="image/*" class="form-control-sm" #fileUploader
+                                        (change)="showPreview($event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <label for="postcode-field" class="form-label">Active</label>
+                        <select class="form-select" id="course-category-input" [(ngModel)]="banner.active">
+                            <option [ngValue]="true">ON</option>
+                            <option [ngValue]="false">OFF</option>
+                        </select>
+                    </div>
+    
+
+                    <div class="modal-footer">
+                        <div class="hstack gap-2 justify-content-end">
+                            <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                            <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
+    
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Welcome Banner</h4>
+            </div><!-- end card header -->
+            <div class="card-body">
+
+                <div id="customerList">
+                    <div class="row g-4 mb-3">
+                        <div class="col-sm">
+                            <div class="d-flex justify-content-sm-end">
+                                <div>
+                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn"
+                                        (click)="add()"><i class="ri-add-line align-bottom me-1"></i>Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Image Preview</h2>
+                                    <button type="button" class="btn-close" id="close-modal">
+
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <div *ngIf="loading" class="text-center">
+
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p>Loading...</p>
+                        </div>
+
+                        <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
+                            <table class="table align-middle table-nowrap" id="customerTable">
+                                <thead class="table-light">
+                                    <tr>
+
+
+                                        <th class="sort" listsortable="customer_name">Title
+                                        </th>
+                                        <th class="sort" listsortable="customer_name">Points
+                                        </th>
+                                        <th class="sort" listsortable="customer_name">Picture
+                                        </th>
+                                        <th class="sort" listsortable="customer_name">Active
+                                        </th>
+                                        <th style="width: 5%;">Action</th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of usersdata;let i = index">
+                                        <td>{{ data.tittle }}</td>
+                                        <td class="customer_name"
+                                            style="max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            <!-- Handle if subtittle is an array -->
+                                            <!-- <ng-container >
+                                          <div *ngFor="let subtitle of data.subtittle">{{ subtitle }}</div>
+                                        </ng-container> -->
+
+                                            <ng-container>
+                                                {{ data.subtittle }}
+                                            </ng-container>
+                                        </td>
+                                        <td>
+                                            <div class="avatar-xs bg-light rounded p-1"
+                                                style="height: 50px; width: 50px;">
+                                                <img [src]="data.pic" class="img-fluid" alt="Banner Image"
+                                                    style="object-fit: cover; width: 100%; height: 100%;">
+                                            </div>
+                                        </td>
+
+
+                                        <td>{{ data.active ? 'ON' : 'OFF' }}</td>
+
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <div class="edit">
+                                                    <button class="btn btn-sm btn-success edit-item-btn"
+                                                        (click)="edit(data)">Edit</button>
+                                                </div>
+                                                <div class="remove">
+                                                    <button class="btn btn-sm btn-danger remove-item-btn"
+                                                        (click)="delet(data.id)">Remove</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>

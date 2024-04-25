@@ -1,87 +1,99 @@
+<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
 
-<app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
 
 
-<div bsModal #addCourse="bs-modal" class="modal fade" id="addCourse" data-bs-backdrop="static" data-bs-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 1000px;">
-        <div class="modal-content border-0">
-            <div class="modal-header bg-danger p-3">
-                <h5 class="modal-title text-white" id="addCourseModalLabel">Add priceinfo</h5>
-                <button type="button" class="btn-close btn-close-white" (click)="addCourse.hide()"></button>
-            </div>
-            <div class="modal-body" style="max-height: 800px; overflow-y: auto;">
-         
-            <div *ngFor="let data of Garagest |async" class="mb-3">
-             
-            servicename :<input type="text" class="form-control search" [(ngModel)]="data.amount" />
-            include :<input type="text" class="form-control search" [(ngModel)]="data.desc" />
-            desc :<input type="text" class="form-control search"  [(ngModel)]="data.include"/>
-            amount :<input type="text" class="form-control search"[(ngModel)]="data.servicename" />
-            
-            </div>
-       
-              <div class="modal-footer">
-                <div class="hstack gap-2 justify-content-end">
-                  <button type="button" class="btn btn-ghost-danger" (click)="addCourse.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                  <button type="submit" class="btn btn-primary" id="add-btn" (click)=" Priceinfosave()">Add</button>
-                </div>
-              </div>
-         
-            </div>
-        </div>
-    </div>
-  </div>  
 
-<!-- End Breadcrumbs -->
-<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Update priceinfo</h5>
+                <h5 class="modal-title" id="exampleModalLabel"> Update Garages</h5>
                 <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
             </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">Name</label>
-                        <input type="text" id="date-field" class="form-control"[(ngModel)]="emp.name" formControlName="name"required />
-                    </div>
+            <form  #garageForm="ngForm" class="py-2">
+
+                <div class="p-3">
+                    <label class="form-label">Photo</label>
+                    <div class="d-flex no-block justify-content-left align-items-left">
+                        <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                            <div *ngIf="uploading==true" class="text-left ">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Uploading...</span>
+                                </div>
+                            </div>
+                            <div class="text-left" *ngIf="uploading==false">
+                                <img [src]="image_path || garage.picture" width="100px" height="100px"
+                                    (click)="fileUploader.click()">
+                            </div>
+                        </div>
 
 
-
-
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Address</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.address" formControlName="address"  required />
+                        <div>
+                            <div class="form-group justify-content-center px-3">
+                                <input type="file" accept="image/*" class="form-control-sm" #fileUploader
+                                    (change)="showPreview($event)">
+                            </div>
+                        </div>
                     </div>
-     
-
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">About</label>
-                        <input type="text" id="date-field" class="form-control" placeholder="Date Of Birth" formControlName="about" [(ngModel)]="emp.about"   placeholder="Enter MOT Notes"  >
-                  
-                    </div>
-                   
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Opening hours</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Status" formControlName="openinghrs" [(ngModel)]="emp.openinghrs" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label">Other Services</label>
-                        <input type="text" id="address-field" class="form-control" placeholder="Other Services" formControlName="otherservices"  [(ngModel)]="emp.otherservices" required />
-                    </div>
-           
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Post Code</label>
-                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Post Code." formControlName="postcode"  [(ngModel)]="emp.postcode" required />
-                    </div>
-                    
                 </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Site Number</label>
+                    <input type="text" class="form-control" id="siteno-field" name="siteno" [(ngModel)]="garage.siteno"
+                        required>
+                </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name-field" name="name" [(ngModel)]="garage.name" required>
+                </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone-field" name="phone" [(ngModel)]="garage.phone"
+                        required>
+                </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email-field" name="email" [(ngModel)]="garage.email"
+                        required>
+                </div>
+                <div class="p-3">
+                    <label for="address-field" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address-field" name="address"
+                        [(ngModel)]="garage.address" required>
+                </div>
+                <div class="p-3">
+                    <label for="town-field" class="form-label">Town</label>
+                    <input type="text" class="form-control" id="town-field" name="town"
+                        [(ngModel)]="garage.town" required>
+                </div>
+                <div class="p-3">
+                    <label for="postcode-field" class="form-label">Postcode</label>
+                    <input type="text" class="form-control" id="postcode-field" name="postcode"
+                        [(ngModel)]="garage.postcode" required>
+                </div>
+                <div class="p-3">
+                    <label for="about-field" class="form-label">About</label>
+                    <textarea class="form-control" id="about-field" name="about" [(ngModel)]="garage.about"
+                        required></textarea>
+                </div>
+                <div class="p-3">
+                    <label for="openinghrs-field" class="form-label">Opening Hours</label>
+                    <textarea class="form-control" id="openinghrs-field" name="openinghrs"
+                        [(ngModel)]="garage.openinghrs" required></textarea>
+                </div>
+                <div class="p-3">
+                    <label for="openinghrs-field" class="form-label"> notes</label>
+                    <textarea class="form-control" id="openinghrs-field" name="openinghrs" [(ngModel)]="garage.notes"
+                        required></textarea>
+                </div>
+                
+
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-ghost-danger" (click)="showModals.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
+                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(garage.id)">Update</button>
+
                     </div>
                 </div>
             </form>
@@ -90,188 +102,236 @@
         </div>
     </div>
 </div>
-<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Add priceinfo</h5>
+                <h5 class="modal-title" id="exampleModalLabel"> Add Garages</h5>
                 <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
             </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-                    
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label">Name</label>
-                        <input type="text" id="date-field" class="form-control"[(ngModel)]="emp.name" formControlName="name"required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Address</label>
-                        <input type="text"  class="form-control"[(ngModel)]="emp.address" formControlName="address"  required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">About</label>
-                        <input type="text" id="date-field" class="form-control" placeholder="Date Of Birth" formControlName="about" [(ngModel)]="emp.about"   placeholder="Enter MOT Notes"  >
-                  
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Opening hours</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Status" formControlName="openinghrs" [(ngModel)]="emp.openinghrs" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label">Other Services</label>
-                        <input type="text" id="address-field" class="form-control" placeholder="Other Services" formControlName="otherservices"  [(ngModel)]="emp.otherservices" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Post Code</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Enter Post Code." formControlName="postcode"  [(ngModel)]="emp.postcode" required />
+            <form (ngSubmit)="submitForm()" #garageForm="ngForm"  class="py-2">
+
+                <div class="p-3">
+                    <label class="form-label">Photo</label>
+                    <div class="d-flex no-block justify-content-left align-items-left">
+                        <div class="m-r-10 no-shrink d-flex justify-content-start align-items-left">
+                            <div *ngIf="uploading==true" class="text-left ">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Uploading...</span>
+                                </div>
+                            </div>
+                            <div class="text-left" *ngIf="uploading==false">
+                                <img [src]="image_path || garage.picture" width="100px" height="100px"
+                                    (click)="fileUploader.click()">
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <div class="form-group justify-content-center px-3">
+                                <input type="file" accept="image/*" class="form-control-sm" #fileUploader
+                                    (change)="showPreview($event)">
+                            </div>
+                        </div>
                     </div>
                 </div>
-               
-            </form>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Site Number</label>
+                    <input type="text" class="form-control" id="siteno-field" name="siteno" [(ngModel)]="garage.siteno"
+                        required>
+                </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name-field" name="name" [(ngModel)]="garage.name"
+                        required>
+                </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Phone</label>
+                    <input type="text" class="form-control" id="phone-field" name="phone" [(ngModel)]="garage.phone"
+                        required>
+                </div>
+                <div class="p-3 ">
+                    <label for="name-field" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email-field" name="email" [(ngModel)]="garage.email"
+                        required>
+                </div>
 
-            
-            <div *ngFor="let data of emp.priceinfo" class="m-3" >
-               
-                 <label for="phone-field" class="form-label">Servicename </label><input type="text" class="form-control search " [(ngModel)]="data.amount" />
-                  <label for="phone-field" class="form-label">Include  </label><input type="text" class="form-control search" [(ngModel)]="data.desc" />
-                   <label for="phone-field" class="form-label">Description</label><input type="text" class="form-control search"  [(ngModel)]="data.include"/>
-                   <label for="phone-field" class="form-label">Amount </label><input type="text" class="form-control search"[(ngModel)]="data.servicename" />
-            </div>
-            <div class="p-4"><button type="button" class="btn btn-primary" (click)="addQuestion()"> Add Priceinfo</button></div>
+
+                <div class="p-3">
+                    <label for="address-field" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address-field" name="address"
+                        [(ngModel)]="garage.address" required>
+                </div>
+                <div class="p-3">
+                    <label for="town-field" class="form-label">Town</label>
+                    <input type="text" class="form-control" id="town-field" name="town"
+                        [(ngModel)]="garage.town" required>
+                </div>
+                <div class="p-3">
+                    <label for="postcode-field" class="form-label">Postcode</label>
+                    <input type="text" class="form-control" id="postcode-field" name="postcode"
+                        [(ngModel)]="garage.postcode" required>
+                </div>
+                <div class="p-3">
+                    <label for="about-field" class="form-label">About</label>
+                    <textarea class="form-control" id="about-field" name="about" [(ngModel)]="garage.about"
+                        required></textarea>
+                </div>
+                <div class="p-3">
+                    <label for="openinghrs-field" class="form-label">Opening Hours</label>
+                    <textarea class="form-control" id="openinghrs-field" name="openinghrs"
+                        [(ngModel)]="garage.openinghrs" required></textarea>
+                </div>
+                <div class="p-3">
+                    <label for="openinghrs-field" class="form-label"> notes</label>
+                    <textarea class="form-control" id="openinghrs-field" name="openinghrs" [(ngModel)]="garage.notes"
+                        required></textarea>
+                </div>
                 
+
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
                         <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
-                      
+                        <button type="submit" class="btn btn-success" id="add-btn">Add </button>
+
                     </div>
                 </div>
+            </form>
+
         </div>
     </div>
 </div>
 
 <div>
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title mb-0">Garages List </h4>
-            </div>
-            <div class="card-body">
-              
-                <div id="customerList">
-                    <div class="row g-4 mb-3">
-                        <div class="col-sm-auto d-flex">
-                            <div class="search-box ms-2">
-                                <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">search</label>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Garages List </h4>
+                </div>
+                <div class="card-body">
+
+                    <div id="customerList">
+                        <div class="row g-4 mb-3">
+                            <div class="col-sm-auto d-flex">
+                                <div class="search-box ms-2">
+                                    <label for="course-category-input" class="form-label me-2"
+                                        style="padding-top: 10px;">search</label>
+                                </div>
+                                <div class="search-box ms-2">
+                                    <input [(ngModel)]="searchTerm" class="form-control" placeholder="Search by"
+                                        placeholder="Search by Name" list="studentNames">
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
                             </div>
-                            <div class="search-box ms-2">
-                                <input [(ngModel)]="searchTerm" class="form-control" placeholder="Search by"
-                                  placeholder="Search by Name" list="studentNames">
-                                  <i class="ri-search-line search-icon"></i>
-                              </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <div>
-                                    <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>Add</button>
+                            <div class="col-sm">
+                                <div class="d-flex justify-content-sm-end">
+                                    <div>
+                                        <button type="button" class="btn btn-info add-btn me-2" id="create-btn"
+                                            (click)="add()"><i class="ri-add-line align-bottom me-1"></i>Add</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h2 class="modal-title">Image Preview</h2>
-                                <button type="button" class="btn-close" (click)="showModals1.hide()" id="close-modal">
-                               
-                              </button>
+                        <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title">Image Preview</h2>
+                                        <button type="button" class="btn-close" (click)="showModals1.hide()"
+                                            id="close-modal">
+
+                                        </button>
+                                    </div>
+                                    <div class="modal-body align-items-center justify-content-center text-center">
+                                        <img *ngIf="selectedPreviewImage" [src]="selectedPreviewImage" class="img-fluid"
+                                            alt="Preview"
+                                            style="max-width: 100%; max-height: 100%; display: inline-block;">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-body align-items-center justify-content-center text-center">
-                              <img *ngIf="selectedPreviewImage" [src]="selectedPreviewImage" class="img-fluid" alt="Preview" style="max-width: 100%; max-height: 100%; display: inline-block;">
-                            </div>
-                          </div>
                         </div>
-                      </div>
-                    <div>
-                        <div *ngIf="loading" class="text-center">
-                       
-                            <div class="spinner-border" role="status">
-                              <span class="visually-hidden">Loading...</span>
+                        <div>
+                            <div *ngIf="loading" class="text-center">
+
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p>Loading...</p>
                             </div>
-                            <p>Loading...</p>
-                          </div>
-   
 
-                    <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
-                        <table class="table align-middle table-nowrap" id="customerTable">
-                            <thead class="table-light">
-                                <tr>
-                                    <th style="width: 5%;">Rec. No.</th>
-                                    <th style="width: 15%;">Name</th>
-                                    <th style="width: 20%;">Address</th>
-                                    <th style="width: 15%;">About</th>
-                                    <th style="width: 15%;">Openings hrs</th>
-                                    <th style="width: 15%;">Other services</th>
-                                    <th style="width: 10%;">Post Code</th>
-                                    <th style="width: 10%;">Priceinfo</th>
-                                   
-                                    <th style="width: 5%;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list form-check-all">
-                                <tr *ngFor="let data of garages; let i = index;" id="a_{{ data.id }}">
-                                    <td class="customer_name">{{ i+1 }}</td>
-                                    <td class="date">{{ data.name }}</td>
-                                    <td class="date">{{ data.address }}</td>
-                                    <td class="date">{{ data.about }}</td>
-                                    <td class="phone">{{ data.openinghrs }}</td>
-                                    <td class="customer_name">{{ data.otherservices }}</td>
-                                    <td class="customer_name">{{ data.postcode }}</td>
-                                    <td>
-                                            <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="addPrice(data.id)"> Add Priceinfo</button>
-                                            </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="editStudent(i)">Edit</button>
-                                            </div>
-                                            <div class="remove">
-                                                <button class="btn btn-sm btn-danger remove-item-btn" (click)="delet(data.id)">Remove</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        
-                       
+
+                            <div *ngIf="!loading" class="table-responsive table-card mt-3 mb-1">
+                                <table class="table align-middle table-nowrap" id="customerTable">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <!-- <th style="width: 20%;">picture</th> -->
+                                            <!-- <th style="width: 15%;">Site Number</th> -->
+                                            <th >Name</th>
+                                            <th >Phone</th>
+                                            <th>Email</th>
+                                            <!-- <th style="width: 20%;">Address</th> -->
+                                            <th >Town</th>
+                                            <th >Post Code</th>
+                                     
+                                            
+                                            <th >Services
+                                            </th>
+
+                                            <th >Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="list form-check-all">
+                                        <tr *ngFor="let data of  garagesdata.data; let i = index;" id="a_{{ data.id }}">
+
+                                            <!-- <td class="date">{{ data.siteno }}</td> -->
+                                            <td class="date">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar-xs bg-light rounded p-1 "
+                                                        style="height: 50px; width: 50px;">
+                                                        <img [src]="data.picture" class="img-fluid" alt="Image"
+                                                            style="object-fit: cover; width: 100%; height: 100%;">
+                                                    </div>
+                                                    {{ data.name }}
+                                                </div>
+                                           
+                                           </td>
+                                           <td class="date">{{ data.phone }}</td>
+                                           <td class="date">{{ data.email }}</td>
+                                            <!-- <td class="date">{{ data.address }}</td> -->
+                                            <td class="date">{{ data.town }}</td>
+                                            <td class="customer_name">{{ data.postcode }}</td>
+
+                                            <td>
+                                                <div class="edit">
+                                                    <button class="btn btn-sm btn-success edit-item-btn"
+                                                        (click)="navigateToAddAppointment(data)">Add/View</button>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex gap-2">
+                                                    <div class="edit">
+                                                        <button
+                                                            class="btn btn-sm btn-success edit-item-btn" (click)="edit(data)">Edit</button>
+                                                    </div>
+                                                    <div class="remove">
+                                                        <button class="btn btn-sm btn-danger remove-item-btn"
+                                                            (click)="delet(data.id)">Remove</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+                        </div>
                     </div>
-
-
-                 
                 </div>
             </div>
         </div>
-      
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

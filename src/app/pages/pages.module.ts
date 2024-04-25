@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 
 // page route
@@ -19,6 +19,9 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     PagesRoutingModule,
     SharedModule
-  ]
+  ],
+  providers: [
+    DatePipe // Add DatePipe to the providers array if you need to use it globally
+  ],
 })
 export class PagesModule { }

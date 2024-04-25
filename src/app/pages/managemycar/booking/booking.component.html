@@ -1,156 +1,42 @@
 
 <app-breadcrumbs title="" [breadcrumbItems]="breadCrumbItems" ></app-breadcrumbs>
-<div id="deleteRecordModal" class="modal fade zoomIn" class="modal fade" bsModal #deleteModal="bs-modal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div id="deleteRecordModal" class="modal fade zoomIn" class="modal fade" bsModal #deleteModal="bs-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content ">
-            <div class="modal-header  bg-danger p-3">
-                <h5 class="modal-title text-white" id="addCourseModalLabel">Service</h5>
-                <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
-            </div>
-            <div class="modal-body p-md-5">
-                <ul>
-                    <li *ngFor="let data of addressData | async">
-                      <p>Amount: {{ data.amount }}</p>
-                      <p>Description: {{ data.desc }}</p>
-                      <p>Include: {{ data.include }}</p>
-                      <p>Service Name: {{ data.servicename }}</p>
-                    </li>
-                  </ul>
-
-                <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
-                    <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
-                 
-                </div>
-            </div>
+      <div class="modal-content ">
+        <div class="modal-header bg-danger p-3">
+          <h5 class="modal-title text-white" id="addCourseModalLabel">Service</h5>
+          <button type="button" class="btn-close" id="deleteRecord-close" (click)="deleteModal.hide()"></button>
         </div>
-    </div>
-</div>
-
-
-
-<!-- End Breadcrumbs -->
-<div bsModal #showModals="bs-modal" class="modal fade" id="showModals" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Update Student</h5>
-                <button type="button" class="btn-close" (click)="showModals.hide()" id="close-modal"></button>
-            </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Booking Date</label>
-                        <input type="Date" id="date-field" class="form-control"[(ngModel)]="emp.bookingdate" formControlName="bookingdate"required />
-                    </div>
-
-
-
-
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Mot Due</label>
-                        <input type="Date"  class="form-control"[(ngModel)]="emp.motdue" formControlName="motdue"  required />
-                    </div>
-     
-
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">MOT Notes</label>
-                        <input type="text" id="date-field" class="form-control" placeholder="Date Of Birth" formControlName="motnotes" [(ngModel)]="emp.motnotes"   placeholder="Enter MOT Notes"  >
-                  
-                    </div>
-                   
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Status</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Status" formControlName="status" [(ngModel)]="emp.status" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label">Time</label>
-                        <input type="text" id="address-field" class="form-control" placeholder="Enter time" formControlName="time"  [(ngModel)]="emp.time" required />
-                    </div>
-           
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Total Amount</label>
-                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Total Amount." pattern="[1-9]{1}[0-9]{9}" formControlName="totalamount"  [(ngModel)]="emp.totalamount" required />
-                    </div>
-                    
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-ghost-danger" (click)="showModals.hide()"><i class="bi bi-x-lg align-baseline me-1"></i> Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="update(emp.id)">Update</button>
-                    </div>
-                </div>
-            </form>
+        <div class="modal-body p-md-5">
+          <ng-container *ngIf="selectedServices && selectedServices.length > 0; else noServices">
+            <ul>
+              <li *ngFor="let service of selectedServices">
+                <p>Name: {{ service.name }}</p>
+                <p>Description: {{ service.desc }}</p>
+                <p>Included: {{ service.include }}</p>
+                <p>Cost: {{ service.cost }}</p>
+              </li>
+            </ul>
+          </ng-container>
+          <ng-template #noServices>
+            <h4>Service not added</h4>
+          </ng-template>
+  
+          <div class="d-flex gap-2 justify-content-center mt-4 mb-2">
+            <button type="button" class="btn w-sm btn-light btn-hover" (click)="deleteModal.hide()">Close</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<div bsModal #deleteRecordModal="bs-modal" class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-light p-3">
-                <h5 class="modal-title" id="exampleModalLabel"> Add</h5>
-                <button type="button" class="btn-close" (click)="deleteRecordModal.hide()" id="close-modal"></button>
-            </div>
-            <form class="tablelist-form" [formGroup]="MessageFormData">
-                <div class="modal-body">
-                    <input type="hidden" name="id" value="" formControlName="ids" />
-                    
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Booking Date</label>
-                        <input type="Date" id="date-field" class="form-control"[(ngModel)]="emp.bookingdate" formControlName="bookingdate"required />
-                    </div>
+  </div>
+  
 
 
 
 
-                    <div class="mb-3">
-                        <label for="customername-field" class="form-label"> Mot Due</label>
-                        <input type="Date"  class="form-control"[(ngModel)]="emp.motdue" formControlName="motdue"  required />
-                    </div>
-     
-
-                    <div class="mb-3">
-                        <label for="date-field" class="form-label">MOT Notes</label>
-                        <input type="text" id="date-field" class="form-control" placeholder="Date Of Birth" formControlName="motnotes" [(ngModel)]="emp.motnotes"   placeholder="Enter MOT Notes"  >
-                  
-                    </div>
-                   
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Status</label>
-                        <input type="text" id="phone-field" class="form-control" placeholder="Status" formControlName="status" [(ngModel)]="emp.status" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for=" address-field" class="form-label">Time</label>
-                        <input type="text" id="address-field" class="form-control" placeholder="Enter time" formControlName="time"  [(ngModel)]="emp.time" required />
-                    </div>
-           
-                    <div class="mb-3">
-                        <label for="phone-field" class="form-label">Total Amount</label>
-                        <input type="number" id="phone-field" class="form-control" placeholder="Enter Total Amount." pattern="[1-9]{1}[0-9]{9}" formControlName="totalamount"  [(ngModel)]="emp.totalamount" required />
-                    </div>
 
 
 
-                    
-                   
-                 
-                </div>
-                <div class="modal-footer">
-                    <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
-                        <button type="submit" class="btn btn-success" id="add-btn" (click)="save()">Add </button>
-                      
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-<div>
 
 
 
@@ -177,26 +63,26 @@
                           
                           
                             <div class="search-box ms-2">
-                                <input [(ngModel)]="searchTerm" class="form-control" placeholder="Search by "
+                                <input  class="form-control" placeholder="Search by "
                                   placeholder="Search by Name" list="studentNames">
                                   <i class="ri-search-line search-icon"></i>
-                                <datalist id="studentNames">
+                                <!-- <datalist id="studentNames">
                                   <option *ngFor="let name of studentNames" [value]="name"></option>
-                                </datalist>
-                              </div>
-                             
+                                </datalist> -->
+                              </div> 
+                            
                              
                             
                            
                         </div>
-                        <div class="col-sm">
+                        <!-- <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
                                     <button type="button" class="btn btn-info add-btn me-2" id="create-btn" (click)="add()"><i class="ri-add-line align-bottom me-1"></i>Add</button>
                                       
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div bsModal #showModals1="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -207,9 +93,9 @@
                                
                               </button>
                             </div>
-                            <div class="modal-body align-items-center justify-content-center text-center">
+                            <!-- <div class="modal-body align-items-center justify-content-center text-center">
                               <img *ngIf="selectedPreviewImage" [src]="selectedPreviewImage" class="img-fluid" alt="Preview" style="max-width: 100%; max-height: 100%; display: inline-block;">
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -230,50 +116,61 @@
                                 <tr>
                                     <!-- <th scope="col" style="width: 50px;">
                                     </th> -->
-                                    <th class="sort" listsortable="customer_name" >Rec. No.
-                                    </th>
                                     <th class="sort" listsortable="customer_name" >Booking Date
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >Mot Due
+                                    <th class="sort" listsortable="customer_name" >User Name
                                     </th>
-                                    <th class="sort" listsortable="email">Mot Notes</th>
-                                    <th class="sort" listsortable="email">Time</th>
+                                  
+                                   
+                                    <th class="sort" listsortable="customer_name" >Vehicle
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >MOT Due
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >Garage Name
+                                    </th>
+                                    <th class="sort" listsortable="customer_name" >MOT Date
+                                  
+                                    <th class="sort" listsortable="email">User Notes</th>
+                                    <th class="sort" listsortable="email">Services</th>
+                                  
                                    
                                     <th class="sort" listsortable="date" >Total Amount</th>
                                     <th class="sort" listsortable="email" ><Small></Small>Status</th>
                                    
                                  
                                  
-                                    <th class="sort">services</th>
+                                    <!-- <th class="sort">services</th> -->
                                 </tr>
                             </thead>
-                            <tbody class="list form-check-all">
-                             
-                                        <tr *ngFor="let data of students ; let i = index;" id="a_{{ data.id }}" >
-                                    <td class="customer_name">{{i+1}}</td>
-                                    
-                                    <td class="date">{{data.bookingdate}}</td>
-                                    <td class="date">{{data.motdue}}</td>
-                                    <td class="date">{{data.motnotes}}</td>
-                                   
-                                    <td class="phone">{{data.time}}</td>
-                               
-                                    <td class="customer_name">{{data.totalamount}}</td>
-                                    
-                                    <td class="customer_name">{{data.status}}</td>
-                                    <td>
-                                       
-                                        <div class="remove">
-                                            <button class="btn btn-dark btn-dark remove-item-btn"  (click)="deletpop(data.id)">Service</button>
-                                        </div>
+                            <tbody>
+                                <tr *ngFor="let data of Bookdata; let i = index;">
+                                    <td class="date">{{ data.createdAt | date: 'dd-MM-yyyy' }}</td>
 
-                                    </td>
-                               
-                            </tbody>
+                                    <td><a  style="border-bottom: 1px solid;"[routerLink]="['/userdetails', data.userid]">{{ getUserById(data.userid)}}</a></td>
+                                    <td class="date"><a style="border-bottom: 1px solid;"[routerLink]="['/vehicaledetails', data.vehicleId]">{{getvehiclesId(data.vehicleId) }}</a><br></td>
+                                    <td class="date"> {{data.motdue}}</td>
+
+                                 
+                                    <td><a  style="border-bottom: 1px solid;"[routerLink]="['/garagesdetails', data.garageid]">{{ getGarageId(data.garageid)}}</a></td>
+
+                                  
+                                  <td class="date">{{data.bookingdate}} <br>
+                                    {{data.time}}</td>
+                                  <td class="date">{{data.motnotes}}</td>
+                                  <td>
+                                    <div>
+                                      <a style="border-bottom: 1px solid; cursor: pointer; color: rgb(69, 69, 245);" (click)="deletpop(data)">Service</a>
+                                    </div>
+                                  </td>
+                                  <td class="customer_name">{{data.totalamount}}</td>
+                                  <td class="customer_name">{{data.status}}</td>
+                                
+                                </tr>
+                              </tbody>
                         </table>
                        
                     </div>
-
+                    
 
                  
                 </div>

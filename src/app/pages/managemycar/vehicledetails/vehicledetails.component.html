@@ -1,0 +1,92 @@
+
+
+
+<div class="row"> 
+    <div class="col-lg-12">
+        <div class="card overflow-hidden">
+            <div class="row g-0">
+                <div class="col-xl-9">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <a  (click)="goBack()">
+                                <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem; color: #3762ea;"></i>
+                            </a>
+                            <h5 class="px-3 mb-0">  Vehicle Details</h5>
+                            <!-- <h5 class="px-3 mb-0">{{name}}, {{standard}} {{section}}</h5> -->
+                        </div>
+                        <!-- <h4 class="text-truncate text-capitalize">Vehicle Details</h4> -->
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Make : </span> 
+                            <span class="px-1">{{ usersdata?.make }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Model : </span> 
+                            <span class="px-1">{{ usersdata?.model }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Color : </span> 
+                            <span class="px-1">{{ usersdata?.color }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Engine : </span> 
+                            <span class="px-1">{{ usersdata?.engine }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Fuel Type : </span> 
+                            <span class="px-1">{{ usersdata?.fueltype }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Year of Manufacture : </span> 
+                            <span class="px-1">{{ usersdata?.yearmanuf }}</span>
+                        </div>
+                       
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Vehicle Number : </span> 
+                            <span class="px-1">{{ usersdata?.vehicleno }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> Co2Emissions : </span> 
+                            <span class="px-1">{{ usersdata?.Co2Emissions }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> EngineCapacityWheelPlan : </span> 
+                            <span class="px-1">{{ usersdata?.EngineCapacityWheelPlan }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> GrossWeight : </span> 
+                            <span class="px-1">{{ usersdata?.GrossWeight }}</span>
+                        </div>
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> TypeApprovalCategory : </span> 
+                            <span class="px-1">{{ usersdata?.TypeApprovalCategory }}</span>
+                        </div>
+                     
+                        <div class="d-flex py-1 tb-fond-md">
+                            <span class="text-muted"> MotHistory : </span>
+                            <div class="px-1">
+                                <ng-container *ngFor="let test of usersdata?.MotHistory; let i = index">
+                                    <div *ngIf="i < 1">
+                                        <p><strong>Test Date:</strong> {{ test?.TestDate }}</p>
+                                        <p><strong>Expiry Date:</strong> {{ test?.ExpiryDate }}</p>
+                                        <p><strong>Test Number:</strong> {{ test?.TestNumber }}</p>
+                                        <p><strong>Test Result:</strong> {{ test?.TestResult }}</p>
+                                    </div>
+                                    <div *ngIf="i >= 1" [hidden]="!showAllMotHistory">
+                                        <p><strong>Test Date:</strong> {{ test?.TestDate }}</p>
+                                        <p><strong>Expiry Date:</strong> {{ test?.ExpiryDate }}</p>
+                                        <p><strong>Test Number:</strong> {{ test?.TestNumber }}</p>
+                                        <p><strong>Test Result:</strong> {{ test?.TestResult }}</p>
+                                    </div>
+                                </ng-container>
+                                <button class="btn btn-link " (click)="toggleShowAllMotHistory()">
+                                    {{ showAllMotHistory ? 'Show Less' : 'Show More' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

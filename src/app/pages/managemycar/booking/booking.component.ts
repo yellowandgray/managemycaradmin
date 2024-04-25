@@ -1,12 +1,15 @@
-import { Component, ViewChild } from '@angular/core';
+// import { Component, ViewChild } from '@angular/core';
 import { Booking } from '../api/bookingobj';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+// import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../api/api.service';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Observable, Subscription } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {  Component, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-booking',
@@ -14,46 +17,18 @@ import { Observable, Subscription } from 'rxjs';
   styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent {
+
   [x: string]: any;
   breadCrumbItems!: Array<{}>;
  
-  students: Booking[] = [];
-  MessageFormData: FormGroup;
-  emp: Booking = new Booking();
-  deleteId:string='';
-
-
  
 
-  selectedFile: File | null = null;
-  downloadURL: string | null = null;
-  isSubmitted = false;
-  files: File[] = [];
-  dataSubscription: Subscription | null = null;
- 
-  selectedImage: any = null;
+  Bookdata: any = []; 
+  selectedServices : any=[]; 
+  usersdata: any;
+  vehicles:any;
+  garagesdata:any;
   loading: boolean = true;
-
-
-  selectedStandard: string = '';
-
-  addressData: Observable<any[]> = new Observable<any[]>();
-  
-
-
-  selectedSection: string = '';
-  searchTerm: string = '';
-  filteredStudents: Booking[] = [];
-  studentNames: string[] = [];
-  itemsPerPage = 10;
-  currentPage = 1;
-  selectedStudentIndex: number | null = null;
-  uploading: boolean = false;
-  // private readonly fileName = 'student_bulk_data_template.xlsx';
-
-
-
-  selectedPreviewImage: string | null = null;
   @ViewChild('showModals', { static: false }) showModals?: ModalDirective;
 
 
@@ -63,111 +38,130 @@ export class BookingComponent {
   @ViewChild('deleteRecordModal', { static: false }) deleteRecordModal?: ModalDirective;
   @ViewChild('deleteModal', { static: false }) deleteModal?: ModalDirective;
 
-
-
-
-
-
- 
-
-
-  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private router: Router, ) {
-   
-    this.MessageFormData = new FormGroup({  
-      'bookingdate': new FormControl('', Validators.required),  
-      'motdue': new FormControl('', Validators.required),      
-      'motnotes': new FormControl('', Validators.required),      
-      'status': new FormControl('', Validators.required),    
-      'batch': new FormControl('', Validators.required),    
-      'time': new FormControl('', Validators.required),      
-      'totalamount': new FormControl('', Validators.required),
-        
-      // 'active': new FormControl(''),
-    });    
-       
-    if (this.emp != null) {
-
-
-
-
-      this.MessageFormData.patchValue({      
-        bookingdate: this.emp.bookingdate,
-        motdue: this.emp.motdue,
-        motnotes: this.emp.motnotes,
-        status: this.emp.status,
-        time:  this.emp.time,  
-        totalamount:  this.emp.totalamount,  
-      
- 
-      });
-      // this.key = this.data.data.key;
-      this.emp.bookingdate= this.emp.bookingdate;
-      this.emp.motdue= this.emp.motdue;  
-      this.emp.motnotes= this.emp.motnotes;  
-      this.emp.status= this.emp.status;
-      this.emp.time= this.emp.time;  
-      this.emp.totalamount= this.emp.totalamount;  
-
-     
-    }
-  
+  constructor(private apiService: ApiService,private firestore: AngularFirestore,private storage: AngularFireStorage,private router: Router,private datePipe: DatePipe ) {
     
   }
 
 
-  ngOnInit() {
-
-    this.loading= true;
-   
-    this.dataSubscription = this.apiService.getAddressBookData().subscribe(
-      (actions) => {
-        this.students = actions.map((action) => action.payload.doc.data() as Booking);
-        this.loading = false;
-      },
-      (error) => {
-        console.error('Error fetching address book data:', error);
-        this.loading = false;
-       
+  async ngOnInit(): Promise<void> {
+    await this.fetchBookingData();
+    await this.fetchUserData();
+    await this.fetchVehicle();
+    await this.fetchGarages();
+    console.log(this.garagesdata, 'garages');
+    console.log(this.vehicles,'chec');
+  }
+  
+  async fetchBookingData() {
+    return new Promise<void>((resolve, reject) => {
+      this.apiService.getBooking().subscribe(
+        (response) => {
+          if (response && response.status === 'Success' && response.bookings) {
+            this.Bookdata = response.bookings;
+            console.log(this.Bookdata, 'check');
+            
+            resolve();
+          } else {
+            console.error('Invalid response format:', response);
+           
+            reject('Invalid response format');
+          }
+        },
+        (error) => {
+          console.error('Error fetching bookings: ', error);
+        
+          reject(error);
+        }
+      );
+    });
+  }
+  async fetchUserData() {
+    try {
+      const response = await this.apiService.getUsers().toPromise();
+      console.log(response);
+      if (response && response.status === 'Success' && Array.isArray(response.data)) {
+        this.usersdata = response.data; // Assuming data is an array of users
+      } else {
+        this.usersdata = []; // Initialize as an empty array if data is not in the expected format
+        console.error('Invalid data format: ', response);
       }
-    );
-
-
+      console.log(this.usersdata);
+     
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+      this.usersdata = []; // Initialize as an empty array if an error occurs
+     
+    }
   }
 
 
-
-
-  navigateToDetails(name: string) {
- 
-    this.router.navigate(['/studentdetails', name]);
+  async fetchVehicle()  {
+    try {
+      const response = await this.apiService.getvehicles().toPromise();
+      console.log(response);
+      if (response && response.status === 'Success' && Array.isArray(response.data)) {
+        this.vehicles = response.data; // Assuming data is an array of users
+      } else {
+        this.vehicles = []; // Initialize as an empty array if data is not in the expected format
+        console.error('Invalid data format: ', response);
+      }
+      console.log(this.vehicles);
+     
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+      this.vehicles = []; 
+      
+    }
   }
- 
- 
-  showImagePreview(imageUrl: string) {
-    this.selectedPreviewImage = imageUrl;
-    this.showModals1?.show(); // Show the modal
+
+
+  async fetchGarages()  {
+    try {
+      const response = await this.apiService.getGarages().toPromise();
+      console.log("Garages API Response:", response);
+      if (response && response.status === 'Success' && Array.isArray(response.data)) {
+        this.garagesdata = response.data;
+        this.loading = false;
+      } else {
+        console.error('Invalid data format or no data returned from garages API');
+        this.loading = false;
+      }
+    } catch (error) {
+      console.error('Error fetching garages: ', error);
+      this.loading = false;
+    }
   }
- 
- 
- 
- 
- 
-  deletpop(id:string){
-    this.addressData = this.apiService.getAddressData(id);
-    console.log()
-    this.deleteModal?.show()
-     this.deleteId=id;
+  
+    
+  getUserById(userId: string): string {
+    const driver = this.usersdata.find((user:any) => user.id === userId);
+    return driver ? `${driver.firstname} ${driver.lastname}`: 'No User Assigned';
+  }
 
+  getvehiclesId(userId: string): string {
+    const vehicles = this.vehicles.find((user:any) => user.vehicleid === userId);
+    return vehicles ? vehicles.vehicleno : 'No vehicles Assigned';
+  }
 
+  getGarageId(garageId: string): string {
+    const garage = this.garagesdata.find((garage: any) => garage.id === garageId);
+    return garage ? garage.name : 'No garage Assigned';
+  }
+  
+ 
+ 
+  deletpop(bookingData: any) {
+    this.selectedServices  = bookingData.services; 
 
+    this.deleteModal?.show();
   }
 
 
 
 
   delet(id: string){
-this.apiService.deleteStudentData(id)
-this.deleteModal?.hide()
+   this.apiService.deleteStudentData(id)
+   this.deleteModal?.hide()
   }
   onsubmit(){
    
@@ -176,48 +170,21 @@ this.deleteModal?.hide()
 
   
   add(){
-    this.MessageFormData;
-    this.deleteRecordModal?.show()
-    this.emp = new Booking();
+
+    // this.deleteRecordModal?.show()
+    // this.emp = new Booking();
  
   }
  
 
   save() {
-console.log("student data",this.emp);
-this.apiService.createStudentData(this.emp);
-this.deleteRecordModal?.hide()
+// console.log("student data",this.emp);
+// this.apiService.createStudentData(this.emp);
+// this.deleteRecordModal?.hide()
 
   }
 
-  editStudent(index: number) {
  
-
-  this.emp = { ...this.students[index] };
-
-   
-    this.MessageFormData.patchValue({
-      id:this.emp.id,
-      bookingdate: this.emp.bookingdate,
-      motdue: this.emp.motdue,
-      motnotes: this.emp.motnotes,
-      status: this.emp.status,
-      time:  this.emp.time,  
-      totalamount:  this.emp.totalamount,  
-    });
-    this.showModals?.show();
- 
-   
-  }
-  update(id: string)
-  {
-  console.log(id)
-     this.apiService.updateStudentData(id.toString(), this.emp);
-     this.emp = new Booking();
-     this.showModals?.hide();
-     
-   
-  }
 
 
 }

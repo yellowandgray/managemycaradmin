@@ -5,7 +5,7 @@ import { LanguageService } from 'src/app/core/services/language.service';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
-import { cartList } from 'src/app/pages/ecommerce/cart/data';
+
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { notification } from './data';
 
@@ -77,11 +77,11 @@ this.userProfilePicture = localStorage.getItem('userPicture') || 'assets/images/
  
     this.element = document.documentElement;
 
-    this.cartData = cartList
-    this.cartData.map((x: any) => {
-      x['total'] = (x['qty'] * x['price']).toFixed(2)
-      this.subtotal += parseFloat(x['total'])
-    })
+    // this.cartData = cartList
+    // this.cartData.map((x: any) => {
+    //   x['total'] = (x['qty'] * x['price']).toFixed(2)
+    //   this.subtotal += parseFloat(x['total'])
+    // })
     this.subtotal = this.subtotal.toFixed(2)
     this.discount = (this.subtotal * this.discountRate).toFixed(2)
     this.tax = (this.subtotal * this.taxRate).toFixed(2);

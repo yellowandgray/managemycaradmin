@@ -53,20 +53,20 @@ const getMenuForAdmin = () => [
        
         
     },
-
+     {
+            id: 11,
+            label: 'Welcome Banner',
+            icon: 'ph-gauge',
+            link: '/managecar/Welcome',
+           
+        },
 
     // {
     //     id: 10,
     //     label: 'Non-Academics',
     //     isTitle: true
     // },
-    // // {
-    // //     id: 11,
-    // //     label: 'Van',
-    // //     icon: 'ph-calendar',
-    // //     link: 'school/van',
-    // //     parentId: 10
-    // // },
+    // /
 
 
     // {
