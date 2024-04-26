@@ -101,11 +101,21 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
     getAddressBookData() {
       return this.firestore.collection('booking',).snapshotChanges();
     }
+  
 
-    getAddressData(bookId: string): Observable<any[]> {
-      return this.firestore.collection(`booking/${bookId}/service`).valueChanges();
+    getusersData() {
+      return this.firestore.collection('users',).snapshotChanges();
     }
- 
+    getVehiclesData() {
+      return this.firestore.collection('vehicles',).snapshotChanges();
+    }
+    getGarageData() {
+      return this.firestore.collection('garages',).snapshotChanges();
+    }
+
+    getServiceData(bookId: string): Observable<any[]> {
+    return this.firestore.collection(`booking/${bookId}/services`).valueChanges();
+  }
 
 
     createStudentData(obj: Booking){
@@ -176,6 +186,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 
     //garages
+   
+
     getGaragesData() {
       return this.firestore.collection('garages',).snapshotChanges();
     }

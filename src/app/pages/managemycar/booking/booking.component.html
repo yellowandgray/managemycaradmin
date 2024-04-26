@@ -118,7 +118,7 @@
                                     </th> -->
                                     <th class="sort" listsortable="customer_name" >Booking Date
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >User Name
+                                    <th class="sort" listsortable="customer_name" >Name
                                     </th>
                                   
                                    
@@ -128,7 +128,7 @@
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Garage Name
                                     </th>
-                                    <th class="sort" listsortable="customer_name" >MOT Date
+                                    <th class="sort" listsortable="customer_name" >MOT Date/Time
                                   
                                     <th class="sort" listsortable="email">User Notes</th>
                                     <th class="sort" listsortable="email">Services</th>
@@ -152,18 +152,24 @@
 
                                  
                                     <td><a  style="border-bottom: 1px solid;"[routerLink]="['/garagesdetails', data.garageid]">{{ getGarageId(data.garageid)}}</a></td>
-
-                                  
                                   <td class="date">{{data.bookingdate}} <br>
                                     {{data.time}}</td>
                                   <td class="date">{{data.motnotes}}</td>
-                                  <td>
-                                    <div>
-                                      <a style="border-bottom: 1px solid; cursor: pointer; color: rgb(69, 69, 245);" (click)="deletpop(data)">Service</a>
+
+                                  <td class="AssignToContainer">
+                                    <div class="d-flex align-items-center">
+                                      <button type="submit" class="btn btn-primary" id="add-btn" (click)="deletpop(data.id); Service(data.id)">Service</button>
                                     </div>
+                                    <div style="margin-left: 10px;">{{Bookdatas}}</div>
                                   </td>
+                                  <!-- <td>
+                                    <div>
+                                      <a style="border-bottom: 1px solid; cursor: pointer; color: rgb(69, 69, 245);"
+                                        (click)="deletpop(data.id); Service(data.id, )">{{ Bookdatas }}</a>
+                                    </div>
+                                  </td> -->
                                   <td class="customer_name">{{data.totalamount}}</td>
-                                  <td class="customer_name">{{data.status}}</td>
+                                  <td class="customer_name">{{data.status==0 ?'-':data.status}}</td>
                                 
                                 </tr>
                               </tbody>

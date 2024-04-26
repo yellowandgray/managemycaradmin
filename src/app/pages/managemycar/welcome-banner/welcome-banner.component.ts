@@ -52,7 +52,7 @@ class Banner {
         (response) => {
           console.log(response);
           if (response && response.status === 'Success' && response.data) {
-            this.usersdata = response.data; // Assigning the array directly
+            this.usersdata = response.data; 
             console.log(this.usersdata)
             this.loading = false;
           } else {

@@ -14,25 +14,25 @@ declare var $: any;
 })
 
 
-export class GareageAvailTimeComponent implements OnInit{
+export class GareageAvailTimeComponent implements OnInit {
   breadCrumbItems!: Array<{}>;
 
   submitted: boolean = false;
   loading: boolean = true;
-  currentTab:any = "developers"
-  
-  id: string='';
+  currentTab: any = "developers"
+
+  id: string = '';
   date: string = '';
   timeSlots: { startTime: string; endTime: string; active: boolean }[] = [];
   isToggled: boolean = false;
 
-  services: { id:string; name: string; des: string; include: string,cost:number }[] = [];
+  services: { id: string; name: string; des: string; include: string, cost: number }[] = [];
 
-  
+
   times: { day: string; startTime: string; endTime: string }[] = [];
-  monfri:string='Monday-Friday';
-  sat:string='Saturday';
-  sun:string='Sunday';
+  monfri: string = 'Monday-Friday';
+  sat: string = 'Saturday';
+  sun: string = 'Sunday';
   dataSubscription: Subscription | null = null;
   gettimes: { [day: string]: { startTime: string, endTime: string }[] } = {};
   timeSlot: { startTime: string, endTime: string }[] = [];
@@ -45,7 +45,7 @@ export class GareageAvailTimeComponent implements OnInit{
   selectedSecond: string | undefined;
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   selectedDay: string = '';
-  selectedTab: number=1;
+  selectedTab: number = 1;
 
   changeTab(tab: string) {
     this.currentTab = tab;
@@ -53,18 +53,18 @@ export class GareageAvailTimeComponent implements OnInit{
 
 
 
-  constructor(private http: HttpClient, private route: ActivatedRoute,private apiService: ApiService,private location: Location) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private apiService: ApiService, private location: Location) {
     this.getTimeslots();
     this.addNewServiceRow()
   }
-  
+
   ngOnInit(): void {
 
     this.route.paramMap.subscribe(params => {
-   
+
       const garageData = history.state.garageData;
       console.log(garageData, 'garages');
-      this.id=garageData.id
+      this.id = garageData.id
       if (garageData && garageData.services && garageData.services.length > 0) {
         this.services = garageData.services.map((service: any) => ({
           id: service.id || '',
@@ -73,7 +73,7 @@ export class GareageAvailTimeComponent implements OnInit{
           include: service.include || '',
           cost: service.cost || 0
         }));
-       
+
       }
     });
     this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
@@ -86,74 +86,79 @@ export class GareageAvailTimeComponent implements OnInit{
   }
 
 
-// services
+  // services
 
-saveService() {
-  this.submitted = true;
-  setTimeout(() => {
-    this.submitted = false;
-  }, 2000);
-  console.log(this.id)
-  const url = `https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/createService/${this.id}`;
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Authorization': 'Bearer api-token-1'
-    })
-  };
-  const body = {
-    services: this.services.map(service => ({
-      id:service.id,
-      name: service.name,
-      cost: service.cost,
-      desc: service.des,
-      include: service.include
-    }))
-  };
+  saveService() {
+    this.submitted = true;
+    setTimeout(() => {
+      this.submitted = false;
+    }, 2000);
+    console.log(this.id)
+    const url = `https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/createService/${this.id}`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer api-token-1'
+      })
+    };
+    const body = {
+      services: this.services.map(service => ({
+        id: service.id,
+        name: service.name,
+        cost: service.cost,
+        desc: service.des,
+        include: service.include
+      }))
+    };
 
-  console.log('Request body:', body);
+    console.log('Request body:', body);
 
-  this.http.post(url, body, httpOptions)
-    .subscribe(
-      (response) => {
-        console.log('Service saved successfully:', response);
-      },
-      (error) => {
-        console.error('Error occurred while saving service:', error);
-      }
-    );
+    this.http.post(url, body, httpOptions)
+      .subscribe(
+        (response) => {
+          console.log('Service saved successfully:', response);
+        },
+        (error) => {
+          console.error('Error occurred while saving service:', error);
+        }
+      );
     this.loading = false;
     this.apiService.getGarages();
-}
+  }
 
-delet(serviceId: string) {
-  const httpOptions = {
-    headers: new HttpHeaders({
-      'Authorization': 'Bearer api-token-1',
-    
-    })
-  };
+  delet(serviceId: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer api-token-1',
 
-  this.http.delete(`https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/deleteService/${this.id}/services/${serviceId}`, httpOptions)
-    .subscribe(
-      () => {
-        console.log('Document deleted successfully');
-        // this.ngOnInit()
-        this.apiService.getGarages();
-      },
-      (error) => {
-        console.error('Error deleting document:', error);
-         const index = this.services.findIndex(service => service.id === serviceId);
-      if (index !== -1) {
-        this.services.splice(index, 1);
-        this.apiService.getGarages();
-      }
-        // this.ngOnInit()
+      })
+    };
 
-      }
-    );
+    this.http.delete(`https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/deleteService/${this.id}/services/${serviceId}`, httpOptions)
+      .subscribe(
+        () => {
+          console.log('Document deleted successfully');
+          // this.ngOnInit()
+          this.apiService.getGarages();
+          const index = this.services.findIndex(service => service.id === serviceId);
+          if (index !== -1) {
+            this.services.splice(index, 1);
+            this.apiService.getGarages();
+          }
+        },
+        (error) => {
+          console.error('Error deleting document:', error);
+          const index = this.services.findIndex(service => service.id === serviceId);
+          if (index !== -1) {
+            this.services.splice(index, 1);
+            this.apiService.getGarages();
+          }
+          // this.ngOnInit()
+
+        }
+      );
     // this.ngOnInit()
     this.apiService.getGarages();
-}
+  }
 
 
 
@@ -166,17 +171,17 @@ delet(serviceId: string) {
 
 
 
-    deleteTimeSlot(index: number) {
-        this.times.splice(index, 1);
-    }
+  deleteTimeSlot(index: number) {
+    this.times.splice(index, 1);
+  }
 
   addNewServiceRow() {
     console.log(this.services);
-    this.services.push({id:'', name: '', des: '', include: '', cost:0});
+    this.services.push({ id: '', name: '', des: '', include: '', cost: 0 });
   }
 
- 
- 
+
+
 
 
 
@@ -228,7 +233,7 @@ delet(serviceId: string) {
     };
     console.log(this.date);
     console.log(this.timeSlots);
-     console.log(availabilityData);
+    console.log(availabilityData);
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer api-token-1',
@@ -243,7 +248,7 @@ delet(serviceId: string) {
         },
         (error) => {
           console.error('Error:', error);
-        
+
         }
       );
   }
@@ -264,7 +269,7 @@ delet(serviceId: string) {
           this.gettimes = response.timeslots;
           console.log('Time slots fetched successfully:', this.gettimes);
           // Initial filter call after fetching data
-         // this.filterTimeSlots();
+          // this.filterTimeSlots();
         },
         (error) => {
           console.error('Error occurred while fetching time slots:', error);
@@ -276,23 +281,23 @@ delet(serviceId: string) {
     if (this.days.slice(1, 6).includes(this.selectedDay)) {
       console.log('Selected day:', this.selectedDay);
       const mondayToFridayTimeSlots = this.gettimes['Monday-Friday'] || [];
-  
+
       if (mondayToFridayTimeSlots.length > 0) {
         const startTime = mondayToFridayTimeSlots[0].startTime;
         const endTime = mondayToFridayTimeSlots[0].endTime;
-  
+
         const startDate = new Date(`${this.date} ${startTime}`);
         const endDate = new Date(`${this.date} ${endTime}`);
-  
+
         this.timeSlot = [];
-  
+
         // Generate time slots for Monday to Friday
         for (let time = startDate; time < endDate; time.setHours(time.getHours() + 1)) {
           const formattedStartTime = time.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
           const formattedEndTime = new Date(time.getTime() + (60 * 60 * 1000)).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
           this.timeSlot.push({ startTime: formattedStartTime, endTime: formattedEndTime });
         }
-  
+
         // Update the start and end time based on Monday to Friday
         this.startTime = startTime;
         this.endTime = endTime;
@@ -305,22 +310,22 @@ delet(serviceId: string) {
     } else {
       console.log('Selected day is not Monday-Friday');
       const selectedDayTimeSlots = this.gettimes[this.selectedDay] || [];
-  
+
       if (selectedDayTimeSlots.length > 0) {
         const startTime = selectedDayTimeSlots[0].startTime;
         const endTime = selectedDayTimeSlots[0].endTime;
-  
+
         const startDate = new Date(`${this.date} ${startTime}`);
         const endDate = new Date(`${this.date} ${endTime}`);
-  
+
         this.timeSlot = [];
-  
+
         for (let time = startDate; time < endDate; time.setHours(time.getHours() + 1)) {
           const formattedStartTime = time.toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
           const formattedEndTime = new Date(time.getTime() + (60 * 60 * 1000)).toLocaleString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
           this.timeSlot.push({ startTime: formattedStartTime, endTime: formattedEndTime });
         }
-  
+
         // Update the start and end time based on the selected day
         this.startTime = startTime;
         this.endTime = endTime;
@@ -332,8 +337,8 @@ delet(serviceId: string) {
       }
     }
   }
-  
-  
+
+
 
   updateSelectedDay() {
     const selectedDate = new Date(this.date);
@@ -343,10 +348,10 @@ delet(serviceId: string) {
     // Call filter method after updating the selected day
     this.filterTimeSlots();
   }
- 
+
   goBack() {
     this.location.back();
-  }  
+  }
 
 }
 

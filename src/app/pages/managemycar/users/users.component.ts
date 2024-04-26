@@ -61,12 +61,12 @@ export class UsersComponent {
   
       if (response && response.status === 'Success' && Array.isArray(response.data)) {
         this.allvehicle = response.data.filter((vehicle: any) => vehicle.userId === id);
-        console.log('Filtered Vehicles:', this.allvehicle);
+        console.log('Filtered Vehicles:', this.allvehicle.length);
         return this.allvehicle.length; // Return the length of filtered vehicles
       } else {
         this.allvehicle = [];
         console.error('Invalid data format: ', response);
-        return 0; // Return 0 if data format is invalid
+        return 0;
       }
     } catch (error) {
       console.error('Error fetching vehicles: ', error);

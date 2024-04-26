@@ -91,7 +91,7 @@
 
                 <div class="modal-footer">
                     <div class="hstack gap-2 justify-content-end">
-                        <button type="button" class="btn btn-light" (click)="deleteRecordModal.hide()">Close</button>
+                        <button type="button" class="btn btn-light" (click)="showModals.hide()">Close</button>
                         <button type="submit" class="btn btn-success" id="add-btn" (click)="update(garage.id)">Update</button>
 
                     </div>
@@ -285,7 +285,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="list form-check-all">
-                                        <tr *ngFor="let data of  garagesdata.data; let i = index;" id="a_{{ data.id }}">
+                                        <tr *ngFor="let data of  garagesdata; let i = index;" id="a_{{ data.id }}">
 
                                             <!-- <td class="date">{{ data.siteno }}</td> -->
                                             <td class="date">

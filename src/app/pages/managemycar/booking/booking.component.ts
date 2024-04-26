@@ -19,11 +19,10 @@ import { DatePipe } from '@angular/common';
 export class BookingComponent {
 
   [x: string]: any;
+  servicename:[]=[];
   breadCrumbItems!: Array<{}>;
- 
- 
-
   Bookdata: any = []; 
+  Bookdatas: any = []; 
   selectedServices : any=[]; 
   usersdata: any;
   vehicles:any;
@@ -44,93 +43,106 @@ export class BookingComponent {
 
 
   async ngOnInit(): Promise<void> {
-    await this.fetchBookingData();
-    await this.fetchUserData();
-    await this.fetchVehicle();
-    await this.fetchGarages();
-    console.log(this.garagesdata, 'garages');
-    console.log(this.vehicles,'chec');
+
+
+    this.apiService.getAddressBookData().subscribe(actions => {
+      this.Bookdata = actions.map(action => action.payload.doc.data() );
+      console.log(this.Bookdata,'check')
+    });
+    this.apiService.getusersData().subscribe(actions => {
+      this.usersdata = actions.map(action => action.payload.doc.data() );
+    });
+    this.apiService.getVehiclesData().subscribe(actions => {
+      this.vehicles = actions.map(action => action.payload.doc.data() );
+    });
+    this.apiService.getGarageData().subscribe(actions => {
+      this.garagesdata = actions.map(action => action.payload.doc.data() );
+      // console.log(this.garagesdata,'check')
+    });
+    
+    this.loading = false;
+   console.log(this.garagesdata,'check')
   }
   
-  async fetchBookingData() {
-    return new Promise<void>((resolve, reject) => {
-      this.apiService.getBooking().subscribe(
-        (response) => {
-          if (response && response.status === 'Success' && response.bookings) {
-            this.Bookdata = response.bookings;
-            console.log(this.Bookdata, 'check');
+  // async fetchBookingData() {
+  //   return new Promise<void>((resolve, reject) => {
+  //     this.apiService.getBooking().subscribe(
+  //       (response) => {
+  //         if (response && response.status === 'Success' && response.bookings) {
+  //           this.Bookdata = response.bookings;
+  //           console.log(this.Bookdata, 'check');
             
-            resolve();
-          } else {
-            console.error('Invalid response format:', response);
+  //           resolve();
+  //         } else {
+  //           console.error('Invalid response format:', response);
            
-            reject('Invalid response format');
-          }
-        },
-        (error) => {
-          console.error('Error fetching bookings: ', error);
+  //           reject('Invalid response format');
+  //         }
+  //       },
+  //       (error) => {
+  //         console.error('Error fetching bookings: ', error);
         
-          reject(error);
-        }
-      );
-    });
-  }
-  async fetchUserData() {
-    try {
-      const response = await this.apiService.getUsers().toPromise();
-      console.log(response);
-      if (response && response.status === 'Success' && Array.isArray(response.data)) {
-        this.usersdata = response.data; // Assuming data is an array of users
-      } else {
-        this.usersdata = []; // Initialize as an empty array if data is not in the expected format
-        console.error('Invalid data format: ', response);
-      }
-      console.log(this.usersdata);
+  //         reject(error);
+  //       }
+  //     );
+  //   });
+  // }
+  // async fetchUserData() {
+  //   try {
+  //     const response = await this.apiService.getUsers().toPromise();
+  //     console.log(response);
+  //     if (response && response.status === 'Success' && Array.isArray(response.data)) {
+  //       this.usersdata = response.data; // Assuming data is an array of users
+  //     } else {
+  //       this.usersdata = []; // Initialize as an empty array if data is not in the expected format
+  //       console.error('Invalid data format: ', response);
+  //     }
+  //     console.log(this.usersdata);
      
-    } catch (error) {
-      console.error('Error fetching users: ', error);
-      this.usersdata = []; // Initialize as an empty array if an error occurs
+  //   } catch (error) {
+  //     console.error('Error fetching users: ', error);
+  //     this.usersdata = []; // Initialize as an empty array if an error occurs
      
-    }
-  }
+  //   }
+  // }
 
 
-  async fetchVehicle()  {
-    try {
-      const response = await this.apiService.getvehicles().toPromise();
-      console.log(response);
-      if (response && response.status === 'Success' && Array.isArray(response.data)) {
-        this.vehicles = response.data; // Assuming data is an array of users
-      } else {
-        this.vehicles = []; // Initialize as an empty array if data is not in the expected format
-        console.error('Invalid data format: ', response);
-      }
-      console.log(this.vehicles);
+  // async fetchVehicle()  {
+  //   try {
+  //     const response = await this.apiService.getvehicles().toPromise();
+  //     console.log(response);
+  //     if (response && response.status === 'Success' && Array.isArray(response.data)) {
+  //       this.vehicles = response.data; // Assuming data is an array of users
+  //     } else {
+  //       this.vehicles = []; // Initialize as an empty array if data is not in the expected format
+  //       console.error('Invalid data format: ', response);
+  //     }
+  //     console.log(this.vehicles);
      
-    } catch (error) {
-      console.error('Error fetching users: ', error);
-      this.vehicles = []; 
+  //   } catch (error) {
+  //     console.error('Error fetching users: ', error);
+  //     this.vehicles = []; 
       
-    }
-  }
+  //   }
+  // }
 
 
-  async fetchGarages()  {
-    try {
-      const response = await this.apiService.getGarages().toPromise();
-      console.log("Garages API Response:", response);
-      if (response && response.status === 'Success' && Array.isArray(response.data)) {
-        this.garagesdata = response.data;
-        this.loading = false;
-      } else {
-        console.error('Invalid data format or no data returned from garages API');
-        this.loading = false;
-      }
-    } catch (error) {
-      console.error('Error fetching garages: ', error);
-      this.loading = false;
-    }
-  }
+  // async fetchGarages()  {
+  //   try {
+  //     const response = await this.apiService.getGarages().toPromise();
+  //     console.log("Garages API Response:", response);
+  //     if (response && response.status === 'Success' && Array.isArray(response.data)) {
+  //       this.garagesdata = response.data;
+  //       this.loading = false;
+  //     } else {
+  //       console.error('Invalid data format or no data returned from garages API');
+  //       this.loading = false;
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching garages: ', error);
+  //     
+  //   }
+  // }
   
     
   getUserById(userId: string): string {
@@ -149,14 +161,41 @@ export class BookingComponent {
   }
   
  
- 
-  deletpop(bookingData: any) {
-    this.selectedServices  = bookingData.services; 
+  deletpop(id: string) {
+    console.log(id);
+    this.apiService.getServiceData(id).subscribe(data => {
+        console.log(data); // Check the data received from Firestore
+        if (Array.isArray(data)) {
+            this.Bookdatas = data.map(item => item); // Assuming data is an array of service objects
+        } else {
+            this.Bookdatas = [];
+        }
+        this.selectedServices = this.Bookdatas; 
+        console.log(this.Bookdatas, 'Bookdatas');
+        this.deleteModal?.show();
+    }, error => {
+        console.error("Error fetching service data:", error);
+  
+    });
+}
 
-    this.deleteModal?.show();
-  }
+   Service(id:string): void{
+    this.apiService.getServiceData(id).subscribe(data => {
+      console.log(data); // Check the data received from Firestore
+      if (Array.isArray(data)) {
+          this.Bookdatas = data.map(item => item.name); // Assuming data is an array of service objects
+      } else {
+          this.Bookdatas = [];
+      }
+    this.servicename=this.Bookdatas
+      console.log(this.Bookdatas, 'Bookdatas');
+      
+      // return this.Bookdatas; 
+  }, error => {
+      console.error("Error fetching service data:", error);
 
-
+  });
+}
 
 
   delet(id: string){

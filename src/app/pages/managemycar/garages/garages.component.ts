@@ -101,36 +101,30 @@ export class GaragesComponent {
 
   ngOnInit():void {
     this.loading = true;
-    this.apiService.getGarages().subscribe(
-        (data) => {
-            console.log(data);
-            this.garagesdata = data;
-            console.log(this.garagesdata)
-            this.loading = false;
-        },
-        (error) => {
-            console.error('Error fetching garages: ', error);
-            this.loading = false;
-        }
-    );
 
-    this.addNewGarage();
+    // getGaragesData
+
+    this.apiService.getGaragesData().subscribe(actions => {
+      this.garagesdata = actions.map(action => action.payload.doc.data() );
+    });
+    this.loading = false;
+    // this.apiService.getGaragesData().subscribe(
+    //     (data) => {
+    //         console.log(data);
+    //         this.garagesdata = data;
+    //         console.log(this.garagesdata)
+    //         this.loading = false;
+    //     },
+    //     (error) => {
+    //         console.error('Error fetching garages: ', error);
+    //         this.loading = false;
+    //     }
+    // );
+
+    // this.addNewGarage();
 }
 
 
-addNewGarage() {
-  this.apiService.getGarages().subscribe(
-    (data) => {
-        console.log(data);
-        this.garagesdata = data;
-        this.loading = false;
-    },
-    (error) => {
-        console.error('Error fetching garages: ', error);
-        this.loading = false;
-    }
-);
-}
 
 
   submitForm() {
