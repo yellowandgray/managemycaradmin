@@ -93,76 +93,53 @@
                     <div class="col-lg-11">
                         <div class="mb-3 p-4">
                             <label for="passedYear" class="form-label py-2"> Garage Time Slot</label>
-                            <div class="row g-2 justify-content-center  p-3" >
-                                <div class="col-lg-3 ">
-                                    <input class="form-control" data-choices data-choices-search-false
-                                        name="passedYear" id="passedYear" [(ngModel)]="monfri">
+                            <div class="row g-2 justify-content-center  p-3" *ngFor="let data of times; let i = index" >
+                                <div class="col-lg-3">
+                                    <input type="text" class="form-control" [id]="'name' + i"
+                                    name="name{{i}}" placeholder="Name" [(ngModel)]="data.day" disabled>
                                 </div>
-                                <div class="col-auto align-self-center">
+                                <!-- <div class="col-auto align-self-center">
                                     Start Time:
                                 </div>
                                 <div class="col-lg-2">
-                                    <input [ngxTimepicker]="picker" class="form-control" [id]="startTime"
-                                        name="startTime" [(ngModel)]="startTime">
+                                    <input [ngxTimepicker]="picker" class="form-control" [id]="'startTime' + i" name="startTime{{i}}" [(ngModel)]="data.startTime">
                                     <ngx-material-timepicker #picker></ngx-material-timepicker>
                                 </div>
                                 <div class="col-auto align-self-center">
                                     End Time:
                                 </div>
-                                <div class="col-lg-3 ">
-                                    <input [ngxTimepicker]="picker1" class="form-control" [id]="endTime"
-                                        name="endTime" [(ngModel)]="endTime">
-                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
-                                </div>
-                                
+                                <div class="col-lg-3">
+                                    <input [ngxTimepicker]="picker" class="form-control" [id]="'endTime' + i" name="endTime{{i}}" [(ngModel)]="data.endTime">
+                                    <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                </div> -->
 
-                                <div class="col-lg-3 ">
-                                    <input class="form-control" data-choices data-choices-search-false
-                                        name="passedYear" id="passedYear" [(ngModel)]="sat">
-                                </div>
-                                <div class="col-auto align-self-center">
-                                    Start Time:
-                                </div>
                                 <div class="col-lg-2">
-                                    <input [ngxTimepicker]="picker" class="form-control" [id]="startTime"
-                                        name="startTime" [(ngModel)]="startTime1">
+                                    <input [ngxTimepicker]="picker" class="form-control" [id]="'startTime' + i"
+                                    name="startTime{{i}}"[(ngModel)]="data.startTime">
                                     <ngx-material-timepicker #picker></ngx-material-timepicker>
-                                </div>
-                                <div class="col-auto align-self-center">
-                                    End Time:
-                                </div>
-                                <div class="col-lg-3 ">
-                                    <input [ngxTimepicker]="picker1" class="form-control" [id]="endTime"
-                                        name="endTime" [(ngModel)]="endTime1">
-                                    <ngx-material-timepicker #picker1></ngx-material-timepicker>
                                 </div>
                                
                                 <div class="col-lg-3 ">
-                                    <input class="form-control" data-choices data-choices-search-false
-                                        name="passedYear" id="passedYear" [(ngModel)]="sun">
-                                </div>
-                                <div class="col-auto align-self-center">
-                                    Start Time:
-                                </div>
-                                <div class="col-lg-2">
-                                    <input [ngxTimepicker]="picker" class="form-control" [id]="startTime"
-                                        name="startTime" [(ngModel)]="startTime2">
-                                    <ngx-material-timepicker #picker></ngx-material-timepicker>
-                                </div>
-                                <div class="col-auto align-self-center">
-                                    End Time:
-                                </div>
-                                <div class="col-lg-3 ">
-                                    <input [ngxTimepicker]="picker1" class="form-control" [id]="endTime"
-                                        name="endTime" [(ngModel)]="endTime2">
+                                    <input [ngxTimepicker]="picker1" class="form-control"[id]="'endTime' + i"
+                                    name="endTime{{i}}"  [(ngModel)]="data.endTime">
                                     <ngx-material-timepicker #picker1></ngx-material-timepicker>
                                 </div>
+
                                
                             </div>
                             <div class="col-lg-12 py-3">
                                 <div class="hstack gap-2">
-                                    <button type="submit" class="btn btn-secondary"
-                                        (click)="saveTimeService()">Update</button>
+                                    <button type="button" class="btn btn-secondary btn-load" (click)="saveTimeService()" [disabled]="submitted">
+                                        <span *ngIf="!submitted" class="d-flex align-items-center">
+                                          <span class="flex-grow-1 ms-2">Update</span>
+                                        </span>
+                                        <span *ngIf="submitted" class="d-flex align-items-center">
+                                          <span class="spinner-border flex-shrink-0 me-2" role="status" aria-hidden="true"></span>
+                                          <span class="flex-grow-1">Loading...</span>
+                                        </span>
+                                      </button>
+                                    <!-- <button type="submit" class="btn btn-secondary" [disabled]="submitted"
+                                        (click)="saveTimeService()">Update</button> -->
                                  
                                 </div>
                             </div>
@@ -187,9 +164,31 @@
                         
 
                         <div *ngFor="let slot of timeSlot" class="d-flex justify-content-center py-1">
-                            <button type="button" class="btn rounded-pill btn-success px-5">{{ slot.startTime }} - {{ slot.endTime }}</button>
+                            <button type="button" class="btn rounded-pill"
+                                    [class.btn-success]="isSelected(slot)"
+                                    [class.btn-secondary]="!isSelected(slot)"
+                                    (click)="selectTimeSlot(slot)">
+                                {{ slot.startTime }} - {{ slot.endTime }}
+                            </button>
                         </div>
 
+                        <div class="col-lg-12 py-3">
+                            <div class="hstack gap-2">
+                                <button type="button" class="btn btn-secondary btn-load" (click)="appointments()" [disabled]="submitted">
+                                    <span *ngIf="!submitted" class="d-flex align-items-center">
+                                      <span class="flex-grow-1 ms-2">Update</span>
+                                    </span>
+                                    <span *ngIf="submitted" class="d-flex align-items-center">
+                                      <span class="spinner-border flex-shrink-0 me-2" role="status" aria-hidden="true"></span>
+                                      <span class="flex-grow-1">Loading...</span>
+                                    </span>
+                                  </button>
+                                <!-- <button type="submit" class="btn btn-secondary"
+                                    >Update</button> -->
+                             
+                            </div>
+                        </div>
+                        
                     </div>
                 </tab>
 

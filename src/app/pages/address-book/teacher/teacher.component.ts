@@ -145,7 +145,7 @@ this.deleteModal?.hide()
             fileRef.getDownloadURL().subscribe((url) => {
               this.emp.img = url;
               this.uploading = false;
-               // Check if it's populated here
+           
             });
           })
         ).subscribe(

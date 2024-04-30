@@ -1,4 +1,4 @@
-export class User {
+export class UserData {
   id: string = '';
   address: string = '';
   email: string = '';
@@ -6,7 +6,7 @@ export class User {
   lastname: string = '';
   phone: string = '';
   postcode: string = '';
-  role: string = 'user'
+
 }
 
 export class Vehicle {

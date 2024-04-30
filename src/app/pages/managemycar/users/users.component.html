@@ -9,7 +9,7 @@
             <div class="card-body">
               
                 <div id="customerList">
-                    <!-- <div class="row g-4 mb-3">
+                     <div class="row g-4 mb-3">
                         <div class="col-sm-auto d-flex">
                             <div class="search-box ms-2">
                                 <label for="course-category-input" class="form-label me-2" style="padding-top: 10px;">search</label>
@@ -18,15 +18,12 @@
                           
                           
                             <div class="search-box ms-2">
-                                <input  class="form-control" placeholder="Search by"
-                                  placeholder="Search by Name" list="studentNames">
-                                  <i class="ri-search-line search-icon"></i>
-                                <datalist id="studentNames">
-                               
-                                </datalist>
-                              </div>
+                              <input class="form-control" placeholder="Search by Name" [(ngModel)]="searchTerm" (input)="filteredGarage($event)">
+                              <i class="ri-search-line search-icon"></i>
+                            </div>
                         </div>
-                        <div class="col-sm">
+
+                       <!-- <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <div>
                                     <button type="button" class="btn btn-info add-btn me-2" id="create-btn"  ><i class="ri-add-line align-bottom me-1"></i>Add</button>
@@ -79,14 +76,13 @@
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Vehicle
                                     </th>
-                                    <!-- <th class="sort" listsortable="customer_name" >Action
-                                    </th> -->
+                                 
                                   
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all">
                              
-                                        <tr *ngFor="let data of usersdata.data ; let i = index;"  >
+                                        <tr *ngFor="let data of usersdata ; let i = index;"  >
                                    
                                     
                                     <td class="date">{{data.firstname}} {{data.lastname}}</td>
@@ -95,10 +91,11 @@
                                     <td class="date">{{data.address}}</td>
                                     <td class="date">{{data.postcode}}</td>
                                     <td>
-                                            <div class="edit">
-                                                <button class="btn btn-sm btn-success edit-item-btn" (click)="details(data.id, data.firstname, data.lastname)"> Vehicles</button>
-
-                                            </div>
+                                        <div class="edit">
+                                            <button class="btn btn-sm btn-success edit-item-btn" (click)="details(data.id, data.firstname, data.lastname)">
+                                              {{ vehicalno[data.id] || 0 }} 
+                                            </button>
+                                          </div>
                                     </td>
                                  
                             </tbody>

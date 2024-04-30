@@ -20,9 +20,9 @@ const getMenuForAdmin = () => [
 
     {
         id: 2,
-        label: 'Booking',
+        label: 'Dashboard',
         icon: 'ph-buildings',
-        link: '/managecar/',
+        link: '/mahistech/',
         
     },
 
@@ -30,78 +30,103 @@ const getMenuForAdmin = () => [
 
 {
         id: 9,
-        label: 'Garages',
+        label: 'Report',
         icon: 'ph-calendar',
-        link: '/managecar/garage',
+        link: '/mahistech/garage',
         
     },
 
 
     {
         id: 12,
-        label: 'Users',
+        label: 'Employer',
         icon: 'ph-storefront',
-        link: '/managecar/user',
+        link: '/mahistech/employes',
         
         
     },
     {
         id: 13,
-        label: 'Queries',
+        label: 'Employee',
         icon: 'ph-folder-open',
-        link: '/managecar/queries',
+        link: '/mahistech/queries',
        
         
     },
+    {
+        id:11,
+        label: ' Training',
+        icon: 'ph-calendar',
+        subItems: [
+            {
+                id: 3,
+                label: ' Training Center',
+                link: 'mahistech/addroute',
+                parentId: 11
+            },
+            {
+                id: 4,
+                label: ' Trainer',
+                link: 'mahistech/addvan',
+                parentId: 11
+            },
+            {
+                id: 5,
+                label: 'Training Schedule',
+                link: 'mahistech/map',
+                parentId: 11
+            },
+            
+           
+           
+        ]
+    },
      {
             id: 11,
-            label: 'Welcome Banner',
+            label: 'Clinic',
             icon: 'ph-gauge',
-            link: '/managecar/Welcome',
+            link: '/mahistech/Welcome',
            
         },
+        {
+            id: 11,
+            label: 'Healthcare',
+            icon: 'ph-gauge',
+            link: '/mahistech/Welcome',
+           
+        },
+        {
+            id: 11,
+            label: 'Vaccine',
+            icon: 'ph-gauge',
+            link: '/mahistech/Welcome',
+           
+        },
+        {
+            id: 11,
+            label: 'Complaint',
+            icon: 'ph-gauge',
+            link: '/mahistech/Welcome',
+           
+        },
+        {
+            id: 11,
+            label: 'Feedback',
+            icon: 'ph-gauge',
+            link: '/mahistech/Welcome',
+           
+        },
+
 
     // {
     //     id: 10,
     //     label: 'Non-Academics',
     //     isTitle: true
     // },
-    // /
+    
 
 
-    // {
-    //     id:11,
-    //     label: 'Van',
-    //     icon: 'ph-calendar',
-    //     subItems: [
-    //         {
-    //             id: 3,
-    //             label: ' Route',
-    //             link: 'van/addroute',
-    //             parentId: 11
-    //         },
-    //         {
-    //             id: 4,
-    //             label: ' Van',
-    //             link: 'van/addvan',
-    //             parentId: 11
-    //         },
-    //         {
-    //             id: 5,
-    //             label: 'Map Route,van & driver',
-    //             link: 'van/map',
-    //             parentId: 11
-    //         },
-    //         {
-    //             id: 6,
-    //             label: 'Arrivals',
-    //             link: 'van/arrivals',
-    //             parentId: 11
-    //         },
-           
-           
-    //     ]
-    // },
+    
     // ... (other menu items for admins)
 ];
 // const getMenuForTeacher = () => [

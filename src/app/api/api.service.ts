@@ -12,7 +12,7 @@ import * as firebase from "firebase/compat";
 
     //Login
     async getAdminDataCheck(username:String,password:String) {
-      let data=await this.firestore.collection('admin',ref=> ref.where("email",'==',username).where("password",'==',password)).get().toPromise();
+      let data=await this.firestore.collection('employer',ref=> ref.where("email",'==',username).where("password",'==',password)).get().toPromise();
        console.log(data)
       // data.forEach(element => {
       //   console.log(element.docs)

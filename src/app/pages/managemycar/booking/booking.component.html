@@ -63,12 +63,10 @@
                           
                           
                             <div class="search-box ms-2">
-                                <input  class="form-control" placeholder="Search by "
-                                  placeholder="Search by Name" list="studentNames">
+                                <input  class="form-control"  [(ngModel)]="searchTerm" placeholder="Search by Name" (input)="filteredBook($event)"
+                                  placeholder="Search by Name or Vehicle or Garage Name" list="studentNames">
                                   <i class="ri-search-line search-icon"></i>
-                                <!-- <datalist id="studentNames">
-                                  <option *ngFor="let name of studentNames" [value]="name"></option>
-                                </datalist> -->
+                               
                               </div> 
                             
                              
@@ -143,7 +141,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let data of Bookdata; let i = index;">
+                                <tr *ngFor="let data of filteredgarage; let i = index;">
                                     <td class="date">{{ data.createdAt | date: 'dd-MM-yyyy' }}</td>
 
                                     <td><a  style="border-bottom: 1px solid;"[routerLink]="['/userdetails', data.userid]">{{ getUserById(data.userid)}}</a></td>
@@ -158,16 +156,14 @@
 
                                   <td class="AssignToContainer">
                                     <div class="d-flex align-items-center">
-                                      <button type="submit" class="btn btn-primary" id="add-btn" (click)="deletpop(data.id); Service(data.id)">Service</button>
+                                      <a id="add-btn" style="border-bottom: 1px solid; cursor: pointer; color: rgb(69, 69, 245);" (click)="deletpop(data.id); ">Service</a>
                                     </div>
-                                    <div style="margin-left: 10px;">{{Bookdatas}}</div>
+                                    <!-- <div style="margin-left: 10px;">{{Bookdatas}}</div> -->
+                                    <a style="border-bottom: 1px solid; cursor: pointer; color: rgb(69, 69, 245);" (click)="deletpop(data.id);">
+                                      <span *ngFor="let service of Bookdatas[data.id]; let j = index">{{ service }}{{ j !== Bookdatas[data.id].length - 1 ? ', ' : '' }}</span>
+                                    </a>
                                   </td>
-                                  <!-- <td>
-                                    <div>
-                                      <a style="border-bottom: 1px solid; cursor: pointer; color: rgb(69, 69, 245);"
-                                        (click)="deletpop(data.id); Service(data.id, )">{{ Bookdatas }}</a>
-                                    </div>
-                                  </td> -->
+                                 
                                   <td class="customer_name">{{data.totalamount}}</td>
                                   <td class="customer_name">{{data.status==0 ?'-':data.status}}</td>
                                 

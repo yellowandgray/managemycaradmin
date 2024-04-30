@@ -356,15 +356,8 @@ this.deleteModal?.hide()
  
   save() {
 
-
-
-
 console.log("student data",this.emp);
     if (this.selectedImage) {
-
-
-
-
       this.apiService.createStudentData(this.emp);
       this.resetFilters();
       this.emp = new Student();
@@ -455,6 +448,8 @@ console.log("student data",this.emp);
       });
   }
   }
+
+
    update(id: string)
    {
     if (this.selectedStudentIndex !== null) {

@@ -78,12 +78,17 @@ export class QueriesComponent {
   async ngOnInit() {
 
     this.loading= true;
-    await this.fetchUserData();
+
     this.dataSubscription = this.apiService.getQueriesData().subscribe(
       (actions) => {
         this.garages = actions.map((action) => action.payload.doc.data() as Queries);
         this.loading = false;
+        
+        this.apiService.getusersData().subscribe(actions => {
+          this.usersdata = actions.map(action => action.payload.doc.data());
+        });
       },
+      
       (error) => {
         console.error('Error fetching address book data:', error);
         this.loading = false;
@@ -94,30 +99,26 @@ export class QueriesComponent {
 
   }
 
-  async fetchUserData() {
-    try {
-      const response = await this.apiService.getUsers().toPromise();
-      console.log(response);
-      if (response && response.status === 'Success' && Array.isArray(response.data)) {
-        this.usersdata = response.data; // Assuming data is an array of users
-      } else {
-        this.usersdata = []; // Initialize as an empty array if data is not in the expected format
-        console.error('Invalid data format: ', response);
-      }
-      console.log(this.usersdata);
-      this.loading = false;
-    } catch (error) {
-      console.error('Error fetching users: ', error);
-      this.usersdata = []; // Initialize as an empty array if an error occurs
-      this.loading = false;
-    }
-  }
+ 
 
     
   getUserById(userId: string): string {
     console.log(userId);
     const user = this.usersdata.find((user: any) => user.id === userId);
     return user ? `${user.firstname} ${user.lastname}` : 'No User Assigned';
+}
+formatDateTime(dateTimeString: string): string {
+  const dateTime = new Date(dateTimeString);
+  const options: Intl.DateTimeFormatOptions = {
+    month: '2-digit',
+    day: '2-digit',
+  
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  };
+  return dateTime.toLocaleString('en-US', options);
 }
 
 

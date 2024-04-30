@@ -24,24 +24,30 @@ export class UserdetailsComponent {
   }
 
   async ngOnInit() {
-    try {
-      const response = await this.apiService.getUsers().toPromise();
-      console.log(response);
-      if (response && response.status === 'Success' && Array.isArray(response.data)) {
-        this.usersdatas = response.data; 
-        this.usersdata = this.usersdatas.find((user: any) => user.id === this.id);
+
+    this.apiService.getusersData().subscribe(actions => {
+      this.usersdatas = actions.map(action => action.payload.doc.data());
+      this.usersdata = this.usersdatas.find((user: any) => user.id === this.id);
+      this.loading = false;
+    });
+    // try {
+    //   const response = await this.apiService.getUsers().toPromise();
+    //   console.log(response);
+    //   if (response && response.status === 'Success' && Array.isArray(response.data)) {
+    //     this.usersdatas = response.data; 
+    //     this.usersdata = this.usersdatas.find((user: any) => user.id === this.id);
         
-      } else {
-        this.usersdata = null; // Setting to null if no match found
-        console.error('Invalid data format: ', response);
-      }
-      console.log(this.usersdata);
-      this.loading = false;
-    } catch (error) {
-      console.error('Error fetching users: ', error);
-      this.usersdata = null; // Setting to null in case of error
-      this.loading = false;
-    }
+    //   } else {
+    //     this.usersdata = null; // Setting to null if no match found
+    //     console.error('Invalid data format: ', response);
+    //   }
+    //   console.log(this.usersdata);
+    //   this.loading = false;
+    // } catch (error) {
+    //   console.error('Error fetching users: ', error);
+    //   this.usersdata = null; // Setting to null in case of error
+    //   this.loading = false;
+    // }
   }
   
   

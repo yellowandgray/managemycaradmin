@@ -118,13 +118,13 @@ if (this.loginForm.invalid) {
       if (this.f['email'].value === users[0].data()['email'] &&  this.f['password'].value === users[0].data()['password']) {
         localStorage.setItem('id',users[0].data()['email']);
         localStorage.setItem('login', 'true');
-        localStorage.setItem('school_id', users[0].data()['school']);
+        // localStorage.setItem('school_id', users[0].data()['school']);
         localStorage.setItem('role', users[0].data()['role']);
        // localStorage.setItem('username', users[0].data()['name']);
         localStorage.setItem('username', 'Vaidy');
-        localStorage.setItem('userPicture', "assets/images/logo-mmc-final.png");
-        console.log(localStorage.getItem('school_id'));
-        console.log(localStorage.getItem('role'));
+        localStorage.setItem('userPicture', "assets/images/mmc-logo-car-only.png");
+        // console.log(localStorage.getItem('school_id'));
+        // console.log(localStorage.getItem('role'));
 
       this.router.navigate(['/']);
 

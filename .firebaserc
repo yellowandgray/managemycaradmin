@@ -3,12 +3,12 @@
     "fluted-reason-415816": {
       "hosting": {
         "Steex": [
-          "fluted-reason-415816"
+          "mahis-tech"
         ]
       }
     }
   },
   "projects": {
-    "default": "fluted-reason-415816"
+    "default": "mahis-tech"
   }
 }
