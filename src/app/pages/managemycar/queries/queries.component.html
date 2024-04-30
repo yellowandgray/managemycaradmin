@@ -65,10 +65,8 @@
                         <table class="table align-middle table-nowrap" id="customerTable">
                             <thead class="table-light">
                                 <tr>
-                                    <!-- <th scope="col" style="width: 50px;">
-                                    </th> -->
-                                    <!-- <th class="sort" listsortable="customer_name" >datet
-                                    </th> -->
+                                    <th class="sort" listsortable="customer_name" >Date/Time
+                                    </th>
                                    
                                     <th class="sort" listsortable="customer_name" >Name
                                     </th>
@@ -83,7 +81,8 @@
                             <tbody class="list form-check-all">
                              
                                         <tr *ngFor="let data of garages ; let i = index;" id="a_{{ data.id }}" >
-                                    <!-- <td class="customer_name">{{i+1}}</td> -->
+                                   
+                                    <td class="date">{{ formatDateTime(data.querytime) }}</td>
                                     <td><a  style="border-bottom: 1px solid;"[routerLink]="['/userdetails', data.userid]">{{ getUserById(data.userid)}}</a></td>
                                     <td class="date">{{data.message}}</td>
                                   
@@ -93,7 +92,7 @@
                                
                             </tbody>
                         </table>
-                       
+                          
                     </div>
 
 

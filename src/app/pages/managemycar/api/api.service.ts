@@ -7,11 +7,12 @@ import { Queries } from "./queriesobj";
 
 import { Observable, map } from "rxjs";
 import {Booking}from "./bookingobj";
-import { Garages } from "./garageobj";
-import { User, Vehicle } from "./userobj";
+
+import { UserData, Vehicle } from "./userobj";
 import { Comprehension } from "../../gramar/api/comprehensionobj";
 import { serverTimestamp } from "firebase/firestore";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Garage } from "./garageobj";
 
 @Injectable({
   providedIn: 'root'
@@ -214,45 +215,119 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 
     }
-    createGaragesData(obj: Garages){
-      return this.firestore.collection('garages').add(
-        {
-          'id':'',
-          'about':obj.about,
-          'address':obj.address,
-          'garageid':obj.garageid,
-          'geolocation':obj.geolocation,
-          'name':obj.name,
-          'openinghrs':obj.openinghrs,
-          'otherservices':obj.otherservices,
-          'postcode':obj.postcode,
-        
-       }).then(async docRef => {
-         console.log(docRef.id);
-         await this.firestore.doc('garages/' + docRef.id).update({
-           'id':docRef.id})
-       })
-     }
+//     createGaragesData(garageDataArray: Garage[]): Promise<void[]> {
+//   const promises: Promise<void>[] = [];
+
+//   garageDataArray.forEach((garageData: Garage) => {
+//     const promise = this.firestore.collection('garages').add({
+//       'about': garageData.about,
+//       'address': garageData.address,
+//       'picture': garageData.picture,
+//       'notes': garageData.notes,
+//       'name': garageData.name,
+//       'openinghrs': garageData.openinghrs,
+//       'phone': garageData.phone,
+//       'email': garageData.email,
+//       'siteno': garageData.siteno,
+//       'postcode': garageData.postcode,
+//     }).then(async docRef => {
+//       console.log(docRef.id);
+//       await this.firestore.doc('garages/' + docRef.id).update({
+//         'id': docRef.id
+//       });
+//     });
+
+//     promises.push(promise);
+//   });
+
+//   return Promise.all(promises);
+// }
 
 
-     updateGaragesData(id: string,obj: Garages){
-      this.firestore.doc('garages/' + id).update({
-        'id':id,
-        'about':obj.about,
-        'address':obj.address,
-        'garageid':obj.garageid,
-        'geolocation':obj.geolocation,
-        'name':obj.name,
-        'openinghrs':obj.openinghrs,
-        'otherservices':obj.otherservices,
-        'postcode':obj.postcode,
+createGaragesData(garageData: Garage){
+  return this.firestore.collection('garages').add(
+    {
+      'about': garageData.about,
+      'address': garageData.address,
+      'picture': garageData.picture,
+      'notes': garageData.notes,
+      'name': garageData.name,
+      'openinghrs': garageData.openinghrs,
+      'phone': garageData.phone,
+      'email': garageData.email,
+      'siteno': garageData.siteno,
+      'postcode': garageData.postcode,
+      // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
+      // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
+   }).then(async docRef => {
+     console.log(docRef.id);
+     await this.firestore.doc('garages/' + docRef.id).update({
+       'id':docRef.id})
+   })
+ }
+
+
+ 
+ updateGaragesData(id: string,garageData: Garage){
+  this.firestore.doc('garages/' + id).update({
+    'id':id,
+    
+    'about': garageData.about,
+      'address': garageData.address,
+      'picture': garageData.picture,
+      'notes': garageData.notes,
+      'name': garageData.name,
+      'openinghrs': garageData.openinghrs,
+      'phone': garageData.phone,
+      'email': garageData.email,
+      'siteno': garageData.siteno,
+      'postcode': garageData.postcode,
+   
+  });
+ }
+ deleteTeacherData(dataId: string){    
+  this.firestore.doc('garages/' + dataId).delete();
+}
+
+
+    //  updateGaragesData(id: string,obj: Garage){
+    //   this.firestore.doc('garages/' + id).update({
+    //     'id':id,
+    //     'about':obj.about,
+    //     'address':obj.address,
+    //     'garageid':obj.garageid,
+    //     'geolocation':obj.geolocation,
+    //     'name':obj.name,
+    //     'openinghrs':obj.openinghrs,
+    //     'otherservices':obj.otherservices,
+    //     'postcode':obj.postcode,
       
-      });
-     }
-     deleteGaragestData(dataId: string){    
-      this.firestore.doc('garages/' + dataId).delete();
-    }
+    //   });
+    //  }
+    //  deleteGaragestData(dataId: string){    
+    //   this.firestore.doc('garages/' + dataId).delete();
+    // }
 
+
+
+    // createAppointments(garageId: string, obj: any) {
+    //   return this.firestore.collection(`garages/${garageId}/appointments`).add({
+    //     'driverid': '',
+    //     'day': obj.day,
+    //     'startime': obj.startime,
+    //     'endtime': obj.endtime,
+    //   }).then(async docRef => {
+    //     console.log(docRef.id);
+    //     await this.firestore.doc(`garages/${garageId}/appointments/` + docRef.id).update({
+    //       'driverid': docRef.id
+    //     })
+    //   })
+    // }
+
+    createAppointment(garageId: string, appointmentData: any) {
+      return this.firestore.collection(`garages/${garageId}/appointments`).add(appointmentData);
+    }
+    
 
     async createComprehensionQuestions(obj: Comprehension, GrammarId: string) {
       const comprehensionDocRef = await this.firestore.collection(`Grammar/${GrammarId}/Comprehension`).add({
@@ -324,7 +399,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
     }
 
 //User
-
+getUsersData() {
+  return this.firestore.collection('users',).snapshotChanges();
+}
 getUserData() {
   const url = `https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/users`;
   return this.http.get(url);
@@ -361,7 +438,7 @@ getVehicleData(bookId: string): Observable<Vehicle[]> {
 }
 
 
-createUserData(obj: User){
+createUserData(obj: UserData){
   return this.firestore.collection('users').add(
     {
       'id':'',
@@ -372,7 +449,7 @@ createUserData(obj: User){
       'address':obj.address,
       'phone':obj.phone,
       'postcode':obj.postcode,
-      'role':obj.role,
+ 
       // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
       // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
    }).then(async docRef => {
@@ -383,7 +460,7 @@ createUserData(obj: User){
  }
 
 
- updateUserData(id: string,obj: User){
+ updateUserData(id: string,obj: UserData){
   this.firestore.doc('users/' + id).update({
     'id':id,
     'firstname':obj.firstname,
@@ -392,12 +469,19 @@ createUserData(obj: User){
       'address':obj.address,
       'phone':obj.phone,
       'postcode':obj.postcode,
-      'role':obj.role,
+     
   
   });
  }
  deleteUserData(dataId: string){    
   this.firestore.doc('users/' + dataId).delete();
+}
+
+
+//welcomebenner
+
+getwelcomebennerData() {
+  return this.firestore.collection('welcomebanner',).snapshotChanges();
 }
 
   }

@@ -30,18 +30,15 @@ export class GareageAvailTimeComponent implements OnInit {
 
 
   times: { day: string; startTime: string; endTime: string }[] = [];
-  monfri: string = 'Monday-Friday';
-  sat: string = 'Saturday';
-  sun: string = 'Sunday';
+  
+
   dataSubscription: Subscription | null = null;
   gettimes: { [day: string]: { startTime: string, endTime: string }[] } = {};
   timeSlot: { startTime: string, endTime: string }[] = [];
   startTime: string = '';
   endTime: string = '';
-  startTime1: string = '';
-  endTime1: string = '';
-  startTime2: string = '';
-  endTime2: string = '';
+  day: [] = [];
+ 
   selectedSecond: string | undefined;
   days: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   selectedDay: string = '';
@@ -50,16 +47,17 @@ export class GareageAvailTimeComponent implements OnInit {
   changeTab(tab: string) {
     this.currentTab = tab;
   }
-
-
+  selectedTimeSlots: { date: string, startTime: string, endTime: string, selected: boolean }[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private apiService: ApiService, private location: Location) {
-    this.getTimeslots();
+    
     this.addNewServiceRow()
   }
 
   ngOnInit(): void {
-
+    this.addNewRow("Monday-Friday"); 
+  this.addNewRow("Saturday");  
+  this.addNewRow("Sunday");
     this.route.paramMap.subscribe(params => {
 
       const garageData = history.state.garageData;
@@ -76,6 +74,7 @@ export class GareageAvailTimeComponent implements OnInit {
 
       }
     });
+    this.getTimeslots();
     this.breadCrumbItems = [{ label: 'Base UI' }, { label: 'Tabs', active: true }];
   }
 
@@ -152,11 +151,11 @@ export class GareageAvailTimeComponent implements OnInit {
             this.services.splice(index, 1);
             this.apiService.getGarages();
           }
-          // this.ngOnInit()
+       
 
         }
       );
-    // this.ngOnInit()
+
     this.apiService.getGarages();
   }
 
@@ -180,7 +179,9 @@ export class GareageAvailTimeComponent implements OnInit {
     this.services.push({ id: '', name: '', des: '', include: '', cost: 0 });
   }
 
-
+  addNewRow(defaultDay: string) {
+    this.times.push({ day: defaultDay, startTime: '', endTime: '' });
+}
 
 
 
@@ -188,13 +189,18 @@ export class GareageAvailTimeComponent implements OnInit {
 
 
   saveTimeService() {
+    this.submitted = true;
+    setTimeout(() => {
+      this.submitted = false;
+    }, 2000);
+    console.log(this.id,'id check')
     const url = `https://us-central1-fluted-reason-415816.cloudfunctions.net/app/api/createTimeslot/${this.id}`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer api-token-1'
       })
     };
-
+    this.apiService.getGarages();
     const body = {
       timeslot: this.times.map(service => ({
         day: service.day,
@@ -202,7 +208,7 @@ export class GareageAvailTimeComponent implements OnInit {
         endTime: service.endTime
       }))
     };
-
+    this.apiService.getGarages();
     console.log('Request body:', body);
 
     this.http.post(url, body, httpOptions)
@@ -216,9 +222,11 @@ export class GareageAvailTimeComponent implements OnInit {
           // Handle error appropriately
         }
       );
+      this.apiService.getGarages();
   }
 
-
+ 
+  
 
   removeRow(index: number) {
     this.timeSlots.splice(index, 1);
@@ -267,15 +275,17 @@ export class GareageAvailTimeComponent implements OnInit {
       .subscribe(
         (response) => {
           this.gettimes = response.timeslots;
+          // this.times =this.gettimes;
           console.log('Time slots fetched successfully:', this.gettimes);
-          // Initial filter call after fetching data
-          // this.filterTimeSlots();
+        
         },
         (error) => {
           console.error('Error occurred while fetching time slots:', error);
         }
       );
   }
+
+
   filterTimeSlots() {
     // Check if the selected day is one of the weekdays (Monday to Friday)
     if (this.days.slice(1, 6).includes(this.selectedDay)) {
@@ -338,7 +348,81 @@ export class GareageAvailTimeComponent implements OnInit {
     }
   }
 
+  selectTimeSlot(slot: { startTime: string, endTime: string }) {
+    const date = this.date; // Get the selected date
+    const index = this.selectedTimeSlots.findIndex(selectedSlot =>
+      selectedSlot.date === date && selectedSlot.startTime === slot.startTime && selectedSlot.endTime === slot.endTime
+    );
+    if (index === -1) {
+      // If slot not found, add it to selected time slots with selected flag as true
+      this.selectedTimeSlots.push({ date, ...slot, selected: true });
+    } else {
+      // If slot found, toggle the selected flag
+      this.selectedTimeSlots[index].selected = !this.selectedTimeSlots[index].selected;
+    }
+  }
+  
+  isSelected(slot: { startTime: string, endTime: string }): boolean {
+    console.log(this.selectedTimeSlots)
+    return this.selectedTimeSlots.some(selectedSlot =>
+      selectedSlot.startTime === slot.startTime && selectedSlot.endTime === slot.endTime
 
+    );
+  }
+
+  appointments() {
+    this.submitted = true;
+    setTimeout(() => {
+      this.submitted = false;
+    }, 2000);
+    const garageId = this.id; // Get the garage ID
+  
+    // Initialize an empty map to store time slots
+    const timeSlotMap: { [key: string]: boolean } = {};
+  
+    // Iterate over selected time slots
+    this.selectedTimeSlots.forEach(slot => {
+      // Extract relevant data
+      const { startTime, endTime, selected } = slot;
+  
+      // Check if the slot is selected
+      if (selected) {
+        // Add the selected time slot to the map
+        timeSlotMap[`${startTime}-${endTime}`] = selected;
+      }
+    });
+  
+   
+    const formattedDate = this.formatDate(this.selectedTimeSlots[0].date); // Assuming all selected slots have the same date
+  
+
+    const appointmentData = {
+      date: formattedDate,
+      timeslot: timeSlotMap // Use the accumulated map of time slots
+    };
+  
+   
+    this.apiService.createAppointment(garageId, appointmentData)
+      .then(() => {
+        console.log('Appointment created for', formattedDate);
+      })
+      .catch(error => {
+        console.error('Error creating appointment:', error);
+      });
+      this.apiService.getGarages();
+  }
+  
+  
+  formatDate(date: string): string {
+    // Assuming date format is "YYYY-MM-DD"
+    const parts = date.split('-');
+    return `${parts[2]}-${parts[1]}-${parts[0]}`; // Format as "DD-MM-YYYY"
+  }
+  
+  
+
+
+ 
 
   updateSelectedDay() {
     const selectedDate = new Date(this.date);

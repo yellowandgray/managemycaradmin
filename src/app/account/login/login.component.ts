@@ -122,7 +122,7 @@ if (this.loginForm.invalid) {
         localStorage.setItem('role', users[0].data()['role']);
        // localStorage.setItem('username', users[0].data()['name']);
         localStorage.setItem('username', 'Vaidy');
-        localStorage.setItem('userPicture', "assets/images/logo-mmc-final.png");
+        localStorage.setItem('userPicture', "assets/images/mmc-logo-car-only.png");
         console.log(localStorage.getItem('school_id'));
         console.log(localStorage.getItem('role'));
 

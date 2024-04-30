@@ -25,8 +25,7 @@
         <a [routerLink]="['/managecar/user']">
             <i class="ri-arrow-left-circle-fill" style="font-size: 1.7rem;"></i>
         </a>
-        <h5 class="px-3 mb-0">{{firstname}}{{lastname}} > Vehicle Details</h5>
-        <!-- <h5 class="px-3 mb-0">{{name}}, {{standard}} {{section}}</h5> -->
+        <h5 class="px-3 mb-0">{{firstname}} {{lastname}} > Vehicle Details</h5>
     </div>
   
     <div class="card">
@@ -34,7 +33,12 @@
             <tabset [justified]="true" class="nav-tabs-custom nav-success mb-3">
                 <tab *ngFor="let vehicle of allvehicle; let i = index" [heading]="vehicle.vehicleno">
                     <div class="card-body">
-                    
+                        <h5 class="text-truncate text-capitalize" *ngIf="vehicle.MotHistory && vehicle.MotHistory.length > 0">
+                            Next MOT Due: {{ vehicle.MotHistory[0].ExpiryDate }}
+                          </h5>
+                          <h5 class="text-truncate text-capitalize" *ngIf="!vehicle.MotHistory || vehicle.MotHistory.length === 0">
+                            Next MOT Due: Not Found
+                          </h5>
                         <div class="d-flex py-1 tb-fond-md">
                             <span class="text-muted"> Make : </span> 
                             <span class="px-1">{{ vehicle.make }}</span>

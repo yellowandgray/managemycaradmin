@@ -48,23 +48,27 @@ class Banner {
     constructor(private apiService: ApiService,private http: HttpClient,private storage: AngularFireStorage) {this. addSubtitles() }
   
     ngOnInit(): void {
-      this.apiService.getbanner().subscribe(
-        (response) => {
-          console.log(response);
-          if (response && response.status === 'Success' && response.data) {
-            this.usersdata = response.data; 
-            console.log(this.usersdata)
-            this.loading = false;
-          } else {
-            console.error('Invalid response format:', response);
-            this.loading = false;
-          }
-        },
-        (error) => {
-          console.error('Error fetching banners: ', error);
-          this.loading = false;
-        }
-      );
+      this.apiService.getwelcomebennerData().subscribe(actions => {
+        this.usersdata = actions.map(action => action.payload.doc.data() );
+      });
+      this.loading = false;
+      // this.apiService.getbanner().subscribe(
+      //   (response) => {
+      //     console.log(response);
+      //     if (response && response.status === 'Success' && response.data) {
+      //       this.usersdata = response.data; 
+      //       console.log(this.usersdata)
+      //       this.loading = false;
+      //     } else {
+      //       console.error('Invalid response format:', response);
+      //       this.loading = false;
+      //     }
+      //   },
+      //   (error) => {
+      //     console.error('Error fetching banners: ', error);
+      //     this.loading = false;
+      //   }
+      // );
     }
     
     

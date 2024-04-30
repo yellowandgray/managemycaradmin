@@ -5,7 +5,7 @@ export class Booking {
   bookingdate:string='';
   motdue: string=''  ;  
   motnotes: string='' ;  
-  status: string='' ;
+  status: number=0 ;
   time: string='';
   totalamount:string='' ;
   garageid:string='';
