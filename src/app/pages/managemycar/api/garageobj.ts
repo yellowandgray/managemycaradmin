@@ -2,11 +2,28 @@
 
 // class Garages {
 
+
 import { GeoPoint } from "firebase/firestore";
 
 
 
 
+
+   
+//      id:string='';
+   
+//      about: string=''  ; 
+//      address:string='';  
+//      garageid: string='' ; 
+//      geolocation:string='' ; 
+//      name:string='';
+//      openinghrs:string='';
+//      otherservices:string='';
+//      postcode:string='';
+//     picture:string='';
+//     // priceinfo:Priceinfo[]=[]; 
+  
+//   }
 
   export  class Garage {
     id: string='';
@@ -21,6 +38,8 @@ import { GeoPoint } from "firebase/firestore";
     email:string='';
     siteno:string='';
     town:string='';
+
     location: GeoPoint = new GeoPoint(0, 0);
-  }
+
+  } 
 
