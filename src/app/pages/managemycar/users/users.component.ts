@@ -44,7 +44,7 @@ export class UsersComponent {
   ngOnInit() {
     this.loading= true;
     // this.callServiceForBookdata();
-    this.apiService.getUsersData().subscribe(actions => {
+    this.apiService.getusersData().subscribe(actions => {
       this.usersdata = actions.map(action => action.payload.doc.data()as UserData );
       this.filteredUser=[...this.usersdata]
       this.callServiceForBookdata();
