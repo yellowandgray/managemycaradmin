@@ -256,6 +256,8 @@ createGaragesData(garageData: Garage){
       'phone': garageData.phone,
       'email': garageData.email,
       'siteno': garageData.siteno,
+      'town': garageData.town,
+      'location':garageData.location,
       'postcode': garageData.postcode,
       // 'createdAt':firebase.firestore.FieldValue.serverTimestamp(),
       // 'updatedAt':firebase.firestore.FieldValue.serverTimestamp(),
@@ -277,10 +279,12 @@ createGaragesData(garageData: Garage){
       'picture': garageData.picture,
       'notes': garageData.notes,
       'name': garageData.name,
+      'town': garageData.town,
       'openinghrs': garageData.openinghrs,
       'phone': garageData.phone,
       'email': garageData.email,
       'siteno': garageData.siteno,
+      'location':garageData.location,
       'postcode': garageData.postcode,
    
   });

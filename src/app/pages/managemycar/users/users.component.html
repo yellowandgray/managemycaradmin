@@ -76,6 +76,8 @@
                                     </th>
                                     <th class="sort" listsortable="customer_name" >Vehicle
                                     </th>
+                                    <!-- <th class="sort" listsortable="customer_name" >Bookings
+                                    </th> -->
                                     <!-- <th class="sort" listsortable="customer_name" >Action
                                     </th> -->
                                   
@@ -92,12 +94,29 @@
                                     <td class="date">{{data.address}}</td>
                                     <td class="date">{{data.postcode}}</td>
                                     <td>
-                                        <div class="edit">
-                                            <button class="btn btn-sm btn-success edit-item-btn" (click)="details(data.id, data.firstname, data.lastname)">
-                                              {{ vehicalno[data.id] || 0 }} 
-                                            </button>
-                                          </div>
-                                    </td>
+                                      <div class="edit">
+                                          <button class="btn btn-sm btn-success edit-item-btn" (click)="details(data.id, data.firstname, data.lastname)" [disabled]="isLoadingVehicle[data.id]">
+                                              <span *ngIf="isLoadingVehicle[data.id]">
+                                                  <div class="spinner-border spinner-border-sm" role="status">
+                                                      <span class="visually-hidden">Loading...</span>
+                                                  </div>
+                                              </span>
+                                              <span *ngIf="!isLoadingVehicle[data.id]">{{ vehicalno[data.id] || 0 }}</span>
+                                          </button>
+                                      </div>
+                                  </td>
+                                  
+                                  <!-- <td>
+                                    <div class="edit">
+                                      <button class="btn btn-sm btn-success edit-item-btn" (click)="details(data.id, data.firstname, data.lastname)" [disabled]="isLoadingVehicle[data.id]">
+                                        <span *ngIf="isLoadingVehicle[data.id]"> <div class="spinner-border" role="status">
+                                          <span class="visually-hidden">Loading...</span>
+                                        </div></span>
+                                        <span *ngIf="!isLoadingVehicle[data.id]">{{ bookno[data.id] || 0 }}</span>
+                                    </button>
+                                    </div>
+                                </td> -->
+                                  
                                  
                             </tbody>
                         </table>

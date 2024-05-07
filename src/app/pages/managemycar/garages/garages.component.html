@@ -281,14 +281,13 @@
                                            
                                             <th >Name</th>
                                             <th >Phone</th>
-                                            <th>Email</th>
+                                            <th >Address</th>
                                           
                                             <th >Town</th>
                                             <th >Post Code</th>
                                      
                                             
-                                            <th >Services
-                                            </th>
+                                            <th >Services </th>
 
                                             <th >Action</th>
                                         </tr>
@@ -308,9 +307,15 @@
                                                 </div>
                                            
                                            </td>
-                                           <td class="date">{{ data.phone }}</td>
-                                           <td class="date">{{ data.email }}</td>
-                                            <!-- <td class="date">{{ data.address }}</td> -->
+                                           <td class="date">{{ data.phone }}<br>
+                                            {{ data.email }}</td>
+
+
+                                            <td class="address-column " > <!-- Set width to 200px and prevent wrapping -->
+                                                <div>{{ data.address }}</div>
+                                            </td>
+                                            
+                                      
                                             <td class="date">{{ data.town }}</td>
                                             <td class="customer_name">{{ data.postcode }}</td>
 
@@ -324,7 +329,7 @@
                                                 <div class="d-flex gap-2">
                                                     <div class="edit">
                                                         <button
-                                                            class="btn btn-sm btn-success edit-item-btn" (click)="edit(i)">Edit</button>
+                                                            class="btn btn-sm btn-success edit-item-btn" (click)="edit(data.id)">Edit</button>
                                                     </div>
                                                     <div class="remove">
                                                         <button class="btn btn-sm btn-danger remove-item-btn"

@@ -13,6 +13,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { parse } from 'date-fns';
 import { ExcelService } from './excel.service';
 import { Garage } from '../api/garageobj';
+import { GeoPoint } from 'firebase/firestore';
 
 
 
@@ -27,16 +28,10 @@ export class GaragesComponent {
 
   deleteId:string='';
   searchTerm: string = '';
-  
   filteredgarage: Garage[]=[];
-
-
- 
-
   selectedFile: File | null = null;
   downloadURL: string | null = null;
   isSubmitted = false;
- 
   emp: Garage = new Garage();
  
   selectedImage: any = null;
@@ -157,33 +152,32 @@ save() {
    this.apiService.updateGaragesData(id.toString(),this.emp);
    this.emp = new Garage();
    this.showModals?.hide(); 
- 
 
  }
  
 
- edit(index: number) {
-  const selectedTeacher = this.garagesdata[index];
-  this.emp = { ...selectedTeacher }; // Copy selected Teacher data to emp object
-  
-  this.MessageFormData.patchValue({
-    name: this.emp.name,
-    address: this.emp.address,
-    postcode: this.emp.postcode,
-    about: this.emp.about,
-    openinghrs: this.emp.openinghrs,
-    notes: this.emp.notes,
-    picture: this.emp.picture,
-    phone: this.emp.phone,
-    email: this.emp.email,
-    siteno: this.emp.siteno,
-    town: this.emp.town
-  });
-  this.showModals?.show();
- 
- 
-}
-
+ edit(garageId: string) {
+  const selectedGarage = this.garagesdata.find(garage => garage.id === garageId);
+  if (selectedGarage) {
+    this.emp = { ...selectedGarage }; 
+    this.MessageFormData.patchValue({
+      name: this.emp.name,
+      address: this.emp.address,
+      postcode: this.emp.postcode,
+      about: this.emp.about,
+      openinghrs: this.emp.openinghrs,
+      notes: this.emp.notes,
+      picture: this.emp.picture,
+      phone: this.emp.phone,
+      email: this.emp.email,
+      siteno: this.emp.siteno,
+      town: this.emp.town
+    });
+    this.showModals?.show();
+  } else {
+    console.error('Garage not found');
+  }
+ }
 
 
 
@@ -308,8 +302,6 @@ add() {
   this.emp = new Garage();
   this.deleteRecordModal?.show();
 }
- 
-
 onFileChange(event: any): void {
   console.log("Step 1");
   const input = event.target;
@@ -317,53 +309,116 @@ onFileChange(event: any): void {
 
   if (file) {
     this.excelService.readExcel(file).then((data: any[]) => {
-        // Check if data is not null, has more than minimumRows rows, and other conditions if needed
-        if (data && data.length > 0 && data.length >= 5) {
-            data.forEach((student: any) => {
-                const rec_no = student[0];
+      // Check if data is not null, has more than minimumRows rows, and other conditions if needed
+      if (data && data.length > 0 && data.length >= 5) {
+        data.forEach((student: any) => {
+          const rec_no = student[0];
+          
+          if (rec_no != null && rec_no !== undefined) {
+            // Assuming latitude is in row 7 and longitude is in row 6
+            const latitude = student[7]; // Assuming latitude is in column H (0-indexed)
+            const longitude = student[8]; 
+
+            if (latitude !== null && longitude !== null) {
+              const location = new GeoPoint(latitude, longitude);
+              
+              const studentData: Garage = {
+                // Assuming rec_no is the ID
+                id: rec_no,
+                name: student[1],
+                address: student[2],
+                postcode: student[4],
+                about: '',
+                openinghrs: '',
+                notes: '',
+                picture: '',
+                phone: student[5],
+                email: '',
+                siteno: student[0],
+                town: student[3],
+                location: location // Assigning the GeoPoint to the location property
+              };
+
+              console.log("student Data", studentData);
+
+              this.apiService.createGaragesData(studentData).then(
+                () => {
+                  console.log('File uploaded successfully');
+                },
+                (error) => {
+                  console.error('Error uploading file:', error);
+                  console.log('File upload failed');
+                }
+              );
+            } else {
+              console.error('Latitude or longitude is null or undefined in a row');
+            }
+          } else {
+            console.error('rec_no is null or undefined in a row');
+          }
+        });
+      } else {
+        console.error('File does not meet the minimum criteria for processing');
+        console.log('File upload failed');
+      }
+    });
+  }
+}
+
+// onFileChange(event: any): void {
+//   console.log("Step 1");
+//   const input = event.target;
+//   const file = input.files[0];
+
+//   if (file) {
+//     this.excelService.readExcel(file).then((data: any[]) => {
+//         // Check if data is not null, has more than minimumRows rows, and other conditions if needed
+//         if (data && data.length > 0 && data.length >= 5) {
+//             data.forEach((student: any) => {
+//                 const rec_no = student[0];
          
             
-                if (rec_no != null && rec_no !== undefined) {  
+//                 if (rec_no != null && rec_no !== undefined) {  
                             
                
     
-                    const studentData: Garage = {
-                      // rec_no: rec_no,
-                      name: student[1],
-                      address: student[2],
-                      postcode: student[4],
-                      about: '',
-                      openinghrs: '',
-                      notes: '',
-                      picture: '',
-                      phone: student[5],
-                      email: '',
-                      siteno: student[0],
-                      town: student[3],
-                      id: ''
-                    };
-                    console.log("student DAta",studentData);
+//                     const studentData: Garage = {
+//                       // rec_no: rec_no,
+//                       name: student[1],
+//                       address: student[2],
+//                       postcode: student[4],
+//                       about: '',
+//                       openinghrs: '',
+//                       notes: '',
+//                       picture: '',
+//                       phone: student[5],
+//                       email: '',
+//                       siteno: student[0],
+//                       town: student[3],
+//                       id: ''
+//                     };
+//                     console.log("student DAta",studentData);
 
-                    this.apiService.createGaragesData(studentData).then(
-                        () => {
-                            console.log('File uploaded successfully');
-                        },
-                        (error) => {
-                            console.error('Error uploading file:', error);
-                            console.log('File upload failed');
-                        }
-                    );
-                }
-                else {
-                    console.error('rec_no is null or undefined in a row');
-                }
-            });
-        } else {
-            console.error('File does not meet the minimum criteria for processing');
-            console.log('File upload failed');
-        }
-    });
-}
-}
+//                     this.apiService.createGaragesData(studentData).then(
+//                         () => {
+//                             console.log('File uploaded successfully');
+//                         },
+//                         (error) => {
+//                             console.error('Error uploading file:', error);
+//                             console.log('File upload failed');
+//                         }
+//                     );
+//                 }
+//                 else {
+//                     console.error('rec_no is null or undefined in a row');
+//                 }
+//             });
+//         } else {
+//             console.error('File does not meet the minimum criteria for processing');
+//             console.log('File upload failed');
+//         }
+//     });
+// }
+// }
 
 }
