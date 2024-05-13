@@ -41,8 +41,8 @@ export class GaragesComponent {
   selectedStandard: string = '';
   image_path: string = '';
   imgSrc: string='';
- 
-
+  currentPage: number = 1;
+  itemsPerPage: number = 200;
 
 
 
@@ -128,8 +128,6 @@ export class GaragesComponent {
 
    
 }
-
-
 
 
 
@@ -246,28 +244,17 @@ navigateToAddAppointment(data: any) {
     const value = event.target.value;
     console.log('Filtering by name...', value);
     this.searchTerm = value;
+    this.currentPage = 1; // Reset to the first page when filtering
     this.filterGarage();
   }
- 
- 
+
   filterGarage() {
     console.log('Filtering...', this.searchTerm);
 
-
     this.filteredgarage = this.garagesdata.filter(garage => {
-     
       const nameMatch = !this.searchTerm || garage.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-
-
       return nameMatch;
     });
-
-
-    if (!this.filteredgarage.length) {
-      console.log('Nooo Students...');
-      this.filteredgarage = [];
-      console.log(this.filteredgarage);
-    }
   }
 
 
@@ -302,7 +289,25 @@ add() {
   this.emp = new Garage();
   this.deleteRecordModal?.show();
 }
+
+downloadExcelTemplate(): void {
+  const templateFileName = 'garages_bulk_data_template (1) (1).xlsx'; 
+  const templateFilePath = 'garages/garages_bulk_data_template (1) (1).xlsx'; 
+
+  const fileRef = this.storage.ref(templateFilePath);
+
+  fileRef.getDownloadURL().subscribe((url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = templateFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
 onFileChange(event: any): void {
+  event.preventDefault(); // Prevent default form submission behavior
+  
   console.log("Step 1");
   const input = event.target;
   const file = input.files[0];
@@ -323,7 +328,6 @@ onFileChange(event: any): void {
               const location = new GeoPoint(latitude, longitude);
               
               const studentData: Garage = {
-                // Assuming rec_no is the ID
                 id: rec_no,
                 name: student[1],
                 address: student[2],
@@ -336,11 +340,12 @@ onFileChange(event: any): void {
                 email: '',
                 siteno: student[0],
                 town: student[3],
-                location: location // Assigning the GeoPoint to the location property
+                location: location,
               };
 
               console.log("student Data", studentData);
 
+              // Assuming apiService.createGaragesData returns a Promise
               this.apiService.createGaragesData(studentData).then(
                 () => {
                   console.log('File uploaded successfully');
@@ -361,6 +366,9 @@ onFileChange(event: any): void {
         console.error('File does not meet the minimum criteria for processing');
         console.log('File upload failed');
       }
+    }).catch((error) => {
+      console.error('Error reading Excel file:', error);
+      console.log('File upload failed');
     });
   }
 }
@@ -420,5 +428,29 @@ onFileChange(event: any): void {
 //     });
 // }
 // }
+onPageChange(pageNumber: number) {
+  this.currentPage = pageNumber;
+  this.filterGarage(); // Refilter when changing the page
+}
 
+getPages(): number[] {
+  return Array(this.getTotalPages()).fill(0).map((_, i) => i + 1);
+}
+
+getTotalPages(): number {
+  return Math.ceil(this.filteredgarage.length / this.itemsPerPage);
+}
+
+getCurrentPageItems(): Garage[] {
+  const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+  const endIndex = startIndex + this.itemsPerPage;
+  return this.filteredgarage.slice(startIndex, endIndex);
+}
+
+// getVisibleItems(): Additems[] {
+//   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+//   const endIndex = startIndex + this.itemsPerPage;
+//   this.filterItems1 = this.filteredItems();
+//   return this.filterItems1.slice(startIndex,endIndex);
+// }
 }
